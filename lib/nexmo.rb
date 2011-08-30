@@ -1,4 +1,5 @@
 require 'net/http'
+require 'net/https'
 require 'json'
 require 'cgi'
 
@@ -15,7 +16,7 @@ module Nexmo
     attr_accessor :key, :secret, :http
 
     def send_message(data)
-      response = post('/sms/json', data.merge(username: @key, password: @secret))
+      response = post('/sms/json', data.merge(:username => @key, :password => @secret))
 
       object = JSON.parse(response.body)['messages'].first
 
