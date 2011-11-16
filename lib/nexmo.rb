@@ -8,12 +8,14 @@ module Nexmo
     def initialize(key, secret)
       @key, @secret = key, secret
 
+      @headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+
       @http = Net::HTTP.new('rest.nexmo.com', 443)
 
       @http.use_ssl = true
     end
 
-    attr_accessor :key, :secret, :http
+    attr_accessor :key, :secret, :http, :headers
 
     def send_message(data)
       response = post('/sms/json', data.merge(:username => @key, :password => @secret))
@@ -32,7 +34,7 @@ module Nexmo
     private
 
     def post(path, data)
-      @http.post(path, URI.encode_www_form(data), {'Content-Type' => 'application/x-www-form-urlencoded'})
+      @http.post(path, URI.encode_www_form(data), headers)
     end
   end
 

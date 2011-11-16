@@ -12,6 +12,10 @@ describe Nexmo::Client do
     assert @client.http.use_ssl?
   end
 
+  it 'allows access to headers' do
+    @client.headers.must_be_kind_of(Hash)
+  end
+
   describe '#send_message' do
     it 'makes the correct http call' do
       http_response = stub(:body => '{"messages":[{"status":0,"message-id":"id"}]}')
