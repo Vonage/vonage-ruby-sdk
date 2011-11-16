@@ -1,7 +1,7 @@
 require 'net/http'
 require 'net/https'
 require 'json'
-require 'cgi'
+require 'uri'
 
 module Nexmo
   class Client
@@ -32,15 +32,7 @@ module Nexmo
     private
 
     def post(path, data)
-      @http.post(path, urlencode(data), {'Content-Type' => 'application/x-www-form-urlencoded'})
-    end
-
-    def urlencode(data)
-      data.map { |k, v| "#{urlescape(k)}=#{urlescape(v)}" }.join('&')
-    end
-
-    def urlescape(value)
-      CGI.escape(value.to_s)
+      @http.post(path, URI.encode_www_form(data), {'Content-Type' => 'application/x-www-form-urlencoded'})
     end
   end
 
