@@ -18,7 +18,7 @@ module Nexmo
     attr_accessor :key, :secret, :http, :headers
 
     def send_message(data)
-      response = post('/sms/json', data.merge(:username => @key, :password => @secret))
+      response = @http.post('/sms/json', encode(data), headers)
 
       object = JSON.parse(response.body)['messages'].first
 
@@ -33,8 +33,8 @@ module Nexmo
 
     private
 
-    def post(path, data)
-      @http.post(path, URI.encode_www_form(data), headers)
+    def encode(data)
+      URI.encode_www_form data.merge(:username => @key, :password => @secret)
     end
   end
 
