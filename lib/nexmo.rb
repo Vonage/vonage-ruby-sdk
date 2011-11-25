@@ -4,9 +4,23 @@ require 'json'
 require 'uri'
 
 module Nexmo
+  def self.auth=(options)
+    @auth = options
+  end
+
+  def self.auth
+    @auth || {}
+  end
+
+  class InvalidAuthError < RuntimeError
+  end
+
   class Client
-    def initialize(key, secret)
-      @key, @secret = key, secret
+    def initialize(key = nil, secret = nil)
+      @key, @secret = key || Nexmo.auth[:key], secret || Nexmo.auth[:secret]
+      if @key.nil? || @secret.nil?
+        raise Nexmo::InvalidAuthError
+      end
 
       @headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
 
