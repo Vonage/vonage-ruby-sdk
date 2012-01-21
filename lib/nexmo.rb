@@ -27,7 +27,7 @@ module Nexmo
       if status == 0
         Success.new(object['message-id'])
       else
-        Failure.new(Error.new(object['error-text']))
+        Failure.new(Error.new("#{object['error-text']} (status=#{status})"))
       end
     end
 
