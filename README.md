@@ -1,6 +1,14 @@
 A simple wrapper for the [Nexmo](http://nexmo.com/) API
 =======================================================
 
+
+Installation
+------------
+
+Install via rubygems (`gem install nexmo`) and `require 'nexmo'`,
+or do the gemfile/bundle thing if you're using Rails.
+
+
 Usage
 -----
 
