@@ -8,7 +8,7 @@ module Nexmo
     def initialize(key, secret)
       @key, @secret = key, secret
 
-      @headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+      @headers = {'Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => 'application/json'}
 
       @http = Net::HTTP.new('rest.nexmo.com', 443)
 
@@ -29,6 +29,13 @@ module Nexmo
       else
         Failure.new(Error.new("#{object['error-text']} (status=#{status})"))
       end
+    end
+
+    def get_balance
+      response = @http.get("/account/get-balance/#{key}/#{secret}", headers)
+      object = JSON.parse(response.body)
+
+      return object['value']
     end
 
     private
