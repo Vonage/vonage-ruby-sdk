@@ -19,15 +19,15 @@ module Nexmo
 
     def send_message(data)
       response = @http.post('/sms/json', encode(data), headers)
+
       begin
         object = JSON.parse(response.body)['messages'].first
-
-        status = object['status'].to_i
-      rescue JSON::ParseError
-        object = {'error-text' => 'Internal error'}
-
-        status = 5
+      rescue JSON::ParserError
+        object = {'status' => '5', 'error-text' => 'Internal error'}
       end
+
+      status = object['status'].to_i
+
       if status == 0
         Success.new(object['message-id'])
       else
