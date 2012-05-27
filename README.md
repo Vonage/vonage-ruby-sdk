@@ -36,9 +36,10 @@ response = nexmo.send_message({
 })
 ```
 
-If the response is successful you can access the message id, and if it's
-a failure you can retrieve the error message and/or the underlying HTTP
-response returned from the server:
+Phone numbers should be specified in international format. If the response
+is successful you can access the message id, and if it's a failure you can
+retrieve the error message and/or the underlying HTTP response returned from
+the server:
 
 ```ruby
 if response.success?
@@ -48,5 +49,8 @@ elsif response.failure?
   # raise response.error
 end
 ```
+
+The Nexmo documentation contains a [list of error codes](http://nexmo.com/documentation/index.html#dlr_error)
+which may be useful if you have problems sending a message.
 
 That's all folks. Chunky bacon.
