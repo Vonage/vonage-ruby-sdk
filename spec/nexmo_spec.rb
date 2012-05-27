@@ -26,8 +26,9 @@ describe Nexmo::Client do
       @headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
     end
 
-    it 'should make the correct http call return a successful response if the first message status equals 0' do
-      http_response = stub(:body => '{"messages":[{"status":0,"message-id":"id"}]}')
+    it 'should make the correct http call and return a success object if the first message status equals 0' do
+      http_response = stub(:code => '200', :body => '{"messages":[{"status":0,"message-id":"id"}]}')
+      http_response.expects(:[]).with('Content-Type').returns('application/json')
 
       data = 'from=ruby&to=number&text=Hey%21&username=key&password=secret'
 
@@ -40,8 +41,9 @@ describe Nexmo::Client do
       response.message_id.must_equal('id')
     end
 
-    it 'should return a failure response if the first message status does not equal 0' do
-      http_response = stub(:body => '{"messages":[{"status":2,"error-text":"Missing from param"}]}')
+    it 'should return a failure object if the first message status does not equal 0' do
+      http_response = stub(:code => '200', :body => '{"messages":[{"status":2,"error-text":"Missing from param"}]}')
+      http_response.expects(:[]).with('Content-Type').returns('application/json')
 
       data = 'to=number&text=Hey%21&username=key&password=secret'
 
@@ -52,6 +54,22 @@ describe Nexmo::Client do
       response.success?.must_equal(false)
       response.failure?.must_equal(true)
       response.error.to_s.must_equal('Missing from param (status=2)')
+      response.http.wont_be_nil
+    end
+
+    it 'should return a failure object if the server returns an unexpected http response' do
+      http_response = stub(:code => '503')
+
+      data = 'from=ruby&to=number&text=Hey%21&username=key&password=secret'
+
+      @client.http.expects(:post).with('/sms/json', data, @headers).returns(http_response)
+
+      response = @client.send_message({from: 'ruby', to: 'number', text: 'Hey!'})
+
+      response.success?.must_equal(false)
+      response.failure?.must_equal(true)
+      response.error.to_s.must_equal('Unexpected HTTP response (code=503)')
+      response.http.wont_be_nil
     end
   end
 end

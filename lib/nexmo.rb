@@ -20,14 +20,18 @@ module Nexmo
     def send_message(data)
       response = @http.post('/sms/json', encode(data), headers)
 
-      object = JSON.parse(response.body)['messages'].first
+      if response.code.to_i == 200 && response['Content-Type'] == 'application/json'
+        object = JSON.parse(response.body)['messages'].first
 
-      status = object['status'].to_i
+        status = object['status'].to_i
 
-      if status == 0
-        Success.new(object['message-id'])
+        if status == 0
+          Success.new(object['message-id'])
+        else
+          Failure.new(Error.new("#{object['error-text']} (status=#{status})"), response)
+        end
       else
-        Failure.new(Error.new("#{object['error-text']} (status=#{status})"))
+        Failure.new(Error.new("Unexpected HTTP response (code=#{response.code})"), response)
       end
     end
 
@@ -48,7 +52,7 @@ module Nexmo
     end
   end
 
-  class Failure < Struct.new(:error)
+  class Failure < Struct.new(:error, :http)
     def success?
       false
     end
