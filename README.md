@@ -34,13 +34,13 @@ parameters as a hash:
 
 
 If the response is successful you can access the message id, and if it's
-a failure you can either check the error message or choose to raise the
-error as an exception:
+a failure you can retrieve the error message and/or the underlying HTTP
+response returned from the server:
 
     if response.success?
       # store response.message_id
     elsif response.failure?
-      # check response.error.message
+      # check response.error.message and/or response.http
       # raise response.error
     end
 
