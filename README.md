@@ -14,35 +14,39 @@ Usage
 
 Construct a client object with your Nexmo API credentials:
 
-    nexmo = Nexmo::Client.new('...KEY...', '...SECRET...')
-
+```ruby
+nexmo = Nexmo::Client.new('...KEY...', '...SECRET...')
+```
 
 The underlying HTTP object is easily accessible. For example, you may want
 to adjust the SSL verification when testing locally:
 
-    nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-
+```ruby
+nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
+```
 
 Use the `send_message` method to send an SMS, passing the API
 parameters as a hash:
 
-    response = nexmo.send_message({
-      from: 'RUBY',
-      to: '...NUMBER...',
-      text: 'Hello world'
-    })
-
+```ruby
+response = nexmo.send_message({
+  from: 'RUBY',
+  to: '...NUMBER...',
+  text: 'Hello world'
+})
+```
 
 If the response is successful you can access the message id, and if it's
 a failure you can retrieve the error message and/or the underlying HTTP
 response returned from the server:
 
-    if response.success?
-      # store response.message_id
-    elsif response.failure?
-      # check response.error.message and/or response.http
-      # raise response.error
-    end
-
+```ruby
+if response.success?
+  # store response.message_id
+elsif response.failure?
+  # check response.error.message and/or response.http
+  # raise response.error
+end
+```
 
 That's all folks. Chunky bacon.
