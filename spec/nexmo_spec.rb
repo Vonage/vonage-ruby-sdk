@@ -28,7 +28,7 @@ describe Nexmo::Client do
 
     it 'should make the correct http call and return a success object if the first message status equals 0' do
       http_response = stub(:code => '200', :body => '{"messages":[{"status":0,"message-id":"id"}]}')
-      http_response.expects(:[]).with('Content-Type').returns('application/json')
+      http_response.expects(:[]).with('Content-Type').returns('application/json;charset=utf-8')
 
       data = 'from=ruby&to=number&text=Hey%21&username=key&password=secret'
 

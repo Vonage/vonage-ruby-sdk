@@ -20,7 +20,7 @@ module Nexmo
     def send_message(data)
       response = @http.post('/sms/json', encode(data), headers)
 
-      if response.code.to_i == 200 && response['Content-Type'] == 'application/json'
+      if response.code.to_i == 200 && response['Content-Type'].sub(/;.*/, '') == 'application/json'
         object = JSON.parse(response.body)['messages'].first
 
         status = object['status'].to_i
