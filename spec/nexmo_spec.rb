@@ -1,7 +1,7 @@
 require 'minitest/autorun'
 require 'mocha'
 
-require_relative '../lib/nexmo'
+require File.dirname(__FILE__) + '/../lib/nexmo'
 
 describe Nexmo::Client do
   before do
@@ -30,11 +30,11 @@ describe Nexmo::Client do
       http_response = stub(:code => '200', :body => '{"messages":[{"status":0,"message-id":"id"}]}')
       http_response.expects(:[]).with('Content-Type').returns('application/json;charset=utf-8')
 
-      data = 'from=ruby&to=number&text=Hey%21&username=key&password=secret'
+      data = 'from=ruby&password=secret&text=Hey%21&to=number&username=key'
 
       @client.http.expects(:post).with('/sms/json', data, @headers).returns(http_response)
 
-      response = @client.send_message({from: 'ruby', to: 'number', text: 'Hey!'})
+      response = @client.send_message({:from => 'ruby', :to => 'number', :text => 'Hey!'})
 
       response.success?.must_equal(true)
       response.failure?.must_equal(false)
@@ -45,11 +45,11 @@ describe Nexmo::Client do
       http_response = stub(:code => '200', :body => '{"messages":[{"status":2,"error-text":"Missing from param"}]}')
       http_response.expects(:[]).with('Content-Type').returns('application/json')
 
-      data = 'to=number&text=Hey%21&username=key&password=secret'
+      data = 'password=secret&text=Hey%21&to=number&username=key'
 
       @client.http.expects(:post).with('/sms/json', data, @headers).returns(http_response)
 
-      response = @client.send_message({to: 'number', text: 'Hey!'})
+      response = @client.send_message({:to => 'number', :text => 'Hey!'})
 
       response.success?.must_equal(false)
       response.failure?.must_equal(true)
@@ -60,11 +60,11 @@ describe Nexmo::Client do
     it 'should return a failure object if the server returns an unexpected http response' do
       http_response = stub(:code => '503')
 
-      data = 'from=ruby&to=number&text=Hey%21&username=key&password=secret'
+      data = 'from=ruby&password=secret&text=Hey%21&to=number&username=key'
 
       @client.http.expects(:post).with('/sms/json', data, @headers).returns(http_response)
 
-      response = @client.send_message({from: 'ruby', to: 'number', text: 'Hey!'})
+      response = @client.send_message({:from => 'ruby', :to => 'number', :text => 'Hey!'})
 
       response.success?.must_equal(false)
       response.failure?.must_equal(true)

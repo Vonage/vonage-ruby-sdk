@@ -1,7 +1,7 @@
 require 'net/http'
 require 'net/https'
 require 'json'
-require 'uri'
+require 'cgi'
 
 module Nexmo
   class Client
@@ -38,7 +38,28 @@ module Nexmo
     private
 
     def encode(data)
-      URI.encode_www_form data.merge(:username => @key, :password => @secret)
+      to_url_params data.merge(:username => @key, :password => @secret)
+    end
+
+    def to_url_params(hash)
+      params = []
+      hash.each_pair do |key, value|
+        params << param_for(key, value).flatten
+      end
+      params.sort.join('&') # sort so that order is same in 1.8 vs 1.9
+    end
+
+    def param_for(key, value, parent = nil)
+      if value.is_a?(Hash)
+        params = []
+        value.each_pair do |value_key, value_value|
+          value_parent = parent ? parent + "[#{key}]" : key.to_s
+          params << param_for(value_key, value_value, value_parent)
+        end
+        params
+      else
+        ["#{parent ? parent + "[#{key}]" : key.to_s}=#{CGI::escape(value)}"]
+      end
     end
   end
 
