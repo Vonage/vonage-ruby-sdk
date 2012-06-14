@@ -23,7 +23,7 @@ describe Nexmo::Client do
 
   describe 'send_message method' do
     before do
-      @headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+      @headers = {'Content-Type' => 'application/x-www-form-urlencoded', 'Accept' => 'application/json'}
     end
 
     it 'should make the correct http call and return a success object if the first message status equals 0' do
