@@ -2,55 +2,50 @@ A simple wrapper for the [Nexmo](http://nexmo.com/) API
 =======================================================
 
 
+Requirements
+------------
+
+Ruby 1.9; Ruby 1.8 is not currently supported.
+
+
 Installation
 ------------
 
-Run `gem install nexmo` and `require 'nexmo'`,
-or do the gemfile/bundle thing if you're using Rails.
+    gem install nexmo
 
 
-Usage
------
-
-Construct a client object with your Nexmo API credentials:
+Quick Start
+-----------
 
 ```ruby
-nexmo = Nexmo::Client.new('...KEY...', '...SECRET...')
-```
+require 'nexmo'
 
-The underlying HTTP object is easily accessible. For example, you may want
-to adjust the SSL verification when testing locally:
+nexmo = Nexmo::Client.new('...API KEY...', '...API SECRET...')
 
-```ruby
-nexmo.http.verify_mode = OpenSSL::SSL::VERIFY_NONE
-```
-
-Use the `send_message` method to send an SMS, passing the API
-parameters as a hash:
-
-```ruby
 response = nexmo.send_message({
   from: 'RUBY',
   to: '...NUMBER...',
   text: 'Hello world'
 })
-```
 
-Phone numbers should be specified in international format. If the response
-is successful you can access the message id, and if it's a failure you can
-retrieve the error message and/or the underlying HTTP response returned from
-the server:
-
-```ruby
 if response.success?
-  # store response.message_id
+  puts "Sent message: #{response.message_id}"
 elsif response.failure?
-  # check response.error.message and/or response.http
-  # raise response.error
+  raise response.error
 end
 ```
+
+
+Troubleshooting
+---------------
+
+Phone numbers should be specified in international format.
 
 The Nexmo documentation contains a [list of error codes](http://nexmo.com/documentation/index.html#dlr_error)
 which may be useful if you have problems sending a message.
 
-That's all folks. Chunky bacon.
+
+Bugs/Issues
+-----------
+
+Please report all bugs/issues via the GitHub issue tracker.
