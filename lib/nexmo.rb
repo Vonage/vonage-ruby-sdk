@@ -51,6 +51,10 @@ module Nexmo
       get("/account/numbers/#{key}/#{secret}", params)
     end
 
+    def number_search(country_code, params = {})
+      get("/number/search/#{key}/#{secret}/#{country_code}", params)
+    end
+
     private
 
     def get(path, params = {})

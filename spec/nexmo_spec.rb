@@ -110,6 +110,14 @@ describe Nexmo::Client do
       @client.get_account_numbers(size: 25, pattern: 33).must_be_instance_of(Nexmo::Response)
     end
   end
+
+  describe 'number_search method' do
+    it 'fetches the number search resource for the given country with the given parameters and returns a response object' do
+      @client.http.expects(:get).with('/number/search/key/secret/CA?size=25').returns(stub)
+
+      @client.number_search(:CA, size: 25).must_be_instance_of(Nexmo::Response)
+    end
+  end
 end
 
 describe Nexmo::Response do
