@@ -28,10 +28,14 @@ module Nexmo
         if status == 0
           Object.new(:message_id => object['message-id'], :success? => true, :failure? => false)
         else
-          Failure.new(Error.new("#{object['error-text']} (status=#{status})"), response, status)
+          error = Error.new("#{object['error-text']} (status=#{status})")
+
+          Object.new(:error => error, :http => response, :status => status, :success? => false, :failure? => true)
         end
       else
-        Failure.new(Error.new("Unexpected HTTP response (code=#{response.code})"), response)
+        error = Error.new("Unexpected HTTP response (code=#{response.code})")
+
+        Object.new(:error => error, :http => response, :success? => false, :failure? => true)
       end
     end
 
@@ -127,16 +131,6 @@ module Nexmo
       else
         super name, *args, &block
       end
-    end
-  end
-
-  class Failure < Struct.new(:error, :http, :status)
-    def success?
-      false
-    end
-
-    def failure?
-      true
     end
   end
 
