@@ -50,6 +50,28 @@ module Nexmo
     end
   end
 
+  class Response
+    def initialize(http_response)
+      @http_response = http_response
+    end
+
+    def method_missing(name, *args, &block)
+      @http_response.send(name, *args, &block)
+    end
+
+    def ok?
+      code.to_i == 200
+    end
+
+    def json?
+      self['Content-Type'].split(?;).first == 'application/json'
+    end
+
+    def object
+      JSON.parse(body, object_class: Object)
+    end
+  end
+
   class Object
     def initialize(attributes = {})
       @attributes = attributes.to_hash

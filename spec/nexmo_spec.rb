@@ -74,6 +74,56 @@ describe Nexmo::Client do
   end
 end
 
+describe Nexmo::Response do
+  before do
+    @http_response = mock()
+
+    @response = Nexmo::Response.new(@http_response)
+  end
+
+  it 'delegates to the underlying http response' do
+    @http_response.expects(:code).returns('200')
+
+    @response.code.must_equal('200')
+  end
+
+  describe 'ok query method' do
+    it 'returns true if the status code is 200' do
+      @http_response.expects(:code).returns('200')
+
+      @response.ok?.must_equal(true)
+    end
+
+    it 'returns false otherwise' do
+      @http_response.expects(:code).returns('400')
+
+      @response.ok?.must_equal(false)
+    end
+  end
+
+  describe 'json query method' do
+    it 'returns true if the response has a json content type' do
+      @http_response.expects(:[]).with('Content-Type').returns('application/json;charset=utf-8')
+
+      @response.json?.must_equal(true)
+    end
+
+    it 'returns false otherwise' do
+      @http_response.expects(:[]).with('Content-Type').returns('text/html')
+
+      @response.json?.must_equal(false)
+    end
+  end
+
+  describe 'object method' do
+    it 'decodes the response body as json and returns an object' do
+      @http_response.expects(:body).returns('{}')
+
+      @response.object.must_be_instance_of(Nexmo::Object)
+    end
+  end
+end
+
 describe Nexmo::Object do
   before do
     @value = 'xxx'
