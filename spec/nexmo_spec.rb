@@ -73,3 +73,39 @@ describe Nexmo::Client do
     end
   end
 end
+
+describe Nexmo::Object do
+  before do
+    @value = 'xxx'
+
+    @object = Nexmo::Object.new(message_id: @value)
+  end
+
+  it 'provides method access for attributes passed to the constructor' do
+    @object.message_id.must_equal(@value)
+  end
+
+  describe 'square brackets method' do
+    it 'returns the value of the given attribute' do
+      @object[:message_id].must_equal(@value)
+    end
+  end
+
+  describe 'square brackets equals method' do
+    it 'sets the value of the given attribute' do
+      @object['message_id'] = 'abc'
+      @object.message_id.wont_equal(@value)
+    end
+
+    it 'replaces dashes in keys with underscores' do
+      @object['message-id'] = 'abc'
+      @object.message_id.wont_equal(@value)
+    end
+  end
+
+  describe 'to_hash method' do
+    it 'returns a hash containing the object attributes' do
+      @object.to_hash.must_equal({message_id: @value})
+    end
+  end
+end
