@@ -26,7 +26,7 @@ module Nexmo
         status = object['status'].to_i
 
         if status == 0
-          Success.new(object['message-id'])
+          Object.new(:message_id => object['message-id'], :success? => true, :failure? => false)
         else
           Failure.new(Error.new("#{object['error-text']} (status=#{status})"), response, status)
         end
@@ -127,16 +127,6 @@ module Nexmo
       else
         super name, *args, &block
       end
-    end
-  end
-
-  class Success < Struct.new(:message_id)
-    def success?
-      true
-    end
-
-    def failure?
-      false
     end
   end
 
