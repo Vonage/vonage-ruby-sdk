@@ -63,6 +63,10 @@ module Nexmo
       get("/search/message/#{key}/#{secret}/#{id}")
     end
 
+    def get_message_rejections(params)
+      get("/search/rejections/#{key}/#{secret}", params)
+    end
+
     private
 
     def get(path, params = {})

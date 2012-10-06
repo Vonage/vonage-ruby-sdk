@@ -126,6 +126,14 @@ describe Nexmo::Client do
       @client.get_message('00A0B0C0').must_be_instance_of(Nexmo::Response)
     end
   end
+
+  describe 'get_message_rejections method' do
+    it 'fetches the message rejections resource with the given parameters and returns a response object' do
+      @client.http.expects(:get).with('/search/rejections/key/secret?date=YYYY-MM-DD').returns(stub)
+
+      @client.get_message_rejections(date: 'YYYY-MM-DD').must_be_instance_of(Nexmo::Response)
+    end
+  end
 end
 
 describe Nexmo::Response do
