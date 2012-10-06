@@ -43,6 +43,10 @@ module Nexmo
       Response.new(@http.get("/account/get-pricing/outbound/#{key}/#{secret}/#{country_code}"))
     end
 
+    def get_prefix_pricing(prefix)
+      Response.new(@http.get("/account/get-prefix-pricing/outbound/#{key}/#{secret}/#{prefix}"))
+    end
+
     private
 
     def ok?(response)

@@ -88,6 +88,14 @@ describe Nexmo::Client do
       @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
     end
   end
+
+  describe 'get_prefix_pricing method' do
+    it 'fetches the outbound pricing resource for the given prefix and returns a response object' do
+      @client.http.expects(:get).with('/account/get-prefix-pricing/outbound/key/secret/44').returns(stub)
+
+      @client.get_prefix_pricing(44).must_be_instance_of(Nexmo::Response)
+    end
+  end
 end
 
 describe Nexmo::Response do
