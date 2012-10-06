@@ -118,6 +118,14 @@ describe Nexmo::Client do
       @client.number_search(:CA, size: 25).must_be_instance_of(Nexmo::Response)
     end
   end
+
+  describe 'get_message method' do
+    it 'fetches the message search resource for the given message id and returns a response object' do
+      @client.http.expects(:get).with('/search/message/key/secret/00A0B0C0').returns(stub)
+
+      @client.get_message('00A0B0C0').must_be_instance_of(Nexmo::Response)
+    end
+  end
 end
 
 describe Nexmo::Response do

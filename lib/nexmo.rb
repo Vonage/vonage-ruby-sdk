@@ -55,6 +55,10 @@ module Nexmo
       get("/number/search/#{key}/#{secret}/#{country_code}", params)
     end
 
+    def get_message(id)
+      get("/search/message/#{key}/#{secret}/#{id}")
+    end
+
     private
 
     def get(path, params = {})
