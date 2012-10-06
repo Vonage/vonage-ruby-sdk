@@ -72,6 +72,16 @@ describe Nexmo::Client do
       response.http.wont_be_nil
     end
   end
+
+  describe 'get_balance method' do
+    it 'fetches the account balance resource and returns a response object' do
+      http_response = stub(code: '200', body: '{"value":4.107}')
+
+      @client.http.expects(:get).with('/account/get-balance/key/secret').returns(http_response)
+
+      @client.get_balance.must_be_instance_of(Nexmo::Response)
+    end
+  end
 end
 
 describe Nexmo::Response do

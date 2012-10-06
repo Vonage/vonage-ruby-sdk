@@ -35,6 +35,10 @@ module Nexmo
       end
     end
 
+    def get_balance
+      Response.new(@http.get("/account/get-balance/#{key}/#{secret}"))
+    end
+
     private
 
     def ok?(response)
