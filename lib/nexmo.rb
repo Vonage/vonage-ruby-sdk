@@ -39,6 +39,10 @@ module Nexmo
       Response.new(@http.get("/account/get-balance/#{key}/#{secret}"))
     end
 
+    def get_country_pricing(country_code)
+      Response.new(@http.get("/account/get-pricing/outbound/#{key}/#{secret}/#{country_code}"))
+    end
+
     private
 
     def ok?(response)

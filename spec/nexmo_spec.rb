@@ -75,11 +75,17 @@ describe Nexmo::Client do
 
   describe 'get_balance method' do
     it 'fetches the account balance resource and returns a response object' do
-      http_response = stub(code: '200', body: '{"value":4.107}')
-
-      @client.http.expects(:get).with('/account/get-balance/key/secret').returns(http_response)
+      @client.http.expects(:get).with('/account/get-balance/key/secret').returns(stub)
 
       @client.get_balance.must_be_instance_of(Nexmo::Response)
+    end
+  end
+
+  describe 'get_country_pricing method' do
+    it 'fetches the outbound pricing resource for the given country and returns a response object' do
+      @client.http.expects(:get).with('/account/get-pricing/outbound/key/secret/CA').returns(stub)
+
+      @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
     end
   end
 end
