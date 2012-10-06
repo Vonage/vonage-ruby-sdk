@@ -36,18 +36,26 @@ module Nexmo
     end
 
     def get_balance
-      Response.new(@http.get("/account/get-balance/#{key}/#{secret}"))
+      get("/account/get-balance/#{key}/#{secret}")
     end
 
     def get_country_pricing(country_code)
-      Response.new(@http.get("/account/get-pricing/outbound/#{key}/#{secret}/#{country_code}"))
+      get("/account/get-pricing/outbound/#{key}/#{secret}/#{country_code}")
     end
 
     def get_prefix_pricing(prefix)
-      Response.new(@http.get("/account/get-prefix-pricing/outbound/#{key}/#{secret}/#{prefix}"))
+      get("/account/get-prefix-pricing/outbound/#{key}/#{secret}/#{prefix}")
+    end
+
+    def get_account_numbers(params)
+      get("/account/numbers/#{key}/#{secret}", params)
     end
 
     private
+
+    def get(path, params = {})
+      Response.new(@http.get(params.empty? ? path : "#{path}?#{URI.encode_www_form(params)}"))
+    end
 
     def ok?(response)
       response.code.to_i == 200

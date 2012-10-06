@@ -102,6 +102,14 @@ describe Nexmo::Client do
       @client.get_prefix_pricing(44).must_be_instance_of(Nexmo::Response)
     end
   end
+
+  describe 'get_account_numbers method' do
+    it 'fetches the account numbers resource with the given parameters and returns a response object' do
+      @client.http.expects(:get).with('/account/numbers/key/secret?size=25&pattern=33').returns(stub)
+
+      @client.get_account_numbers(size: 25, pattern: 33).must_be_instance_of(Nexmo::Response)
+    end
+  end
 end
 
 describe Nexmo::Response do
