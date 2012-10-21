@@ -134,6 +134,20 @@ describe Nexmo::Client do
       @client.get_message_rejections(date: 'YYYY-MM-DD').must_be_instance_of(Nexmo::Response)
     end
   end
+
+  describe 'search_messages method' do
+    it 'fetches the search messages resource with the given parameters and returns a response object' do
+      @client.http.expects(:get).with('/search/messages/key/secret?date=YYYY-MM-DD&to=1234567890').returns(stub)
+
+      @client.search_messages(date: 'YYYY-MM-DD', to: 1234567890).must_be_instance_of(Nexmo::Response)
+    end
+
+    it 'should encode a non hash argument as a list of ids' do
+      @client.http.expects(:get).with('/search/messages/key/secret?ids=id1&ids=id2').returns(stub)
+
+      @client.search_messages(%w(id1 id2))
+    end
+  end
 end
 
 describe Nexmo::Response do

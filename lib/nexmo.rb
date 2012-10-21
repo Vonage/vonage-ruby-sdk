@@ -67,6 +67,10 @@ module Nexmo
       get("/search/rejections/#{key}/#{secret}", params)
     end
 
+    def search_messages(params)
+      get("/search/messages/#{key}/#{secret}", Hash === params ? params : {ids: Array(params)})
+    end
+
     private
 
     def get(path, params = {})
