@@ -192,46 +192,10 @@ describe Nexmo::Response do
   end
 
   describe 'object method' do
-    it 'decodes the response body as json and returns an object' do
-      @http_response.expects(:body).returns('{}')
+    it 'decodes the response body as json and returns a hash' do
+      @http_response.expects(:body).returns('{"value":0.0}')
 
-      @response.object.must_be_instance_of(Nexmo::Object)
-    end
-  end
-end
-
-describe Nexmo::Object do
-  before do
-    @value = 'xxx'
-
-    @object = Nexmo::Object.new(message_id: @value)
-  end
-
-  it 'provides method access for attributes passed to the constructor' do
-    @object.message_id.must_equal(@value)
-  end
-
-  describe 'square brackets method' do
-    it 'returns the value of the given attribute' do
-      @object[:message_id].must_equal(@value)
-    end
-  end
-
-  describe 'square brackets equals method' do
-    it 'sets the value of the given attribute' do
-      @object['message_id'] = 'abc'
-      @object.message_id.wont_equal(@value)
-    end
-
-    it 'replaces dashes in keys with underscores' do
-      @object['message-id'] = 'abc'
-      @object.message_id.wont_equal(@value)
-    end
-  end
-
-  describe 'to_hash method' do
-    it 'returns a hash containing the object attributes' do
-      @object.to_hash.must_equal({message_id: @value})
+      @response.object.must_equal({'value' => 0})
     end
   end
 end

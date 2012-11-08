@@ -26,16 +26,16 @@ module Nexmo
         status = object['status'].to_i
 
         if status == 0
-          Object.new(:message_id => object['message-id'], :success? => true, :failure? => false)
+          Success.new(object['message-id'])
         else
           error = Error.new("#{object['error-text']} (status=#{status})")
 
-          Object.new(:error => error, :http => response, :status => status, :success? => false, :failure? => true)
+          Failure.new(error, response, status)
         end
       else
         error = Error.new("Unexpected HTTP response (code=#{response.code})")
 
-        Object.new(:error => error, :http => response, :success? => false, :failure? => true)
+        Failure.new(error, response)
       end
     end
 
@@ -108,37 +108,27 @@ module Nexmo
     end
 
     def object
-      JSON.parse(body, object_class: Object)
+      @object ||= JSON.parse(body)
     end
   end
 
-  class Object
-    def initialize(attributes = {})
-      @attributes = attributes.to_hash
+  class Success < Struct.new(:message_id)
+    def success?
+      true
     end
 
-    def [](name)
-      @attributes[name]
+    def failure?
+      false
+    end
+  end
+
+  class Failure < Struct.new(:error, :http, :status)
+    def success?
+      false
     end
 
-    def []=(name, value)
-      @attributes[name.to_s.tr(?-, ?_).to_sym] = value
-    end
-
-    def to_hash
-      @attributes
-    end
-
-    def respond_to_missing?(name, include_private = false)
-      @attributes.has_key?(name)
-    end
-
-    def method_missing(name, *args, &block)
-      if @attributes.has_key?(name) && args.empty? && block.nil?
-        @attributes[name]
-      else
-        super name, *args, &block
-      end
+    def failure?
+      true
     end
   end
 
