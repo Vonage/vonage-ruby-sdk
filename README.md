@@ -41,7 +41,7 @@ Troubleshooting
 
 Phone numbers should be specified in international format.
 
-The Nexmo documentation contains a [list of error codes](http://nexmo.com/documentation/index.html#dlr_error)
+The Nexmo documentation contains a [list of error codes](http://nexmo.com/documentation/index.html#response_code)
 which may be useful if you have problems sending a message.
 
 
