@@ -8,7 +8,7 @@ Gem::Specification.new do |s|
   s.description = 'A simple wrapper for the Nexmo API'
   s.summary = 'See description'
   s.files = Dir.glob('{lib,spec}/**/*') + %w(README.md nexmo.gemspec)
-  s.add_dependency('json', ['~> 1.5'])
-  s.add_development_dependency('mocha')
+  s.add_development_dependency('mocha', '~> 0.9.12')
+  s.add_development_dependency('oj', '~> 1.3.7')
   s.require_path = 'lib'
 end
