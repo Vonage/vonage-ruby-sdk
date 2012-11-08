@@ -1,5 +1,4 @@
 require 'net/http'
-require 'net/https'
 require 'json'
 require 'uri'
 require 'cgi'
