@@ -1,9 +1,10 @@
 require 'minitest/autorun'
 require 'mocha'
+require 'oj'
 
 require_relative '../lib/nexmo'
 
-describe Nexmo::Client do
+describe 'Nexmo::Client' do
   before do
     @client = Nexmo::Client.new('key', 'secret')
   end
@@ -150,7 +151,7 @@ describe Nexmo::Client do
   end
 end
 
-describe Nexmo::Response do
+describe 'Nexmo::Response' do
   before do
     @http_response = mock()
 
@@ -189,6 +190,22 @@ describe Nexmo::Response do
 
       @response.json?.must_equal(false)
     end
+  end
+
+  describe 'object method' do
+    it 'decodes the response body as json and returns a hash' do
+      @http_response.expects(:body).returns('{"value":0.0}')
+
+      @response.object.must_equal({'value' => 0})
+    end
+  end
+end
+
+describe 'Nexmo::Response initialized with a different json implementation' do
+  before do
+    @http_response = mock()
+
+    @response = Nexmo::Response.new(@http_response, json: Oj)
   end
 
   describe 'object method' do

@@ -5,8 +5,10 @@ require 'cgi'
 
 module Nexmo
   class Client
-    def initialize(key, secret)
+    def initialize(key, secret, options = {})
       @key, @secret = key, secret
+
+      @json = options.fetch(:json) { JSON }
 
       @headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
 
@@ -21,7 +23,7 @@ module Nexmo
       response = @http.post('/sms/json', encode(data), headers)
 
       if response.code.to_i == 200 && response['Content-Type'].split(?;).first == 'application/json'
-        object = JSON.parse(response.body)['messages'].first
+        object = @json.load(response.body)['messages'].first
 
         status = object['status'].to_i
 
@@ -74,7 +76,7 @@ module Nexmo
     private
 
     def get(path, params = {})
-      Response.new(@http.get(request_uri(path, params)))
+      Response.new(@http.get(request_uri(path, params)), json: @json)
     end
 
     def encode(data)
@@ -99,8 +101,10 @@ module Nexmo
   end
 
   class Response
-    def initialize(http_response)
+    def initialize(http_response, options = {})
       @http_response = http_response
+
+      @json = options.fetch(:json) { JSON }
     end
 
     def method_missing(name, *args, &block)
@@ -116,7 +120,7 @@ module Nexmo
     end
 
     def object
-      @object ||= JSON.parse(body)
+      @object ||= @json.load(body)
     end
   end
 
