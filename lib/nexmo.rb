@@ -2,6 +2,7 @@ require 'net/http'
 require 'net/https'
 require 'json'
 require 'uri'
+require 'cgi'
 
 module Nexmo
   class Client
@@ -74,7 +75,7 @@ module Nexmo
     private
 
     def get(path, params = {})
-      Response.new(@http.get(params.empty? ? path : "#{path}?#{URI.encode_www_form(params)}"))
+      Response.new(@http.get(request_uri(path, params)))
     end
 
     def ok?(response)
@@ -87,6 +88,22 @@ module Nexmo
 
     def encode(data)
       URI.encode_www_form data.merge(:username => @key, :password => @secret)
+    end
+
+    def request_uri(path, hash = {})
+      if hash.empty?
+        path
+      else
+        query_params = hash.map do |key, values|
+          Array(values).map { |value| "#{escape(key)}=#{escape(value)}" }
+        end
+
+        path + '?' + query_params.flatten.join(?&)
+      end
+    end
+
+    def escape(component)
+      CGI.escape(component.to_s)
     end
   end
 
