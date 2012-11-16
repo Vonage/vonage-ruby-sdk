@@ -16,67 +16,55 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'headers method' do
-    it 'returns a hash' do
-      @client.headers.must_be_kind_of(Hash)
+  describe 'send_message method' do
+    it 'posts to the sms json resource and returns a response object' do
+      data = regexp_matches(/\{".+?":".+?"(,".+?":".+?")+\}/)
+
+      headers = has_entry('Content-Type', 'application/json')
+
+      params = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
+
+      @client.http.expects(:post).with('/sms/json', data, headers).returns(stub)
+
+      @client.send_message(params).must_be_instance_of(Nexmo::Response)
     end
   end
 
-  describe 'send_message method' do
-    it 'posts to the sms resource' do
-      http_response = stub(code: '200', body: '{"messages":[{"status":0,"message-id":"id"}]}')
-      http_response.expects(:[]).with('Content-Type').returns('application/json;charset=utf-8')
+  describe 'send_message bang method' do
+    before do
+      @params = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
 
-      data = 'from=ruby&to=number&text=Hey%21&username=key&password=secret'
-
-      headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
-
-      @client.http.expects(:post).with('/sms/json', data, headers).returns(http_response)
-
-      @client.send_message({from: 'ruby', to: 'number', text: 'Hey!'})
+      @http_response = mock()
+      @http_response.stubs(:[]).with('Content-Type').returns('application/json;charset=utf-8')
+      @http_response.stubs(:code).returns('200')
     end
 
-    describe 'when the first message status equals 0' do
-      it 'returns a success object' do
-        http_response = stub(code: '200', body: '{"messages":[{"status":0,"message-id":"id"}]}')
-        http_response.expects(:[]).with('Content-Type').returns('application/json;charset=utf-8')
+    it 'posts to the sms json resource and returns the message id' do
+      data = regexp_matches(/\{".+?":".+?"(,".+?":".+?")+\}/)
 
-        @client.http.stubs(:post).returns(http_response)
+      headers = has_entry('Content-Type', 'application/json')
 
-        response = @client.send_message({from: 'ruby', to: 'number', text: 'Hey!'})
-        response.success?.must_equal(true)
-        response.failure?.must_equal(false)
-        response.message_id.must_equal('id')
-      end
+      @http_response.stubs(:body).returns('{"messages":[{"status":0,"message-id":"id"}]}')
+
+      @client.http.expects(:post).with('/sms/json', data, headers).returns(@http_response)
+
+      @client.send_message!(@params).must_equal('id')
     end
 
-    describe 'when the first message status does not equal 0' do
-      it 'returns a failure object' do
-        http_response = stub(code: '200', body: '{"messages":[{"status":2,"error-text":"Missing from param"}]}')
-        http_response.expects(:[]).with('Content-Type').returns('application/json')
+    it 'raises an exception if the response code is not expected' do
+      @http_response.stubs(:code).returns('500')
 
-        @client.http.stubs(:post).returns(http_response)
+      @client.http.stubs(:post).returns(@http_response)
 
-        response = @client.send_message({to: 'number', text: 'Hey!'})
-
-        response.success?.must_equal(false)
-        response.failure?.must_equal(true)
-        response.error.to_s.must_equal('Missing from param (status=2)')
-        response.http.wont_be_nil
-      end
+      proc { @client.send_message!(@params) }.must_raise(Nexmo::Error)
     end
 
-    describe 'when the server returns an unexpected http response' do
-      it 'returns a failure object' do
-        @client.http.stubs(:post).returns(stub(code: '503'))
+    it 'raises an exception if the response body contains an error' do
+      @http_response.stubs(:body).returns('{"messages":[{"status":2,"error-text":"Missing from param"}]}')
 
-        response = @client.send_message({from: 'ruby', to: 'number', text: 'Hey!'})
+      @client.http.stubs(:post).returns(@http_response)
 
-        response.success?.must_equal(false)
-        response.failure?.must_equal(true)
-        response.error.to_s.must_equal('Unexpected HTTP response (code=503)')
-        response.http.wont_be_nil
-      end
+      proc { @client.send_message!(@params) }.must_raise(Nexmo::Error)
     end
   end
 

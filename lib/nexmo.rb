@@ -1,6 +1,5 @@
 require 'net/http'
 require 'json'
-require 'uri'
 require 'cgi'
 
 module Nexmo
@@ -10,34 +9,32 @@ module Nexmo
 
       @json = options.fetch(:json) { JSON }
 
-      @headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
-
       @http = Net::HTTP.new('rest.nexmo.com', 443)
 
       @http.use_ssl = true
     end
 
-    attr_accessor :key, :secret, :http, :headers
+    attr_accessor :key, :secret, :http
 
-    def send_message(data)
-      response = @http.post('/sms/json', encode(data), headers)
+    def send_message(params)
+      post('/sms/json', params)
+    end
 
-      if response.code.to_i == 200 && response['Content-Type'].split(?;).first == 'application/json'
-        object = @json.load(response.body)['messages'].first
+    def send_message!(params)
+      response = send_message(params)
 
-        status = object['status'].to_i
+      if response.ok? && response.json?
+        item = response.object['messages'].first
+
+        status = item['status'].to_i
 
         if status == 0
-          Success.new(object['message-id'])
+          item['message-id']
         else
-          error = Error.new("#{object['error-text']} (status=#{status})")
-
-          Failure.new(error, response, status)
+          raise Error, "#{item['error-text']} (status=#{status})"
         end
       else
-        error = Error.new("Unexpected HTTP response (code=#{response.code})")
-
-        Failure.new(error, response)
+        raise Error, "Unexpected HTTP response (code=#{response.code})"
       end
     end
 
@@ -79,8 +76,12 @@ module Nexmo
       Response.new(@http.get(request_uri(path, params)), json: @json)
     end
 
-    def encode(data)
-      URI.encode_www_form data.merge(:username => @key, :password => @secret)
+    def post(path, params)
+      Response.new(@http.post(path, encode(params), {'Content-Type' => 'application/json'}), json: @json)
+    end
+
+    def encode(params)
+      JSON.dump(params.merge(:username => @key, :password => @secret))
     end
 
     def request_uri(path, hash = {})
@@ -125,26 +126,6 @@ module Nexmo
 
     def object
       @object ||= @json.load(body)
-    end
-  end
-
-  class Success < Struct.new(:message_id)
-    def success?
-      true
-    end
-
-    def failure?
-      false
-    end
-  end
-
-  class Failure < Struct.new(:error, :http, :status)
-    def success?
-      false
-    end
-
-    def failure?
-      true
     end
   end
 
