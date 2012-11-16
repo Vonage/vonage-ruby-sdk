@@ -91,7 +91,7 @@ module Nexmo
           Array(values).map { |value| "#{escape(key)}=#{escape(value)}" }
         end
 
-        path + '?' + query_params.flatten.join(?&)
+        path + '?' + query_params.flatten.join('&')
       end
     end
 
@@ -120,7 +120,7 @@ module Nexmo
     end
 
     def json?
-      self['Content-Type'].split(?;).first == 'application/json'
+      self['Content-Type'].split(';').first == 'application/json'
     end
 
     def object
