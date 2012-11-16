@@ -1,7 +1,6 @@
 require 'minitest/autorun'
 require 'mocha'
-require 'oj'
-
+require 'multi_json'
 require 'nexmo'
 
 describe 'Nexmo::Client' do
@@ -194,7 +193,7 @@ describe 'Nexmo::Response initialized with a different json implementation' do
   before do
     @http_response = mock()
 
-    @response = Nexmo::Response.new(@http_response, :json => Oj)
+    @response = Nexmo::Response.new(@http_response, :json => MultiJson)
   end
 
   describe 'object method' do

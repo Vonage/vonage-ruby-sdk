@@ -22,35 +22,27 @@ nexmo.send_message!({:to => '...NUMBER...', :from => 'Ruby', :text => 'Hello wor
 ```
 
 This method call returns the message id if the message was sent successfully,
-or raises an exception if there was an error.
-
-
-Handling Errors
----------------
-
-For more robust error handling use the `send_message` method instead.
-This returns the HTTP response wrapped in a `Nexmo::Response` object.
+or raises an exception if there was an error. For more robust error handling
+use the `send_message` method instead. This returns the HTTP response wrapped
+in a `Nexmo::Response` object.
 
 
 JSON Implementation
 -------------------
 
 The "json" library is used by default. This is available in the Ruby 1.9
-standard library, and as a gem for Ruby 1.8.
-
-You can specify which implementation you wish to use explicitly when
-constructing a client object. For example, here is how you would use
-[oj](https://rubygems.org/gems/oj):
+standard library, and as a gem for Ruby 1.8. You can specify an alternate
+implementation that you wish to use explicitly when constructing a client
+object. For example, to use [multi_json](https://rubygems.org/gems/multi_json):
 
 ```ruby
 require 'nexmo'
-require 'oj'
+require 'multi_json'
 
-nexmo = Nexmo::Client.new('...API KEY...', '...API SECRET...', :json => Oj)
+nexmo = Nexmo::Client.new('...API KEY...', '...API SECRET...', :json => MultiJson)
 ```
 
-Ditto for MultiJSON, or anything that is compatible with the interface
-of the default implementation.
+Ditto for anything that is compatible with the default implementation.
 
 
 Troubleshooting
