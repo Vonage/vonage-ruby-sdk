@@ -107,6 +107,10 @@ module Nexmo
       @json = options.fetch(:json) { JSON }
     end
 
+    def respond_to_missing?(name, include_private = false)
+      @http_response.respond_to?(name)
+    end
+
     def method_missing(name, *args, &block)
       @http_response.send(name, *args, &block)
     end
