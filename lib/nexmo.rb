@@ -67,17 +67,17 @@ module Nexmo
     end
 
     def search_messages(params)
-      get("/search/messages/#{key}/#{secret}", Hash === params ? params : {ids: Array(params)})
+      get("/search/messages/#{key}/#{secret}", Hash === params ? params : {:ids => Array(params)})
     end
 
     private
 
     def get(path, params = {})
-      Response.new(@http.get(request_uri(path, params)), json: @json)
+      Response.new(@http.get(request_uri(path, params)), :json => @json)
     end
 
     def post(path, params)
-      Response.new(@http.post(path, encode(params), {'Content-Type' => 'application/json'}), json: @json)
+      Response.new(@http.post(path, encode(params), {'Content-Type' => 'application/json'}), :json => @json)
     end
 
     def encode(params)

@@ -96,7 +96,7 @@ describe 'Nexmo::Client' do
     it 'fetches the account numbers resource with the given parameters and returns a response object' do
       @client.http.expects(:get).with('/account/numbers/key/secret?size=25&pattern=33').returns(stub)
 
-      @client.get_account_numbers(size: 25, pattern: 33).must_be_instance_of(Nexmo::Response)
+      @client.get_account_numbers(:size => 25, :pattern => 33).must_be_instance_of(Nexmo::Response)
     end
   end
 
@@ -104,7 +104,7 @@ describe 'Nexmo::Client' do
     it 'fetches the number search resource for the given country with the given parameters and returns a response object' do
       @client.http.expects(:get).with('/number/search/key/secret/CA?size=25').returns(stub)
 
-      @client.number_search(:CA, size: 25).must_be_instance_of(Nexmo::Response)
+      @client.number_search(:CA, :size => 25).must_be_instance_of(Nexmo::Response)
     end
   end
 
@@ -120,7 +120,7 @@ describe 'Nexmo::Client' do
     it 'fetches the message rejections resource with the given parameters and returns a response object' do
       @client.http.expects(:get).with('/search/rejections/key/secret?date=YYYY-MM-DD').returns(stub)
 
-      @client.get_message_rejections(date: 'YYYY-MM-DD').must_be_instance_of(Nexmo::Response)
+      @client.get_message_rejections(:date => 'YYYY-MM-DD').must_be_instance_of(Nexmo::Response)
     end
   end
 
@@ -128,7 +128,7 @@ describe 'Nexmo::Client' do
     it 'fetches the search messages resource with the given parameters and returns a response object' do
       @client.http.expects(:get).with('/search/messages/key/secret?date=YYYY-MM-DD&to=1234567890').returns(stub)
 
-      @client.search_messages(date: 'YYYY-MM-DD', to: 1234567890).must_be_instance_of(Nexmo::Response)
+      @client.search_messages(:date => 'YYYY-MM-DD', :to => 1234567890).must_be_instance_of(Nexmo::Response)
     end
 
     it 'should encode a non hash argument as a list of ids' do
@@ -194,7 +194,7 @@ describe 'Nexmo::Response initialized with a different json implementation' do
   before do
     @http_response = mock()
 
-    @response = Nexmo::Response.new(@http_response, json: Oj)
+    @response = Nexmo::Response.new(@http_response, :json => Oj)
   end
 
   describe 'object method' do
