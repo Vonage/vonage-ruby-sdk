@@ -2,7 +2,7 @@ require 'minitest/autorun'
 require 'mocha'
 require 'oj'
 
-require_relative '../lib/nexmo'
+require 'nexmo'
 
 describe 'Nexmo::Client' do
   before do
@@ -94,7 +94,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_account_numbers method' do
     it 'fetches the account numbers resource with the given parameters and returns a response object' do
-      @client.http.expects(:get).with('/account/numbers/key/secret?size=25&pattern=33').returns(stub)
+      @client.http.expects(:get).with(has_equivalent_query_string('/account/numbers/key/secret?size=25&pattern=33')).returns(stub)
 
       @client.get_account_numbers(:size => 25, :pattern => 33).must_be_instance_of(Nexmo::Response)
     end
@@ -126,13 +126,13 @@ describe 'Nexmo::Client' do
 
   describe 'search_messages method' do
     it 'fetches the search messages resource with the given parameters and returns a response object' do
-      @client.http.expects(:get).with('/search/messages/key/secret?date=YYYY-MM-DD&to=1234567890').returns(stub)
+      @client.http.expects(:get).with(has_equivalent_query_string('/search/messages/key/secret?date=YYYY-MM-DD&to=1234567890')).returns(stub)
 
       @client.search_messages(:date => 'YYYY-MM-DD', :to => 1234567890).must_be_instance_of(Nexmo::Response)
     end
 
     it 'should encode a non hash argument as a list of ids' do
-      @client.http.expects(:get).with('/search/messages/key/secret?ids=id1&ids=id2').returns(stub)
+      @client.http.expects(:get).with(has_equivalent_query_string('/search/messages/key/secret?ids=id1&ids=id2')).returns(stub)
 
       @client.search_messages(%w(id1 id2))
     end
@@ -149,7 +149,7 @@ describe 'Nexmo::Response' do
   it 'delegates to the underlying http response' do
     @http_response.expects(:code).returns('200')
 
-    @response.must_respond_to(:code)
+    @response.must_respond_to(:code) unless RUBY_VERSION == '1.8.7'
     @response.code.must_equal('200')
   end
 
