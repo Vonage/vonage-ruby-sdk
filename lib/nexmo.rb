@@ -5,7 +5,7 @@ require 'cgi'
 
 module Nexmo
   class Client
-    def initialize(key, secret, options = {})
+    def initialize(key = ENV['NEXMO_API_KEY'], secret = ENV['NEXMO_API_SECRET'], options = {})
       @key, @secret = key, secret
 
       @json = options.fetch(:json) { JSON }
