@@ -67,9 +67,13 @@ describe 'Nexmo::Client' do
     end
   end
 
+  def expects_http_get(request_uri)
+    @client.http.expects(:get).with(has_equivalent_query_string(request_uri)).returns(stub)
+  end
+
   describe 'get_balance method' do
     it 'fetches the account balance resource and returns a response object' do
-      @client.http.expects(:get).with('/account/get-balance/key/secret').returns(stub)
+      expects_http_get '/account/get-balance?api_key=key&api_secret=secret'
 
       @client.get_balance.must_be_instance_of(Nexmo::Response)
     end
@@ -77,7 +81,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_country_pricing method' do
     it 'fetches the outbound pricing resource for the given country and returns a response object' do
-      @client.http.expects(:get).with('/account/get-pricing/outbound/key/secret/CA').returns(stub)
+      expects_http_get '/account/get-pricing/outbound?api_key=key&api_secret=secret&country=CA'
 
       @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
     end
@@ -85,7 +89,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_prefix_pricing method' do
     it 'fetches the outbound pricing resource for the given prefix and returns a response object' do
-      @client.http.expects(:get).with('/account/get-prefix-pricing/outbound/key/secret/44').returns(stub)
+      expects_http_get '/account/get-prefix-pricing/outbound?api_key=key&api_secret=secret&prefix=44'
 
       @client.get_prefix_pricing(44).must_be_instance_of(Nexmo::Response)
     end
@@ -93,7 +97,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_account_numbers method' do
     it 'fetches the account numbers resource with the given parameters and returns a response object' do
-      @client.http.expects(:get).with(has_equivalent_query_string('/account/numbers/key/secret?size=25&pattern=33')).returns(stub)
+      expects_http_get '/account/numbers?api_key=key&api_secret=secret&size=25&pattern=33'
 
       @client.get_account_numbers(:size => 25, :pattern => 33).must_be_instance_of(Nexmo::Response)
     end
@@ -101,7 +105,7 @@ describe 'Nexmo::Client' do
 
   describe 'number_search method' do
     it 'fetches the number search resource for the given country with the given parameters and returns a response object' do
-      @client.http.expects(:get).with('/number/search/key/secret/CA?size=25').returns(stub)
+      expects_http_get '/number/search?api_key=key&api_secret=secret&country=CA&size=25'
 
       @client.number_search(:CA, :size => 25).must_be_instance_of(Nexmo::Response)
     end
@@ -109,7 +113,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_message method' do
     it 'fetches the message search resource for the given message id and returns a response object' do
-      @client.http.expects(:get).with('/search/message/key/secret/00A0B0C0').returns(stub)
+      expects_http_get '/search/message?api_key=key&api_secret=secret&id=00A0B0C0'
 
       @client.get_message('00A0B0C0').must_be_instance_of(Nexmo::Response)
     end
@@ -117,7 +121,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_message_rejections method' do
     it 'fetches the message rejections resource with the given parameters and returns a response object' do
-      @client.http.expects(:get).with('/search/rejections/key/secret?date=YYYY-MM-DD').returns(stub)
+      expects_http_get '/search/rejections?api_key=key&api_secret=secret&date=YYYY-MM-DD'
 
       @client.get_message_rejections(:date => 'YYYY-MM-DD').must_be_instance_of(Nexmo::Response)
     end
@@ -125,13 +129,13 @@ describe 'Nexmo::Client' do
 
   describe 'search_messages method' do
     it 'fetches the search messages resource with the given parameters and returns a response object' do
-      @client.http.expects(:get).with(has_equivalent_query_string('/search/messages/key/secret?date=YYYY-MM-DD&to=1234567890')).returns(stub)
+      expects_http_get '/search/messages?api_key=key&api_secret=secret&date=YYYY-MM-DD&to=1234567890'
 
       @client.search_messages(:date => 'YYYY-MM-DD', :to => 1234567890).must_be_instance_of(Nexmo::Response)
     end
 
     it 'should encode a non hash argument as a list of ids' do
-      @client.http.expects(:get).with(has_equivalent_query_string('/search/messages/key/secret?ids=id1&ids=id2')).returns(stub)
+      expects_http_get '/search/messages?api_key=key&api_secret=secret&ids=id1&ids=id2'
 
       @client.search_messages(%w(id1 id2))
     end

@@ -40,49 +40,49 @@ module Nexmo
     end
 
     def get_balance
-      get("/account/get-balance/#{key}/#{secret}")
+      get('/account/get-balance')
     end
 
     def get_country_pricing(country_code)
-      get("/account/get-pricing/outbound/#{key}/#{secret}/#{country_code}")
+      get('/account/get-pricing/outbound', {:country => country_code})
     end
 
     def get_prefix_pricing(prefix)
-      get("/account/get-prefix-pricing/outbound/#{key}/#{secret}/#{prefix}")
+      get('/account/get-prefix-pricing/outbound', {:prefix => prefix})
     end
 
     def get_account_numbers(params)
-      get("/account/numbers/#{key}/#{secret}", params)
+      get('/account/numbers', params)
     end
 
     def number_search(country_code, params = {})
-      get("/number/search/#{key}/#{secret}/#{country_code}", params)
+      get('/number/search', {:country => country_code}.merge(params))
     end
 
     def get_message(id)
-      get("/search/message/#{key}/#{secret}/#{id}")
+      get('/search/message', {:id => id})
     end
 
     def get_message_rejections(params)
-      get("/search/rejections/#{key}/#{secret}", params)
+      get('/search/rejections', params)
     end
 
     def search_messages(params)
-      get("/search/messages/#{key}/#{secret}", Hash === params ? params : {:ids => Array(params)})
+      get('/search/messages', Hash === params ? params : {:ids => Array(params)})
     end
 
     private
 
     def get(path, params = {})
-      Response.new(@http.get(request_uri(path, params)), :json => @json)
+      uri = request_uri(path, params.merge(:api_key => @key, :api_secret => @secret))
+
+      Response.new(@http.get(uri), :json => @json)
     end
 
     def post(path, params)
-      Response.new(@http.post(path, encode(params), {'Content-Type' => 'application/json'}), :json => @json)
-    end
+      body = JSON.dump(params.merge(:api_key => @key, :api_secret => @secret))
 
-    def encode(params)
-      JSON.dump(params.merge(:username => @key, :password => @secret))
+      Response.new(@http.post(path, body, {'Content-Type' => 'application/json'}), :json => @json)
     end
 
     def request_uri(path, hash = {})
