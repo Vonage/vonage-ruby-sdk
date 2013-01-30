@@ -15,7 +15,7 @@ module Nexmo
       @http.use_ssl = true
     end
 
-    attr_accessor :key, :secret, :http
+    attr_accessor :key, :secret, :http, :oauth_access_token
 
     def send_message(params)
       post('/sms/json', params)
@@ -74,9 +74,13 @@ module Nexmo
     private
 
     def get(path, params = {})
-      uri = request_uri(path, params.merge(:api_key => @key, :api_secret => @secret))
+      http_response = if oauth_access_token
+        oauth_access_token.get(request_uri(path, params))
+      else
+        @http.get(request_uri(path, params.merge(:api_key => @key, :api_secret => @secret)))
+      end
 
-      Response.new(@http.get(uri), :json => @json)
+      Response.new(http_response, :json => @json)
     end
 
     def post(path, params)

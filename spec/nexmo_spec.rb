@@ -2,6 +2,7 @@ require 'minitest/autorun'
 require 'mocha'
 require 'multi_json'
 require 'nexmo'
+require 'oauth'
 
 describe 'Nexmo::Client' do
   before do
@@ -139,6 +140,24 @@ describe 'Nexmo::Client' do
 
       @client.search_messages(%w(id1 id2))
     end
+  end
+end
+
+describe 'Nexmo::Client initialized with an oauth access token' do
+  before do
+    @oauth_consumer = OAuth::Consumer.new('key', 'secret', {:site => 'https://rest.nexmo.com', :scheme => :query_string})
+
+    @oauth_access_token = OAuth::AccessToken.new(@oauth_consumer, 'access_token', 'access_token_secret')
+
+    @client = Nexmo::Client.new
+
+    @client.oauth_access_token = @oauth_access_token
+  end
+
+  it 'makes get requests through the access token and returns a response object' do
+    @oauth_access_token.expects(:get).with('/account/get-pricing/outbound?country=CA').returns(stub)
+
+    @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
   end
 end
 
