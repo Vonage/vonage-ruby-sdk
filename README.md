@@ -1,5 +1,5 @@
-A simple wrapper for the [Nexmo](http://nexmo.com/) API
-=======================================================
+A Ruby wrapper for the [Nexmo](http://nexmo.com/) API
+=====================================================
 
 
 Installation
