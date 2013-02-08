@@ -17,7 +17,8 @@ module Nexmo
 
     attr_accessor :key, :secret, :http, :oauth_access_token
 
-    def send_message(params)
+    def send_message(params, delay)
+      sleep(delay)
       post('/sms/json', params)
     end
 
