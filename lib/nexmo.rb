@@ -17,13 +17,13 @@ module Nexmo
 
     attr_accessor :key, :secret, :http, :oauth_access_token
 
-    def send_message(params, delay)
-      sleep(delay)
+    def send_message(params)
       post('/sms/json', params)
     end
 
     def send_message!(params, delay)
-      response = send_message(params, delay)
+      sleep(2)
+      response = send_message(params)
 
       if response.ok? && response.json?
         item = response.object['messages'].first
