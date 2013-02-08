@@ -21,8 +21,8 @@ module Nexmo
       post('/sms/json', params)
     end
 
-    def send_message!(params, delay)
-      sleep(delay)
+    def send_message!(params)
+      sleep(1)
       response = send_message(params)
 
       if response.ok? && response.json?
