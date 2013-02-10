@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name = 'nexmo'
-  s.version = '1.0.0'
+  s.version = '1.1.0'
   s.platform = Gem::Platform::RUBY
   s.authors = ['Tim Craft']
   s.email = ['mail@timcraft.com']
