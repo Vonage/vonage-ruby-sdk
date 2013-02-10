@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require 'mocha'
+require 'mocha/setup'
 require 'multi_json'
 require 'nexmo'
 require 'oauth'
