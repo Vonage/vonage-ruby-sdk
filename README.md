@@ -72,11 +72,13 @@ else
 end
 ```
 
-The OAuth::Consumer object passed to the access token should be pointed at
-`rest.nexmo.com` with the `:scheme` option set to `:header`, like this:
+The OAuth::Consumer object should be pointed at `rest.nexmo.com` with the `:scheme` option set to `:header`, like this:
 
 ```ruby
-OAuth::Consumer.new(consumer_key, consumer_secret, {:site => 'https://rest.nexmo.com', :scheme => :header})
+OAuth::Consumer.new(consumer_key, consumer_secret, {
+  :site => 'https://rest.nexmo.com',
+  :scheme => :header
+})
 ```
 
 Using the `:body` or `:query_string` authorization mechanisms is not supported.
