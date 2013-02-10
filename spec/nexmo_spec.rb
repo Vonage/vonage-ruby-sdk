@@ -6,49 +6,46 @@ require 'oauth'
 
 describe 'Nexmo::Client' do
   before do
+    @json_encoded_body = regexp_matches(/\{".+?":".+?"(,".+?":".+?")+\}/)
+
+    @http_header_hash = has_entry('Content-Type', 'application/json')
+
+    @example_message_hash = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
+
     @client = Nexmo::Client.new('key', 'secret')
+  end
+
+  def expects_http_get(request_uri)
+    @client.http.expects(:get).with(has_equivalent_query_string(request_uri)).returns(stub)
   end
 
   describe 'http method' do
     it 'returns a net http object that uses ssl' do
       @client.http.must_be_instance_of(Net::HTTP)
+
       @client.http.use_ssl?.must_equal(true)
     end
   end
 
   describe 'send_message method' do
     it 'posts to the sms json resource and returns a response object' do
-      data = regexp_matches(/\{".+?":".+?"(,".+?":".+?")+\}/)
+      @client.http.expects(:post).with('/sms/json', @json_encoded_body, @http_header_hash).returns(stub)
 
-      headers = has_entry('Content-Type', 'application/json')
-
-      params = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
-
-      @client.http.expects(:post).with('/sms/json', data, headers).returns(stub)
-
-      @client.send_message(params).must_be_instance_of(Nexmo::Response)
+      @client.send_message(@example_message_hash).must_be_instance_of(Nexmo::Response)
     end
   end
 
   describe 'send_message bang method' do
     before do
-      @params = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
-
-      @http_response = mock()
-      @http_response.stubs(:[]).with('Content-Type').returns('application/json;charset=utf-8')
-      @http_response.stubs(:code).returns('200')
+      @http_response = stub(:code => '200', :[] => 'application/json;charset=utf-8')
     end
 
     it 'posts to the sms json resource and returns the message id' do
-      data = regexp_matches(/\{".+?":".+?"(,".+?":".+?")+\}/)
-
-      headers = has_entry('Content-Type', 'application/json')
-
       @http_response.stubs(:body).returns('{"messages":[{"status":0,"message-id":"id"}]}')
 
-      @client.http.expects(:post).with('/sms/json', data, headers).returns(@http_response)
+      @client.http.expects(:post).with('/sms/json', @json_encoded_body, @http_header_hash).returns(@http_response)
 
-      @client.send_message!(@params).must_equal('id')
+      @client.send_message!(@example_message_hash).must_equal('id')
     end
 
     it 'raises an exception if the response code is not expected' do
@@ -56,7 +53,7 @@ describe 'Nexmo::Client' do
 
       @client.http.stubs(:post).returns(@http_response)
 
-      proc { @client.send_message!(@params) }.must_raise(Nexmo::Error)
+      proc { @client.send_message!(@example_message_hash) }.must_raise(Nexmo::Error)
     end
 
     it 'raises an exception if the response body contains an error' do
@@ -64,12 +61,8 @@ describe 'Nexmo::Client' do
 
       @client.http.stubs(:post).returns(@http_response)
 
-      proc { @client.send_message!(@params) }.must_raise(Nexmo::Error)
+      proc { @client.send_message!(@example_message_hash) }.must_raise(Nexmo::Error)
     end
-  end
-
-  def expects_http_get(request_uri)
-    @client.http.expects(:get).with(has_equivalent_query_string(request_uri)).returns(stub)
   end
 
   describe 'get_balance method' do
@@ -141,37 +134,31 @@ describe 'Nexmo::Client' do
       @client.search_messages(%w(id1 id2))
     end
   end
-end
 
-describe 'Nexmo::Client initialized with an oauth access token' do
-  before do
-    @oauth_consumer = OAuth::Consumer.new('key', 'secret', {:site => 'https://rest.nexmo.com', :scheme => :header})
+  describe 'when initialized with an oauth access token' do
+    before do
+      @oauth_consumer = OAuth::Consumer.new('key', 'secret', {:site => 'https://rest.nexmo.com', :scheme => :header})
 
-    @oauth_access_token = OAuth::AccessToken.new(@oauth_consumer, 'access_token', 'access_token_secret')
+      @oauth_access_token = OAuth::AccessToken.new(@oauth_consumer, 'access_token', 'access_token_secret')
 
-    @client = Nexmo::Client.new
+      @client = Nexmo::Client.new
 
-    @client.oauth_access_token = @oauth_access_token
+      @client.oauth_access_token = @oauth_access_token
 
-    @client.http = mock()
-  end
+      @client.http = mock()
+    end
 
-  it 'makes get requests through the access token and returns a response object' do
-    @oauth_access_token.expects(:get).with('/account/get-pricing/outbound?country=CA').returns(stub)
+    it 'makes get requests through the access token and returns a response object' do
+      @oauth_access_token.expects(:get).with('/account/get-pricing/outbound?country=CA').returns(stub)
 
-    @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
-  end
+      @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
+    end
 
-  it 'makes post requests through the access token and returns a response object' do
-    data = regexp_matches(/\{".+?":".+?"(,".+?":".+?")+\}/)
+    it 'makes post requests through the access token and returns a response object' do
+      @oauth_access_token.expects(:post).with('/sms/json', @json_encoded_body, @http_header_hash).returns(stub)
 
-    headers = has_entry('Content-Type', 'application/json')
-
-    params = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
-
-    @oauth_access_token.expects(:post).with('/sms/json', data, headers).returns(stub)
-
-    @client.send_message(params).must_be_instance_of(Nexmo::Response)
+      @client.send_message(@example_message_hash).must_be_instance_of(Nexmo::Response)
+    end
   end
 end
 
@@ -224,20 +211,20 @@ describe 'Nexmo::Response' do
       @response.object.must_equal({'value' => 0})
     end
   end
-end
 
-describe 'Nexmo::Response initialized with a different json implementation' do
-  before do
-    @http_response = mock()
+  describe 'when initialized with a different json implementation' do
+    before do
+      @response = Nexmo::Response.new(@http_response, :json => MultiJson)
+    end
 
-    @response = Nexmo::Response.new(@http_response, :json => MultiJson)
-  end
+    describe 'object method' do
+      it 'decodes the response body using the alternative json implementation' do
+        MultiJson.expects(:load).with('{"value":0.0}')
 
-  describe 'object method' do
-    it 'decodes the response body as json and returns a hash' do
-      @http_response.expects(:body).returns('{"value":0.0}')
+        @http_response.stubs(:body).returns('{"value":0.0}')
 
-      @response.object.must_equal({'value' => 0})
+        @response.object
+      end
     end
   end
 end
