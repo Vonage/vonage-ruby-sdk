@@ -85,9 +85,9 @@ module Nexmo
 
     def post(path, params)
       http_response = if oauth_access_token
-        oauth_access_token.post(path, JSON.dump(params), {'Content-Type' => 'application/json'})
+        oauth_access_token.post(path, @json.dump(params), {'Content-Type' => 'application/json'})
       else
-        @http.post(path, JSON.dump(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
+        @http.post(path, @json.dump(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
       end
 
       Response.new(http_response, :json => @json)

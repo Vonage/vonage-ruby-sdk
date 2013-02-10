@@ -160,6 +160,22 @@ describe 'Nexmo::Client' do
       @client.send_message(@example_message_hash).must_be_instance_of(Nexmo::Response)
     end
   end
+
+  describe 'when initialized with a different json implementation' do
+    before do
+      @client = Nexmo::Client.new('key', 'secret', :json => MultiJson)
+    end
+
+    describe 'send_message method' do
+      it 'encodes the request body using the alternative json implementation' do
+        MultiJson.expects(:dump).with(instance_of(Hash))
+
+        @client.http.stubs(:post)
+
+        @client.send_message(@example_message_hash)
+      end
+    end
+  end
 end
 
 describe 'Nexmo::Response' do
