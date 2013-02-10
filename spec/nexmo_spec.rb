@@ -145,19 +145,33 @@ end
 
 describe 'Nexmo::Client initialized with an oauth access token' do
   before do
-    @oauth_consumer = OAuth::Consumer.new('key', 'secret', {:site => 'https://rest.nexmo.com', :scheme => :query_string})
+    @oauth_consumer = OAuth::Consumer.new('key', 'secret', {:site => 'https://rest.nexmo.com', :scheme => :header})
 
     @oauth_access_token = OAuth::AccessToken.new(@oauth_consumer, 'access_token', 'access_token_secret')
 
     @client = Nexmo::Client.new
 
     @client.oauth_access_token = @oauth_access_token
+
+    @client.http = mock()
   end
 
   it 'makes get requests through the access token and returns a response object' do
     @oauth_access_token.expects(:get).with('/account/get-pricing/outbound?country=CA').returns(stub)
 
     @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
+  end
+
+  it 'makes post requests through the access token and returns a response object' do
+    data = regexp_matches(/\{".+?":".+?"(,".+?":".+?")+\}/)
+
+    headers = has_entry('Content-Type', 'application/json')
+
+    params = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
+
+    @oauth_access_token.expects(:post).with('/sms/json', data, headers).returns(stub)
+
+    @client.send_message(params).must_be_instance_of(Nexmo::Response)
   end
 end
 
