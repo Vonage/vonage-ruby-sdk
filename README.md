@@ -87,24 +87,6 @@ OAuth::Consumer.new(consumer_key, consumer_secret, {
 Using the `:body` or `:query_string` authorization mechanisms is not supported.
 
 
-Switching JSON implementations
-------------------------------
-
-By default the "json" library is used to encode request bodies and decode response
-bodies. This is available in the Ruby 1.9 standard library, and as a gem for Ruby 1.8.
-You can specify an alternate implementation that you wish to use explicitly when
-constructing a client object. For example, to use [multi_json](https://rubygems.org/gems/multi_json):
-
-```ruby
-require 'nexmo'
-require 'multi_json'
-
-nexmo = Nexmo::Client.new('...API KEY...', '...API SECRET...', :json => MultiJson)
-```
-
-Ditto for anything that is compatible with the default implementation.
-
-
 Troubleshooting
 ---------------
 

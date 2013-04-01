@@ -163,15 +163,21 @@ describe 'Nexmo::Client' do
   end
 
   describe 'when initialized with a different json implementation' do
-    before do
-      @json = faux(JSON)
+    it 'emits a deprecation warning' do
+      Kernel.expects(:warn).with(regexp_matches(/:json option is deprecated/))
 
-      @client = Nexmo::Client.new('key', 'secret', :json => @json)
+      @client = Nexmo::Client.new('key', 'secret', :json => stub)
     end
 
     describe 'send_message method' do
       it 'encodes the request body using the alternative json implementation' do
+        Kernel.stubs(:warn)
+
+        @json = faux(JSON)
+
         @json.expects(:dump).with(instance_of(Hash))
+
+        @client = Nexmo::Client.new('key', 'secret', :json => @json)
 
         @client.http.stubs(:post)
 

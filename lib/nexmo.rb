@@ -8,7 +8,13 @@ module Nexmo
     def initialize(key = ENV['NEXMO_API_KEY'], secret = ENV['NEXMO_API_SECRET'], options = {})
       @key, @secret = key, secret
 
-      @json = options.fetch(:json) { JSON }
+      if options.has_key?(:json)
+        Kernel.warn '[nexmo] :json option is deprecated'
+
+        @json = options[:json]
+      else
+        @json = JSON
+      end
 
       @http = Net::HTTP.new('rest.nexmo.com', Net::HTTP.https_default_port)
 
