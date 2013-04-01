@@ -1,8 +1,9 @@
 require 'minitest/autorun'
 require 'mocha/setup'
-require 'multi_json'
+require 'faux'
 require 'nexmo'
 require 'oauth'
+require 'json'
 
 describe 'Nexmo::Client' do
   before do
@@ -163,12 +164,14 @@ describe 'Nexmo::Client' do
 
   describe 'when initialized with a different json implementation' do
     before do
-      @client = Nexmo::Client.new('key', 'secret', :json => MultiJson)
+      @json = faux(JSON)
+
+      @client = Nexmo::Client.new('key', 'secret', :json => @json)
     end
 
     describe 'send_message method' do
       it 'encodes the request body using the alternative json implementation' do
-        MultiJson.expects(:dump).with(instance_of(Hash))
+        @json.expects(:dump).with(instance_of(Hash))
 
         @client.http.stubs(:post)
 
@@ -230,12 +233,14 @@ describe 'Nexmo::Response' do
 
   describe 'when initialized with a different json implementation' do
     before do
-      @response = Nexmo::Response.new(@http_response, :json => MultiJson)
+      @json = faux(JSON)
+
+      @response = Nexmo::Response.new(@http_response, :json => @json)
     end
 
     describe 'object method' do
       it 'decodes the response body using the alternative json implementation' do
-        MultiJson.expects(:load).with('{"value":0.0}')
+        @json.expects(:parse).with('{"value":0.0}')
 
         @http_response.stubs(:body).returns('{"value":0.0}')
 
