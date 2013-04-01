@@ -87,6 +87,25 @@ OAuth::Consumer.new(consumer_key, consumer_secret, {
 Using the `:body` or `:query_string` authorization mechanisms is not supported.
 
 
+Custom response behaviour
+-------------------------
+
+You can customise the response handling by passing a block when constructing
+a Nexmo::Client object. For example, if you want to use an alternative JSON
+implementation to decode response bodies, you could do this:
+
+```ruby
+nexmo = Nexmo::Client.new do |response|
+  response.object = MultiJson.load(response.body) if response.ok? && response.json?
+  response
+end
+```
+
+This might also be useful if you prefer a different style of error handling
+(e.g. raising exceptions on error and returning the response object directly
+for 200 OK responses), if you need to log responses etc.
+
+
 Troubleshooting
 ---------------
 
