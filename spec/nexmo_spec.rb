@@ -185,6 +185,20 @@ describe 'Nexmo::Client' do
       end
     end
   end
+
+  describe 'when initialized with a block' do
+    it 'calls the block for each response and returns the return value of the block' do
+      @client = Nexmo::Client.new('key', 'secret') do |response|
+        response.must_be_instance_of(Nexmo::Response)
+
+        :return_value
+      end
+
+      @client.http.stubs(:get).returns(stub)
+
+      @client.get_balance.must_equal(:return_value)
+    end
+  end
 end
 
 describe 'Nexmo::Response' do

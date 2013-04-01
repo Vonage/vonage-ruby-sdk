@@ -5,8 +5,8 @@ require 'cgi'
 
 module Nexmo
   class Client
-    def initialize(key = ENV['NEXMO_API_KEY'], secret = ENV['NEXMO_API_SECRET'], options = {})
-      @key, @secret = key, secret
+    def initialize(key = ENV['NEXMO_API_KEY'], secret = ENV['NEXMO_API_SECRET'], options = {}, &block)
+      @key, @secret, @block = key, secret, block
 
       if options.has_key?(:json)
         Kernel.warn '[nexmo] :json option is deprecated'
@@ -86,7 +86,7 @@ module Nexmo
         @http.get(request_uri(path, params.merge(:api_key => @key, :api_secret => @secret)))
       end
 
-      Response.new(http_response, :json => @json)
+      decode(http_response)
     end
 
     def post(path, params)
@@ -96,7 +96,13 @@ module Nexmo
         @http.post(path, @json.dump(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
       end
 
-      Response.new(http_response, :json => @json)
+      decode(http_response)
+    end
+
+    def decode(http_response)
+      response = Response.new(http_response, :json => @json)
+
+      @block ? @block.call(response) : response
     end
 
     def request_uri(path, hash = {})
