@@ -123,6 +123,8 @@ module Nexmo
   end
 
   class Response
+    attr_writer :object
+
     def initialize(http_response, options = {})
       @http_response = http_response
 

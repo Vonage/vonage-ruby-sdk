@@ -251,6 +251,16 @@ describe 'Nexmo::Response' do
     end
   end
 
+  describe 'object equals method' do
+    it 'sets the object to be returned by the object method' do
+      @object = stub
+
+      @response.object = @object
+
+      @response.object.must_equal(@object)
+    end
+  end
+
   describe 'when initialized with a different json implementation' do
     before do
       @json = faux(JSON)
