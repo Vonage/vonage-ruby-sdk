@@ -22,7 +22,7 @@ module Nexmo
     end
 
     def send_message!(params)
-      sleep 2
+      sleep 'sleep'
       response = send_message(params)
 
       if response.ok? && response.json?
