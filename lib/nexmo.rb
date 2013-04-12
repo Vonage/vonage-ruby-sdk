@@ -24,7 +24,7 @@ module Nexmo
     attr_accessor :key, :secret, :http, :oauth_access_token
 
     def send_message(params)
-      post('/sms/json', params)
+      post('/sms/json', params.merge(type: 'unicode'))
     end
 
     def send_message!(params)
