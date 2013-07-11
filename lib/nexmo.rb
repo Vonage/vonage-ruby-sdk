@@ -28,6 +28,9 @@ module Nexmo
     end
 
     def send_message!(params)
+      
+      if params.include?(:sleep) then sleep params[:sleep] end
+      
       response = send_message(params)
 
       if response.ok? && response.json?
