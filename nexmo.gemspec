@@ -15,7 +15,7 @@ Gem::Specification.new do |s|
   s.require_path = 'lib'
 
   if RUBY_VERSION == '1.8.7'
-    s.add_development_dependency('minitest', '>= 4.2.0')
-    s.add_development_dependency('json', '>= 1.6.5')
+    s.add_development_dependency('minitest', '~> 4.2.0')
+    s.add_development_dependency('json', '~> 1.6')
   end
 end
