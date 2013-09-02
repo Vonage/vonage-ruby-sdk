@@ -1,3 +1,9 @@
+# [v1.2.0](https://github.com/timcraft/nexmo/tree/v1.2.0) (2013-09-02)
+
+  * Added initializer block functionality for tweaking response behaviour
+
+  * Deprecated the :json option (use an initializer block instead)
+
 # [v1.1.0](https://github.com/timcraft/nexmo/tree/v1.1.0) (2013-02-10)
 
   * Added default lookup of NEXMO_API_KEY and NEXMO_API_SECRET environment variables
