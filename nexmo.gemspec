@@ -16,6 +16,6 @@ Gem::Specification.new do |s|
 
   if RUBY_VERSION == '1.8.7'
     s.add_development_dependency('minitest', '~> 4.2.0')
-    s.add_development_dependency('json', '~> 1.6')
+    s.add_development_dependency('json', '~> 1.8.0')
   end
 end
