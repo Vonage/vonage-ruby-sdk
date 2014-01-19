@@ -110,7 +110,7 @@ describe 'Nexmo::Client' do
     it 'purchases the number requested with the given parameters and returns a response object' do
       @client.http.expects(:post).with('/number/buy', @json_encoded_body, @http_header_hash).returns(stub)
 
-      @client.buy_number(country: 'US', msisdn: 'number').must_be_instance_of(Nexmo::Response)
+      @client.buy_number(:country => 'US', :msisdn => 'number').must_be_instance_of(Nexmo::Response)
     end
   end
 
@@ -118,7 +118,7 @@ describe 'Nexmo::Client' do
     it 'cancels the number requested with the given parameters and returns a response object' do
       @client.http.expects(:post).with('/number/cancel', @json_encoded_body, @http_header_hash).returns(stub)
 
-      @client.cancel_number(country: 'US', msisdn: 'number').must_be_instance_of(Nexmo::Response)
+      @client.cancel_number(:country => 'US', :msisdn => 'number').must_be_instance_of(Nexmo::Response)
     end
   end
 
@@ -126,7 +126,7 @@ describe 'Nexmo::Client' do
     it 'updates the number requested with the given parameters and returns a response object' do
       @client.http.expects(:post).with('/number/update', @json_encoded_body, @http_header_hash).returns(stub)
 
-      @client.update_number(country: 'US', msisdn: 'number', moHttpUrl: 'callback').must_be_instance_of(Nexmo::Response)
+      @client.update_number(:country => 'US', :msisdn => 'number', :moHttpUrl => 'callback').must_be_instance_of(Nexmo::Response)
     end
   end
 
