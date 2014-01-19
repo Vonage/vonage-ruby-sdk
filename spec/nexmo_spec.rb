@@ -1,4 +1,5 @@
 require 'minitest/autorun'
+require 'webmock/minitest'
 require 'mocha/setup'
 require 'faux'
 require 'nexmo'
@@ -7,17 +8,15 @@ require 'json'
 
 describe 'Nexmo::Client' do
   before do
-    @json_encoded_body = regexp_matches(/\{".+?":".+?"(,".+?":".+?")+\}/)
+    @base_url = 'https://rest.nexmo.com'
 
-    @http_header_hash = has_entry('Content-Type', 'application/json')
+    @json_object = {:body => /\{".+?":".+?"(,".+?":".+?")+\}/, :headers => {'Content-Type' => 'application/json'}}
+
+    @oauth_header = {'Authorization' => /\AOAuth .+\z/}
 
     @example_message_hash = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
 
     @client = Nexmo::Client.new('key', 'secret')
-  end
-
-  def expects_http_get(request_uri)
-    @client.http.expects(:get).with(has_equivalent_query_string(request_uri)).returns(stub)
   end
 
   describe 'http method' do
@@ -30,7 +29,7 @@ describe 'Nexmo::Client' do
 
   describe 'send_message method' do
     it 'posts to the sms json resource and returns a response object' do
-      @client.http.expects(:post).with('/sms/json', @json_encoded_body, @http_header_hash).returns(stub)
+      stub_request(:post, "#@base_url/sms/json").with(@json_object)
 
       @client.send_message(@example_message_hash).must_be_instance_of(Nexmo::Response)
     end
@@ -42,25 +41,25 @@ describe 'Nexmo::Client' do
     end
 
     it 'posts to the sms json resource and returns the message id' do
-      @http_response.stubs(:body).returns('{"messages":[{"status":0,"message-id":"id"}]}')
-
-      @client.http.expects(:post).with('/sms/json', @json_encoded_body, @http_header_hash).returns(@http_response)
+      stub_request(:post, "#@base_url/sms/json").with(@json_object).to_return({
+        :headers => {'Content-Type' => 'application/json'},
+        :body => '{"messages":[{"status":0,"message-id":"id"}]}'
+      })
 
       @client.send_message!(@example_message_hash).must_equal('id')
     end
 
     it 'raises an exception if the response code is not expected' do
-      @http_response.stubs(:code).returns('500')
-
-      @client.http.stubs(:post).returns(@http_response)
+      stub_request(:post, "#@base_url/sms/json").with(@json_object).to_return(:status => 500)
 
       proc { @client.send_message!(@example_message_hash) }.must_raise(Nexmo::Error)
     end
 
     it 'raises an exception if the response body contains an error' do
-      @http_response.stubs(:body).returns('{"messages":[{"status":2,"error-text":"Missing from param"}]}')
-
-      @client.http.stubs(:post).returns(@http_response)
+      stub_request(:post, "#@base_url/sms/json").with(@json_object).to_return({
+        :headers => {'Content-Type' => 'application/json'},
+        :body => '{"messages":[{"status":2,"error-text":"Missing from param"}]}'
+      })
 
       proc { @client.send_message!(@example_message_hash) }.must_raise(Nexmo::Error)
     end
@@ -68,7 +67,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_balance method' do
     it 'fetches the account balance resource and returns a response object' do
-      expects_http_get '/account/get-balance?api_key=key&api_secret=secret'
+      stub_request(:get, "#@base_url/account/get-balance?api_key=key&api_secret=secret")
 
       @client.get_balance.must_be_instance_of(Nexmo::Response)
     end
@@ -76,7 +75,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_country_pricing method' do
     it 'fetches the outbound pricing resource for the given country and returns a response object' do
-      expects_http_get '/account/get-pricing/outbound?api_key=key&api_secret=secret&country=CA'
+      stub_request(:get, "#@base_url/account/get-pricing/outbound?api_key=key&api_secret=secret&country=CA")
 
       @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
     end
@@ -84,7 +83,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_prefix_pricing method' do
     it 'fetches the outbound pricing resource for the given prefix and returns a response object' do
-      expects_http_get '/account/get-prefix-pricing/outbound?api_key=key&api_secret=secret&prefix=44'
+      stub_request(:get, "#@base_url/account/get-prefix-pricing/outbound?api_key=key&api_secret=secret&prefix=44")
 
       @client.get_prefix_pricing(44).must_be_instance_of(Nexmo::Response)
     end
@@ -92,7 +91,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_account_numbers method' do
     it 'fetches the account numbers resource with the given parameters and returns a response object' do
-      expects_http_get '/account/numbers?api_key=key&api_secret=secret&size=25&pattern=33'
+      stub_request(:get, "#@base_url/account/numbers?api_key=key&api_secret=secret&size=25&pattern=33")
 
       @client.get_account_numbers(:size => 25, :pattern => 33).must_be_instance_of(Nexmo::Response)
     end
@@ -100,7 +99,7 @@ describe 'Nexmo::Client' do
 
   describe 'number_search method' do
     it 'fetches the number search resource for the given country with the given parameters and returns a response object' do
-      expects_http_get '/number/search?api_key=key&api_secret=secret&country=CA&size=25'
+      stub_request(:get, "#@base_url/number/search?api_key=key&api_secret=secret&country=CA&size=25")
 
       @client.number_search(:CA, :size => 25).must_be_instance_of(Nexmo::Response)
     end
@@ -108,7 +107,7 @@ describe 'Nexmo::Client' do
 
   describe 'buy_number method' do
     it 'purchases the number requested with the given parameters and returns a response object' do
-      @client.http.expects(:post).with('/number/buy', @json_encoded_body, @http_header_hash).returns(stub)
+      stub_request(:post, "#@base_url/number/buy").with(@json_object)
 
       @client.buy_number(:country => 'US', :msisdn => 'number').must_be_instance_of(Nexmo::Response)
     end
@@ -116,7 +115,7 @@ describe 'Nexmo::Client' do
 
   describe 'cancel_number method' do
     it 'cancels the number requested with the given parameters and returns a response object' do
-      @client.http.expects(:post).with('/number/cancel', @json_encoded_body, @http_header_hash).returns(stub)
+      stub_request(:post, "#@base_url/number/cancel").with(@json_object)
 
       @client.cancel_number(:country => 'US', :msisdn => 'number').must_be_instance_of(Nexmo::Response)
     end
@@ -124,7 +123,7 @@ describe 'Nexmo::Client' do
 
   describe 'update_number method' do
     it 'updates the number requested with the given parameters and returns a response object' do
-      @client.http.expects(:post).with('/number/update', @json_encoded_body, @http_header_hash).returns(stub)
+      stub_request(:post, "#@base_url/number/update").with(@json_object)
 
       @client.update_number(:country => 'US', :msisdn => 'number', :moHttpUrl => 'callback').must_be_instance_of(Nexmo::Response)
     end
@@ -132,7 +131,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_message method' do
     it 'fetches the message search resource for the given message id and returns a response object' do
-      expects_http_get '/search/message?api_key=key&api_secret=secret&id=00A0B0C0'
+      stub_request(:get, "#@base_url/search/message?api_key=key&api_secret=secret&id=00A0B0C0")
 
       @client.get_message('00A0B0C0').must_be_instance_of(Nexmo::Response)
     end
@@ -140,7 +139,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_message_rejections method' do
     it 'fetches the message rejections resource with the given parameters and returns a response object' do
-      expects_http_get '/search/rejections?api_key=key&api_secret=secret&date=YYYY-MM-DD'
+      stub_request(:get, "#@base_url/search/rejections?api_key=key&api_secret=secret&date=YYYY-MM-DD")
 
       @client.get_message_rejections(:date => 'YYYY-MM-DD').must_be_instance_of(Nexmo::Response)
     end
@@ -148,13 +147,13 @@ describe 'Nexmo::Client' do
 
   describe 'search_messages method' do
     it 'fetches the search messages resource with the given parameters and returns a response object' do
-      expects_http_get '/search/messages?api_key=key&api_secret=secret&date=YYYY-MM-DD&to=1234567890'
+      stub_request(:get, "#@base_url/search/messages?api_key=key&api_secret=secret&date=YYYY-MM-DD&to=1234567890")
 
       @client.search_messages(:date => 'YYYY-MM-DD', :to => 1234567890).must_be_instance_of(Nexmo::Response)
     end
 
     it 'should encode a non hash argument as a list of ids' do
-      expects_http_get '/search/messages?api_key=key&api_secret=secret&ids=id1&ids=id2'
+      stub_request(:get, "#@base_url/search/messages?api_key=key&api_secret=secret&ids=id1&ids=id2")
 
       @client.search_messages(%w(id1 id2))
     end
@@ -169,18 +168,18 @@ describe 'Nexmo::Client' do
       @client = Nexmo::Client.new
 
       @client.oauth_access_token = @oauth_access_token
-
-      @client.http = mock()
     end
 
     it 'makes get requests through the access token and returns a response object' do
-      @oauth_access_token.expects(:get).with('/account/get-pricing/outbound?country=CA').returns(stub)
+      stub_request(:get, "#@base_url/account/get-pricing/outbound?country=CA").with(:headers => @oauth_header)
 
       @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
     end
 
     it 'makes post requests through the access token and returns a response object' do
-      @oauth_access_token.expects(:post).with('/sms/json', @json_encoded_body, @http_header_hash).returns(stub)
+      @json_object[:headers].merge!(@oauth_header)
+
+      stub_request(:post, "#@base_url/sms/json").with(@json_object)
 
       @client.send_message(@example_message_hash).must_be_instance_of(Nexmo::Response)
     end
