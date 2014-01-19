@@ -106,6 +106,30 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'buy_number method' do
+    it 'purchases the number requested with the given parameters and returns a response object' do
+      @client.http.expects(:post).with('/number/buy', @json_encoded_body, @http_header_hash).returns(stub)
+
+      @client.buy_number(country: 'US', msisdn: 'number').must_be_instance_of(Nexmo::Response)
+    end
+  end
+
+  describe 'cancel_number method' do
+    it 'cancels the number requested with the given parameters and returns a response object' do
+      @client.http.expects(:post).with('/number/cancel', @json_encoded_body, @http_header_hash).returns(stub)
+
+      @client.cancel_number(country: 'US', msisdn: 'number').must_be_instance_of(Nexmo::Response)
+    end
+  end
+
+  describe 'update_number method' do
+    it 'updates the number requested with the given parameters and returns a response object' do
+      @client.http.expects(:post).with('/number/update', @json_encoded_body, @http_header_hash).returns(stub)
+
+      @client.update_number(country: 'US', msisdn: 'number', moHttpUrl: 'callback').must_be_instance_of(Nexmo::Response)
+    end
+  end
+
   describe 'get_message method' do
     it 'fetches the message search resource for the given message id and returns a response object' do
       expects_http_get '/search/message?api_key=key&api_secret=secret&id=00A0B0C0'

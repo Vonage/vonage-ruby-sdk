@@ -65,6 +65,18 @@ module Nexmo
       get('/number/search', {:country => country_code}.merge(params))
     end
 
+    def buy_number(params)
+      post('/number/buy', params)
+    end
+
+    def cancel_number(params)
+      post('/number/cancel', params)
+    end
+
+    def update_number(params)
+      post('/number/update', params)
+    end
+
     def get_message(id)
       get('/search/message', {:id => id})
     end
