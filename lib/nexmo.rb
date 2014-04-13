@@ -16,8 +16,14 @@ module Nexmo
         @json = JSON
       end
 
-      @http = Net::HTTP.new('rest.nexmo.com', Net::HTTP.https_default_port)
-
+      if options[:sandbox]
+        base_url = 'rest-sandbox.nexmo.com'
+      else
+        base_url = 'rest.nexmo.com'
+      end
+      
+      @http = Net::HTTP.new(base_url, Net::HTTP.https_default_port)
+      
       @http.use_ssl = true
     end
 
