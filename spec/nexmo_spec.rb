@@ -222,6 +222,12 @@ describe 'Nexmo::Client' do
       @client.get_balance.must_equal(:return_value)
     end
   end
+
+  it 'provides an option for specifying a different hostname to connect to' do
+    @client = Nexmo::Client.new('key', 'secret', host: 'rest-sandbox.nexmo.com')
+
+    @client.http.address.must_equal('rest-sandbox.nexmo.com')
+  end
 end
 
 describe 'Nexmo::Response' do
