@@ -1,3 +1,13 @@
+# [v1.3.0](https://github.com/timcraft/nexmo/tree/v1.3.0) (2014-04-22)
+
+  * Added Nexmo::Client#buy_number method
+
+  * Added Nexmo::Client#cancel_number method
+
+  * Added Nexmo::Client#update_number method
+
+  * Added :host option for specifying a different hostname to connect to
+
 # [v1.2.0](https://github.com/timcraft/nexmo/tree/v1.2.0) (2013-09-02)
 
   * Added initializer block functionality for tweaking response behaviour
