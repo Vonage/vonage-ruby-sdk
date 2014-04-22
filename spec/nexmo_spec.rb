@@ -224,7 +224,7 @@ describe 'Nexmo::Client' do
   end
 
   it 'provides an option for specifying a different hostname to connect to' do
-    @client = Nexmo::Client.new('key', 'secret', host: 'rest-sandbox.nexmo.com')
+    @client = Nexmo::Client.new('key', 'secret', :host => 'rest-sandbox.nexmo.com')
 
     @client.http.address.must_equal('rest-sandbox.nexmo.com')
   end
