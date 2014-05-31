@@ -47,6 +47,28 @@ module Nexmo
       end
     end
 
+    def make_call(params)
+      mode = params[:mode]
+      params = params.select{ |key, value| key != "mode".intern }
+      post("/#{mode}/json", params)
+    end
+
+    def make_call!(params)
+      response = make-call(params)
+
+      if response.ok? && response.json?
+        status = response["status"].to_i
+
+        if status == 0
+          item['call-id']
+        else
+          raise Error, "#{item['error-text']} (status=#{status})"
+        end
+      else
+        raise Error, "Unexpected HTTP response (code=#{response.code})"
+      end
+    end
+    
     def get_balance
       get('/account/get-balance')
     end
