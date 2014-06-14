@@ -16,6 +16,12 @@ describe 'Nexmo::Client' do
 
     @example_message_hash = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
 
+    @example_short_code_hash = {:from => 'ruby', :to => 'number', :field1 => 'Value 1'}
+
+    @example_short_code_country_code = 'us'
+
+    @example_short_code_use = 'alert'
+
     @client = Nexmo::Client.new('key', 'secret')
   end
 
@@ -62,6 +68,14 @@ describe 'Nexmo::Client' do
       })
 
       proc { @client.send_message!(@example_message_hash) }.must_raise(Nexmo::Error)
+    end
+  end
+
+  describe 'send_short_code method' do
+    it 'posts to the short code json resource as an alert and returns a response object' do
+      stub_request(:post, "#@base_url/sc/us/alert/json").with(@json_object)
+
+      @client.send_short_code(@example_short_code_hash, @example_short_code_use, @example_short_code_country_code).must_be_instance_of(Nexmo::Response)
     end
   end
 

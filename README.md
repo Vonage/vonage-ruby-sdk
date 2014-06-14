@@ -48,6 +48,27 @@ This method call returns a `Nexmo::Response` object, which wraps the underlying
 Net::HTTP response and adds a few convenience methods. Additional methods are
 also provided for managing your account and messages.
 
+Sending a Short Code (beta)
+---------------------------
+
+Nexmo is currently rolling out the ability to send messages using a shared short code for preapproved use cases. The current use cases fall into three categories (alerts, two-factor authentication, marketing). As of 14JUN2014, only US short codes are being used.
+[Learn More Here](https://docs.nexmo.com/index.php/US-shared-short-code-api)
+
+`:field1...:fieldN` should be renamed and values aligned with your pre-approved message in the Nexmo Dashboard.
+Valid Use Cases (required) = 'alert', '2fa', 'marketing'
+Valid Country Codes (optional, defaults to 'us') = 'us'
+
+
+```ruby
+response = nexmo.send_short_code({:to => '...NUMBER...', :from => '...ASSIGNED SHORT CODE...', :field1 => 'Value 1', :field2 => 'Value 2'}, '...USE CASE...', '...COUNTRY CODE...')
+
+if response.ok?
+	# do something with the response.object
+else
+	# handle the error
+end
+```
+
 
 Authenticating with OAuth (beta)
 --------------------------------
