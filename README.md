@@ -55,7 +55,9 @@ Nexmo is currently rolling out the ability to send messages using a shared short
 [Learn More Here](https://docs.nexmo.com/index.php/US-shared-short-code-api)
 
 `:field1...:fieldN` should be renamed and values aligned with your pre-approved message in the Nexmo Dashboard.
+
 Valid Use Cases (required) = 'alert', '2fa', 'marketing'
+
 Valid Country Codes (optional, defaults to 'us') = 'us'
 
 
