@@ -47,6 +47,10 @@ module Nexmo
       end
     end
 
+    def send_short_code(params, use, country_code = 'us')
+      post("/sc/#{country_code}/#{use}/json", params)
+    end
+
     def get_balance
       get('/account/get-balance')
     end
