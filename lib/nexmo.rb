@@ -19,24 +19,16 @@ module Nexmo
     attr_accessor :key, :secret, :http
 
     def send_message(params)
-      post('/sms/json', params)
-    end
+      response = post('/sms/json', params)
 
-    def send_message!(params)
-      response = send_message(params)
+      item = response['messages'].first
 
-      if response.ok? && response.json?
-        item = response.object['messages'].first
+      status = item['status'].to_i
 
-        status = item['status'].to_i
-
-        if status == 0
-          item['message-id']
-        else
-          raise Error, "#{item['error-text']} (status=#{status})"
-        end
+      if status == 0
+        item['message-id']
       else
-        raise Error, "Unexpected HTTP response (code=#{response.code})"
+        raise Error, "#{item['error-text']} (status=#{status})"
       end
     end
 
@@ -87,11 +79,23 @@ module Nexmo
     private
 
     def get(path, params = {})
-      Response.new @http.get(request_uri(path, params.merge(:api_key => @key, :api_secret => @secret)))
+      parse @http.get(request_uri(path, params.merge(:api_key => @key, :api_secret => @secret)))
     end
 
     def post(path, params)
-      Response.new @http.post(path, JSON.generate(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
+      parse @http.post(path, JSON.generate(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
+    end
+
+    def parse(http_response)
+      unless Net::HTTPSuccess === http_response
+        raise Error, "Unexpected HTTP response (code=#{http_response.code})"
+      end
+
+      if http_response['Content-Type'].split(';').first == 'application/json'
+        JSON.parse(http_response.body)
+      else
+        http_response.body
+      end
     end
 
     def request_uri(path, hash = {})
@@ -108,34 +112,6 @@ module Nexmo
 
     def escape(component)
       CGI.escape(component.to_s)
-    end
-  end
-
-  class Response
-    attr_writer :object
-
-    def initialize(http_response)
-      @http_response = http_response
-    end
-
-    def respond_to_missing?(name, include_private = false)
-      @http_response.respond_to?(name)
-    end
-
-    def method_missing(name, *args, &block)
-      @http_response.send(name, *args, &block)
-    end
-
-    def ok?
-      code.to_i == 200
-    end
-
-    def json?
-      self['Content-Type'].split(';').first == 'application/json'
-    end
-
-    def object
-      @object ||= JSON.parse(body)
     end
   end
 
