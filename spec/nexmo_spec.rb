@@ -1,7 +1,6 @@
 require 'minitest/autorun'
 require 'webmock/minitest'
 require 'nexmo'
-require 'json'
 
 describe 'Nexmo::Client' do
   def json_response_body(content)

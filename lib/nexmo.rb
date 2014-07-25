@@ -3,7 +3,11 @@ require 'json'
 require 'cgi'
 
 module Nexmo
+  class Error < StandardError; end
+
   class Client
+    attr_accessor :key, :secret, :http
+
     def initialize(options = {})
       @key = options.fetch(:key) { ENV.fetch('NEXMO_API_KEY') }
 
@@ -15,8 +19,6 @@ module Nexmo
 
       @http.use_ssl = true
     end
-
-    attr_accessor :key, :secret, :http
 
     def send_message(params)
       response = post('/sms/json', params)
@@ -113,8 +115,5 @@ module Nexmo
     def escape(component)
       CGI.escape(component.to_s)
     end
-  end
-
-  class Error < StandardError
   end
 end
