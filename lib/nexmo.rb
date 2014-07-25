@@ -85,7 +85,9 @@ module Nexmo
     end
 
     def post(path, params)
-      parse @http.post(path, JSON.generate(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
+      body = URI.encode_www_form(params.merge(:api_key => @key, :api_secret => @secret))
+
+      parse @http.post(path, body, {'Content-Type' => 'application/x-www-form-urlencoded'})
     end
 
     def parse(http_response)

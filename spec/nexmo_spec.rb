@@ -10,7 +10,7 @@ describe 'Nexmo::Client' do
   before do
     @base_url = 'https://rest.nexmo.com'
 
-    @json_object = {:body => /\{".+?":".+?"(,".+?":".+?")+\}/, :headers => {'Content-Type' => 'application/json'}}
+    @form_urlencoded_data = {body: /(.+?)=(.+?)(&(.+?)=(.+?))+/, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}}
 
     @json_response_body = json_response_body('{"key":"value"}')
 
@@ -37,13 +37,13 @@ describe 'Nexmo::Client' do
     it 'posts to the sms json resource and returns the message id' do
       response_body = json_response_body('{"messages":[{"status":0,"message-id":"id"}]}')
 
-      stub_request(:post, @url).with(@json_object).to_return(response_body)
+      stub_request(:post, @url).with(@form_urlencoded_data).to_return(response_body)
 
       @client.send_message(@example_message_hash).must_equal('id')
     end
 
     it 'raises an exception if the response code is not 2xx' do
-      stub_request(:post, @url).with(@json_object).to_return(:status => 500)
+      stub_request(:post, @url).with(@form_urlencoded_data).to_return(:status => 500)
 
       proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
     end
@@ -51,7 +51,7 @@ describe 'Nexmo::Client' do
     it 'raises an exception if the response body contains an error' do
       response_body = json_response_body('{"messages":[{"status":2,"error-text":"Missing from param"}]}')
 
-      stub_request(:post, @url).with(@json_object).to_return(response_body)
+      stub_request(:post, @url).with(@form_urlencoded_data).to_return(response_body)
 
       exception = proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
 
@@ -113,7 +113,7 @@ describe 'Nexmo::Client' do
     it 'purchases the number requested with the given parameters and returns the response object' do
       url = "#@base_url/number/buy"
 
-      stub_request(:post, url).with(@json_object).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
       @client.buy_number(:country => 'US', :msisdn => 'number').must_equal(@json_response_object)
     end
@@ -123,7 +123,7 @@ describe 'Nexmo::Client' do
     it 'cancels the number requested with the given parameters and returns the response object' do
       url = "#@base_url/number/cancel"
 
-      stub_request(:post, url).with(@json_object).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
       @client.cancel_number(:country => 'US', :msisdn => 'number').must_equal(@json_response_object)
     end
@@ -133,7 +133,7 @@ describe 'Nexmo::Client' do
     it 'updates the number requested with the given parameters and returns the response object' do
       url = "#@base_url/number/update"
 
-      stub_request(:post, url).with(@json_object).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
       @client.update_number(:country => 'US', :msisdn => 'number', :moHttpUrl => 'callback').must_equal(@json_response_object)
     end
