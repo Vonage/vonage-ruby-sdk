@@ -1,3 +1,27 @@
+# [v2.0.0](https://github.com/timcraft/nexmo/tree/v2.0.0) (2014-07-25)
+
+  * Dropped support for Ruby 1.8.7
+
+  * Removed deprecated :json option
+
+  * Removed beta OAuth functionality
+
+  * Removed initializer block functionality
+
+  * Removed positional key/secret args in favour of options
+
+  * Removed custom response class
+
+  * Removed Nexmo::Client#send_message! method
+
+  * Added Nexmo::AuthenticationError exception class
+
+  * Added USSD API methods
+
+  * Added US Shared Short Code API methods
+
+  * Added Voice API methods
+
 # [v1.3.0](https://github.com/timcraft/nexmo/tree/v1.3.0) (2014-04-22)
 
   * Added Nexmo::Client#buy_number method
