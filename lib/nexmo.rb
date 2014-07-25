@@ -4,8 +4,8 @@ require 'cgi'
 
 module Nexmo
   class Client
-    def initialize(key = ENV['NEXMO_API_KEY'], secret = ENV['NEXMO_API_SECRET'], options = {}, &block)
-      @key, @secret, @block = key, secret, block
+    def initialize(key = ENV['NEXMO_API_KEY'], secret = ENV['NEXMO_API_SECRET'], options = {})
+      @key, @secret = key, secret
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
 
@@ -85,17 +85,11 @@ module Nexmo
     private
 
     def get(path, params = {})
-      decode @http.get(request_uri(path, params.merge(:api_key => @key, :api_secret => @secret)))
+      Response.new @http.get(request_uri(path, params.merge(:api_key => @key, :api_secret => @secret)))
     end
 
     def post(path, params)
-      decode @http.post(path, JSON.dump(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
-    end
-
-    def decode(http_response)
-      response = Response.new(http_response)
-
-      @block ? @block.call(response) : response
+      Response.new @http.post(path, JSON.dump(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
     end
 
     def request_uri(path, hash = {})
