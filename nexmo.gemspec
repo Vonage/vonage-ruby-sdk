@@ -14,9 +14,4 @@ Gem::Specification.new do |s|
   s.add_development_dependency('faux', '~> 1.1.0')
   s.add_development_dependency('webmock', '~> 1.17.0')
   s.require_path = 'lib'
-
-  if RUBY_VERSION == '1.8.7'
-    s.add_development_dependency('minitest', '~> 4.2.0')
-    s.add_development_dependency('json', '~> 1.8.0')
-  end
 end

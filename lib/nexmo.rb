@@ -1,5 +1,4 @@
 require 'net/http'
-require 'net/https' if RUBY_VERSION == '1.8.7'
 require 'json'
 require 'cgi'
 

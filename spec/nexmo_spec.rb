@@ -240,7 +240,7 @@ describe 'Nexmo::Response' do
   it 'delegates to the underlying http response' do
     @http_response.expects(:code).returns('200')
 
-    @response.must_respond_to(:code) unless RUBY_VERSION == '1.8.7'
+    @response.must_respond_to(:code)
     @response.code.must_equal('200')
   end
 
