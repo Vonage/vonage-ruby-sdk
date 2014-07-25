@@ -31,6 +31,16 @@ a [list of error codes](https://docs.nexmo.com/index.php/sms-api/send-message#re
 which may be useful for debugging exceptions.
 
 
+Production environment variables
+--------------------------------
+
+Best practice for storing credentials for external services in production is
+to use environment variables, as described by [12factor.net/config](http://12factor.net/config).
+Nexmo::Client defaults to extracting the api key/secret it needs from the
+NEXMO_API_KEY and NEXMO_API_SECRET environment variables if the key/secret
+options were not specified explicitly.
+
+
 Troubleshooting
 ---------------
 
