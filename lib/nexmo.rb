@@ -1,20 +1,19 @@
 require 'net/http'
-require 'net/https' if RUBY_VERSION == '1.8.7'
 require 'json'
 require 'cgi'
 
 module Nexmo
+  class Error < StandardError; end
+
+  class AuthenticationError < Error; end
+
   class Client
-    def initialize(key = ENV['NEXMO_API_KEY'], secret = ENV['NEXMO_API_SECRET'], options = {}, &block)
-      @key, @secret, @block = key, secret, block
+    attr_accessor :key, :secret, :http
 
-      if options.has_key?(:json)
-        Kernel.warn '[nexmo] :json option is deprecated'
+    def initialize(options = {})
+      @key = options.fetch(:key) { ENV.fetch('NEXMO_API_KEY') }
 
-        @json = options[:json]
-      else
-        @json = JSON
-      end
+      @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
 
@@ -23,27 +22,17 @@ module Nexmo
       @http.use_ssl = true
     end
 
-    attr_accessor :key, :secret, :http, :oauth_access_token
-
     def send_message(params)
-      post('/sms/json', params)
-    end
+      response = post('/sms/json', params)
 
-    def send_message!(params)
-      response = send_message(params)
+      item = response['messages'].first
 
-      if response.ok? && response.json?
-        item = response.object['messages'].first
+      status = item['status'].to_i
 
-        status = item['status'].to_i
-
-        if status == 0
-          item['message-id']
-        else
-          raise Error, "#{item['error-text']} (status=#{status})"
-        end
+      if status == 0
+        item['message-id']
       else
-        raise Error, "Unexpected HTTP response (code=#{response.code})"
+        raise Error, "#{item['error-text']} (status=#{status})"
       end
     end
 
@@ -91,32 +80,63 @@ module Nexmo
       get('/search/messages', Hash === params ? params : {:ids => Array(params)})
     end
 
+    def send_ussd_push_message(params)
+      post('/ussd/json', params)
+    end
+
+    def send_ussd_prompt_message(params)
+      post('/ussd-prompt/json', params)
+    end
+
+    def send_2fa_message(params)
+      post('/sc/us/2fa/json', params)
+    end
+
+    def send_event_alert_message(params)
+      post('/sc/us/alert/json', params)
+    end
+
+    def send_marketing_message(params)
+      post('/sc/us/marketing/json', params)
+    end
+
+    def initiate_call(params)
+      post('/call/json', params)
+    end
+
+    def initiate_tts_call(params)
+      post('/tts/json', params)
+    end
+
+    def initiate_tts_prompt_call(params)
+      post('/tts-prompt/json', params)
+    end
+
     private
 
     def get(path, params = {})
-      http_response = if oauth_access_token
-        oauth_access_token.get(request_uri(path, params))
-      else
-        @http.get(request_uri(path, params.merge(:api_key => @key, :api_secret => @secret)))
-      end
-
-      decode(http_response)
+      parse @http.get(request_uri(path, params.merge(:api_key => @key, :api_secret => @secret)))
     end
 
     def post(path, params)
-      http_response = if oauth_access_token
-        oauth_access_token.post(path, @json.dump(params), {'Content-Type' => 'application/json'})
-      else
-        @http.post(path, @json.dump(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
-      end
+      body = URI.encode_www_form(params.merge(:api_key => @key, :api_secret => @secret))
 
-      decode(http_response)
+      parse @http.post(path, body, {'Content-Type' => 'application/x-www-form-urlencoded'})
     end
 
-    def decode(http_response)
-      response = Response.new(http_response, :json => @json)
-
-      @block ? @block.call(response) : response
+    def parse(http_response)
+      case http_response
+      when Net::HTTPSuccess
+        if http_response['Content-Type'].split(';').first == 'application/json'
+          JSON.parse(http_response.body)
+        else
+          http_response.body
+        end
+      when Net::HTTPUnauthorized
+        raise AuthenticationError
+      else
+        raise Error, "Unexpected HTTP response (code=#{http_response.code})"
+      end
     end
 
     def request_uri(path, hash = {})
@@ -134,38 +154,5 @@ module Nexmo
     def escape(component)
       CGI.escape(component.to_s)
     end
-  end
-
-  class Response
-    attr_writer :object
-
-    def initialize(http_response, options = {})
-      @http_response = http_response
-
-      @json = options.fetch(:json) { JSON }
-    end
-
-    def respond_to_missing?(name, include_private = false)
-      @http_response.respond_to?(name)
-    end
-
-    def method_missing(name, *args, &block)
-      @http_response.send(name, *args, &block)
-    end
-
-    def ok?
-      code.to_i == 200
-    end
-
-    def json?
-      self['Content-Type'].split(';').first == 'application/json'
-    end
-
-    def object
-      @object ||= @json.parse(body)
-    end
-  end
-
-  class Error < StandardError
   end
 end
