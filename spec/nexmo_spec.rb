@@ -1,6 +1,5 @@
 require 'minitest/autorun'
 require 'webmock/minitest'
-require 'mocha/setup'
 require 'nexmo'
 require 'json'
 
