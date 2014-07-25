@@ -217,6 +217,36 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'initiate_call method' do
+    it 'posts to the call json resource and returns the response object' do
+      url = "#@base_url/call/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.initiate_call(to: '16365553226', answer_url: 'http://example.com/answer')
+    end
+  end
+
+  describe 'initiate_tts_call method' do
+    it 'posts to the tts json resource and returns the response object' do
+      url = "#@base_url/tts/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.initiate_tts_call(to: '16365553226', text: 'Hello')
+    end
+  end
+
+  describe 'initiate_tts_prompt_call method' do
+    it 'posts to the tts prompt json resource and returns the response object' do
+      url = "#@base_url/tts-prompt/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.initiate_tts_prompt_call(to: '16365553226', text: 'Hello', max_digits: 4, bye_text: 'Goodbye')
+    end
+  end
+
   it 'raises an exception if the response code is not 2xx' do
     stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 500)
 

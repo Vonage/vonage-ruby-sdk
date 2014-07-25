@@ -100,6 +100,18 @@ module Nexmo
       post('/sc/us/marketing/json', params)
     end
 
+    def initiate_call(params)
+      post('/call/json', params)
+    end
+
+    def initiate_tts_call(params)
+      post('/tts/json', params)
+    end
+
+    def initiate_tts_prompt_call(params)
+      post('/tts-prompt/json', params)
+    end
+
     private
 
     def get(path, params = {})
