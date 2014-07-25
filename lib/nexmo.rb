@@ -7,14 +7,6 @@ module Nexmo
     def initialize(key = ENV['NEXMO_API_KEY'], secret = ENV['NEXMO_API_SECRET'], options = {}, &block)
       @key, @secret, @block = key, secret, block
 
-      if options.has_key?(:json)
-        Kernel.warn '[nexmo] :json option is deprecated'
-
-        @json = options[:json]
-      else
-        @json = JSON
-      end
-
       @host = options.fetch(:host) { 'rest.nexmo.com' }
 
       @http = Net::HTTP.new(@host, Net::HTTP.https_default_port)
@@ -104,16 +96,16 @@ module Nexmo
 
     def post(path, params)
       http_response = if oauth_access_token
-        oauth_access_token.post(path, @json.dump(params), {'Content-Type' => 'application/json'})
+        oauth_access_token.post(path, JSON.dump(params), {'Content-Type' => 'application/json'})
       else
-        @http.post(path, @json.dump(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
+        @http.post(path, JSON.dump(params.merge(:api_key => @key, :api_secret => @secret)), {'Content-Type' => 'application/json'})
       end
 
       decode(http_response)
     end
 
     def decode(http_response)
-      response = Response.new(http_response, :json => @json)
+      response = Response.new(http_response)
 
       @block ? @block.call(response) : response
     end
@@ -138,10 +130,8 @@ module Nexmo
   class Response
     attr_writer :object
 
-    def initialize(http_response, options = {})
+    def initialize(http_response)
       @http_response = http_response
-
-      @json = options.fetch(:json) { JSON }
     end
 
     def respond_to_missing?(name, include_private = false)
@@ -161,7 +151,7 @@ module Nexmo
     end
 
     def object
-      @object ||= @json.parse(body)
+      @object ||= JSON.parse(body)
     end
   end
 

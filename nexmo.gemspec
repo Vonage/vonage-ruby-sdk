@@ -11,7 +11,6 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake', '>= 0.9.3')
   s.add_development_dependency('mocha', '~> 0.13.2')
   s.add_development_dependency('oauth', '~> 0.4.7')
-  s.add_development_dependency('faux', '~> 1.1.0')
   s.add_development_dependency('webmock', '~> 1.17.0')
   s.require_path = 'lib'
 end

@@ -1,7 +1,6 @@
 require 'minitest/autorun'
 require 'webmock/minitest'
 require 'mocha/setup'
-require 'faux'
 require 'nexmo'
 require 'oauth'
 require 'json'
@@ -185,30 +184,6 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'when initialized with a different json implementation' do
-    it 'emits a deprecation warning' do
-      Kernel.expects(:warn).with(regexp_matches(/:json option is deprecated/))
-
-      @client = Nexmo::Client.new('key', 'secret', :json => stub)
-    end
-
-    describe 'send_message method' do
-      it 'encodes the request body using the alternative json implementation' do
-        Kernel.stubs(:warn)
-
-        @json = faux(JSON)
-
-        @json.expects(:dump).with(instance_of(Hash))
-
-        @client = Nexmo::Client.new('key', 'secret', :json => @json)
-
-        @client.http.stubs(:post)
-
-        @client.send_message(@example_message_hash)
-      end
-    end
-  end
-
   describe 'when initialized with a block' do
     it 'calls the block for each response and returns the return value of the block' do
       @client = Nexmo::Client.new('key', 'secret') do |response|
@@ -287,24 +262,6 @@ describe 'Nexmo::Response' do
       @response.object = @object
 
       @response.object.must_equal(@object)
-    end
-  end
-
-  describe 'when initialized with a different json implementation' do
-    before do
-      @json = faux(JSON)
-
-      @response = Nexmo::Response.new(@http_response, :json => @json)
-    end
-
-    describe 'object method' do
-      it 'decodes the response body using the alternative json implementation' do
-        @json.expects(:parse).with('{"value":0.0}')
-
-        @http_response.stubs(:body).returns('{"value":0.0}')
-
-        @response.object
-      end
     end
   end
 end
