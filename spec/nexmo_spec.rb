@@ -12,7 +12,7 @@ describe 'Nexmo::Client' do
 
     @example_message_hash = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
 
-    @client = Nexmo::Client.new('key', 'secret')
+    @client = Nexmo::Client.new(key: 'key', secret: 'secret')
   end
 
   describe 'http method' do
@@ -156,7 +156,7 @@ describe 'Nexmo::Client' do
   end
 
   it 'provides an option for specifying a different hostname to connect to' do
-    @client = Nexmo::Client.new('key', 'secret', :host => 'rest-sandbox.nexmo.com')
+    @client = Nexmo::Client.new(key: 'key', secret: 'secret', host: 'rest-sandbox.nexmo.com')
 
     @client.http.address.must_equal('rest-sandbox.nexmo.com')
   end

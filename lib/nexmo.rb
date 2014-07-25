@@ -4,8 +4,10 @@ require 'cgi'
 
 module Nexmo
   class Client
-    def initialize(key = ENV['NEXMO_API_KEY'], secret = ENV['NEXMO_API_SECRET'], options = {})
-      @key, @secret = key, secret
+    def initialize(options = {})
+      @key = options.fetch(:key) { ENV.fetch('NEXMO_API_KEY') }
+
+      @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
 
