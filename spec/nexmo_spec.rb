@@ -173,7 +173,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
-      @client.send_ussd_push_message(from: 'MyCompany20', to: '447525856424', text: 'Déjà vu')
+      @client.send_ussd_push_message(from: 'MyCompany20', to: '447525856424', text: 'Hello')
     end
   end
 
@@ -183,7 +183,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
-      @client.send_ussd_prompt_message(from: 'Nexmo long virtual number', to: '447525856424', text: 'Déjà vu')
+      @client.send_ussd_prompt_message(from: 'Nexmo long virtual number', to: '447525856424', text: 'Hello')
     end
   end
 
