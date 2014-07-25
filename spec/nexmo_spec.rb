@@ -30,28 +30,18 @@ describe 'Nexmo::Client' do
   end
 
   describe 'send_message method' do
-    before do
-      @url = "#@base_url/sms/json"
-    end
-
     it 'posts to the sms json resource and returns the message id' do
       response_body = json_response_body('{"messages":[{"status":0,"message-id":"id"}]}')
 
-      stub_request(:post, @url).with(@form_urlencoded_data).to_return(response_body)
+      stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(response_body)
 
       @client.send_message(@example_message_hash).must_equal('id')
-    end
-
-    it 'raises an exception if the response code is not 2xx' do
-      stub_request(:post, @url).with(@form_urlencoded_data).to_return(:status => 500)
-
-      proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
     end
 
     it 'raises an exception if the response body contains an error' do
       response_body = json_response_body('{"messages":[{"status":2,"error-text":"Missing from param"}]}')
 
-      stub_request(:post, @url).with(@form_urlencoded_data).to_return(response_body)
+      stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(response_body)
 
       exception = proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
 
@@ -175,6 +165,18 @@ describe 'Nexmo::Client' do
 
       @client.search_messages(%w(id1 id2))
     end
+  end
+
+  it 'raises an exception if the response code is not 2xx' do
+    stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 500)
+
+    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
+  end
+
+  it 'raises an authentication error exception if the response code is 401' do
+    stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 401)
+
+    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::AuthenticationError)
   end
 
   it 'provides an option for specifying a different hostname to connect to' do

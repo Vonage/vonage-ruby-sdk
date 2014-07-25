@@ -5,6 +5,8 @@ require 'cgi'
 module Nexmo
   class Error < StandardError; end
 
+  class AuthenticationError < Error; end
+
   class Client
     attr_accessor :key, :secret, :http
 
@@ -91,14 +93,17 @@ module Nexmo
     end
 
     def parse(http_response)
-      unless Net::HTTPSuccess === http_response
-        raise Error, "Unexpected HTTP response (code=#{http_response.code})"
-      end
-
-      if http_response['Content-Type'].split(';').first == 'application/json'
-        JSON.parse(http_response.body)
+      case http_response
+      when Net::HTTPSuccess
+        if http_response['Content-Type'].split(';').first == 'application/json'
+          JSON.parse(http_response.body)
+        else
+          http_response.body
+        end
+      when Net::HTTPUnauthorized
+        raise AuthenticationError
       else
-        http_response.body
+        raise Error, "Unexpected HTTP response (code=#{http_response.code})"
       end
     end
 
