@@ -2,7 +2,6 @@ require 'minitest/autorun'
 require 'webmock/minitest'
 require 'mocha/setup'
 require 'nexmo'
-require 'oauth'
 require 'json'
 
 describe 'Nexmo::Client' do
@@ -10,8 +9,6 @@ describe 'Nexmo::Client' do
     @base_url = 'https://rest.nexmo.com'
 
     @json_object = {:body => /\{".+?":".+?"(,".+?":".+?")+\}/, :headers => {'Content-Type' => 'application/json'}}
-
-    @oauth_header = {'Authorization' => /\AOAuth .+\z/}
 
     @example_message_hash = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
 
@@ -155,32 +152,6 @@ describe 'Nexmo::Client' do
       stub_request(:get, "#@base_url/search/messages?api_key=key&api_secret=secret&ids=id1&ids=id2")
 
       @client.search_messages(%w(id1 id2))
-    end
-  end
-
-  describe 'when initialized with an oauth access token' do
-    before do
-      @oauth_consumer = OAuth::Consumer.new('key', 'secret', {:site => 'https://rest.nexmo.com', :scheme => :header})
-
-      @oauth_access_token = OAuth::AccessToken.new(@oauth_consumer, 'access_token', 'access_token_secret')
-
-      @client = Nexmo::Client.new
-
-      @client.oauth_access_token = @oauth_access_token
-    end
-
-    it 'makes get requests through the access token and returns a response object' do
-      stub_request(:get, "#@base_url/account/get-pricing/outbound?country=CA").with(:headers => @oauth_header)
-
-      @client.get_country_pricing(:CA).must_be_instance_of(Nexmo::Response)
-    end
-
-    it 'makes post requests through the access token and returns a response object' do
-      @json_object[:headers].merge!(@oauth_header)
-
-      stub_request(:post, "#@base_url/sms/json").with(@json_object)
-
-      @client.send_message(@example_message_hash).must_be_instance_of(Nexmo::Response)
     end
   end
 
