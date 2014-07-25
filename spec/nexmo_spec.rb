@@ -167,6 +167,26 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'send_ussd_push_message method' do
+    it 'posts to the ussd json resource and returns the response object' do
+      url = "#@base_url/ussd/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.send_ussd_push_message(from: 'MyCompany20', to: '447525856424', text: 'Déjà vu')
+    end
+  end
+
+  describe 'send_ussd_prompt_message method' do
+    it 'posts to the ussd prompt json resource and returns the response object' do
+      url = "#@base_url/ussd-prompt/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.send_ussd_prompt_message(from: 'Nexmo long virtual number', to: '447525856424', text: 'Déjà vu')
+    end
+  end
+
   it 'raises an exception if the response code is not 2xx' do
     stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 500)
 
