@@ -88,6 +88,18 @@ module Nexmo
       post('/ussd-prompt/json', params)
     end
 
+    def send_2fa_message(params)
+      post('/sc/us/2fa/json', params)
+    end
+
+    def send_event_alert_message(params)
+      post('/sc/us/alert/json', params)
+    end
+
+    def send_marketing_message(params)
+      post('/sc/us/marketing/json', params)
+    end
+
     private
 
     def get(path, params = {})

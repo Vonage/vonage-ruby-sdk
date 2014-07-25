@@ -187,6 +187,36 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'send_2fa_message method' do
+    it 'posts to the short code two factor authentication json resource and returns the response object' do
+      url = "#@base_url/sc/us/2fa/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.send_2fa_message(to: '16365553226', pin: 1234)
+    end
+  end
+
+  describe 'send_event_alert_message method' do
+    it 'posts to the short code alert json resource and returns the response object' do
+      url = "#@base_url/sc/us/alert/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.send_event_alert_message(to: '16365553226', server: 'host', link: 'http://example.com/')
+    end
+  end
+
+  describe 'send_marketing_message method' do
+    it 'posts to the short code marketing json resource and returns the response object' do
+      url = "#@base_url/sc/us/marketing/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.send_marketing_message(from: '666', to: '16365553226', keyword: 'NEXMO', text: 'Hello')
+    end
+  end
+
   it 'raises an exception if the response code is not 2xx' do
     stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 500)
 
