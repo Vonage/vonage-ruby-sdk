@@ -1,12 +1,9 @@
+require 'nexmo/error'
 require 'net/http'
 require 'json'
 require 'cgi'
 
 module Nexmo
-  class Error < StandardError; end
-
-  class AuthenticationError < Error; end
-
   class Client
     attr_accessor :key, :secret, :http
 
@@ -32,7 +29,7 @@ module Nexmo
       if status == 0
         item['message-id']
       else
-        raise Error, "#{item['error-text']} (status=#{status})"
+        raise Error, :message => item['error-text'], :status => status
       end
     end
 
@@ -135,7 +132,7 @@ module Nexmo
       when Net::HTTPUnauthorized
         raise AuthenticationError
       else
-        raise Error, "Unexpected HTTP response (code=#{http_response.code})"
+        raise Error, :message => "Unexpected HTTP response", :http_status => http_response.code
       end
     end
 
