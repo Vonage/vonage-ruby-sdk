@@ -43,8 +43,8 @@ describe 'Nexmo::Client' do
 
       stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(response_body)
 
-      exception = proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
-
+      exception = proc { @client.send_message(@example_message_hash) }.must_raise Nexmo::Error
+      exception.status.must_equal 2
       exception.message.must_include('Missing from param')
     end
   end
@@ -250,13 +250,14 @@ describe 'Nexmo::Client' do
   it 'raises an exception if the response code is not 2xx' do
     stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 500)
 
-    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
+    exception = proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
+    exception.http_status.must_equal "500"
   end
 
   it 'raises an authentication error exception if the response code is 401' do
     stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 401)
 
-    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::AuthenticationError)
+    exception = proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::AuthenticationError)
   end
 
   it 'provides an option for specifying a different hostname to connect to' do
