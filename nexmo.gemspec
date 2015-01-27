@@ -8,7 +8,8 @@ Gem::Specification.new do |s|
   s.description = 'A Ruby wrapper for the Nexmo API'
   s.summary = 'See description'
   s.files = Dir.glob('{lib,spec}/**/*') + %w(README.md nexmo.gemspec)
-  s.add_development_dependency('rake', '>= 0.9.3')
-  s.add_development_dependency('webmock', '~> 1.18.0')
+  s.required_ruby_version = '>= 1.9.3'
+  s.add_development_dependency('rake', '~> 10.1')
+  s.add_development_dependency('webmock', '~> 1.18')
   s.require_path = 'lib'
 end
