@@ -2,7 +2,7 @@ nexmo
 =====
 
 
-A Ruby wrapper for the [Nexmo API](https://www.nexmo.com/documentation/api/index.html).
+A Ruby wrapper for the [Nexmo API](https://docs.nexmo.com/index.php/sms-api/send-message).
 
 
 Installation
