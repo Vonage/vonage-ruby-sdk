@@ -11,5 +11,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 1.9.3'
   s.add_development_dependency('rake', '~> 10.1')
   s.add_development_dependency('webmock', '~> 1.18')
+  s.add_development_dependency('minitest', '~> 5.0')
   s.require_path = 'lib'
 end
