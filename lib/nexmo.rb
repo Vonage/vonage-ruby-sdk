@@ -19,6 +19,10 @@ module Nexmo
     end
 
     def send_message(params)
+      unless params[:type]
+        params[:type] = unicode?(params[:text]) ? 'unicode' : 'text'
+      end
+
       response = post('/sms/json', params)
 
       item = response['messages'].first
@@ -179,6 +183,10 @@ module Nexmo
 
     def escape(component)
       CGI.escape(component.to_s)
+    end
+
+    def unicode?(string)
+      string.chars.any? { |c| c.bytes.count != 1 }
     end
   end
 end
