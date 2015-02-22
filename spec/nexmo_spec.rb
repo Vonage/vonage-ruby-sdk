@@ -12,7 +12,7 @@ describe 'Nexmo::Client' do
 
     @api_base_url = 'https://api.nexmo.com'
 
-    @form_urlencoded_data = {body: /(.+?)=(.+?)(&(.+?)=(.+?))+/, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}}
+    @form_urlencoded_data = {body: /(.+?)=(.+?)(&(.+?)=(.+?))+/, headers: {'Content-Type' => /application\/x-www-form-urlencoded(|; charset=.*)/}}
 
     @json_response_body = json_response_body('{"key":"value"}')
 
@@ -61,6 +61,26 @@ describe 'Nexmo::Client' do
         @client.send_message(@example_message_hash.merge({:text => 'あなたは'.force_encoding('utf-8')}))
 
         assert_requested(:post, "#@base_url/sms/json") { |req| req.body.include? "type=unicode" }
+      end
+    end
+
+    describe 'charset in Content-Type header' do
+      before do
+        response_body = json_response_body('{"messages":[{"status":0,"message-id":"id"}]}')
+
+        stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(response_body)
+      end
+
+      it 'sends utf-8 charset with utf-8 message' do
+        @client.send_message(@example_message_hash.merge({:text => 'あなたは'}))
+
+        assert_requested(:post, "#@base_url/sms/json") { |req| req.headers['Content-Type'].include? "charset=utf-8" }
+      end
+
+      it 'sends iso-8859-1 charset with iso-8859-1 message' do
+        @client.send_message(@example_message_hash.merge({:text => "�t� fran�ais".force_encoding('iso-8859-1')}))
+
+        assert_requested(:post, "#@base_url/sms/json") { |req| req.headers['Content-Type'].include? "charset=iso-8859-1" }
       end
     end
 
