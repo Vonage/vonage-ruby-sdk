@@ -21,14 +21,6 @@ describe 'Nexmo::Client' do
     @client = Nexmo::Client.new(key: 'key', secret: 'secret')
   end
 
-  describe 'http method' do
-    it 'returns a net http object that uses ssl' do
-      @client.http.must_be_instance_of(Net::HTTP)
-
-      @client.http.use_ssl?.must_equal(true)
-    end
-  end
-
   describe 'send_message method' do
     it 'posts to the sms json resource and returns the message id' do
       response_body = json_response_body('{"messages":[{"status":0,"message-id":"id"}]}')
@@ -260,8 +252,14 @@ describe 'Nexmo::Client' do
   end
 
   it 'provides an option for specifying a different hostname to connect to' do
+    url = "https://rest-sandbox.nexmo.com/number/search?api_key=key&api_secret=secret&country=CA&size=25"
+
+    request = stub_request(:get, url).to_return(@json_response_body)
+
     @client = Nexmo::Client.new(key: 'key', secret: 'secret', host: 'rest-sandbox.nexmo.com')
 
-    @client.http.address.must_equal('rest-sandbox.nexmo.com')
+    @client.number_search(:CA, :size => 25)
+
+    assert_requested(request)
   end
 end

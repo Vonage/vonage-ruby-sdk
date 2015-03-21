@@ -8,7 +8,7 @@ module Nexmo
   class AuthenticationError < Error; end
 
   class Client
-    attr_accessor :key, :secret, :http
+    attr_accessor :key, :secret
 
     def initialize(options = {})
       @key = options.fetch(:key) { ENV.fetch('NEXMO_API_KEY') }
@@ -16,10 +16,6 @@ module Nexmo
       @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
-
-      @http = Net::HTTP.new(@host, Net::HTTP.https_default_port)
-
-      @http.use_ssl = true
     end
 
     def send_message(params)
@@ -115,13 +111,17 @@ module Nexmo
     private
 
     def get(path, params = {})
-      parse @http.get(request_uri(path, params.merge(:api_key => @key, :api_secret => @secret)))
+      uri = URI.join("https://#{@host}", path)
+
+      uri.query = query_string(params.merge(:api_key => @key, :api_secret => @secret))
+
+      parse Net::HTTP.get_response(uri)
     end
 
     def post(path, params)
-      body = URI.encode_www_form(params.merge(:api_key => @key, :api_secret => @secret))
+      uri = URI.join("https://#{@host}", path)
 
-      parse @http.post(path, body, {'Content-Type' => 'application/x-www-form-urlencoded'})
+      parse Net::HTTP.post_form(uri, params.merge(:api_key => @key, :api_secret => @secret))
     end
 
     def parse(http_response)
@@ -139,16 +139,8 @@ module Nexmo
       end
     end
 
-    def request_uri(path, hash = {})
-      if hash.empty?
-        path
-      else
-        query_params = hash.map do |key, values|
-          Array(values).map { |value| "#{escape(key)}=#{escape(value)}" }
-        end
-
-        path + '?' + query_params.flatten.join('&')
-      end
+    def query_string(params)
+      params.flat_map { |k, vs| Array(vs).map { |v| "#{escape(k)}=#{escape(v)}" } }.join('&')
     end
 
     def escape(component)
