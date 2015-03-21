@@ -1,3 +1,17 @@
+# [v3.0.0](https://github.com/timcraft/nexmo/tree/v3.0.0) (2015-03-21)
+
+  * Removed :http accessor
+
+  * Changed #send_message to return full message object
+
+  * Fixed Voice API TTS methods (now on api.nexmo.com)
+
+  * Added Number Verify API methods
+
+  * Added Number Insight API method
+
+  * Added license info
+
 # [v2.0.0](https://github.com/timcraft/nexmo/tree/v2.0.0) (2014-07-25)
 
   * Dropped support for Ruby 1.8.7
