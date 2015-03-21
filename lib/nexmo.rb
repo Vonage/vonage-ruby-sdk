@@ -120,6 +120,10 @@ module Nexmo
       get('https://api.nexmo.com/verify/search/json', :request_id => id)
     end
 
+    def request_number_insight(params)
+      post('/ni/json', params)
+    end
+
     private
 
     def get(path, params = {})

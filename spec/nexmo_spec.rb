@@ -271,6 +271,16 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'request_number_insight method' do
+    it 'posts to the number insight resource and returns the response object' do
+      url = "#@base_url/ni/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.request_number_insight(number: '447525856424', callback: 'https://example.com')
+    end
+  end
+
   it 'raises an exception if the response code is not 2xx' do
     stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 500)
 
