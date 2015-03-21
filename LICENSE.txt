@@ -1,0 +1,9 @@
+Copyright (c) TIMCRAFT <http://timcraft.com>
+
+This is an Open Source project licensed under the terms of the LGPLv3 license.
+Please see <http://www.gnu.org/licenses/lgpl-3.0.html> for license text.
+
+This code is distributed in the hope that it will be useful,
+but WITHOUT ANY WARRANTY; without even the implied warranty of
+MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
+GNU Lesser General Public License for more details.
