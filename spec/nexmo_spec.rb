@@ -10,6 +10,8 @@ describe 'Nexmo::Client' do
   before do
     @base_url = 'https://rest.nexmo.com'
 
+    @api_base_url = 'https://api.nexmo.com'
+
     @form_urlencoded_data = {body: /(.+?)=(.+?)(&(.+?)=(.+?))+/, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}}
 
     @json_response_body = json_response_body('{"key":"value"}')
@@ -221,7 +223,7 @@ describe 'Nexmo::Client' do
 
   describe 'initiate_tts_call method' do
     it 'posts to the tts json resource and returns the response object' do
-      url = "#@base_url/tts/json"
+      url = "#@api_base_url/tts/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
@@ -231,7 +233,7 @@ describe 'Nexmo::Client' do
 
   describe 'initiate_tts_prompt_call method' do
     it 'posts to the tts prompt json resource and returns the response object' do
-      url = "#@base_url/tts-prompt/json"
+      url = "#@api_base_url/tts-prompt/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 

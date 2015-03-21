@@ -101,11 +101,11 @@ module Nexmo
     end
 
     def initiate_tts_call(params)
-      post('/tts/json', params)
+      post('https://api.nexmo.com/tts/json', params)
     end
 
     def initiate_tts_prompt_call(params)
-      post('/tts-prompt/json', params)
+      post('https://api.nexmo.com/tts-prompt/json', params)
     end
 
     private
