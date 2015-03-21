@@ -128,16 +128,26 @@ module Nexmo
 
     def get(path, params = {})
       uri = URI.join("https://#{@host}", path)
-
       uri.query = query_string(params.merge(:api_key => @key, :api_secret => @secret))
 
-      parse Net::HTTP.get_response(uri)
+      get_request = Net::HTTP::Get.new(uri.request_uri)
+
+      http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
+      http.use_ssl = true
+
+      parse http.request(get_request)
     end
 
     def post(path, params)
       uri = URI.join("https://#{@host}", path)
 
-      parse Net::HTTP.post_form(uri, params.merge(:api_key => @key, :api_secret => @secret))
+      post_request = Net::HTTP::Post.new(uri.request_uri)
+      post_request.form_data = params.merge(:api_key => @key, :api_secret => @secret)
+
+      http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
+      http.use_ssl = true
+
+      parse http.request(post_request)
     end
 
     def parse(http_response)
