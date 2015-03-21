@@ -25,11 +25,9 @@ module Nexmo
 
       status = item['status'].to_i
 
-      if status == 0
-        item['message-id']
-      else
-        raise Error, "#{item['error-text']} (status=#{status})"
-      end
+      raise Error, "#{item['error-text']} (status=#{status})" unless status.zero?
+
+      return item
     end
 
     def get_balance
