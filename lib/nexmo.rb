@@ -108,6 +108,18 @@ module Nexmo
       post('https://api.nexmo.com/tts-prompt/json', params)
     end
 
+    def send_verification_request(params)
+      post('https://api.nexmo.com/verify/json', params)
+    end
+
+    def check_verification_request(params)
+      post('https://api.nexmo.com/verify/check/json', params)
+    end
+
+    def get_verification_request(id)
+      get('https://api.nexmo.com/verify/search/json', :request_id => id)
+    end
+
     private
 
     def get(path, params = {})
