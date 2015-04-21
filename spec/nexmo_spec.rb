@@ -271,6 +271,16 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'control_verification_request method' do
+    it 'posts to the control json resource and returns the response object' do
+      url = "#@api_base_url/verify/control/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.control_verification_request(request_id: '8g88g88eg8g8gg9g90', cmd: 'cancel')
+    end
+  end
+
   describe 'request_number_insight method' do
     it 'posts to the number insight resource and returns the response object' do
       url = "#@base_url/ni/json"

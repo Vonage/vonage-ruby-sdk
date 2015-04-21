@@ -118,6 +118,10 @@ module Nexmo
       get('https://api.nexmo.com/verify/search/json', :request_id => id)
     end
 
+    def control_verification_request(params)
+      post('https://api.nexmo.com/verify/control/json', params)
+    end
+
     def request_number_insight(params)
       post('/ni/json', params)
     end
