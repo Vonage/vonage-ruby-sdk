@@ -24,10 +24,13 @@ module Nexmo
       item = response['messages'].first
 
       status = item['status'].to_i
-
-      raise Error, "#{item['error-text']} (status=#{status})" unless status.zero?
-
-      return item
+      
+      unless status.zero?
+        return {status: status, message: item['error-text']}
+      else
+        return item
+      end
+      
     end
 
     def get_balance
