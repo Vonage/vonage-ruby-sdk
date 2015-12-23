@@ -37,7 +37,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(response_body)
 
-      exception = proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
+      exception = proc { @client.send_message(@example_message_hash) }.to_return(response_body)
 
       exception.message.must_include('Missing from param')
     end
