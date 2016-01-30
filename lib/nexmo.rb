@@ -58,22 +58,19 @@ module Nexmo
 
     def post(path, params)
       uri = URI.join(Nexmo.endpoint_url, path)
+      params = params.merge(api_key: @key, api_secret: @secret)
 
       post_request = Net::HTTP::Post.new(uri.request_uri)
-      post_request.form_data = params.merge(api_key: @key, api_secret: @secret)
-      
-      if ENV["ENVIRONMENT"] == "test"
-        params = params.merge(api_key: @key, api_secret: @secret)
-        parse Net::HTTP.post_form(uri, params)    
-      else
-        port = Net::HTTP.https_default_port
-        http.use_ssl = true
+      post_request.form_data = params
 
-        http = Net::HTTP.new(uri.host, port)
+      if ENV["RAILS_ENV"] == "test"
+        parse Net::HTTP.post_form(uri, params)
+      else
+        http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
+        http.use_ssl = true
 
         parse http.request(post_request)
       end
-
     end
 
     def parse(http_response)
