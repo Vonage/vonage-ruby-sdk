@@ -2,7 +2,7 @@ nexmo
 =====
 
 
-A Ruby wrapper for the [Nexmo API](https://docs.nexmo.com/).
+Ruby client for the [Nexmo API](https://docs.nexmo.com/).
 
 
 Installation
