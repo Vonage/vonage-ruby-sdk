@@ -1,3 +1,9 @@
+# [v3.1.0](https://github.com/timcraft/nexmo/tree/v3.1.0) (2016-02-05)
+
+  * Renamed #number_search method to #get_available_numbers
+
+  * Added #control_verification_request method
+
 # [v3.0.0](https://github.com/timcraft/nexmo/tree/v3.0.0) (2015-03-21)
 
   * Removed :http accessor
