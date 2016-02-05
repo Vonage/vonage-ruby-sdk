@@ -16,9 +16,15 @@ module Nexmo
       @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
+
+      @autodetect_type = options.fetch(:autodetect_type) { false }
     end
 
     def send_message(params)
+      if @autodetect_type && !params[:type]
+        params[:type] = unicode?(params[:text]) ? 'unicode' : 'text'
+      end
+
       response = post('/sms/json', params)
 
       item = response['messages'].first
@@ -149,8 +155,14 @@ module Nexmo
     def post(path, params)
       uri = URI.join("https://#{@host}", path)
 
+      content_type = 'application/x-www-form-urlencoded'
+      if params[:text]
+        content_type += '; charset=' + params[:text].encoding.to_s.downcase
+      end
+
       post_request = Net::HTTP::Post.new(uri.request_uri)
       post_request.form_data = params.merge(:api_key => @key, :api_secret => @secret)
+      post_request['Content-Type'] = content_type
 
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
@@ -179,6 +191,10 @@ module Nexmo
 
     def escape(component)
       CGI.escape(component.to_s)
+    end
+
+    def unicode?(string)
+      string.chars.any? { |c| c.bytes.count != 1 }
     end
   end
 end
