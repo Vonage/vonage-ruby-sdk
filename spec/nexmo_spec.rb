@@ -47,22 +47,28 @@ describe 'Nexmo::Client' do
         assert_requested(:post, "#@base_url/sms/json") { |req| req.body.include? "type=any" }
       end
 
-      it 'sends text message with ASCII message' do
-        @client.send_message(@example_message_hash.merge({:text => 'qwerty'.force_encoding('ascii')}))
+      describe 'with autodetect_type option enabled' do
+        before do
+          @client = Nexmo::Client.new(key: 'key', secret: 'secret', autodetect_type: true)
+        end
 
-        assert_requested(:post, "#@base_url/sms/json") { |req| req.body.include? "type=text" }
-      end
+        it 'sends text message with ASCII message' do
+          @client.send_message(@example_message_hash.merge({:text => 'qwerty'.force_encoding('ascii')}))
 
-      it 'sends text message with one bytes chars message (iso-8859-1)' do
-        @client.send_message(@example_message_hash.merge({:text => "�t� fran�ais".force_encoding('iso-8859-1')}))
+          assert_requested(:post, "#@base_url/sms/json") { |req| req.body.include? "type=text" }
+        end
 
-        assert_requested(:post, "#@base_url/sms/json") { |req| req.body.include? "type=text" }
-      end
+        it 'sends text message with one bytes chars message (iso-8859-1)' do
+          @client.send_message(@example_message_hash.merge({:text => "�t� fran�ais".force_encoding('iso-8859-1')}))
 
-      it 'sends unicode message with multibytes message (utf-8)' do
-        @client.send_message(@example_message_hash.merge({:text => 'あなたは'.force_encoding('utf-8')}))
+          assert_requested(:post, "#@base_url/sms/json") { |req| req.body.include? "type=text" }
+        end
 
-        assert_requested(:post, "#@base_url/sms/json") { |req| req.body.include? "type=unicode" }
+        it 'sends unicode message with multibytes message (utf-8)' do
+          @client.send_message(@example_message_hash.merge({:text => 'あなたは'.force_encoding('utf-8')}))
+
+          assert_requested(:post, "#@base_url/sms/json") { |req| req.body.include? "type=unicode" }
+        end
       end
     end
 

@@ -16,10 +16,12 @@ module Nexmo
       @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
+
+      @autodetect_type = options.fetch(:autodetect_type) { false }
     end
 
     def send_message(params)
-      unless params[:type]
+      if @autodetect_type && !params[:type]
         params[:type] = unicode?(params[:text]) ? 'unicode' : 'text'
       end
 
