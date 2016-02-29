@@ -3,7 +3,22 @@ require 'json'
 require 'cgi'
 
 module Nexmo
-  class Error < StandardError; end
+  class Error < StandardError
+    def initialize(status = nil, message = nil)
+      @status = status
+      @message = message
+    end
+
+    attr_reader :status, :message
+
+    def to_s
+      if status && message
+        "#{message} (status=#{status})"
+      else
+        ""
+      end
+    end
+  end
 
   class AuthenticationError < Error; end
 
@@ -25,7 +40,7 @@ module Nexmo
 
       status = item['status'].to_i
 
-      raise Error, "#{item['error-text']} (status=#{status})" unless status.zero?
+      raise Error.new(status, item['error-text']) unless status.zero?
 
       return item
     end
