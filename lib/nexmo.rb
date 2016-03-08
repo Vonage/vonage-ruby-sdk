@@ -48,12 +48,15 @@ module Nexmo
       uri = URI.join(Nexmo.endpoint_url, path)
       uri.query = query_string(params.merge(api_key: @key, api_secret: @secret))
 
-      get_request = Net::HTTP::Get.new(uri.request_uri)
+      if ENV["RAILS_ENV"] == "test"
+        parse Net::HTTP.get_response(uri)
+      else
+        get_request = Net::HTTP::Get.new(uri.request_uri)
+        http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
+        http.use_ssl = true
 
-      http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
-      http.use_ssl = true
-
-      parse http.request(get_request)
+        parse http.request(get_request)
+      end
     end
 
     def post(path, params)
