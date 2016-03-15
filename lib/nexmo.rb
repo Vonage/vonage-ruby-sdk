@@ -19,15 +19,7 @@ module Nexmo
     end
 
     def send_message(params)
-      response = post('/sms/json', params)
-
-      item = response['messages'].first
-
-      status = item['status'].to_i
-
-      raise Error, "#{item['error-text']} (status=#{status})" unless status.zero?
-
-      return item
+      post('/sms/json', params)
     end
 
     def get_balance
