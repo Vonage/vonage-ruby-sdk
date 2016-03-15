@@ -35,11 +35,11 @@ module Nexmo
     end
 
     def get_country_pricing(country_code)
-      get('/account/get-pricing/outbound', {:country => country_code})
+      get('/account/get-pricing/outbound', country: country_code)
     end
 
     def get_prefix_pricing(prefix)
-      get('/account/get-prefix-pricing/outbound', {:prefix => prefix})
+      get('/account/get-prefix-pricing/outbound', prefix: prefix)
     end
 
     def get_account_numbers(params)
@@ -47,7 +47,7 @@ module Nexmo
     end
 
     def get_available_numbers(country_code, params = {})
-      get('/number/search', {:country => country_code}.merge(params))
+      get('/number/search', {country: country_code}.merge(params))
     end
 
     def number_search(country_code, params = {})
@@ -69,7 +69,7 @@ module Nexmo
     end
 
     def get_message(id)
-      get('/search/message', {:id => id})
+      get('/search/message', id: id)
     end
 
     def get_message_rejections(params)
@@ -77,7 +77,7 @@ module Nexmo
     end
 
     def search_messages(params)
-      get('/search/messages', Hash === params ? params : {:ids => Array(params)})
+      get('/search/messages', Hash === params ? params : {ids: Array(params)})
     end
 
     def send_ussd_push_message(params)
@@ -121,7 +121,7 @@ module Nexmo
     end
 
     def get_verification_request(id)
-      get('https://api.nexmo.com/verify/search/json', :request_id => id)
+      get('https://api.nexmo.com/verify/search/json', request_id: id)
     end
 
     def control_verification_request(params)
@@ -136,7 +136,7 @@ module Nexmo
 
     def get(path, params = {})
       uri = URI.join("https://#{@host}", path)
-      uri.query = query_string(params.merge(:api_key => @key, :api_secret => @secret))
+      uri.query = query_string(params.merge(api_key: @key, api_secret: @secret))
 
       get_request = Net::HTTP::Get.new(uri.request_uri)
 
@@ -150,7 +150,7 @@ module Nexmo
       uri = URI.join("https://#{@host}", path)
 
       post_request = Net::HTTP::Post.new(uri.request_uri)
-      post_request.form_data = params.merge(:api_key => @key, :api_secret => @secret)
+      post_request.form_data = params.merge(api_key: @key, api_secret: @secret)
 
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true

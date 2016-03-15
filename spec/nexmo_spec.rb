@@ -18,7 +18,7 @@ describe 'Nexmo::Client' do
 
     @json_response_object = {'key' => 'value'}
 
-    @example_message_hash = {:from => 'ruby', :to => 'number', :text => 'Hey!'}
+    @example_message_hash = {from: 'ruby', to: 'number', text: 'Hey!'}
 
     @client = Nexmo::Client.new(key: 'key', secret: 'secret')
   end
@@ -79,7 +79,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:get, url).to_return(@json_response_body)
 
-      @client.get_account_numbers(:size => 25, :pattern => 33).must_equal(@json_response_object)
+      @client.get_account_numbers(size: 25, pattern: 33).must_equal(@json_response_object)
     end
   end
 
@@ -89,7 +89,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:get, url).to_return(@json_response_body)
 
-      @client.number_search(:CA, :size => 25).must_equal(@json_response_object)
+      @client.number_search(:CA, size: 25).must_equal(@json_response_object)
     end
 
     it 'emits a deprecation warning' do
@@ -100,7 +100,7 @@ describe 'Nexmo::Client' do
       stub_request(:get, url).to_return(@json_response_body)
 
       Kernel.stub :warn, proc { |msg| message = msg } do
-        @client.number_search(:CA, :size => 25)
+        @client.number_search(:CA, size: 25)
       end
 
       message.must_match(/#number_search is deprecated/)
@@ -113,7 +113,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
-      @client.buy_number(:country => 'US', :msisdn => 'number').must_equal(@json_response_object)
+      @client.buy_number(country: 'US', msisdn: 'number').must_equal(@json_response_object)
     end
   end
 
@@ -123,7 +123,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
-      @client.cancel_number(:country => 'US', :msisdn => 'number').must_equal(@json_response_object)
+      @client.cancel_number(country: 'US', msisdn: 'number').must_equal(@json_response_object)
     end
   end
 
@@ -133,7 +133,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
-      @client.update_number(:country => 'US', :msisdn => 'number', :moHttpUrl => 'callback').must_equal(@json_response_object)
+      @client.update_number(country: 'US', msisdn: 'number', moHttpUrl: 'callback').must_equal(@json_response_object)
     end
   end
 
@@ -153,7 +153,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:get, url).to_return(@json_response_body)
 
-      @client.get_message_rejections(:date => 'YYYY-MM-DD').must_equal(@json_response_object)
+      @client.get_message_rejections(date: 'YYYY-MM-DD').must_equal(@json_response_object)
     end
   end
 
@@ -163,7 +163,7 @@ describe 'Nexmo::Client' do
 
       stub_request(:get, url).to_return(@json_response_body)
 
-      @client.search_messages(:date => 'YYYY-MM-DD', :to => 1234567890).must_equal(@json_response_object)
+      @client.search_messages(date: 'YYYY-MM-DD', to: 1234567890).must_equal(@json_response_object)
     end
 
     it 'should encode a non hash argument as a list of ids' do
