@@ -46,12 +46,6 @@ module Nexmo
       get('/number/search', {country: country_code}.merge(params))
     end
 
-    def number_search(country_code, params = {})
-      Kernel.warn '[nexmo] #number_search is deprecated and will be removed, please use #get_available_numbers instead'
-
-      get_available_numbers(country_code, params)
-    end
-
     def buy_number(params)
       post('/number/buy', params)
     end

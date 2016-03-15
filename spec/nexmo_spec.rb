@@ -73,30 +73,6 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'number_search method' do
-    it 'fetches the number search resource for the given country with the given parameters and returns the response object' do
-      url = "#@base_url/number/search?api_key=key&api_secret=secret&country=CA&size=25"
-
-      stub_request(:get, url).to_return(@json_response_body)
-
-      @client.number_search(:CA, size: 25).must_equal(@json_response_object)
-    end
-
-    it 'emits a deprecation warning' do
-      message = nil
-
-      url = "#@base_url/number/search?api_key=key&api_secret=secret&country=CA&size=25"
-
-      stub_request(:get, url).to_return(@json_response_body)
-
-      Kernel.stub :warn, proc { |msg| message = msg } do
-        @client.number_search(:CA, size: 25)
-      end
-
-      message.must_match(/#number_search is deprecated/)
-    end
-  end
-
   describe 'buy_number method' do
     it 'purchases the number requested with the given parameters and returns the response object' do
       url = "#@base_url/number/buy"
