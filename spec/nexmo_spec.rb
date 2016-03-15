@@ -295,16 +295,22 @@ describe 'Nexmo::Client' do
     end
   end
 
-  it 'raises an exception if the response code is not 2xx' do
-    stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 500)
-
-    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::Error)
-  end
-
   it 'raises an authentication error exception if the response code is 401' do
     stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 401)
 
     proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::AuthenticationError)
+  end
+
+  it 'raises a client error exception if the response code is 4xx' do
+    stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 400)
+
+    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::ClientError)
+  end
+
+  it 'raises a server error exception if the response code is 5xx' do
+    stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 500)
+
+    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::ServerError)
   end
 
   it 'provides an option for specifying a different hostname to connect to' do

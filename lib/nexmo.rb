@@ -5,7 +5,11 @@ require 'cgi'
 module Nexmo
   class Error < StandardError; end
 
-  class AuthenticationError < Error; end
+  class ClientError < Error; end
+
+  class ServerError < Error; end
+
+  class AuthenticationError < ClientError; end
 
   class Client
     attr_accessor :key, :secret
@@ -135,7 +139,7 @@ module Nexmo
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
 
-      parse http.request(get_request)
+      parse http.request(get_request), uri.host
     end
 
     def post(path, params)
@@ -147,10 +151,10 @@ module Nexmo
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
 
-      parse http.request(post_request)
+      parse http.request(post_request), uri.host
     end
 
-    def parse(http_response)
+    def parse(http_response, host)
       case http_response
       when Net::HTTPSuccess
         if http_response['Content-Type'].split(';').first == 'application/json'
@@ -159,9 +163,13 @@ module Nexmo
           http_response.body
         end
       when Net::HTTPUnauthorized
-        raise AuthenticationError
+        raise AuthenticationError, "#{http_response.code} response from #{host}"
+      when Net::HTTPClientError
+        raise ClientError, "#{http_response.code} response from #{host}"
+      when Net::HTTPServerError
+        raise ServerError, "#{http_response.code} response from #{host}"
       else
-        raise Error, "Unexpected HTTP response (code=#{http_response.code})"
+        raise Error, "#{http_response.code} response from #{host}"
       end
     end
 
