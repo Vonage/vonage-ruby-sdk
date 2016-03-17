@@ -118,6 +118,10 @@ module Nexmo
       post('https://api.nexmo.com/verify/control/json', params)
     end
 
+    def number_format(params)
+      post('https://api.nexmo.com/number/format/json', params)
+    end
+
     def request_number_insight(params)
       post('/ni/json', params)
     end
