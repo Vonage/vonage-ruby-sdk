@@ -317,15 +317,39 @@ describe 'Nexmo::Client' do
     proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::ServerError)
   end
 
-  it 'provides an option for specifying a different hostname to connect to' do
+  it 'provides an option for specifying a different hostname without a protocol' do
     url = "https://rest-sandbox.nexmo.com/account/get-balance?api_key=key&api_secret=secret"
-
     request = stub_request(:get, url).to_return(@json_response_body)
 
     @client = Nexmo::Client.new(key: 'key', secret: 'secret', host: 'rest-sandbox.nexmo.com')
-
     @client.get_balance
+    assert_requested(request)
+  end
 
+  it 'provides an option for specifying a different hostname with HTTP' do
+    url = "http://foo.com/account/get-balance?api_key=key&api_secret=secret"
+    request = stub_request(:get, url).to_return(@json_response_body)
+
+    @client = Nexmo::Client.new(key: 'key', secret: 'secret', host: 'http://foo.com')
+    @client.get_balance
+    assert_requested(request)
+  end
+
+  it 'provides an option for specifying a different hostname with HTTPS' do
+    url = "https://foo.com/account/get-balance?api_key=key&api_secret=secret"
+    request = stub_request(:get, url).to_return(@json_response_body)
+
+    @client = Nexmo::Client.new(key: 'key', secret: 'secret', host: 'https://foo.com')
+    @client.get_balance
+    assert_requested(request)
+  end
+
+  it 'provides an option for specifying a different hostname including a path' do
+    url = "https://foo.com/nexmo/account/get-balance?api_key=key&api_secret=secret"
+    request = stub_request(:get, url).to_return(@json_response_body)
+
+    @client = Nexmo::Client.new(key: 'key', secret: 'secret', host: 'https://foo.com/nexmo')
+    @client.get_balance
     assert_requested(request)
   end
 end
