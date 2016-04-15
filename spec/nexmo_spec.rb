@@ -261,13 +261,13 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'number_format method' do
-    it 'posts to the number insight basic resource and returns the response object' do
-      url = "#@api_base_url/number/format/json"
+  describe 'get_basic_number_insight method' do
+    it 'fetches the number format json resource and returns the response object' do
+      url = "#@api_base_url/number/format/json?api_key=key&api_secret=secret&number=447525856424"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@json_response_body)
 
-      @client.number_format(number: '447525856424')
+      @client.get_basic_number_insight(number: '447525856424')
     end
   end
 
