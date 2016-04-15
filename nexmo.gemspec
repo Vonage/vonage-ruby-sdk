@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.authors = ['Tim Craft']
   s.email = ['mail@timcraft.com']
-  s.homepage = 'http://github.com/Nexmo/nexmo'
+  s.homepage = 'https://github.com/Nexmo/ruby-nexmo'
   s.description = 'Ruby client for the Nexmo API'
   s.summary = 'See description'
   s.files = Dir.glob('{lib,spec}/**/*') + %w(LICENSE.txt README.md nexmo.gemspec)
