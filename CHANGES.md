@@ -1,4 +1,4 @@
-## [4.0.0](https://github.com/Nexmo/nexmo/tree/v4.0.0) (2016-04-15)
+## [4.0.0](https://github.com/Nexmo/ruby-nexmo/tree/v4.0.0) (2016-04-15)
 
 * Removed exception behaviour from #send_message
 
@@ -24,13 +24,13 @@
 
 * Changed license from LGPL-3.0 to MIT
 
-## [3.1.0](https://github.com/Nexmo/nexmo/tree/v3.1.0) (2016-02-05)
+## [3.1.0](https://github.com/Nexmo/ruby-nexmo/tree/v3.1.0) (2016-02-05)
 
 * Renamed #number_search method to #get_available_numbers
 
 * Added #control_verification_request method
 
-## [3.0.0](https://github.com/Nexmo/nexmo/tree/v3.0.0) (2015-03-21)
+## [3.0.0](https://github.com/Nexmo/ruby-nexmo/tree/v3.0.0) (2015-03-21)
 
 * Removed :http accessor
 
@@ -44,7 +44,7 @@
 
 * Added license info
 
-## [2.0.0](https://github.com/Nexmo/nexmo/tree/v2.0.0) (2014-07-25)
+## [2.0.0](https://github.com/Nexmo/ruby-nexmo/tree/v2.0.0) (2014-07-25)
 
 * Dropped support for Ruby 1.8.7
 
@@ -68,7 +68,7 @@
 
 * Added Voice API methods
 
-## [1.3.0](https://github.com/Nexmo/nexmo/tree/v1.3.0) (2014-04-22)
+## [1.3.0](https://github.com/Nexmo/ruby-nexmo/tree/v1.3.0) (2014-04-22)
 
 * Added Nexmo::Client#buy_number method
 
@@ -78,19 +78,19 @@
 
 * Added :host option for specifying a different hostname to connect to
 
-## [1.2.0](https://github.com/Nexmo/nexmo/tree/v1.2.0) (2013-09-02)
+## [1.2.0](https://github.com/Nexmo/ruby-nexmo/tree/v1.2.0) (2013-09-02)
 
 * Added initializer block functionality for tweaking response behaviour
 
 * Deprecated the :json option (use an initializer block instead)
 
-## [1.1.0](https://github.com/Nexmo/nexmo/tree/v1.1.0) (2013-02-10)
+## [1.1.0](https://github.com/Nexmo/ruby-nexmo/tree/v1.1.0) (2013-02-10)
 
 * Added default lookup of NEXMO_API_KEY and NEXMO_API_SECRET environment variables
 
 * Added preliminary/experimental support for [Nexmo OAuth](https://labs.nexmo.com/#oauth) (beta)
 
-## [1.0.0](https://github.com/Nexmo/nexmo/tree/v1.0.0) (2012-11-16)
+## [1.0.0](https://github.com/Nexmo/ruby-nexmo/tree/v1.0.0) (2012-11-16)
 
 * Ruby 1.8.7 compatibility
 
@@ -98,7 +98,7 @@
 
 * Added Nexmo::Client#send_message! method
 
-## [0.5.0](https://github.com/Nexmo/nexmo/tree/v0.5.0) (2012-11-08)
+## [0.5.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.5.0) (2012-11-08)
 
 * Added Nexmo::Client#search_messages method
 
@@ -106,7 +106,7 @@
 
 * Added :json option for specifying an alternate JSON implementation
 
-## [0.4.0](https://github.com/Nexmo/nexmo/tree/v0.4.0) (2012-10-06)
+## [0.4.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.4.0) (2012-10-06)
 
 * Added Nexmo::Client#get_balance method
 
@@ -122,30 +122,30 @@
 
 * Added Nexmo::Client#get_message_rejections method
 
-## [0.3.1](https://github.com/Nexmo/nexmo/tree/v0.3.1) (2012-05-28)
+## [0.3.1](https://github.com/Nexmo/ruby-nexmo/tree/v0.3.1) (2012-05-28)
 
 * Fixed content type checking (thanks @dbrock)
 
-## [0.3.0](https://github.com/Nexmo/nexmo/tree/v0.3.0) (2012-05-27)
+## [0.3.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.3.0) (2012-05-27)
 
 * Fixed Nexmo::Client#send_message for unexpected HTTP responses
 
-## [0.2.2](https://github.com/Nexmo/nexmo/tree/v0.2.2) (2012-01-21)
+## [0.2.2](https://github.com/Nexmo/ruby-nexmo/tree/v0.2.2) (2012-01-21)
 
 * Added Nexmo status code to error messages
 
-## [0.2.1](https://github.com/Nexmo/nexmo/tree/v0.2.1) (2011-11-25)
+## [0.2.1](https://github.com/Nexmo/ruby-nexmo/tree/v0.2.1) (2011-11-25)
 
 * No significant changes
 
-## [0.2.0](https://github.com/Nexmo/nexmo/tree/v0.2.0) (2011-11-16)
+## [0.2.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.2.0) (2011-11-16)
 
 * Added Nexmo::Client#headers method
 
-## [0.1.1](https://github.com/Nexmo/nexmo/tree/v0.1.1) (2011-08-30)
+## [0.1.1](https://github.com/Nexmo/ruby-nexmo/tree/v0.1.1) (2011-08-30)
 
 * Ruby 1.8.7 compatibility
 
-## [0.1.0](https://github.com/Nexmo/nexmo/tree/v0.1.0) (2011-08-24)
+## [0.1.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.1.0) (2011-08-24)
 
 * First version!
