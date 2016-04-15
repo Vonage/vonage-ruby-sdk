@@ -271,6 +271,16 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'get_number_insight method' do
+    it 'fetches the number lookup json resource and returns the response object' do
+      url = "#@api_base_url/number/lookup/json?api_key=key&api_secret=secret&number=447525856424"
+
+      stub_request(:get, url).to_return(@json_response_body)
+
+      @client.get_number_insight(number: '447525856424')
+    end
+  end
+
   describe 'request_number_insight method' do
     it 'posts to the number insight resource and returns the response object' do
       url = "#@base_url/ni/json"

@@ -122,6 +122,10 @@ module Nexmo
       get('https://api.nexmo.com/number/format/json', params)
     end
 
+    def get_number_insight(params)
+      get('https://api.nexmo.com/number/lookup/json', params)
+    end
+
     def request_number_insight(params)
       post('/ni/json', params)
     end
