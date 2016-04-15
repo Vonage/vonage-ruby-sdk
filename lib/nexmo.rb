@@ -1,3 +1,4 @@
+require 'nexmo/version'
 require 'net/http'
 require 'json'
 require 'cgi'
@@ -132,11 +133,14 @@ module Nexmo
 
     private
 
+    USER_AGENT = "ruby-nexmo/#{VERSION}/#{RUBY_VERSION}"
+
     def get(path, params = {})
       uri = URI.join("https://#{@host}", path)
       uri.query = query_string(params.merge(api_key: @key, api_secret: @secret))
 
       get_request = Net::HTTP::Get.new(uri.request_uri)
+      get_request['User-Agent'] = USER_AGENT
 
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
@@ -149,6 +153,7 @@ module Nexmo
 
       post_request = Net::HTTP::Post.new(uri.request_uri)
       post_request.form_data = params.merge(api_key: @key, api_secret: @secret)
+      post_request['User-Agent'] = USER_AGENT
 
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true

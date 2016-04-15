@@ -1,6 +1,8 @@
+require_relative './lib/nexmo/version'
+
 Gem::Specification.new do |s|
   s.name = 'nexmo'
-  s.version = '3.1.0'
+  s.version = Nexmo::VERSION
   s.license = 'MIT'
   s.platform = Gem::Platform::RUBY
   s.authors = ['Tim Craft']

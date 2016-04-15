@@ -291,6 +291,14 @@ describe 'Nexmo::Client' do
     end
   end
 
+  it 'includes a user-agent header with the library version number and ruby version number' do
+    headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}"}
+
+    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@json_response_body)
+
+    @client.send_message(@example_message_hash)
+  end
+
   it 'raises an authentication error exception if the response code is 401' do
     stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(status: 401)
 
