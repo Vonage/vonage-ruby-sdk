@@ -1,4 +1,4 @@
-require_relative './lib/nexmo/version'
+require File.expand_path('lib/nexmo/version', File.dirname(__FILE__))
 
 Gem::Specification.new do |s|
   s.name = 'nexmo'
