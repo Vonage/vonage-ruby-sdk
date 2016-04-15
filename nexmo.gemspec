@@ -1,7 +1,7 @@
 Gem::Specification.new do |s|
   s.name = 'nexmo'
   s.version = '3.1.0'
-  s.license = 'LGPL-3.0'
+  s.license = 'MIT'
   s.platform = Gem::Platform::RUBY
   s.authors = ['Tim Craft']
   s.email = ['mail@timcraft.com']
