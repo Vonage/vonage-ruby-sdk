@@ -1,21 +1,53 @@
-nexmo
-=====
+Nexmo Client Library for Ruby
+=============================
 
+[Installation](#installation) | [Usage](#usage) | [Examples](#examples) | [License](#license)
 
-Ruby client for the [Nexmo API](https://docs.nexmo.com/).
+This is the Ruby client library for Nexmo's API. To use it you'll
+need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
 
 Installation
 ------------
 
+To install the Ruby client library using Rubygems:
+
     $ gem install nexmo
 
+Alternatively you can clone the repo or download the source.
 
-Sending a message
------------------
 
-Construct a Nexmo::Client object with your API credentials and call
-the #send_message method. For example:
+Usage
+-----
+
+Specify your credentials using the `NEXMO_API_KEY` and `NEXMO_API_SECRET`
+environment variables; require the nexmo library; and construct a client object.
+For example:
+
+```ruby
+require 'nexmo'
+
+nexmo = Nexmo::Client.new
+```
+
+Alternatively you can specify your credentials directly using the `key`
+and `secret` options:
+
+```ruby
+require 'nexmo'
+
+nexmo = Nexmo::Client.new(key: 'YOUR-API-KEY', secret: 'YOUR-API-SECRET')
+```
+
+
+Examples
+--------
+
+### Sending A Message
+
+Use [Nexmo's SMS API][doc_sms] to send an SMS message. 
+
+Call the send_message method with a hash containing the message parameters. For example:
 
 ```ruby
 require 'nexmo'
@@ -31,18 +63,12 @@ else
 end
 ```
 
-The Nexmo documentation contains a [list of response codes](https://docs.nexmo.com/api-ref/sms-api/response/status-codes)
-which may be useful for debugging errors. Remember that phone numbers
-should be specified in international format, and other country specific
-restrictions may apply (e.g. US messages must originate from either a
-pre-approved long number or short code).
 
+License
+-------
 
-Production environment variables
---------------------------------
+This library is released under the [MIT License][license]
 
-Best practice for storing credentials for external services in production is
-to use environment variables, as described by [12factor.net/config](http://12factor.net/config).
-Nexmo::Client defaults to extracting the api key/secret it needs from the
-NEXMO_API_KEY and NEXMO_API_SECRET environment variables if the key/secret
-options were not specified explicitly.
+[signup]: http://nexmo.com?src=ruby-client-library
+[doc_sms]: https://docs.nexmo.com/messaging/sms-api
+[license]: LICENSE.txt
