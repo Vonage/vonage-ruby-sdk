@@ -141,26 +141,26 @@ module Nexmo
       uri = URI(uri)
       uri.query = query_string(params.merge(api_key: @key, api_secret: @secret))
 
-      get_request = Net::HTTP::Get.new(uri.request_uri)
-      get_request['User-Agent'] = USER_AGENT
+      message = Net::HTTP::Get.new(uri.request_uri)
+      message['User-Agent'] = USER_AGENT
 
-      http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
-      http.use_ssl = true
-
-      parse http.request(get_request), uri.host
+      parse(request(uri, message), uri.host)
     end
 
     def post(uri, params)
       uri = URI(uri)
 
-      post_request = Net::HTTP::Post.new(uri.request_uri)
-      post_request.form_data = params.merge(api_key: @key, api_secret: @secret)
-      post_request['User-Agent'] = USER_AGENT
+      message = Net::HTTP::Post.new(uri.request_uri)
+      message.form_data = params.merge(api_key: @key, api_secret: @secret)
+      message['User-Agent'] = USER_AGENT
 
+      parse(request(uri, message), uri.host)
+    end
+
+    def request(uri, message)
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
-
-      parse http.request(post_request), uri.host
+      http.request(message)
     end
 
     def parse(http_response, host)
