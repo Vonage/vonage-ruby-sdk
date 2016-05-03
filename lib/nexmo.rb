@@ -21,6 +21,8 @@ module Nexmo
       @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
+
+      @api_host = options.fetch(:api_host) { 'api.nexmo.com' }
     end
 
     def send_message(params)
@@ -96,35 +98,35 @@ module Nexmo
     end
 
     def initiate_tts_call(params)
-      post('https://api.nexmo.com/tts/json', params)
+      post("https://#@api_host/tts/json", params)
     end
 
     def initiate_tts_prompt_call(params)
-      post('https://api.nexmo.com/tts-prompt/json', params)
+      post("https://#@api_host/tts-prompt/json", params)
     end
 
     def send_verification_request(params)
-      post('https://api.nexmo.com/verify/json', params)
+      post("https://#@api_host/verify/json", params)
     end
 
     def check_verification_request(params)
-      post('https://api.nexmo.com/verify/check/json', params)
+      post("https://#@api_host/verify/check/json", params)
     end
 
     def get_verification_request(id)
-      get('https://api.nexmo.com/verify/search/json', request_id: id)
+      get("https://#@api_host/verify/search/json", request_id: id)
     end
 
     def control_verification_request(params)
-      post('https://api.nexmo.com/verify/control/json', params)
+      post("https://#@api_host/verify/control/json", params)
     end
 
     def get_basic_number_insight(params)
-      get('https://api.nexmo.com/number/format/json', params)
+      get("https://#@api_host/number/format/json", params)
     end
 
     def get_number_insight(params)
-      get('https://api.nexmo.com/number/lookup/json', params)
+      get("https://#@api_host/number/lookup/json", params)
     end
 
     def request_number_insight(params)
