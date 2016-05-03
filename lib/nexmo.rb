@@ -21,144 +21,146 @@ module Nexmo
       @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
+
+      @api_host = options.fetch(:api_host) { 'api.nexmo.com' }
     end
 
     def send_message(params)
-      post('/sms/json', params)
+      post("https://#@host/sms/json", params)
     end
 
     def get_balance
-      get('/account/get-balance')
+      get("https://#@host/account/get-balance")
     end
 
     def get_country_pricing(country_code)
-      get('/account/get-pricing/outbound', country: country_code)
+      get("https://#@host/account/get-pricing/outbound", country: country_code)
     end
 
     def get_prefix_pricing(prefix)
-      get('/account/get-prefix-pricing/outbound', prefix: prefix)
+      get("https://#@host/account/get-prefix-pricing/outbound", prefix: prefix)
     end
 
     def get_account_numbers(params)
-      get('/account/numbers', params)
+      get("https://#@host/account/numbers", params)
     end
 
     def get_available_numbers(country_code, params = {})
-      get('/number/search', {country: country_code}.merge(params))
+      get("https://#@host/number/search", {country: country_code}.merge(params))
     end
 
     def buy_number(params)
-      post('/number/buy', params)
+      post("https://#@host/number/buy", params)
     end
 
     def cancel_number(params)
-      post('/number/cancel', params)
+      post("https://#@host/number/cancel", params)
     end
 
     def update_number(params)
-      post('/number/update', params)
+      post("https://#@host/number/update", params)
     end
 
     def get_message(id)
-      get('/search/message', id: id)
+      get("https://#@host/search/message", id: id)
     end
 
     def get_message_rejections(params)
-      get('/search/rejections', params)
+      get("https://#@host/search/rejections", params)
     end
 
     def search_messages(params)
-      get('/search/messages', Hash === params ? params : {ids: Array(params)})
+      get("https://#@host/search/messages", Hash === params ? params : {ids: Array(params)})
     end
 
     def send_ussd_push_message(params)
-      post('/ussd/json', params)
+      post("https://#@host/ussd/json", params)
     end
 
     def send_ussd_prompt_message(params)
-      post('/ussd-prompt/json', params)
+      post("https://#@host/ussd-prompt/json", params)
     end
 
     def send_2fa_message(params)
-      post('/sc/us/2fa/json', params)
+      post("https://#@host/sc/us/2fa/json", params)
     end
 
     def send_event_alert_message(params)
-      post('/sc/us/alert/json', params)
+      post("https://#@host/sc/us/alert/json", params)
     end
 
     def send_marketing_message(params)
-      post('/sc/us/marketing/json', params)
+      post("https://#@host/sc/us/marketing/json", params)
     end
 
     def initiate_call(params)
-      post('/call/json', params)
+      post("https://#@host/call/json", params)
     end
 
     def initiate_tts_call(params)
-      post('https://api.nexmo.com/tts/json', params)
+      post("https://#@api_host/tts/json", params)
     end
 
     def initiate_tts_prompt_call(params)
-      post('https://api.nexmo.com/tts-prompt/json', params)
+      post("https://#@api_host/tts-prompt/json", params)
     end
 
     def send_verification_request(params)
-      post('https://api.nexmo.com/verify/json', params)
+      post("https://#@api_host/verify/json", params)
     end
 
     def check_verification_request(params)
-      post('https://api.nexmo.com/verify/check/json', params)
+      post("https://#@api_host/verify/check/json", params)
     end
 
     def get_verification_request(id)
-      get('https://api.nexmo.com/verify/search/json', request_id: id)
+      get("https://#@api_host/verify/search/json", request_id: id)
     end
 
     def control_verification_request(params)
-      post('https://api.nexmo.com/verify/control/json', params)
+      post("https://#@api_host/verify/control/json", params)
     end
 
     def get_basic_number_insight(params)
-      get('https://api.nexmo.com/number/format/json', params)
+      get("https://#@api_host/number/format/json", params)
     end
 
     def get_number_insight(params)
-      get('https://api.nexmo.com/number/lookup/json', params)
+      get("https://#@api_host/number/lookup/json", params)
     end
 
     def request_number_insight(params)
-      post('/ni/json', params)
+      post("https://#@host/ni/json", params)
     end
 
     private
 
     USER_AGENT = "ruby-nexmo/#{VERSION}/#{RUBY_VERSION}"
 
-    def get(path, params = {})
-      uri = URI.join("https://#{@host}", path)
+    def get(uri, params = {})
+      uri = URI(uri)
       uri.query = query_string(params.merge(api_key: @key, api_secret: @secret))
 
-      get_request = Net::HTTP::Get.new(uri.request_uri)
-      get_request['User-Agent'] = USER_AGENT
+      message = Net::HTTP::Get.new(uri.request_uri)
+      message['User-Agent'] = USER_AGENT
 
-      http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
-      http.use_ssl = true
-
-      parse http.request(get_request), uri.host
+      parse(request(uri, message), uri.host)
     end
 
-    def post(path, params)
-      uri = URI.join("https://#{@host}", path)
+    def post(uri, params)
+      uri = URI(uri)
 
-      post_request = Net::HTTP::Post.new(uri.request_uri)
-      post_request.form_data = params.merge(api_key: @key, api_secret: @secret)
-      post_request['User-Agent'] = USER_AGENT
+      message = Net::HTTP::Post.new(uri.request_uri)
+      message.form_data = params.merge(api_key: @key, api_secret: @secret)
+      message['User-Agent'] = USER_AGENT
 
+      parse(request(uri, message), uri.host)
+    end
+
+    def request(uri, message)
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
-
-      parse http.request(post_request), uri.host
+      http.request(message)
     end
 
     def parse(http_response, host)

@@ -328,4 +328,16 @@ describe 'Nexmo::Client' do
 
     assert_requested(request)
   end
+
+  it 'provides an option for specifying a different api hostname to connect to' do
+    url = "https://debug.example.com/number/format/json?api_key=key&api_secret=secret&number=447525856424"
+
+    request = stub_request(:get, url).to_return(@json_response_body)
+
+    @client = Nexmo::Client.new(key: 'key', secret: 'secret', api_host: 'debug.example.com')
+
+    @client.get_basic_number_insight(number: '447525856424')
+
+    assert_requested(request)
+  end
 end
