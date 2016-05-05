@@ -73,6 +73,16 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'topup method' do
+    it 'updates the account top-up resource with the given parameters and returns the response object' do
+      url = "#@base_url/account/top-up"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.topup(trx: '00X123456Y7890123Z').must_equal(@json_response_object)
+    end
+  end
+
   describe 'get_account_numbers method' do
     it 'fetches the account numbers resource with the given parameters and returns the response object' do
       url = "#@base_url/account/numbers?api_key=key&api_secret=secret&size=25&pattern=33"

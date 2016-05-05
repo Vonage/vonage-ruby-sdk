@@ -45,6 +45,10 @@ module Nexmo
       post("https://#@host/account/settings", params)
     end
 
+    def topup(params)
+      post("https://#@host/account/top-up", params)
+    end
+
     def get_account_numbers(params)
       get("https://#@host/account/numbers", params)
     end
