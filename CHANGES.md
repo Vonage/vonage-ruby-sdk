@@ -1,3 +1,11 @@
+## [4.1.0](https://github.com/Nexmo/ruby-nexmo/tree/v4.1.0)
+
+* Added topup method
+
+* Added update_settings method
+
+* Added api_host option
+
 ## [4.0.0](https://github.com/Nexmo/ruby-nexmo/tree/v4.0.0)
 
 * Removed exception behaviour from #send_message
