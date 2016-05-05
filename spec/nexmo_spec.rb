@@ -63,6 +63,16 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'update_settings method' do
+    it 'updates the account settings resource with the given parameters and returns the response object' do
+      url = "#@base_url/account/settings"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.update_settings(moCallBackUrl: 'http://example.com/callback').must_equal(@json_response_object)
+    end
+  end
+
   describe 'get_account_numbers method' do
     it 'fetches the account numbers resource with the given parameters and returns the response object' do
       url = "#@base_url/account/numbers?api_key=key&api_secret=secret&size=25&pattern=33"

@@ -41,6 +41,10 @@ module Nexmo
       get("https://#@host/account/get-prefix-pricing/outbound", prefix: prefix)
     end
 
+    def update_settings(params)
+      post("https://#@host/account/settings", params)
+    end
+
     def get_account_numbers(params)
       get("https://#@host/account/numbers", params)
     end
