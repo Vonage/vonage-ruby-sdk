@@ -63,6 +63,26 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'get_sms_pricing method' do
+    it 'fetches the outbound sms pricing resource for the given phone number and returns the response object' do
+      url = "#@base_url/account/get-phone-pricing/outbound/sms?api_key=key&api_secret=secret&phone=447525856424"
+
+      stub_request(:get, url).to_return(@json_response_body)
+
+      @client.get_sms_pricing('447525856424').must_equal(@json_response_object)
+    end
+  end
+
+  describe 'get_voice_pricing method' do
+    it 'fetches the outbound voice pricing resource for the given phone number and returns the response object' do
+      url = "#@base_url/account/get-phone-pricing/outbound/voice?api_key=key&api_secret=secret&phone=447525856424"
+
+      stub_request(:get, url).to_return(@json_response_body)
+
+      @client.get_voice_pricing('447525856424').must_equal(@json_response_object)
+    end
+  end
+
   describe 'update_settings method' do
     it 'updates the account settings resource with the given parameters and returns the response object' do
       url = "#@base_url/account/settings"

@@ -41,6 +41,14 @@ module Nexmo
       get("https://#@host/account/get-prefix-pricing/outbound", prefix: prefix)
     end
 
+    def get_sms_pricing(number)
+      get("https://#@host/account/get-phone-pricing/outbound/sms", phone: number)
+    end
+
+    def get_voice_pricing(number)
+      get("https://#@host/account/get-phone-pricing/outbound/voice", phone: number)
+    end
+
     def update_settings(params)
       post("https://#@host/account/settings", params)
     end
