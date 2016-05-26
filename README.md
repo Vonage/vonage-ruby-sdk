@@ -17,9 +17,11 @@ Installation
 
 To install the Ruby client library using Rubygems:
 
-    $ gem install nexmo
+    gem install nexmo
 
-Alternatively you can clone the repo or download the source.
+Alternatively you can clone the repository:
+
+    git clone git@github.com:Nexmo/nexmo-ruby.git
 
 
 Usage
