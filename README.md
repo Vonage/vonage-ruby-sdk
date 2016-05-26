@@ -65,6 +65,16 @@ else
 end
 ```
 
+### Fetching A Message
+
+You can retrieve a message log from the API using the ID of the message:
+
+```ruby
+message = nexmo.get_message('02000000DA7C52E7')
+
+puts "The body of the message was: #{message['body']}"
+```
+
 
 License
 -------
