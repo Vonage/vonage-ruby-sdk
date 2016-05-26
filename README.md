@@ -1,5 +1,6 @@
 Nexmo Client Library for Ruby
 =============================
+[![Build Status](https://api.travis-ci.org/Nexmo/nexmo-ruby.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-ruby)
 
 [Installation](#installation) | [Usage](#usage) | [Examples](#examples) | [License](#license)
 
