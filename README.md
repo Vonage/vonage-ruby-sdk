@@ -52,15 +52,10 @@ Examples
 
 ### Sending A Message
 
-Use [Nexmo's SMS API][doc_sms] to send an SMS message. 
-
-Call the send_message method with a hash containing the message parameters. For example:
+To use [Nexmo's SMS API][doc_sms] to send an SMS message, call the Nexmo::Client#send_message
+method with a hash containing the API parameters. For example:
 
 ```ruby
-require 'nexmo'
-
-nexmo = Nexmo::Client.new(key: 'YOUR API KEY', secret: 'YOUR API SECRET')
-
 response = nexmo.send_message(from: 'Ruby', to: 'YOUR NUMBER', text: 'Hello world')
 
 if response['messages'][0]['status'].zero?
