@@ -2,10 +2,13 @@ Nexmo Client Library for Ruby
 =============================
 [![Build Status](https://api.travis-ci.org/Nexmo/nexmo-ruby.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-ruby)
 
-[Installation](#installation) | [Usage](#usage) | [Examples](#examples) | [License](#license)
-
 This is the Ruby client library for Nexmo's API. To use it you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
+
+* [Installation](#installation)
+* [Usage](#usage)
+* [Examples](#examples)
+* [License](#license)
 
 
 Installation
