@@ -58,10 +58,14 @@ method with a hash containing the API parameters. For example:
 ```ruby
 response = nexmo.send_message(from: 'Ruby', to: 'YOUR NUMBER', text: 'Hello world')
 
-if response['messages'][0]['status'].zero?
-  # success!
+response = response['messages'].first
+
+if response['status'] == '0'
+  puts "Sent message #{response['message-id']}"
+
+  puts "Remaining balance is #{response['remaining-balance']}"
 else
-  # error response
+  puts "Error: #{response['error-text']}"
 end
 ```
 
