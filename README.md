@@ -50,7 +50,7 @@ nexmo = Nexmo::Client.new(key: 'YOUR-API-KEY', secret: 'YOUR-API-SECRET')
 Examples
 --------
 
-### Sending A Message
+### Sending a message
 
 To use [Nexmo's SMS API][doc_sms] to send an SMS message, call the Nexmo::Client#send_message
 method with a hash containing the API parameters. For example:
@@ -69,7 +69,7 @@ else
 end
 ```
 
-### Fetching A Message
+### Fetching a message
 
 You can retrieve a message log from the API using the ID of the message:
 
