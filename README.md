@@ -34,7 +34,7 @@ For example:
 ```ruby
 require 'nexmo'
 
-nexmo = Nexmo::Client.new
+client = Nexmo::Client.new
 ```
 
 Alternatively you can specify your credentials directly using the `key`
@@ -43,7 +43,7 @@ and `secret` options:
 ```ruby
 require 'nexmo'
 
-nexmo = Nexmo::Client.new(key: 'YOUR-API-KEY', secret: 'YOUR-API-SECRET')
+client = Nexmo::Client.new(key: 'YOUR-API-KEY', secret: 'YOUR-API-SECRET')
 ```
 
 
@@ -56,7 +56,7 @@ To use [Nexmo's SMS API][doc_sms] to send an SMS message, call the Nexmo::Client
 method with a hash containing the API parameters. For example:
 
 ```ruby
-response = nexmo.send_message(from: 'Ruby', to: 'YOUR NUMBER', text: 'Hello world')
+response = client.send_message(from: 'Ruby', to: 'YOUR NUMBER', text: 'Hello world')
 
 response = response['messages'].first
 
@@ -74,7 +74,7 @@ end
 You can retrieve a message log from the API using the ID of the message:
 
 ```ruby
-message = nexmo.get_message('02000000DA7C52E7')
+message = client.get_message('02000000DA7C52E7')
 
 puts "The body of the message was: #{message['body']}"
 ```
