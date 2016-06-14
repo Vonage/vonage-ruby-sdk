@@ -9,6 +9,7 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [Installation](#installation)
 * [Usage](#usage)
 * [Examples](#examples)
+* [Coverage](#api-coverage)
 * [License](#license)
 
 
@@ -121,6 +122,49 @@ else
   puts "Error: #{response['error_text']}"
 end
 ```
+
+
+API Coverage
+------------
+
+* Account
+    * [X] Balance
+    * [X] Pricing
+    * [X] Settings
+    * [X] Top Up
+    * [X] Numbers
+        * [X] Search
+        * [X] Buy
+        * [X] Cancel
+        * [X] Update
+* Number Insight
+    * [X] Basic
+    * [X] Standard
+    * [X] Advanced
+    * [ ] Webhook Notification
+* Verify
+    * [X] Verify
+    * [X] Check
+    * [X] Search
+    * [X] Control
+* Messaging 
+    * [X] Send
+    * [ ] Delivery Receipt
+    * [ ] Inbound Messages
+    * [X] Search
+        * [X] Message
+        * [X] Messages
+        * [X] Rejections
+    * [ ] US Short Codes
+        * [X] Two-Factor Authentication
+        * [X] Event Based Alerts
+            * [X] Sending Alerts
+            * [ ] Campaign Subscription Management
+* Voice
+    * [X] Outbound Calls
+    * [ ] Inbound Call
+    * [X] Text-To-Speech Call
+    * [X] Text-To-Speech Prompt
 
 
 License
