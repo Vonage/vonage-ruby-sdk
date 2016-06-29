@@ -109,6 +109,14 @@ module Nexmo
       post("https://#@host/sc/us/marketing/json", params)
     end
 
+    def get_event_alert_numbers
+      get("https://#@host/sc/us/alert/opt-in/query/json")
+    end
+
+    def resubscribe_event_alert_number(params)
+      post("https://#@host/sc/us/alert/opt-in/manage/json", params)
+    end
+
     def initiate_call(params)
       post("https://#@host/call/json", params)
     end

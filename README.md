@@ -155,11 +155,11 @@ API Coverage
         * [X] Message
         * [X] Messages
         * [X] Rejections
-    * [ ] US Short Codes
+    * [X] US Short Codes
         * [X] Two-Factor Authentication
         * [X] Event Based Alerts
             * [X] Sending Alerts
-            * [ ] Campaign Subscription Management
+            * [X] Campaign Subscription Management
 * Voice
     * [X] Outbound Calls
     * [ ] Inbound Call

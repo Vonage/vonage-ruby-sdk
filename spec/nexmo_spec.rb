@@ -231,6 +231,26 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'get_event_alert_numbers method' do
+    it 'fetches the short code alert opt-in query resource and returns the response object' do
+      url = "#@base_url/sc/us/alert/opt-in/query/json?api_key=key&api_secret=secret"
+
+      stub_request(:get, url).to_return(@json_response_body)
+
+      @client.get_event_alert_numbers
+    end
+  end
+
+  describe 'resubscribe_event_alert_number method' do
+    it 'posts to the short code alert opt-in manage resource and returns the response object' do
+      url = "#@base_url/sc/us/alert/opt-in/manage/json"
+
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+
+      @client.resubscribe_event_alert_number(msisdn: '441632960960')
+    end
+  end
+
   describe 'initiate_call method' do
     it 'posts to the call json resource and returns the response object' do
       url = "#@base_url/call/json"
