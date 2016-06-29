@@ -3,10 +3,6 @@ require 'webmock/minitest'
 require 'nexmo'
 
 describe 'Nexmo::Client' do
-  def json_response_body(content)
-    {headers: {'Content-Type' => 'application/json;charset=utf-8'}, body: content}
-  end
-
   before do
     @base_url = 'https://rest.nexmo.com'
 
@@ -14,7 +10,7 @@ describe 'Nexmo::Client' do
 
     @form_urlencoded_data = {body: /(.+?)=(.+?)(&(.+?)=(.+?))+/, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}}
 
-    @json_response_body = json_response_body('{"key":"value"}')
+    @json_response_body = {body: '{"key":"value"}', headers: {'Content-Type' => 'application/json;charset=utf-8'}}
 
     @json_response_object = {'key' => 'value'}
 
@@ -24,12 +20,12 @@ describe 'Nexmo::Client' do
   end
 
   describe 'send_message method' do
-    it 'posts to the sms json resource and returns the response message object' do
-      response_body = json_response_body('{"messages":[{"status":0,"message-id":"id"}]}')
+    it 'posts to the sms json resource and returns the response object' do
+      url = "#@base_url/sms/json"
 
-      stub_request(:post, "#@base_url/sms/json").with(@form_urlencoded_data).to_return(response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
 
-      @client.send_message(@example_message_hash).must_equal({'messages' => [{'status' => 0, 'message-id' => 'id'}]})
+      @client.send_message(@example_message_hash).must_equal(@json_response_object)
     end
   end
 
