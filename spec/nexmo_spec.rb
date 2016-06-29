@@ -20,7 +20,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'send_message method' do
-    it 'posts to the sms json resource and returns the response object' do
+    it 'posts to the sms resource and returns the response object' do
       url = "#@base_url/sms/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -178,7 +178,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'send_ussd_push_message method' do
-    it 'posts to the ussd json resource and returns the response object' do
+    it 'posts to the ussd resource and returns the response object' do
       url = "#@base_url/ussd/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -188,7 +188,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'send_ussd_prompt_message method' do
-    it 'posts to the ussd prompt json resource and returns the response object' do
+    it 'posts to the ussd prompt resource and returns the response object' do
       url = "#@base_url/ussd-prompt/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -198,7 +198,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'send_2fa_message method' do
-    it 'posts to the short code two factor authentication json resource and returns the response object' do
+    it 'posts to the short code two factor authentication resource and returns the response object' do
       url = "#@base_url/sc/us/2fa/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -208,7 +208,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'send_event_alert_message method' do
-    it 'posts to the short code alert json resource and returns the response object' do
+    it 'posts to the short code alert resource and returns the response object' do
       url = "#@base_url/sc/us/alert/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -218,7 +218,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'send_marketing_message method' do
-    it 'posts to the short code marketing json resource and returns the response object' do
+    it 'posts to the short code marketing resource and returns the response object' do
       url = "#@base_url/sc/us/marketing/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -248,7 +248,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'initiate_call method' do
-    it 'posts to the call json resource and returns the response object' do
+    it 'posts to the call resource and returns the response object' do
       url = "#@base_url/call/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -258,7 +258,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'initiate_tts_call method' do
-    it 'posts to the tts json resource and returns the response object' do
+    it 'posts to the tts resource and returns the response object' do
       url = "#@api_base_url/tts/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -268,7 +268,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'initiate_tts_prompt_call method' do
-    it 'posts to the tts prompt json resource and returns the response object' do
+    it 'posts to the tts prompt resource and returns the response object' do
       url = "#@api_base_url/tts-prompt/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -278,7 +278,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'send_verification_request method' do
-    it 'posts to the verify json resource and returns the response object' do
+    it 'posts to the verify resource and returns the response object' do
       url = "#@api_base_url/verify/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -288,7 +288,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'check_verification_request method' do
-    it 'posts to the verify json resource and returns the response object' do
+    it 'posts to the verify check resource and returns the response object' do
       url = "#@api_base_url/verify/check/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -308,7 +308,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'control_verification_request method' do
-    it 'posts to the control json resource and returns the response object' do
+    it 'posts to the verify control resource and returns the response object' do
       url = "#@api_base_url/verify/control/json"
 
       stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
@@ -318,7 +318,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'get_basic_number_insight method' do
-    it 'fetches the number format json resource and returns the response object' do
+    it 'fetches the number format resource and returns the response object' do
       url = "#@api_base_url/number/format/json?api_key=key&api_secret=secret&number=447525856424"
 
       stub_request(:get, url).to_return(@response_body)
@@ -328,7 +328,7 @@ describe 'Nexmo::Client' do
   end
 
   describe 'get_number_insight method' do
-    it 'fetches the number lookup json resource and returns the response object' do
+    it 'fetches the number lookup resource and returns the response object' do
       url = "#@api_base_url/number/lookup/json?api_key=key&api_secret=secret&number=447525856424"
 
       stub_request(:get, url).to_return(@response_body)
