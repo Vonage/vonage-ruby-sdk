@@ -10,9 +10,9 @@ describe 'Nexmo::Client' do
 
     @form_urlencoded_data = {body: /(.+?)=(.+?)(&(.+?)=(.+?))+/, headers: {'Content-Type' => 'application/x-www-form-urlencoded'}}
 
-    @json_response_body = {body: '{"key":"value"}', headers: {'Content-Type' => 'application/json;charset=utf-8'}}
+    @response_body = {body: '{"key":"value"}', headers: {'Content-Type' => 'application/json;charset=utf-8'}}
 
-    @json_response_object = {'key' => 'value'}
+    @response_object = {'key' => 'value'}
 
     @example_message_hash = {from: 'ruby', to: 'number', text: 'Hey!'}
 
@@ -23,9 +23,9 @@ describe 'Nexmo::Client' do
     it 'posts to the sms json resource and returns the response object' do
       url = "#@base_url/sms/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
-      @client.send_message(@example_message_hash).must_equal(@json_response_object)
+      @client.send_message(@example_message_hash).must_equal(@response_object)
     end
   end
 
@@ -33,9 +33,9 @@ describe 'Nexmo::Client' do
     it 'fetches the account balance resource and returns the response object' do
       url = "#@base_url/account/get-balance?api_key=key&api_secret=secret"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
-      @client.get_balance.must_equal(@json_response_object)
+      @client.get_balance.must_equal(@response_object)
     end
   end
 
@@ -43,9 +43,9 @@ describe 'Nexmo::Client' do
     it 'fetches the outbound pricing resource for the given country and returns the response object' do
       url = "#@base_url/account/get-pricing/outbound?api_key=key&api_secret=secret&country=CA"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
-      @client.get_country_pricing(:CA).must_equal(@json_response_object)
+      @client.get_country_pricing(:CA).must_equal(@response_object)
     end
   end
 
@@ -53,9 +53,9 @@ describe 'Nexmo::Client' do
     it 'fetches the outbound pricing resource for the given prefix and returns the response object' do
       url = "#@base_url/account/get-prefix-pricing/outbound?api_key=key&api_secret=secret&prefix=44"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
-      @client.get_prefix_pricing(44).must_equal(@json_response_object)
+      @client.get_prefix_pricing(44).must_equal(@response_object)
     end
   end
 
@@ -63,9 +63,9 @@ describe 'Nexmo::Client' do
     it 'fetches the outbound sms pricing resource for the given phone number and returns the response object' do
       url = "#@base_url/account/get-phone-pricing/outbound/sms?api_key=key&api_secret=secret&phone=447525856424"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
-      @client.get_sms_pricing('447525856424').must_equal(@json_response_object)
+      @client.get_sms_pricing('447525856424').must_equal(@response_object)
     end
   end
 
@@ -73,9 +73,9 @@ describe 'Nexmo::Client' do
     it 'fetches the outbound voice pricing resource for the given phone number and returns the response object' do
       url = "#@base_url/account/get-phone-pricing/outbound/voice?api_key=key&api_secret=secret&phone=447525856424"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
-      @client.get_voice_pricing('447525856424').must_equal(@json_response_object)
+      @client.get_voice_pricing('447525856424').must_equal(@response_object)
     end
   end
 
@@ -83,9 +83,9 @@ describe 'Nexmo::Client' do
     it 'updates the account settings resource with the given parameters and returns the response object' do
       url = "#@base_url/account/settings"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
-      @client.update_settings(moCallBackUrl: 'http://example.com/callback').must_equal(@json_response_object)
+      @client.update_settings(moCallBackUrl: 'http://example.com/callback').must_equal(@response_object)
     end
   end
 
@@ -93,9 +93,9 @@ describe 'Nexmo::Client' do
     it 'updates the account top-up resource with the given parameters and returns the response object' do
       url = "#@base_url/account/top-up"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
-      @client.topup(trx: '00X123456Y7890123Z').must_equal(@json_response_object)
+      @client.topup(trx: '00X123456Y7890123Z').must_equal(@response_object)
     end
   end
 
@@ -103,9 +103,9 @@ describe 'Nexmo::Client' do
     it 'fetches the account numbers resource with the given parameters and returns the response object' do
       url = "#@base_url/account/numbers?api_key=key&api_secret=secret&size=25&pattern=33"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
-      @client.get_account_numbers(size: 25, pattern: 33).must_equal(@json_response_object)
+      @client.get_account_numbers(size: 25, pattern: 33).must_equal(@response_object)
     end
   end
 
@@ -113,9 +113,9 @@ describe 'Nexmo::Client' do
     it 'purchases the number requested with the given parameters and returns the response object' do
       url = "#@base_url/number/buy"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
-      @client.buy_number(country: 'US', msisdn: 'number').must_equal(@json_response_object)
+      @client.buy_number(country: 'US', msisdn: 'number').must_equal(@response_object)
     end
   end
 
@@ -123,9 +123,9 @@ describe 'Nexmo::Client' do
     it 'cancels the number requested with the given parameters and returns the response object' do
       url = "#@base_url/number/cancel"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
-      @client.cancel_number(country: 'US', msisdn: 'number').must_equal(@json_response_object)
+      @client.cancel_number(country: 'US', msisdn: 'number').must_equal(@response_object)
     end
   end
 
@@ -133,9 +133,9 @@ describe 'Nexmo::Client' do
     it 'updates the number requested with the given parameters and returns the response object' do
       url = "#@base_url/number/update"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
-      @client.update_number(country: 'US', msisdn: 'number', moHttpUrl: 'callback').must_equal(@json_response_object)
+      @client.update_number(country: 'US', msisdn: 'number', moHttpUrl: 'callback').must_equal(@response_object)
     end
   end
 
@@ -143,9 +143,9 @@ describe 'Nexmo::Client' do
     it 'fetches the message search resource for the given message id and returns the response object' do
       url = "#@base_url/search/message?api_key=key&api_secret=secret&id=00A0B0C0"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
-      @client.get_message('00A0B0C0').must_equal(@json_response_object)
+      @client.get_message('00A0B0C0').must_equal(@response_object)
     end
   end
 
@@ -153,9 +153,9 @@ describe 'Nexmo::Client' do
     it 'fetches the message rejections resource with the given parameters and returns the response object' do
       url = "#@base_url/search/rejections?api_key=key&api_secret=secret&date=YYYY-MM-DD"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
-      @client.get_message_rejections(date: 'YYYY-MM-DD').must_equal(@json_response_object)
+      @client.get_message_rejections(date: 'YYYY-MM-DD').must_equal(@response_object)
     end
   end
 
@@ -163,15 +163,15 @@ describe 'Nexmo::Client' do
     it 'fetches the search messages resource with the given parameters and returns the response object' do
       url = "#@base_url/search/messages?api_key=key&api_secret=secret&date=YYYY-MM-DD&to=1234567890"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
-      @client.search_messages(date: 'YYYY-MM-DD', to: 1234567890).must_equal(@json_response_object)
+      @client.search_messages(date: 'YYYY-MM-DD', to: 1234567890).must_equal(@response_object)
     end
 
     it 'should encode a non hash argument as a list of ids' do
       url = "#@base_url/search/messages?api_key=key&api_secret=secret&ids=id1&ids=id2"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
       @client.search_messages(%w(id1 id2))
     end
@@ -181,7 +181,7 @@ describe 'Nexmo::Client' do
     it 'posts to the ussd json resource and returns the response object' do
       url = "#@base_url/ussd/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.send_ussd_push_message(from: 'MyCompany20', to: '447525856424', text: 'Hello')
     end
@@ -191,7 +191,7 @@ describe 'Nexmo::Client' do
     it 'posts to the ussd prompt json resource and returns the response object' do
       url = "#@base_url/ussd-prompt/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.send_ussd_prompt_message(from: 'Nexmo long virtual number', to: '447525856424', text: 'Hello')
     end
@@ -201,7 +201,7 @@ describe 'Nexmo::Client' do
     it 'posts to the short code two factor authentication json resource and returns the response object' do
       url = "#@base_url/sc/us/2fa/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.send_2fa_message(to: '16365553226', pin: 1234)
     end
@@ -211,7 +211,7 @@ describe 'Nexmo::Client' do
     it 'posts to the short code alert json resource and returns the response object' do
       url = "#@base_url/sc/us/alert/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.send_event_alert_message(to: '16365553226', server: 'host', link: 'http://example.com/')
     end
@@ -221,7 +221,7 @@ describe 'Nexmo::Client' do
     it 'posts to the short code marketing json resource and returns the response object' do
       url = "#@base_url/sc/us/marketing/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.send_marketing_message(from: '666', to: '16365553226', keyword: 'NEXMO', text: 'Hello')
     end
@@ -231,7 +231,7 @@ describe 'Nexmo::Client' do
     it 'fetches the short code alert opt-in query resource and returns the response object' do
       url = "#@base_url/sc/us/alert/opt-in/query/json?api_key=key&api_secret=secret"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
       @client.get_event_alert_numbers
     end
@@ -241,7 +241,7 @@ describe 'Nexmo::Client' do
     it 'posts to the short code alert opt-in manage resource and returns the response object' do
       url = "#@base_url/sc/us/alert/opt-in/manage/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.resubscribe_event_alert_number(msisdn: '441632960960')
     end
@@ -251,7 +251,7 @@ describe 'Nexmo::Client' do
     it 'posts to the call json resource and returns the response object' do
       url = "#@base_url/call/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.initiate_call(to: '16365553226', answer_url: 'http://example.com/answer')
     end
@@ -261,7 +261,7 @@ describe 'Nexmo::Client' do
     it 'posts to the tts json resource and returns the response object' do
       url = "#@api_base_url/tts/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.initiate_tts_call(to: '16365553226', text: 'Hello')
     end
@@ -271,7 +271,7 @@ describe 'Nexmo::Client' do
     it 'posts to the tts prompt json resource and returns the response object' do
       url = "#@api_base_url/tts-prompt/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.initiate_tts_prompt_call(to: '16365553226', text: 'Hello', max_digits: 4, bye_text: 'Goodbye')
     end
@@ -281,7 +281,7 @@ describe 'Nexmo::Client' do
     it 'posts to the verify json resource and returns the response object' do
       url = "#@api_base_url/verify/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.send_verification_request(number: '447525856424', brand: 'MyApp')
     end
@@ -291,7 +291,7 @@ describe 'Nexmo::Client' do
     it 'posts to the verify json resource and returns the response object' do
       url = "#@api_base_url/verify/check/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.check_verification_request(request_id: '8g88g88eg8g8gg9g90', code: '123445')
     end
@@ -301,7 +301,7 @@ describe 'Nexmo::Client' do
     it 'fetches the verify search resource with the given request id and returns the response object' do
       url = "#@api_base_url/verify/search/json?api_key=key&api_secret=secret&request_id=8g88g88eg8g8gg9g90"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
       @client.get_verification_request('8g88g88eg8g8gg9g90')
     end
@@ -311,7 +311,7 @@ describe 'Nexmo::Client' do
     it 'posts to the control json resource and returns the response object' do
       url = "#@api_base_url/verify/control/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.control_verification_request(request_id: '8g88g88eg8g8gg9g90', cmd: 'cancel')
     end
@@ -321,7 +321,7 @@ describe 'Nexmo::Client' do
     it 'fetches the number format json resource and returns the response object' do
       url = "#@api_base_url/number/format/json?api_key=key&api_secret=secret&number=447525856424"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
       @client.get_basic_number_insight(number: '447525856424')
     end
@@ -331,7 +331,7 @@ describe 'Nexmo::Client' do
     it 'fetches the number lookup json resource and returns the response object' do
       url = "#@api_base_url/number/lookup/json?api_key=key&api_secret=secret&number=447525856424"
 
-      stub_request(:get, url).to_return(@json_response_body)
+      stub_request(:get, url).to_return(@response_body)
 
       @client.get_number_insight(number: '447525856424')
     end
@@ -341,7 +341,7 @@ describe 'Nexmo::Client' do
     it 'posts to the number insight resource and returns the response object' do
       url = "#@base_url/ni/json"
 
-      stub_request(:post, url).with(@form_urlencoded_data).to_return(@json_response_body)
+      stub_request(:post, url).with(@form_urlencoded_data).to_return(@response_body)
 
       @client.request_number_insight(number: '447525856424', callback: 'https://example.com')
     end
@@ -350,7 +350,7 @@ describe 'Nexmo::Client' do
   it 'includes a user-agent header with the library version number and ruby version number' do
     headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}"}
 
-    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@json_response_body)
+    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@response_body)
 
     @client.send_message(@example_message_hash)
   end
@@ -376,7 +376,7 @@ describe 'Nexmo::Client' do
   it 'provides an option for specifying a different hostname to connect to' do
     url = "https://rest-sandbox.nexmo.com/account/get-balance?api_key=key&api_secret=secret"
 
-    request = stub_request(:get, url).to_return(@json_response_body)
+    request = stub_request(:get, url).to_return(@response_body)
 
     @client = Nexmo::Client.new(key: 'key', secret: 'secret', host: 'rest-sandbox.nexmo.com')
 
@@ -388,7 +388,7 @@ describe 'Nexmo::Client' do
   it 'provides an option for specifying a different api hostname to connect to' do
     url = "https://debug.example.com/number/format/json?api_key=key&api_secret=secret&number=447525856424"
 
-    request = stub_request(:get, url).to_return(@json_response_body)
+    request = stub_request(:get, url).to_return(@response_body)
 
     @client = Nexmo::Client.new(key: 'key', secret: 'secret', api_host: 'debug.example.com')
 
