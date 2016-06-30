@@ -129,16 +129,36 @@ module Nexmo
       post(@api_host, '/tts-prompt/json', params)
     end
 
+    def start_verification(params)
+      post(@api_host, '/verify/json', params)
+    end
+
     def send_verification_request(params)
       post(@api_host, '/verify/json', params)
+    end
+
+    def check_verification(request_id, params)
+      post(@api_host, '/verify/check/json', params.merge(request_id: request_id))
     end
 
     def check_verification_request(params)
       post(@api_host, '/verify/check/json', params)
     end
 
+    def get_verification(request_id)
+      get(@api_host, '/verify/search/json', request_id: request_id)
+    end
+
     def get_verification_request(id)
       get(@api_host, '/verify/search/json', request_id: id)
+    end
+
+    def cancel_verification(request_id)
+      post(@api_host, '/verify/control/json', request_id: request_id, cmd: 'cancel')
+    end
+
+    def trigger_next_verification_event(request_id)
+      post(@api_host, '/verify/control/json', request_id: request_id, cmd: 'trigger_next_event')
     end
 
     def control_verification_request(params)

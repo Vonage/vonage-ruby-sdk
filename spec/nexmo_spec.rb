@@ -227,11 +227,27 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'start_verification method' do
+    it 'posts to the verify json resource and returns the response object' do
+      expect_post "#@api_base_url/verify/json", "api_key=#@api_key&api_secret=#@api_secret&number=447525856424&brand=MyApp"
+
+      @client.start_verification(number: '447525856424', brand: 'MyApp')
+    end
+  end
+
   describe 'send_verification_request method' do
     it 'posts to the verify resource and returns the response object' do
       expect_post "#@api_base_url/verify/json", "api_key=#@api_key&api_secret=#@api_secret&number=447525856424&brand=MyApp"
 
       @client.send_verification_request(number: '447525856424', brand: 'MyApp')
+    end
+  end
+
+  describe 'check_verification method' do
+    it 'posts to the verify check resource and returns the response object' do
+      expect_post "#@api_base_url/verify/check/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&code=123445"
+
+      @client.check_verification('8g88g88eg8g8gg9g90', code: '123445')
     end
   end
 
@@ -243,11 +259,35 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'get_verification method' do
+    it 'fetches the verify search resource with the given request id and returns the response object' do
+      expect_get "#@api_base_url/verify/search/json?api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90"
+
+      @client.get_verification('8g88g88eg8g8gg9g90')
+    end
+  end
+
   describe 'get_verification_request method' do
     it 'fetches the verify search resource with the given request id and returns the response object' do
       expect_get "#@api_base_url/verify/search/json?api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90"
 
       @client.get_verification_request('8g88g88eg8g8gg9g90')
+    end
+  end
+
+  describe 'cancel_verification method' do
+    it 'posts to the verify control resource and returns the response object' do
+      expect_post "#@api_base_url/verify/control/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&cmd=cancel"
+
+      @client.cancel_verification('8g88g88eg8g8gg9g90')
+    end
+  end
+
+  describe 'trigger_next_verification_event method' do
+    it 'posts to the verify control resource and returns the response object' do
+      expect_post "#@api_base_url/verify/control/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&cmd=trigger_next_event"
+
+      @client.trigger_next_verification_event('8g88g88eg8g8gg9g90')
     end
   end
 
