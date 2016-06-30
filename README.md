@@ -85,43 +85,56 @@ puts "The body of the message was: #{message['body']}"
 Nexmo's [Verify API][doc_verify] makes it easy to prove that a user has provided their
 own phone number during signup, or implement second factor authentication during signin.
 
-You can start the verification process by calling the send_verification_request method:
+You can start the verification process by calling the start_verification method:
 
 ```ruby
-response = client.send_verification_request(number: '441632960960', brand: 'MyApp')
+response = client.start_verification(number: '441632960960', brand: 'MyApp')
 
 if response['status'] == '0'
-  puts "Started verification #{response['request_id']}"
+  puts "Started verification request_id=#{response['request_id']}"
 else
   puts "Error: #{response['error_text']}"
 end
 ```
+
+The response contains a verification request id which you will need to
+store temporarily (in the session, database, url etc).
 
 ### Controlling a verification
 
-To cancel an in-progress verification or to trigger the next attempt to
-send the confirmation code, call the control_verification_request method:
+Call the cancel_verification method with the verification request id
+to cancel an in-progress verification:
 
 ```ruby
-client.control_verification_request(cmd: 'cancel', request_id: '00e6c3377e5348cdaf567e1417c707a5')
-
-client.control_verification_request(cmd: 'trigger_next_event', request_id: '00e6c3377e5348cdaf567e1417c707a5')
+client.cancel_verification('00e6c3377e5348cdaf567e1417c707a5')
 ```
+
+Call the trigger_next_verification_event method with the verification
+request id to trigger the next attempt to send the confirmation code:
+
+```ruby
+client.trigger_next_verification_event('00e6c3377e5348cdaf567e1417c707a5')
+```
+
+The verification request id comes from the call to the start_verification method.
 
 ### Checking a verification
 
-To check a verification, call the check_verification_request method with
-the PIN code provided by the user and the id of the verification request:
+Call the check_verification method with the verification request id and the
+PIN code to complete the verification process:
 
 ```ruby
-response = client.check_verification_request(code: '1234', request_id: '00e6c3377e5348cdaf567e1417c707a5')
+response = client.check_verification('00e6c3377e5348cdaf567e1417c707a5', code: '1234')
 
 if response['status'] == '0'
-  puts "Verification complete, event #{response['event_id']}"
+  puts "Verification complete, event_id=#{response['event_id']}"
 else
   puts "Error: #{response['error_text']}"
 end
 ```
+
+The verification request id comes from the call to the start_verification method.
+The PIN code is entered into your application by the user.
 
 
 API Coverage
