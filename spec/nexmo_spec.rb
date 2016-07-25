@@ -93,6 +93,14 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'get_available_numbers method' do
+    it 'fetches the number search resource with the given parameters and returns the response object' do
+      expect_get "#@base_url/number/search?api_key=#@api_key&api_secret=#@api_secret&country=CA&size=25"
+
+      @client.get_available_numbers('CA', size: 25).must_equal(@response_object)
+    end
+  end
+
   describe 'buy_number method' do
     it 'purchases the number requested with the given parameters and returns the response object' do
       expect_post "#@base_url/number/buy", "api_key=#@api_key&api_secret=#@api_secret&country=US&msisdn=number"
