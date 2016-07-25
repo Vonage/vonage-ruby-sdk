@@ -331,14 +331,6 @@ describe 'Nexmo::Client' do
     end
   end
 
-  it 'includes a user-agent header with the library version number and ruby version number' do
-    headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}"}
-
-    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@response_body)
-
-    @client.send_message(@example_message_hash)
-  end
-
   it 'raises an authentication error exception if the response code is 401' do
     stub_request(:post, "#@base_url/sms/json").to_return(status: 401)
 
@@ -355,6 +347,26 @@ describe 'Nexmo::Client' do
     stub_request(:post, "#@base_url/sms/json").to_return(status: 500)
 
     proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::ServerError)
+  end
+
+  it 'includes a user-agent header with the library version number and ruby version number' do
+    headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}"}
+
+    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@response_body)
+
+    @client.send_message(@example_message_hash)
+  end
+
+  it 'provides options for application name and version to be included in the user-agent header' do
+    app_name, app_version = 'ExampleApp', 'X.Y.Z'
+
+    headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}/#{app_name}/#{app_version}"}
+
+    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@response_body)
+
+    @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, app_name: app_name, app_version: app_version)
+
+    @client.send_message(@example_message_hash)
   end
 
   it 'provides an option for specifying a different hostname to connect to' do

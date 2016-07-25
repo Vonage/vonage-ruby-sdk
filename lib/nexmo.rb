@@ -23,6 +23,12 @@ module Nexmo
       @host = options.fetch(:host) { 'rest.nexmo.com' }
 
       @api_host = options.fetch(:api_host) { 'api.nexmo.com' }
+
+      @user_agent = "ruby-nexmo/#{VERSION}/#{RUBY_VERSION}"
+
+      if options.key?(:app_name) && options.key?(:app_version)
+        @user_agent << "/#{options[:app_name]}/#{options[:app_version]}"
+      end
     end
 
     def send_message(params)
@@ -179,14 +185,12 @@ module Nexmo
 
     private
 
-    USER_AGENT = "ruby-nexmo/#{VERSION}/#{RUBY_VERSION}"
-
     def get(host, request_uri, params = {})
       uri = URI('https://' + host + request_uri)
       uri.query = query_string(params.merge(api_key: @key, api_secret: @secret))
 
       message = Net::HTTP::Get.new(uri.request_uri)
-      message['User-Agent'] = USER_AGENT
+      message['User-Agent'] = @user_agent
 
       parse(request(uri, message), host)
     end
@@ -196,7 +200,7 @@ module Nexmo
 
       message = Net::HTTP::Post.new(uri.request_uri)
       message.form_data = params.merge(api_key: @key, api_secret: @secret)
-      message['User-Agent'] = USER_AGENT
+      message['User-Agent'] = @user_agent
 
       parse(request(uri, message), host)
     end
