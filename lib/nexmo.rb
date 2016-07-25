@@ -23,6 +23,8 @@ module Nexmo
       @host = options.fetch(:host) { 'rest.nexmo.com' }
 
       @api_host = options.fetch(:api_host) { 'api.nexmo.com' }
+
+      @sns_host = options.fetch(:sns_host) { 'sns.nexmo.com' }
     end
 
     def send_message(params)
@@ -115,6 +117,14 @@ module Nexmo
 
     def resubscribe_event_alert_number(params)
       post(@host, '/sc/us/alert/opt-in/manage/json', params)
+    end
+
+    def sns_publish(message, params)
+      post(@sns_host, '/sns/json', {cmd: 'publish', message: message}.merge(params))
+    end
+
+    def sns_subscribe(recipient, params)
+      post(@sns_host, '/sns/json', {cmd: 'subscribe', to: recipient}.merge(params))
     end
 
     def initiate_call(params)

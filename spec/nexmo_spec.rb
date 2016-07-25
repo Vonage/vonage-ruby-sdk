@@ -12,6 +12,8 @@ describe 'Nexmo::Client' do
 
     @api_base_url = 'https://api.nexmo.com'
 
+    @sns_base_url = 'https://sns.nexmo.com'
+
     @response_body = {body: '{"key":"value"}', headers: {'Content-Type' => 'application/json;charset=utf-8'}}
 
     @response_object = {'key' => 'value'}
@@ -208,6 +210,22 @@ describe 'Nexmo::Client' do
       expect_post "#@base_url/sc/us/alert/opt-in/manage/json", "api_key=#@api_key&api_secret=#@api_secret&msisdn=441632960960"
 
       @client.resubscribe_event_alert_number(msisdn: '441632960960')
+    end
+  end
+
+  describe 'sns_publish method' do
+    it 'posts to the sns resource and returns the response object' do
+      expect_post "#@sns_base_url/sns/json", "api_key=#@api_key&api_secret=#@api_secret&cmd=publish&message=Hello&topic=arn&from=MyCompany20"
+
+      @client.sns_publish('Hello', topic: 'arn', from: 'MyCompany20')
+    end
+  end
+
+  describe 'sns_subscribe method' do
+    it 'posts to the sns resource and returns the response object' do
+      expect_post "#@sns_base_url/sns/json", "api_key=#@api_key&api_secret=#@api_secret&cmd=subscribe&to=447525856424&topic=arn"
+
+      @client.sns_subscribe('447525856424', topic: 'arn')
     end
   end
 
