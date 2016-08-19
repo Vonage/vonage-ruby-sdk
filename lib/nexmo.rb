@@ -24,6 +24,8 @@ module Nexmo
 
       @api_host = options.fetch(:api_host) { 'api.nexmo.com' }
 
+      @sns_host = options.fetch(:sns_host) { 'sns.nexmo.com' }
+
       @user_agent = "ruby-nexmo/#{VERSION}/#{RUBY_VERSION}"
 
       if options.key?(:app_name) && options.key?(:app_version)
@@ -121,6 +123,14 @@ module Nexmo
 
     def resubscribe_event_alert_number(params)
       post(@host, '/sc/us/alert/opt-in/manage/json', params)
+    end
+
+    def sns_publish(message, params)
+      post(@sns_host, '/sns/json', {cmd: 'publish', message: message}.merge(params))
+    end
+
+    def sns_subscribe(recipient, params)
+      post(@sns_host, '/sns/json', {cmd: 'subscribe', to: recipient}.merge(params))
     end
 
     def initiate_call(params)
