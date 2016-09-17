@@ -59,16 +59,26 @@ method with a hash containing the API parameters. For example:
 ```ruby
 response = client.send_message(from: 'Ruby', to: 'YOUR NUMBER', text: 'Hello world')
 
-response = response['messages'].first
-
-if response['status'] == '0'
-  puts "Sent message #{response['message-id']}"
-
-  puts "Remaining balance is #{response['remaining-balance']}"
+if response['messages'][0]['status'] == '0'
+  puts "Sent message #{response['messages'][0]['message-id']}"
 else
-  puts "Error: #{response['error-text']}"
+  puts "Error: #{response['messages'][0]['error-text']}"
 end
 ```
+
+Specify `type: 'unicode'` if sending unicode characters. For example:
+
+```ruby
+response = client.send_message(from: 'Ruby', to: 'YOUR NUMBER', text: "Unicode \u2713", type: 'unicode')
+```
+
+Specify phone numbers in international format, prefixed with country code.
+
+Check `response['messages'][0]['status']` to see if the message was sent
+successfully or if there was an error with the request.
+
+Country specific restrictions may apply. For example, US messages must
+originate from either a pre-approved long number or short code.
 
 ### Fetching a message
 
