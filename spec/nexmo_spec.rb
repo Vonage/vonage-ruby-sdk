@@ -357,6 +357,46 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'get_applications method' do
+    it 'fetches the applications resource and returns the response object' do
+      expect_get "#@api_base_url/v1/applications?api_key=#@api_key&api_secret=#@api_secret"
+
+      @client.get_applications.must_equal(@response_object)
+    end
+  end
+
+  describe 'get_application method' do
+    it 'fetches the application resource with the given id and returns the response object' do
+      expect_get "#@api_base_url/v1/applications/xx-xx-xx-xx?api_key=#@api_key&api_secret=#@api_secret"
+
+      @client.get_application('xx-xx-xx-xx').must_equal(@response_object)
+    end
+  end
+
+  describe 'create_application method' do
+    it 'posts to the applications resource and returns the response object' do
+      expect_post "#@api_base_url/v1/applications", "api_key=#@api_key&api_secret=#@api_secret&name=Example+App&type=voice"
+
+      @client.create_application(name: 'Example App', type: 'voice')
+    end
+  end
+
+  describe 'update_application method' do
+    it 'puts to the application resource with the given id and returns the response object' do
+      expect_put "#@api_base_url/v1/applications/xx-xx-xx-xx", "api_key=#@api_key&api_secret=#@api_secret&answer_url=https%3A%2F%2Fexample.com%2Fncco"
+
+      @client.update_application('xx-xx-xx-xx', answer_url: 'https://example.com/ncco')
+    end
+  end
+
+  describe 'delete_application method' do
+    it 'deletes the application resource with the given id' do
+      expect_delete "#@api_base_url/v1/applications/xx-xx-xx-xx?api_key=#@api_key&api_secret=#@api_secret"
+
+      @client.delete_application('xx-xx-xx-xx')
+    end
+  end
+
   it 'raises an authentication error exception if the response code is 401' do
     stub_request(:post, "#@base_url/sms/json").to_return(status: 401)
 
@@ -423,6 +463,18 @@ describe 'Nexmo::Client' do
     headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
 
     @request = stub_request(:post, url).with(body: body, headers: headers).to_return(@response_body)
+  end
+
+  def expect_put(url, data)
+    body = WebMock::Util::QueryMapper.query_to_values(data)
+
+    headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+
+    @request = stub_request(:put, url).with(body: body, headers: headers).to_return(@response_body)
+  end
+
+  def expect_delete(url)
+    @request = stub_request(:delete, url).to_return(status: 204)
   end
 
   after do

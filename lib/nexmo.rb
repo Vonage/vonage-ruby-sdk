@@ -201,6 +201,26 @@ module Nexmo
       post(@host, '/ni/json', params)
     end
 
+    def get_applications(params = {})
+      get(@api_host, '/v1/applications', params)
+    end
+
+    def get_application(id)
+      get(@api_host, "/v1/applications/#{id}")
+    end
+
+    def create_application(params)
+      post(@api_host, '/v1/applications', params)
+    end
+
+    def update_application(id, params)
+      put(@api_host, "/v1/applications/#{id}", params)
+    end
+
+    def delete_application(id)
+      delete(@api_host, "/v1/applications/#{id}")
+    end
+
     private
 
     def get(host, request_uri, params = {})
@@ -223,6 +243,26 @@ module Nexmo
       parse(request(uri, message), host)
     end
 
+    def put(host, request_uri, params)
+      uri = URI('https://' + host + request_uri)
+
+      message = Net::HTTP::Put.new(uri.request_uri)
+      message.form_data = params.merge(api_key: @key, api_secret: @secret)
+      message['User-Agent'] = @user_agent
+
+      parse(request(uri, message), host)
+    end
+
+    def delete(host, request_uri)
+      uri = URI('https://' + host + request_uri)
+      uri.query = query_string({api_key: @key, api_secret: @secret})
+
+      message = Net::HTTP::Delete.new(uri.request_uri)
+      message['User-Agent'] = @user_agent
+
+      parse(request(uri, message), host)
+    end
+
     def request(uri, message)
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
@@ -231,6 +271,8 @@ module Nexmo
 
     def parse(http_response, host)
       case http_response
+      when Net::HTTPNoContent
+        :no_content
       when Net::HTTPSuccess
         if http_response['Content-Type'].split(';').first == 'application/json'
           JSON.parse(http_response.body)
