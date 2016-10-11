@@ -8,6 +8,10 @@ describe 'Nexmo::Client' do
 
     @api_secret = 'api_secret_xxx'
 
+    @application_id = 'nexmo-application-id'
+
+    @private_key = File.read('test/private_key.txt')
+
     @base_url = 'https://rest.nexmo.com'
 
     @api_base_url = 'https://api.nexmo.com'
@@ -20,7 +24,7 @@ describe 'Nexmo::Client' do
 
     @example_message_hash = {from: 'ruby', to: 'number', text: 'Hey!'}
 
-    @client = Nexmo::Client.new(key: @api_key, secret: @api_secret)
+    @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, application_id: @application_id, private_key: @private_key)
   end
 
   describe 'send_message method' do
@@ -397,6 +401,84 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'create_call method' do
+    it 'posts to the calls resource and returns the response object' do
+      params = {
+        to: [{type: 'phone', number: '14843331234'}],
+        from: {type: 'phone', number: '14843335555'},
+        answer_url: ['https://example.com/answer']
+      }
+
+      expect :post, "#@api_base_url/v1/calls", params
+
+      @client.create_call(params).must_equal(@response_object)
+    end
+  end
+
+  describe 'get_calls method' do
+    it 'fetches the calls resource and returns the response object' do
+      expect :get, "#@api_base_url/v1/calls?status=completed"
+
+      @client.get_calls(status: 'completed').must_equal(@response_object)
+    end
+  end
+
+  describe 'get_call method' do
+    it 'fetches the call resource with the given uuid and returns the response object' do
+      expect :get, "#@api_base_url/v1/calls/xx-xx-xx-xx"
+
+      @client.get_call('xx-xx-xx-xx').must_equal(@response_object)
+    end
+  end
+
+  describe 'update_call method' do
+    it 'puts to the call resource with the given uuid and returns the response object' do
+      expect :put, "#@api_base_url/v1/calls/xx-xx-xx-xx", {action: 'hangup'}
+
+      @client.update_call('xx-xx-xx-xx', action: 'hangup').must_equal(@response_object)
+    end
+  end
+
+  describe 'send_audio method' do
+    it 'puts to the call stream resource with the given uuid and returns the response object' do
+      expect :put, "#@api_base_url/v1/calls/xx-xx-xx-xx/stream", {stream_url: 'http://example.com/audio.mp3'}
+
+      @client.send_audio('xx-xx-xx-xx', stream_url: 'http://example.com/audio.mp3').must_equal(@response_object)
+    end
+  end
+
+  describe 'stop_audio method' do
+    it 'deletes the call stream resource with the given uuid' do
+      expect :delete, "#@api_base_url/v1/calls/xx-xx-xx-xx/stream"
+
+      @client.stop_audio('xx-xx-xx-xx')
+    end
+  end
+
+  describe 'send_speech method' do
+    it 'puts to the call talk resource with the given uuid and returns the response object' do
+      expect :put, "#@api_base_url/v1/calls/xx-xx-xx-xx/talk", {text: 'Hello'}
+
+      @client.send_speech('xx-xx-xx-xx', text: 'Hello').must_equal(@response_object)
+    end
+  end
+
+  describe 'stop_speech method' do
+    it 'deletes the call talk resource with the given uuid' do
+      expect :delete, "#@api_base_url/v1/calls/xx-xx-xx-xx/talk"
+
+      @client.stop_speech('xx-xx-xx-xx')
+    end
+  end
+
+  describe 'send_dtmf method' do
+    it 'puts to the call dtmf resource with the given uuid and returns the response object' do
+      expect :put, "#@api_base_url/v1/calls/xx-xx-xx-xx/dtmf", {digits: '1234'}
+
+      @client.send_dtmf('xx-xx-xx-xx', digits: '1234').must_equal(@response_object)
+    end
+  end
+
   it 'raises an authentication error exception if the response code is 401' do
     stub_request(:post, "#@base_url/sms/json").to_return(status: 401)
 
@@ -452,6 +534,22 @@ describe 'Nexmo::Client' do
   end
 
   private
+
+  def expect(method_symbol, url, body = nil)
+    headers = {'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/}
+
+    @request = stub_request(method_symbol, url)
+
+    if method_symbol == :delete
+      @request.with(headers: headers).to_return(status: 204)
+    elsif body.nil?
+      @request.with(headers: headers).to_return(@response_body)
+    else
+      headers['Content-Type'] = 'application/json'
+
+      @request.with(headers: headers, body: body).to_return(@response_body)
+    end
+  end
 
   def expect_get(url)
     @request = stub_request(:get, url).to_return(@response_body)

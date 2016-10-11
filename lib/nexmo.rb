@@ -1,4 +1,5 @@
 require 'nexmo/version'
+require 'nexmo/jwt'
 require 'net/http'
 require 'json'
 require 'cgi'
@@ -19,6 +20,10 @@ module Nexmo
       @key = options.fetch(:key) { ENV.fetch('NEXMO_API_KEY') }
 
       @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
+
+      @application_id = options[:application_id]
+
+      @private_key = options[:private_key]
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
 
@@ -221,6 +226,42 @@ module Nexmo
       delete(@api_host, "/v1/applications/#{id}")
     end
 
+    def create_call(params)
+      api_request(Net::HTTP::Post, '/v1/calls', params)
+    end
+
+    def get_calls(params = nil)
+      api_request(Net::HTTP::Get, '/v1/calls', params)
+    end
+
+    def get_call(uuid)
+      api_request(Net::HTTP::Get, "/v1/calls/#{uuid}")
+    end
+
+    def update_call(uuid, params)
+      api_request(Net::HTTP::Put, "/v1/calls/#{uuid}", params)
+    end
+
+    def send_audio(uuid, params)
+      api_request(Net::HTTP::Put, "/v1/calls/#{uuid}/stream", params)
+    end
+
+    def stop_audio(uuid)
+      api_request(Net::HTTP::Delete, "/v1/calls/#{uuid}/stream")
+    end
+
+    def send_speech(uuid, params)
+      api_request(Net::HTTP::Put, "/v1/calls/#{uuid}/talk", params)
+    end
+
+    def stop_speech(uuid)
+      api_request(Net::HTTP::Delete, "/v1/calls/#{uuid}/talk")
+    end
+
+    def send_dtmf(uuid, params)
+      api_request(Net::HTTP::Put, "/v1/calls/#{uuid}/dtmf", params)
+    end
+
     private
 
     def get(host, request_uri, params = {})
@@ -261,6 +302,28 @@ module Nexmo
       message['User-Agent'] = @user_agent
 
       parse(request(uri, message), host)
+    end
+
+    def api_request(message_class, path, params = nil)
+      uri = URI('https://' + @api_host + path)
+
+      unless message_class::REQUEST_HAS_BODY || params.nil? || params.empty?
+        uri.query = query_string(params)
+      end
+
+      message = message_class.new(uri.request_uri)
+
+      if message_class::REQUEST_HAS_BODY
+        message['Content-Type'] = 'application/json'
+        message.body = JSON.generate(params)
+      end
+
+      auth_payload = {application_id: @application_id}
+
+      message['Authorization'] = JWT.auth_header(auth_payload, @private_key)
+      message['User-Agent'] = @user_agent
+
+      parse(request(uri, message), @api_host)
     end
 
     def request(uri, message)
