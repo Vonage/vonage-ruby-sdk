@@ -271,7 +271,7 @@ module Nexmo
       message = Net::HTTP::Get.new(uri.request_uri)
       message['User-Agent'] = @user_agent
 
-      parse(request(uri, message), host)
+      request(uri, message)
     end
 
     def post(host, request_uri, params)
@@ -281,7 +281,7 @@ module Nexmo
       message.form_data = params.merge(api_key: @key, api_secret: @secret)
       message['User-Agent'] = @user_agent
 
-      parse(request(uri, message), host)
+      request(uri, message)
     end
 
     def put(host, request_uri, params)
@@ -291,7 +291,7 @@ module Nexmo
       message.form_data = params.merge(api_key: @key, api_secret: @secret)
       message['User-Agent'] = @user_agent
 
-      parse(request(uri, message), host)
+      request(uri, message)
     end
 
     def delete(host, request_uri)
@@ -301,7 +301,7 @@ module Nexmo
       message = Net::HTTP::Delete.new(uri.request_uri)
       message['User-Agent'] = @user_agent
 
-      parse(request(uri, message), host)
+      request(uri, message)
     end
 
     def api_request(message_class, path, params = nil)
@@ -323,16 +323,15 @@ module Nexmo
       message['Authorization'] = JWT.auth_header(auth_payload, @private_key)
       message['User-Agent'] = @user_agent
 
-      parse(request(uri, message), @api_host)
+      request(uri, message)
     end
 
     def request(uri, message)
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
-      http.request(message)
-    end
 
-    def parse(http_response, host)
+      http_response = http.request(message)
+
       case http_response
       when Net::HTTPNoContent
         :no_content
@@ -343,13 +342,13 @@ module Nexmo
           http_response.body
         end
       when Net::HTTPUnauthorized
-        raise AuthenticationError, "#{http_response.code} response from #{host}"
+        raise AuthenticationError, "#{http_response.code} response from #{uri.host}"
       when Net::HTTPClientError
-        raise ClientError, "#{http_response.code} response from #{host}"
+        raise ClientError, "#{http_response.code} response from #{uri.host}"
       when Net::HTTPServerError
-        raise ServerError, "#{http_response.code} response from #{host}"
+        raise ServerError, "#{http_response.code} response from #{uri.host}"
       else
-        raise Error, "#{http_response.code} response from #{host}"
+        raise Error, "#{http_response.code} response from #{uri.host}"
       end
     end
 
