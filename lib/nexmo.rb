@@ -1,18 +1,14 @@
 require 'nexmo/version'
 require 'nexmo/params'
 require 'nexmo/jwt'
+require 'nexmo/errors/error'
+require 'nexmo/errors/client_error'
+require 'nexmo/errors/server_error'
+require 'nexmo/errors/authentication_error'
 require 'net/http'
 require 'json'
 
 module Nexmo
-  class Error < StandardError; end
-
-  class ClientError < Error; end
-
-  class ServerError < Error; end
-
-  class AuthenticationError < ClientError; end
-
   class Client
     attr_accessor :key, :secret
 
