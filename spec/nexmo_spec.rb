@@ -22,8 +22,6 @@ describe 'Nexmo::Client' do
 
     @response_object = {'key' => 'value'}
 
-    @example_message_hash = {from: 'ruby', to: 'number', text: 'Hey!'}
-
     @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, application_id: @application_id, private_key: @private_key)
   end
 
@@ -31,7 +29,7 @@ describe 'Nexmo::Client' do
     it 'posts to the sms resource and returns the response object' do
       expect_post "#@base_url/sms/json", "from=ruby&to=number&text=Hey!&api_key=#@api_key&api_secret=#@api_secret"
 
-      @client.send_message(@example_message_hash).must_equal(@response_object)
+      @client.send_message(from: 'ruby', to: 'number', text: 'Hey!').must_equal(@response_object)
     end
   end
 
@@ -480,29 +478,29 @@ describe 'Nexmo::Client' do
   end
 
   it 'raises an authentication error exception if the response code is 401' do
-    stub_request(:post, "#@base_url/sms/json").to_return(status: 401)
+    stub_request(:get, /#{@base_url}/).to_return(status: 401)
 
-    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::AuthenticationError)
+    proc { @client.get_balance }.must_raise(Nexmo::AuthenticationError)
   end
 
   it 'raises a client error exception if the response code is 4xx' do
-    stub_request(:post, "#@base_url/sms/json").to_return(status: 400)
+    stub_request(:get, /#{@base_url}/).to_return(status: 400)
 
-    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::ClientError)
+    proc { @client.get_balance }.must_raise(Nexmo::ClientError)
   end
 
   it 'raises a server error exception if the response code is 5xx' do
-    stub_request(:post, "#@base_url/sms/json").to_return(status: 500)
+    stub_request(:get, /#{@base_url}/).to_return(status: 500)
 
-    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::ServerError)
+    proc { @client.get_balance }.must_raise(Nexmo::ServerError)
   end
 
   it 'includes a user-agent header with the library version number and ruby version number' do
     headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}"}
 
-    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@response_body)
+    stub_request(:get, /#{@base_url}/).with(headers: headers).to_return(@response_body)
 
-    @client.send_message(@example_message_hash)
+    @client.get_balance
   end
 
   it 'provides options for application name and version to be included in the user-agent header' do
@@ -510,11 +508,11 @@ describe 'Nexmo::Client' do
 
     headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}/#{app_name}/#{app_version}"}
 
-    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@response_body)
+    stub_request(:get, /#{@base_url}/).with(headers: headers).to_return(@response_body)
 
     @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, app_name: app_name, app_version: app_version)
 
-    @client.send_message(@example_message_hash)
+    @client.get_balance
   end
 
   it 'provides an option for specifying a different hostname to connect to' do
