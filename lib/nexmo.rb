@@ -1,8 +1,8 @@
 require 'nexmo/version'
+require 'nexmo/params'
 require 'nexmo/jwt'
 require 'net/http'
 require 'json'
-require 'cgi'
 
 module Nexmo
   class Error < StandardError; end
@@ -266,7 +266,7 @@ module Nexmo
 
     def get(host, request_uri, params = {})
       uri = URI('https://' + host + request_uri)
-      uri.query = query_string(params.merge(api_key: @key, api_secret: @secret))
+      uri.query = Params.encode(params.merge(api_key: @key, api_secret: @secret))
 
       message = Net::HTTP::Get.new(uri.request_uri)
 
@@ -293,7 +293,7 @@ module Nexmo
 
     def delete(host, request_uri)
       uri = URI('https://' + host + request_uri)
-      uri.query = query_string({api_key: @key, api_secret: @secret})
+      uri.query = Params.encode({api_key: @key, api_secret: @secret})
 
       message = Net::HTTP::Delete.new(uri.request_uri)
 
@@ -304,7 +304,7 @@ module Nexmo
       uri = URI('https://' + @api_host + path)
 
       unless message_class::REQUEST_HAS_BODY || params.nil? || params.empty?
-        uri.query = query_string(params)
+        uri.query = Params.encode(params)
       end
 
       message = message_class.new(uri.request_uri)
@@ -347,14 +347,6 @@ module Nexmo
       else
         raise Error, "#{http_response.code} response from #{uri.host}"
       end
-    end
-
-    def query_string(params)
-      params.flat_map { |k, vs| Array(vs).map { |v| "#{escape(k)}=#{escape(v)}" } }.join('&')
-    end
-
-    def escape(component)
-      CGI.escape(component.to_s)
     end
   end
 end
