@@ -269,7 +269,6 @@ module Nexmo
       uri.query = query_string(params.merge(api_key: @key, api_secret: @secret))
 
       message = Net::HTTP::Get.new(uri.request_uri)
-      message['User-Agent'] = @user_agent
 
       request(uri, message)
     end
@@ -279,7 +278,6 @@ module Nexmo
 
       message = Net::HTTP::Post.new(uri.request_uri)
       message.form_data = params.merge(api_key: @key, api_secret: @secret)
-      message['User-Agent'] = @user_agent
 
       request(uri, message)
     end
@@ -289,7 +287,6 @@ module Nexmo
 
       message = Net::HTTP::Put.new(uri.request_uri)
       message.form_data = params.merge(api_key: @key, api_secret: @secret)
-      message['User-Agent'] = @user_agent
 
       request(uri, message)
     end
@@ -299,7 +296,6 @@ module Nexmo
       uri.query = query_string({api_key: @key, api_secret: @secret})
 
       message = Net::HTTP::Delete.new(uri.request_uri)
-      message['User-Agent'] = @user_agent
 
       request(uri, message)
     end
@@ -321,7 +317,6 @@ module Nexmo
       auth_payload = {application_id: @application_id}
 
       message['Authorization'] = JWT.auth_header(auth_payload, @private_key)
-      message['User-Agent'] = @user_agent
 
       request(uri, message)
     end
@@ -329,6 +324,8 @@ module Nexmo
     def request(uri, message)
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
+
+      message['User-Agent'] = @user_agent
 
       http_response = http.request(message)
 
