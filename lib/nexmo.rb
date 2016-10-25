@@ -1,17 +1,15 @@
 require 'nexmo/version'
+require 'nexmo/params'
+require 'nexmo/jwt'
+require 'nexmo/signature'
+require 'nexmo/errors/error'
+require 'nexmo/errors/client_error'
+require 'nexmo/errors/server_error'
+require 'nexmo/errors/authentication_error'
 require 'net/http'
 require 'json'
-require 'cgi'
 
 module Nexmo
-  class Error < StandardError; end
-
-  class ClientError < Error; end
-
-  class ServerError < Error; end
-
-  class AuthenticationError < ClientError; end
-
   class Client
     attr_accessor :key, :secret
 
@@ -19,6 +17,12 @@ module Nexmo
       @key = options.fetch(:key) { ENV.fetch('NEXMO_API_KEY') }
 
       @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
+
+      @signature_secret = options.fetch(:signature_secret) { ENV['NEXMO_SIGNATURE_SECRET'] }
+
+      @application_id = options[:application_id]
+
+      @private_key = options[:private_key]
 
       @host = options.fetch(:host) { 'rest.nexmo.com' }
 
@@ -134,14 +138,20 @@ module Nexmo
     end
 
     def initiate_call(params)
+      Kernel.warn "#{self.class}##{__method__} is deprecated (use the Voice API instead)."
+
       post(@host, '/call/json', params)
     end
 
     def initiate_tts_call(params)
+      Kernel.warn "#{self.class}##{__method__} is deprecated (use the Voice API instead)."
+
       post(@api_host, '/tts/json', params)
     end
 
     def initiate_tts_prompt_call(params)
+      Kernel.warn "#{self.class}##{__method__} is deprecated (use the Voice API instead)."
+
       post(@api_host, '/tts-prompt/json', params)
     end
 
@@ -201,16 +211,75 @@ module Nexmo
       post(@host, '/ni/json', params)
     end
 
+    def get_applications(params = {})
+      get(@api_host, '/v1/applications', params)
+    end
+
+    def get_application(id)
+      get(@api_host, "/v1/applications/#{id}")
+    end
+
+    def create_application(params)
+      post(@api_host, '/v1/applications', params)
+    end
+
+    def update_application(id, params)
+      put(@api_host, "/v1/applications/#{id}", params)
+    end
+
+    def delete_application(id)
+      delete(@api_host, "/v1/applications/#{id}")
+    end
+
+    def create_call(params)
+      api_request(Net::HTTP::Post, '/v1/calls', params)
+    end
+
+    def get_calls(params = nil)
+      api_request(Net::HTTP::Get, '/v1/calls', params)
+    end
+
+    def get_call(uuid)
+      api_request(Net::HTTP::Get, "/v1/calls/#{uuid}")
+    end
+
+    def update_call(uuid, params)
+      api_request(Net::HTTP::Put, "/v1/calls/#{uuid}", params)
+    end
+
+    def send_audio(uuid, params)
+      api_request(Net::HTTP::Put, "/v1/calls/#{uuid}/stream", params)
+    end
+
+    def stop_audio(uuid)
+      api_request(Net::HTTP::Delete, "/v1/calls/#{uuid}/stream")
+    end
+
+    def send_speech(uuid, params)
+      api_request(Net::HTTP::Put, "/v1/calls/#{uuid}/talk", params)
+    end
+
+    def stop_speech(uuid)
+      api_request(Net::HTTP::Delete, "/v1/calls/#{uuid}/talk")
+    end
+
+    def send_dtmf(uuid, params)
+      api_request(Net::HTTP::Put, "/v1/calls/#{uuid}/dtmf", params)
+    end
+
+    def check_signature(params)
+      Signature.check(params, @signature_secret)
+    end
+
     private
 
     def get(host, request_uri, params = {})
       uri = URI('https://' + host + request_uri)
-      uri.query = query_string(params.merge(api_key: @key, api_secret: @secret))
+      uri.query = Params.encode(params.merge(api_key: @key, api_secret: @secret))
 
       message = Net::HTTP::Get.new(uri.request_uri)
-      message['User-Agent'] = @user_agent
 
-      parse(request(uri, message), host)
+      request(uri, message)
     end
 
     def post(host, request_uri, params)
@@ -218,19 +287,60 @@ module Nexmo
 
       message = Net::HTTP::Post.new(uri.request_uri)
       message.form_data = params.merge(api_key: @key, api_secret: @secret)
-      message['User-Agent'] = @user_agent
 
-      parse(request(uri, message), host)
+      request(uri, message)
+    end
+
+    def put(host, request_uri, params)
+      uri = URI('https://' + host + request_uri)
+
+      message = Net::HTTP::Put.new(uri.request_uri)
+      message.form_data = params.merge(api_key: @key, api_secret: @secret)
+
+      request(uri, message)
+    end
+
+    def delete(host, request_uri)
+      uri = URI('https://' + host + request_uri)
+      uri.query = Params.encode({api_key: @key, api_secret: @secret})
+
+      message = Net::HTTP::Delete.new(uri.request_uri)
+
+      request(uri, message)
+    end
+
+    def api_request(message_class, path, params = nil)
+      uri = URI('https://' + @api_host + path)
+
+      unless message_class::REQUEST_HAS_BODY || params.nil? || params.empty?
+        uri.query = Params.encode(params)
+      end
+
+      message = message_class.new(uri.request_uri)
+
+      if message_class::REQUEST_HAS_BODY
+        message['Content-Type'] = 'application/json'
+        message.body = JSON.generate(params)
+      end
+
+      auth_payload = {application_id: @application_id}
+
+      message['Authorization'] = JWT.auth_header(auth_payload, @private_key)
+
+      request(uri, message)
     end
 
     def request(uri, message)
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
-      http.request(message)
-    end
 
-    def parse(http_response, host)
+      message['User-Agent'] = @user_agent
+
+      http_response = http.request(message)
+
       case http_response
+      when Net::HTTPNoContent
+        :no_content
       when Net::HTTPSuccess
         if http_response['Content-Type'].split(';').first == 'application/json'
           JSON.parse(http_response.body)
@@ -238,22 +348,14 @@ module Nexmo
           http_response.body
         end
       when Net::HTTPUnauthorized
-        raise AuthenticationError, "#{http_response.code} response from #{host}"
+        raise AuthenticationError, "#{http_response.code} response from #{uri.host}"
       when Net::HTTPClientError
-        raise ClientError, "#{http_response.code} response from #{host}"
+        raise ClientError, "#{http_response.code} response from #{uri.host}"
       when Net::HTTPServerError
-        raise ServerError, "#{http_response.code} response from #{host}"
+        raise ServerError, "#{http_response.code} response from #{uri.host}"
       else
-        raise Error, "#{http_response.code} response from #{host}"
+        raise Error, "#{http_response.code} response from #{uri.host}"
       end
-    end
-
-    def query_string(params)
-      params.flat_map { |k, vs| Array(vs).map { |v| "#{escape(k)}=#{escape(v)}" } }.join('&')
-    end
-
-    def escape(component)
-      CGI.escape(component.to_s)
     end
   end
 end

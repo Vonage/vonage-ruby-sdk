@@ -1,4 +1,4 @@
-## [4.2.0](https://github.com/Nexmo/ruby-nexmo/tree/v4.2.0)
+# 4.2.0
 
 * Added get_sms_pricing method
 
@@ -10,7 +10,7 @@
 
 * Added more clearly named methods for Verify API
 
-## [4.1.0](https://github.com/Nexmo/ruby-nexmo/tree/v4.1.0)
+# 4.1.0
 
 * Added topup method
 
@@ -18,7 +18,7 @@
 
 * Added api_host option
 
-## [4.0.0](https://github.com/Nexmo/ruby-nexmo/tree/v4.0.0)
+# 4.0.0
 
 * Removed exception behaviour from #send_message
 
@@ -44,13 +44,13 @@
 
 * Changed license from LGPL-3.0 to MIT
 
-## [3.1.0](https://github.com/Nexmo/ruby-nexmo/tree/v3.1.0)
+# 3.1.0
 
 * Renamed #number_search method to #get_available_numbers
 
 * Added #control_verification_request method
 
-## [3.0.0](https://github.com/Nexmo/ruby-nexmo/tree/v3.0.0)
+# 3.0.0
 
 * Removed :http accessor
 
@@ -64,7 +64,7 @@
 
 * Added license info
 
-## [2.0.0](https://github.com/Nexmo/ruby-nexmo/tree/v2.0.0)
+# 2.0.0
 
 * Dropped support for Ruby 1.8.7
 
@@ -88,7 +88,7 @@
 
 * Added Voice API methods
 
-## [1.3.0](https://github.com/Nexmo/ruby-nexmo/tree/v1.3.0)
+# 1.3.0
 
 * Added Nexmo::Client#buy_number method
 
@@ -98,19 +98,19 @@
 
 * Added :host option for specifying a different hostname to connect to
 
-## [1.2.0](https://github.com/Nexmo/ruby-nexmo/tree/v1.2.0)
+# 1.2.0
 
 * Added initializer block functionality for tweaking response behaviour
 
 * Deprecated the :json option (use an initializer block instead)
 
-## [1.1.0](https://github.com/Nexmo/ruby-nexmo/tree/v1.1.0)
+# 1.1.0
 
 * Added default lookup of NEXMO_API_KEY and NEXMO_API_SECRET environment variables
 
 * Added preliminary/experimental support for [Nexmo OAuth](https://labs.nexmo.com/#oauth) (beta)
 
-## [1.0.0](https://github.com/Nexmo/ruby-nexmo/tree/v1.0.0)
+# 1.0.0
 
 * Ruby 1.8.7 compatibility
 
@@ -118,7 +118,7 @@
 
 * Added Nexmo::Client#send_message! method
 
-## [0.5.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.5.0)
+# 0.5.0
 
 * Added Nexmo::Client#search_messages method
 
@@ -126,7 +126,7 @@
 
 * Added :json option for specifying an alternate JSON implementation
 
-## [0.4.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.4.0)
+# 0.4.0
 
 * Added Nexmo::Client#get_balance method
 
@@ -142,30 +142,30 @@
 
 * Added Nexmo::Client#get_message_rejections method
 
-## [0.3.1](https://github.com/Nexmo/ruby-nexmo/tree/v0.3.1)
+# 0.3.1
 
 * Fixed content type checking (thanks @dbrock)
 
-## [0.3.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.3.0)
+# 0.3.0
 
 * Fixed Nexmo::Client#send_message for unexpected HTTP responses
 
-## [0.2.2](https://github.com/Nexmo/ruby-nexmo/tree/v0.2.2)
+# 0.2.2
 
 * Added Nexmo status code to error messages
 
-## [0.2.1](https://github.com/Nexmo/ruby-nexmo/tree/v0.2.1)
+# 0.2.1
 
 * No significant changes
 
-## [0.2.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.2.0)
+# 0.2.0
 
 * Added Nexmo::Client#headers method
 
-## [0.1.1](https://github.com/Nexmo/ruby-nexmo/tree/v0.1.1)
+# 0.1.1
 
 * Ruby 1.8.7 compatibility
 
-## [0.1.0](https://github.com/Nexmo/ruby-nexmo/tree/v0.1.0)
+# 0.1.0
 
 * First version!

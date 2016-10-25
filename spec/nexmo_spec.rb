@@ -8,6 +8,10 @@ describe 'Nexmo::Client' do
 
     @api_secret = 'api_secret_xxx'
 
+    @application_id = 'nexmo-application-id'
+
+    @private_key = File.read('test/private_key.txt')
+
     @base_url = 'https://rest.nexmo.com'
 
     @api_base_url = 'https://api.nexmo.com'
@@ -18,16 +22,14 @@ describe 'Nexmo::Client' do
 
     @response_object = {'key' => 'value'}
 
-    @example_message_hash = {from: 'ruby', to: 'number', text: 'Hey!'}
-
-    @client = Nexmo::Client.new(key: @api_key, secret: @api_secret)
+    @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, application_id: @application_id, private_key: @private_key)
   end
 
   describe 'send_message method' do
     it 'posts to the sms resource and returns the response object' do
       expect_post "#@base_url/sms/json", "from=ruby&to=number&text=Hey!&api_key=#@api_key&api_secret=#@api_secret"
 
-      @client.send_message(@example_message_hash).must_equal(@response_object)
+      @client.send_message(from: 'ruby', to: 'number', text: 'Hey!').must_equal(@response_object)
     end
   end
 
@@ -161,7 +163,7 @@ describe 'Nexmo::Client' do
     it 'posts to the ussd resource and returns the response object' do
       expect_post "#@base_url/ussd/json", "api_key=#@api_key&api_secret=#@api_secret&from=MyCompany20&to=447525856424&text=Hello"
 
-      @client.send_ussd_push_message(from: 'MyCompany20', to: '447525856424', text: 'Hello')
+      @client.send_ussd_push_message(from: 'MyCompany20', to: '447525856424', text: 'Hello').must_equal(@response_object)
     end
   end
 
@@ -169,7 +171,7 @@ describe 'Nexmo::Client' do
     it 'posts to the ussd prompt resource and returns the response object' do
       expect_post "#@base_url/ussd-prompt/json", "api_key=#@api_key&api_secret=#@api_secret&from=virtual-number&to=447525856424&text=Hello"
 
-      @client.send_ussd_prompt_message(from: 'virtual-number', to: '447525856424', text: 'Hello')
+      @client.send_ussd_prompt_message(from: 'virtual-number', to: '447525856424', text: 'Hello').must_equal(@response_object)
     end
   end
 
@@ -177,7 +179,7 @@ describe 'Nexmo::Client' do
     it 'posts to the short code two factor authentication resource and returns the response object' do
       expect_post "#@base_url/sc/us/2fa/json", "api_key=#@api_key&api_secret=#@api_secret&to=16365553226&pin=1234"
 
-      @client.send_2fa_message(to: '16365553226', pin: 1234)
+      @client.send_2fa_message(to: '16365553226', pin: 1234).must_equal(@response_object)
     end
   end
 
@@ -185,7 +187,7 @@ describe 'Nexmo::Client' do
     it 'posts to the short code alert resource and returns the response object' do
       expect_post "#@base_url/sc/us/alert/json", "api_key=#@api_key&api_secret=#@api_secret&to=16365553226&server=host&link=http://example.com/"
 
-      @client.send_event_alert_message(to: '16365553226', server: 'host', link: 'http://example.com/')
+      @client.send_event_alert_message(to: '16365553226', server: 'host', link: 'http://example.com/').must_equal(@response_object)
     end
   end
 
@@ -193,7 +195,7 @@ describe 'Nexmo::Client' do
     it 'posts to the short code marketing resource and returns the response object' do
       expect_post "#@base_url/sc/us/marketing/json", "api_key=#@api_key&api_secret=#@api_secret&from=666&to=16365553226&keyword=NEXMO&text=Hello"
 
-      @client.send_marketing_message(from: '666', to: '16365553226', keyword: 'NEXMO', text: 'Hello')
+      @client.send_marketing_message(from: '666', to: '16365553226', keyword: 'NEXMO', text: 'Hello').must_equal(@response_object)
     end
   end
 
@@ -201,7 +203,7 @@ describe 'Nexmo::Client' do
     it 'fetches the short code alert opt-in query resource and returns the response object' do
       expect_get "#@base_url/sc/us/alert/opt-in/query/json?api_key=#@api_key&api_secret=#@api_secret"
 
-      @client.get_event_alert_numbers
+      @client.get_event_alert_numbers.must_equal(@response_object)
     end
   end
 
@@ -209,7 +211,7 @@ describe 'Nexmo::Client' do
     it 'posts to the short code alert opt-in manage resource and returns the response object' do
       expect_post "#@base_url/sc/us/alert/opt-in/manage/json", "api_key=#@api_key&api_secret=#@api_secret&msisdn=441632960960"
 
-      @client.resubscribe_event_alert_number(msisdn: '441632960960')
+      @client.resubscribe_event_alert_number(msisdn: '441632960960').must_equal(@response_object)
     end
   end
 
@@ -217,7 +219,7 @@ describe 'Nexmo::Client' do
     it 'posts to the sns resource and returns the response object' do
       expect_post "#@sns_base_url/sns/json", "api_key=#@api_key&api_secret=#@api_secret&cmd=publish&message=Hello&topic=arn&from=MyCompany20"
 
-      @client.sns_publish('Hello', topic: 'arn', from: 'MyCompany20')
+      @client.sns_publish('Hello', topic: 'arn', from: 'MyCompany20').must_equal(@response_object)
     end
   end
 
@@ -225,7 +227,7 @@ describe 'Nexmo::Client' do
     it 'posts to the sns resource and returns the response object' do
       expect_post "#@sns_base_url/sns/json", "api_key=#@api_key&api_secret=#@api_secret&cmd=subscribe&to=447525856424&topic=arn"
 
-      @client.sns_subscribe('447525856424', topic: 'arn')
+      @client.sns_subscribe('447525856424', topic: 'arn').must_equal(@response_object)
     end
   end
 
@@ -233,7 +235,9 @@ describe 'Nexmo::Client' do
     it 'posts to the call resource and returns the response object' do
       expect_post "#@base_url/call/json", "api_key=#@api_key&api_secret=#@api_secret&to=16365553226&answer_url=http://example.com/answer"
 
-      @client.initiate_call(to: '16365553226', answer_url: 'http://example.com/answer')
+      Kernel.stub :warn, proc { |message| message.must_match(/initiate_call is deprecated/) } do
+        @client.initiate_call(to: '16365553226', answer_url: 'http://example.com/answer').must_equal(@response_object)
+      end
     end
   end
 
@@ -241,7 +245,9 @@ describe 'Nexmo::Client' do
     it 'posts to the tts resource and returns the response object' do
       expect_post "#@api_base_url/tts/json", "api_key=#@api_key&api_secret=#@api_secret&to=16365553226&text=Hello"
 
-      @client.initiate_tts_call(to: '16365553226', text: 'Hello')
+      Kernel.stub :warn, proc { |message| message.must_match(/initiate_tts_call is deprecated/) } do
+        @client.initiate_tts_call(to: '16365553226', text: 'Hello').must_equal(@response_object)
+      end
     end
   end
 
@@ -249,7 +255,9 @@ describe 'Nexmo::Client' do
     it 'posts to the tts prompt resource and returns the response object' do
       expect_post "#@api_base_url/tts-prompt/json", "api_key=#@api_key&api_secret=#@api_secret&to=16365553226&text=Hello&max_digits=4&bye_text=Goodbye"
 
-      @client.initiate_tts_prompt_call(to: '16365553226', text: 'Hello', max_digits: 4, bye_text: 'Goodbye')
+      Kernel.stub :warn, proc { |message| message.must_match(/initiate_tts_prompt_call is deprecated/) } do
+        @client.initiate_tts_prompt_call(to: '16365553226', text: 'Hello', max_digits: 4, bye_text: 'Goodbye').must_equal(@response_object)
+      end
     end
   end
 
@@ -257,7 +265,7 @@ describe 'Nexmo::Client' do
     it 'posts to the verify json resource and returns the response object' do
       expect_post "#@api_base_url/verify/json", "api_key=#@api_key&api_secret=#@api_secret&number=447525856424&brand=MyApp"
 
-      @client.start_verification(number: '447525856424', brand: 'MyApp')
+      @client.start_verification(number: '447525856424', brand: 'MyApp').must_equal(@response_object)
     end
   end
 
@@ -266,7 +274,7 @@ describe 'Nexmo::Client' do
       expect_post "#@api_base_url/verify/json", "api_key=#@api_key&api_secret=#@api_secret&number=447525856424&brand=MyApp"
 
       Kernel.stub :warn, proc { |message| message.must_match(/send_verification_request is deprecated/) } do
-        @client.send_verification_request(number: '447525856424', brand: 'MyApp')
+        @client.send_verification_request(number: '447525856424', brand: 'MyApp').must_equal(@response_object)
       end
     end
   end
@@ -275,7 +283,7 @@ describe 'Nexmo::Client' do
     it 'posts to the verify check resource and returns the response object' do
       expect_post "#@api_base_url/verify/check/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&code=123445"
 
-      @client.check_verification('8g88g88eg8g8gg9g90', code: '123445')
+      @client.check_verification('8g88g88eg8g8gg9g90', code: '123445').must_equal(@response_object)
     end
   end
 
@@ -284,7 +292,7 @@ describe 'Nexmo::Client' do
       expect_post "#@api_base_url/verify/check/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&code=123445"
 
       Kernel.stub :warn, proc { |message| message.must_match(/check_verification_request is deprecated/) } do
-        @client.check_verification_request(request_id: '8g88g88eg8g8gg9g90', code: '123445')
+        @client.check_verification_request(request_id: '8g88g88eg8g8gg9g90', code: '123445').must_equal(@response_object)
       end
     end
   end
@@ -293,7 +301,7 @@ describe 'Nexmo::Client' do
     it 'fetches the verify search resource with the given request id and returns the response object' do
       expect_get "#@api_base_url/verify/search/json?api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90"
 
-      @client.get_verification('8g88g88eg8g8gg9g90')
+      @client.get_verification('8g88g88eg8g8gg9g90').must_equal(@response_object)
     end
   end
 
@@ -302,7 +310,7 @@ describe 'Nexmo::Client' do
       expect_get "#@api_base_url/verify/search/json?api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90"
 
       Kernel.stub :warn, proc { |message| message.must_match(/get_verification_request is deprecated/) } do
-        @client.get_verification_request('8g88g88eg8g8gg9g90')
+        @client.get_verification_request('8g88g88eg8g8gg9g90').must_equal(@response_object)
       end
     end
   end
@@ -311,7 +319,7 @@ describe 'Nexmo::Client' do
     it 'posts to the verify control resource and returns the response object' do
       expect_post "#@api_base_url/verify/control/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&cmd=cancel"
 
-      @client.cancel_verification('8g88g88eg8g8gg9g90')
+      @client.cancel_verification('8g88g88eg8g8gg9g90').must_equal(@response_object)
     end
   end
 
@@ -319,7 +327,7 @@ describe 'Nexmo::Client' do
     it 'posts to the verify control resource and returns the response object' do
       expect_post "#@api_base_url/verify/control/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&cmd=trigger_next_event"
 
-      @client.trigger_next_verification_event('8g88g88eg8g8gg9g90')
+      @client.trigger_next_verification_event('8g88g88eg8g8gg9g90').must_equal(@response_object)
     end
   end
 
@@ -328,7 +336,7 @@ describe 'Nexmo::Client' do
       expect_post "#@api_base_url/verify/control/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&cmd=cancel"
 
       Kernel.stub :warn, proc { |message| message.must_match(/control_verification_request is deprecated/) } do
-        @client.control_verification_request(request_id: '8g88g88eg8g8gg9g90', cmd: 'cancel')
+        @client.control_verification_request(request_id: '8g88g88eg8g8gg9g90', cmd: 'cancel').must_equal(@response_object)
       end
     end
   end
@@ -337,7 +345,7 @@ describe 'Nexmo::Client' do
     it 'fetches the number format resource and returns the response object' do
       expect_get "#@api_base_url/number/format/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
-      @client.get_basic_number_insight(number: '447525856424')
+      @client.get_basic_number_insight(number: '447525856424').must_equal(@response_object)
     end
   end
 
@@ -345,7 +353,7 @@ describe 'Nexmo::Client' do
     it 'fetches the number lookup resource and returns the response object' do
       expect_get "#@api_base_url/number/lookup/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
-      @client.get_number_insight(number: '447525856424')
+      @client.get_number_insight(number: '447525856424').must_equal(@response_object)
     end
   end
 
@@ -353,34 +361,162 @@ describe 'Nexmo::Client' do
     it 'posts to the number insight resource and returns the response object' do
       expect_post "#@base_url/ni/json", "api_key=#@api_key&api_secret=#@api_secret&number=447525856424&callback=https://example.com"
 
-      @client.request_number_insight(number: '447525856424', callback: 'https://example.com')
+      @client.request_number_insight(number: '447525856424', callback: 'https://example.com').must_equal(@response_object)
+    end
+  end
+
+  describe 'get_applications method' do
+    it 'fetches the applications resource and returns the response object' do
+      expect_get "#@api_base_url/v1/applications?api_key=#@api_key&api_secret=#@api_secret"
+
+      @client.get_applications.must_equal(@response_object)
+    end
+  end
+
+  describe 'get_application method' do
+    it 'fetches the application resource with the given id and returns the response object' do
+      expect_get "#@api_base_url/v1/applications/xx-xx-xx-xx?api_key=#@api_key&api_secret=#@api_secret"
+
+      @client.get_application('xx-xx-xx-xx').must_equal(@response_object)
+    end
+  end
+
+  describe 'create_application method' do
+    it 'posts to the applications resource and returns the response object' do
+      expect_post "#@api_base_url/v1/applications", "api_key=#@api_key&api_secret=#@api_secret&name=Example+App&type=voice"
+
+      @client.create_application(name: 'Example App', type: 'voice')
+    end
+  end
+
+  describe 'update_application method' do
+    it 'puts to the application resource with the given id and returns the response object' do
+      expect_put "#@api_base_url/v1/applications/xx-xx-xx-xx", "api_key=#@api_key&api_secret=#@api_secret&answer_url=https%3A%2F%2Fexample.com%2Fncco"
+
+      @client.update_application('xx-xx-xx-xx', answer_url: 'https://example.com/ncco')
+    end
+  end
+
+  describe 'delete_application method' do
+    it 'deletes the application resource with the given id' do
+      expect_delete "#@api_base_url/v1/applications/xx-xx-xx-xx?api_key=#@api_key&api_secret=#@api_secret"
+
+      @client.delete_application('xx-xx-xx-xx')
+    end
+  end
+
+  describe 'create_call method' do
+    it 'posts to the calls resource and returns the response object' do
+      params = {
+        to: [{type: 'phone', number: '14843331234'}],
+        from: {type: 'phone', number: '14843335555'},
+        answer_url: ['https://example.com/answer']
+      }
+
+      expect :post, "#@api_base_url/v1/calls", params
+
+      @client.create_call(params).must_equal(@response_object)
+    end
+  end
+
+  describe 'get_calls method' do
+    it 'fetches the calls resource and returns the response object' do
+      expect :get, "#@api_base_url/v1/calls?status=completed"
+
+      @client.get_calls(status: 'completed').must_equal(@response_object)
+    end
+  end
+
+  describe 'get_call method' do
+    it 'fetches the call resource with the given uuid and returns the response object' do
+      expect :get, "#@api_base_url/v1/calls/xx-xx-xx-xx"
+
+      @client.get_call('xx-xx-xx-xx').must_equal(@response_object)
+    end
+  end
+
+  describe 'update_call method' do
+    it 'puts to the call resource with the given uuid and returns the response object' do
+      expect :put, "#@api_base_url/v1/calls/xx-xx-xx-xx", {action: 'hangup'}
+
+      @client.update_call('xx-xx-xx-xx', action: 'hangup').must_equal(@response_object)
+    end
+  end
+
+  describe 'send_audio method' do
+    it 'puts to the call stream resource with the given uuid and returns the response object' do
+      expect :put, "#@api_base_url/v1/calls/xx-xx-xx-xx/stream", {stream_url: 'http://example.com/audio.mp3'}
+
+      @client.send_audio('xx-xx-xx-xx', stream_url: 'http://example.com/audio.mp3').must_equal(@response_object)
+    end
+  end
+
+  describe 'stop_audio method' do
+    it 'deletes the call stream resource with the given uuid' do
+      expect :delete, "#@api_base_url/v1/calls/xx-xx-xx-xx/stream"
+
+      @client.stop_audio('xx-xx-xx-xx')
+    end
+  end
+
+  describe 'send_speech method' do
+    it 'puts to the call talk resource with the given uuid and returns the response object' do
+      expect :put, "#@api_base_url/v1/calls/xx-xx-xx-xx/talk", {text: 'Hello'}
+
+      @client.send_speech('xx-xx-xx-xx', text: 'Hello').must_equal(@response_object)
+    end
+  end
+
+  describe 'stop_speech method' do
+    it 'deletes the call talk resource with the given uuid' do
+      expect :delete, "#@api_base_url/v1/calls/xx-xx-xx-xx/talk"
+
+      @client.stop_speech('xx-xx-xx-xx')
+    end
+  end
+
+  describe 'send_dtmf method' do
+    it 'puts to the call dtmf resource with the given uuid and returns the response object' do
+      expect :put, "#@api_base_url/v1/calls/xx-xx-xx-xx/dtmf", {digits: '1234'}
+
+      @client.send_dtmf('xx-xx-xx-xx', digits: '1234').must_equal(@response_object)
+    end
+  end
+
+  describe 'check_signature method' do
+    it 'returns true if the signature in the given params is correct' do
+      params = {'a': '1', 'b': '2', 'timestamp': '1461605396', 'sig': '6af838ef94998832dbfc29020b564830'}
+
+      client = Nexmo::Client.new(key: @api_key, secret: @api_secret, signature_secret: 'secret')
+
+      client.check_signature(params).must_equal(true)
     end
   end
 
   it 'raises an authentication error exception if the response code is 401' do
-    stub_request(:post, "#@base_url/sms/json").to_return(status: 401)
+    stub_request(:get, /#{@base_url}/).to_return(status: 401)
 
-    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::AuthenticationError)
+    proc { @client.get_balance }.must_raise(Nexmo::AuthenticationError)
   end
 
   it 'raises a client error exception if the response code is 4xx' do
-    stub_request(:post, "#@base_url/sms/json").to_return(status: 400)
+    stub_request(:get, /#{@base_url}/).to_return(status: 400)
 
-    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::ClientError)
+    proc { @client.get_balance }.must_raise(Nexmo::ClientError)
   end
 
   it 'raises a server error exception if the response code is 5xx' do
-    stub_request(:post, "#@base_url/sms/json").to_return(status: 500)
+    stub_request(:get, /#{@base_url}/).to_return(status: 500)
 
-    proc { @client.send_message(@example_message_hash) }.must_raise(Nexmo::ServerError)
+    proc { @client.get_balance }.must_raise(Nexmo::ServerError)
   end
 
   it 'includes a user-agent header with the library version number and ruby version number' do
     headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}"}
 
-    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@response_body)
+    stub_request(:get, /#{@base_url}/).with(headers: headers).to_return(@response_body)
 
-    @client.send_message(@example_message_hash)
+    @client.get_balance
   end
 
   it 'provides options for application name and version to be included in the user-agent header' do
@@ -388,11 +524,11 @@ describe 'Nexmo::Client' do
 
     headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}/#{app_name}/#{app_version}"}
 
-    stub_request(:post, "#@base_url/sms/json").with(headers: headers).to_return(@response_body)
+    stub_request(:get, /#{@base_url}/).with(headers: headers).to_return(@response_body)
 
     @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, app_name: app_name, app_version: app_version)
 
-    @client.send_message(@example_message_hash)
+    @client.get_balance
   end
 
   it 'provides an option for specifying a different hostname to connect to' do
@@ -413,6 +549,22 @@ describe 'Nexmo::Client' do
 
   private
 
+  def expect(method_symbol, url, body = nil)
+    headers = {'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/}
+
+    @request = stub_request(method_symbol, url)
+
+    if method_symbol == :delete
+      @request.with(headers: headers).to_return(status: 204)
+    elsif body.nil?
+      @request.with(headers: headers).to_return(@response_body)
+    else
+      headers['Content-Type'] = 'application/json'
+
+      @request.with(headers: headers, body: body).to_return(@response_body)
+    end
+  end
+
   def expect_get(url)
     @request = stub_request(:get, url).to_return(@response_body)
   end
@@ -423,6 +575,18 @@ describe 'Nexmo::Client' do
     headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
 
     @request = stub_request(:post, url).with(body: body, headers: headers).to_return(@response_body)
+  end
+
+  def expect_put(url, data)
+    body = WebMock::Util::QueryMapper.query_to_values(data)
+
+    headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+
+    @request = stub_request(:put, url).with(body: body, headers: headers).to_return(@response_body)
+  end
+
+  def expect_delete(url)
+    @request = stub_request(:delete, url).to_return(status: 204)
   end
 
   after do

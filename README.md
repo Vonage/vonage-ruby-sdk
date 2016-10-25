@@ -8,7 +8,10 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
 * [Installation](#installation)
 * [Usage](#usage)
-* [Examples](#examples)
+* [SMS API](#sms-api)
+* [Voice API](#voice-api)
+* [Verify API](#verify-api)
+* [Application API](#application-api)
 * [Coverage](#api-coverage)
 * [License](#license)
 
@@ -28,33 +31,36 @@ Alternatively you can clone the repository:
 Usage
 -----
 
-Specify your credentials using the `NEXMO_API_KEY` and `NEXMO_API_SECRET`
-environment variables; require the nexmo library; and construct a client object.
-For example:
+Begin by requiring the nexmo library:
 
 ```ruby
 require 'nexmo'
-
-client = Nexmo::Client.new
 ```
 
-Alternatively you can specify your credentials directly using the `key`
-and `secret` options:
+Then construct a client object with your key and secret:
 
 ```ruby
-require 'nexmo'
-
 client = Nexmo::Client.new(key: 'YOUR-API-KEY', secret: 'YOUR-API-SECRET')
 ```
 
+For production you can specify the `NEXMO_API_KEY` and `NEXMO_API_SECRET`
+environment variables instead of specifying the key and secret explicitly.
 
-Examples
---------
+For newer endpoints that support JWT authentication such as the Voice API,
+you can also specify the `application_id` and `private_key` arguments:
 
-### Sending a message
+```ruby
+client = Nexmo::Client.new(application_id: application_id, private_key: private_key)
+```
 
-To use [Nexmo's SMS API][doc_sms] to send an SMS message, call the Nexmo::Client#send_message
-method with a hash containing the API parameters. For example:
+In order to check signatures for incoming webhook requests, you'll also need
+to specify the `signature_secret` argument (or the `NEXMO_SIGNATURE_SECRET`
+environment variable).
+
+
+## SMS API
+
+### Send a text message
 
 ```ruby
 response = client.send_message(from: 'Ruby', to: 'YOUR NUMBER', text: 'Hello world')
@@ -66,36 +72,93 @@ else
 end
 ```
 
-Specify `type: 'unicode'` if sending unicode characters. For example:
+Docs: [https://docs.nexmo.com/messaging/sms-api/api-reference#request](https://docs.nexmo.com/messaging/sms-api/api-reference#request?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+
+## Voice API
+
+### Make a call
 
 ```ruby
-response = client.send_message(from: 'Ruby', to: 'YOUR NUMBER', text: "Unicode \u2713", type: 'unicode')
+response = client.create_call({
+  to: [{type: 'phone', number: '14843331234'}],
+  from: {type: 'phone', number: '14843335555'},
+  answer_url: ['https://example.com/answer']
+})
 ```
 
-Specify phone numbers in international format, prefixed with country code.
+Docs: [https://docs.nexmo.com/voice/voice-api/api-reference#call_create](https://docs.nexmo.com/voice/voice-api/api-reference#call_create?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
 
-Check `response['messages'][0]['status']` to see if the message was sent
-successfully or if there was an error with the request.
-
-Country specific restrictions may apply. For example, US messages must
-originate from either a pre-approved long number or short code.
-
-### Fetching a message
-
-You can retrieve a message log from the API using the ID of the message:
+### Retrieve a list of calls
 
 ```ruby
-message = client.get_message('02000000DA7C52E7')
-
-puts "The body of the message was: #{message['body']}"
+response = client.get_calls
 ```
 
-### Starting a verification
+Docs: [https://docs.nexmo.com/voice/voice-api/api-reference#call_retrieve](https://docs.nexmo.com/voice/voice-api/api-reference#call_retrieve?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
 
-Nexmo's [Verify API][doc_verify] makes it easy to prove that a user has provided their
-own phone number during signup, or implement second factor authentication during signin.
+### Retrieve a single call
 
-You can start the verification process by calling the start_verification method:
+```ruby
+response = client.get_call(uuid)
+```
+
+Docs: [https://docs.nexmo.com/voice/voice-api/api-reference#call_retrieve_single](https://docs.nexmo.com/voice/voice-api/api-reference#call_retrieve_single?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Update a call
+
+```ruby
+response = client.update_call(uuid, action: 'hangup')
+```
+
+Docs: [https://docs.nexmo.com/voice/voice-api/api-reference#call_modify_single](https://docs.nexmo.com/voice/voice-api/api-reference#call_modify_single?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Stream audio to a call
+
+```ruby
+stream_url = 'https://nexmo-community.github.io/ncco-examples/assets/voice_api_audio_streaming.mp3'
+
+response = client.send_audio(uuid, stream_url: stream_url)
+```
+
+Docs: [https://docs.nexmo.com/voice/voice-api/api-reference#stream_put](https://docs.nexmo.com/voice/voice-api/api-reference#stream_put?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Stop streaming audio to a call
+
+```ruby
+response = client.stop_audio(uuid)
+```
+
+Docs: [https://docs.nexmo.com/voice/voice-api/api-reference#stream_delete](https://docs.nexmo.com/voice/voice-api/api-reference#stream_delete?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Send a synthesized speech message to a call
+
+```ruby
+response = client.send_speech(uuid, text: 'Hello')
+```
+
+Docs: [https://docs.nexmo.com/voice/voice-api/api-reference#talk_put](https://docs.nexmo.com/voice/voice-api/api-reference#talk_put?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Stop sending a synthesized speech message to a call
+
+```ruby
+response = client.stop_speech(uuid)
+```
+
+Docs: [https://docs.nexmo.com/voice/voice-api/api-reference#talk_delete](https://docs.nexmo.com/voice/voice-api/api-reference#talk_delete?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Send DTMF tones to a call
+
+```ruby
+response = client.send_dtmf(uuid, digits: '1234')
+```
+
+Docs: [https://docs.nexmo.com/voice/voice-api/api-reference#dtmf_put](https://docs.nexmo.com/voice/voice-api/api-reference#dtmf_put?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+
+## Verify API
+
+### Start a verification
 
 ```ruby
 response = client.start_verification(number: '441632960960', brand: 'MyApp')
@@ -107,31 +170,11 @@ else
 end
 ```
 
-The response contains a verification request id which you will need to
-store temporarily (in the session, database, url etc).
+Docs: [https://docs.nexmo.com/verify/api-reference/api-reference#vrequest](https://docs.nexmo.com/verify/api-reference/api-reference#vrequest?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
 
-### Controlling a verification
+The response contains a verification request id which you will need to store temporarily.
 
-Call the cancel_verification method with the verification request id
-to cancel an in-progress verification:
-
-```ruby
-client.cancel_verification('00e6c3377e5348cdaf567e1417c707a5')
-```
-
-Call the trigger_next_verification_event method with the verification
-request id to trigger the next attempt to send the confirmation code:
-
-```ruby
-client.trigger_next_verification_event('00e6c3377e5348cdaf567e1417c707a5')
-```
-
-The verification request id comes from the call to the start_verification method.
-
-### Checking a verification
-
-Call the check_verification method with the verification request id and the
-PIN code to complete the verification process:
+### Check a verification
 
 ```ruby
 response = client.check_verification('00e6c3377e5348cdaf567e1417c707a5', code: '1234')
@@ -143,8 +186,87 @@ else
 end
 ```
 
+Docs: [https://docs.nexmo.com/verify/api-reference/api-reference#check](https://docs.nexmo.com/verify/api-reference/api-reference#check?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
 The verification request id comes from the call to the start_verification method.
+
 The PIN code is entered into your application by the user.
+
+### Cancel a verification
+
+```ruby
+client.cancel_verification('00e6c3377e5348cdaf567e1417c707a5')
+```
+
+Docs: [https://docs.nexmo.com/verify/api-reference/api-reference#control](https://docs.nexmo.com/verify/api-reference/api-reference#control?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Trigger next verification step
+
+```ruby
+client.trigger_next_verification_event('00e6c3377e5348cdaf567e1417c707a5')
+```
+
+Docs: [https://docs.nexmo.com/verify/api-reference/api-reference#control](https://docs.nexmo.com/verify/api-reference/api-reference#control?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+
+## Application API
+
+### Create an application
+
+```ruby
+response = client.create_application(name: 'Example App', type: 'voice', answer_url: answer_url)
+```
+
+Docs: [https://docs.nexmo.com/tools/application-api/api-reference#create](https://docs.nexmo.com/tools/application-api/api-reference#create?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Retrieve a list of applications
+
+```ruby
+response = client.get_applications
+```
+
+Docs: [https://docs.nexmo.com/tools/application-api/api-reference#list](https://docs.nexmo.com/tools/application-api/api-reference#list?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Retrieve a single application
+
+```ruby
+response = client.get_application(uuid)
+```
+
+Docs: [https://docs.nexmo.com/tools/application-api/api-reference#retrieve](https://docs.nexmo.com/tools/application-api/api-reference#retrieve?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Update an application
+
+```ruby
+response = client.update_application(uuid, answer_method: 'POST')
+```
+
+Docs: [https://docs.nexmo.com/tools/application-api/api-reference#update](https://docs.nexmo.com/tools/application-api/api-reference#update?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+### Delete an application
+
+```ruby
+response = client.delete_application(uuid)
+```
+
+Docs: [https://docs.nexmo.com/tools/application-api/api-reference#delete](https://docs.nexmo.com/tools/application-api/api-reference#delete?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+
+## Validate webhook signatures
+
+```ruby
+client = Nexmo::Client.new(signature_secret: 'secret')
+
+if client.check_signature(request.params):
+  # valid signature
+else:
+  # invalid signature
+```
+
+Docs: [https://docs.nexmo.com/messaging/signing-messages](https://docs.nexmo.com/messaging/signing-messages?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+Note: you'll need to contact support@nexmo.com to enable message signing on
+your account before you can validate webhook signatures.
 
 
 API Coverage
@@ -196,6 +318,4 @@ License
 This library is released under the [MIT License][license]
 
 [signup]: https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library
-[doc_sms]: https://docs.nexmo.com/messaging/sms-api?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library
-[doc_verify]: https://docs.nexmo.com/verify/api-reference?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library
 [license]: LICENSE.txt
