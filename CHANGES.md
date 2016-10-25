@@ -1,3 +1,21 @@
+# 4.3.0
+
+* Added sns_publish method
+
+* Added sns_subscribe method
+
+* Added app_name and app_version options
+
+* Added Application API methods
+
+* Added new Voice API methods
+
+* Added check_signature method for checking callback signatures
+
+* Deprecated old Verify API methods
+
+* Deprecated old Voice API methods
+
 # 4.2.0
 
 * Added get_sms_pricing method
