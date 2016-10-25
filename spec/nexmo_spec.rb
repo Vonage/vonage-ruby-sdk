@@ -235,7 +235,9 @@ describe 'Nexmo::Client' do
     it 'posts to the call resource and returns the response object' do
       expect_post "#@base_url/call/json", "api_key=#@api_key&api_secret=#@api_secret&to=16365553226&answer_url=http://example.com/answer"
 
-      @client.initiate_call(to: '16365553226', answer_url: 'http://example.com/answer').must_equal(@response_object)
+      Kernel.stub :warn, proc { |message| message.must_match(/initiate_call is deprecated/) } do
+        @client.initiate_call(to: '16365553226', answer_url: 'http://example.com/answer').must_equal(@response_object)
+      end
     end
   end
 
@@ -243,7 +245,9 @@ describe 'Nexmo::Client' do
     it 'posts to the tts resource and returns the response object' do
       expect_post "#@api_base_url/tts/json", "api_key=#@api_key&api_secret=#@api_secret&to=16365553226&text=Hello"
 
-      @client.initiate_tts_call(to: '16365553226', text: 'Hello').must_equal(@response_object)
+      Kernel.stub :warn, proc { |message| message.must_match(/initiate_tts_call is deprecated/) } do
+        @client.initiate_tts_call(to: '16365553226', text: 'Hello').must_equal(@response_object)
+      end
     end
   end
 
@@ -251,7 +255,9 @@ describe 'Nexmo::Client' do
     it 'posts to the tts prompt resource and returns the response object' do
       expect_post "#@api_base_url/tts-prompt/json", "api_key=#@api_key&api_secret=#@api_secret&to=16365553226&text=Hello&max_digits=4&bye_text=Goodbye"
 
-      @client.initiate_tts_prompt_call(to: '16365553226', text: 'Hello', max_digits: 4, bye_text: 'Goodbye').must_equal(@response_object)
+      Kernel.stub :warn, proc { |message| message.must_match(/initiate_tts_prompt_call is deprecated/) } do
+        @client.initiate_tts_prompt_call(to: '16365553226', text: 'Hello', max_digits: 4, bye_text: 'Goodbye').must_equal(@response_object)
+      end
     end
   end
 
