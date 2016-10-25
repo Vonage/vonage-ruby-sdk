@@ -1,3 +1,7 @@
+# 4.3.1
+
+* Fixed bug in check_signature method
+
 # 4.3.0
 
 * Added sns_publish method
