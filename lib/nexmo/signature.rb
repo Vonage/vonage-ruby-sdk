@@ -6,7 +6,7 @@ module Nexmo
     def self.check(params, secret)
       params = params.dup
 
-      signature = params.delete(:sig)
+      signature = params.delete('sig')
 
       ::JWT.secure_compare(signature, digest(params, secret))
     end
