@@ -1,6 +1,7 @@
 require 'nexmo/version'
 require 'nexmo/params'
 require 'nexmo/jwt'
+require 'nexmo/signature'
 require 'nexmo/errors/error'
 require 'nexmo/errors/client_error'
 require 'nexmo/errors/server_error'
@@ -16,6 +17,8 @@ module Nexmo
       @key = options.fetch(:key) { ENV.fetch('NEXMO_API_KEY') }
 
       @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
+
+      @signature_secret = options.fetch(:signature_secret) { ENV['NEXMO_SIGNATURE_SECRET'] }
 
       @application_id = options[:application_id]
 
@@ -262,6 +265,10 @@ module Nexmo
 
     def send_dtmf(uuid, params)
       api_request(Net::HTTP::Put, "/v1/calls/#{uuid}/dtmf", params)
+    end
+
+    def check_signature(params)
+      Signature.check(params, @signature_secret)
     end
 
     private

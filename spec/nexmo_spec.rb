@@ -483,6 +483,16 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'check_signature method' do
+    it 'returns true if the signature in the given params is correct' do
+      params = {'a': '1', 'b': '2', 'timestamp': '1461605396', 'sig': '6af838ef94998832dbfc29020b564830'}
+
+      client = Nexmo::Client.new(key: @api_key, secret: @api_secret, signature_secret: 'secret')
+
+      client.check_signature(params).must_equal(true)
+    end
+  end
+
   it 'raises an authentication error exception if the response code is 401' do
     stub_request(:get, /#{@base_url}/).to_return(status: 401)
 

@@ -53,6 +53,10 @@ you can also specify the `application_id` and `private_key` arguments:
 client = Nexmo::Client.new(application_id: application_id, private_key: private_key)
 ```
 
+In order to check signatures for incoming webhook requests, you'll also need
+to specify the `signature_secret` argument (or the `NEXMO_SIGNATURE_SECRET`
+environment variable).
+
 
 ## SMS API
 
@@ -246,6 +250,23 @@ response = client.delete_application(uuid)
 ```
 
 Docs: [https://docs.nexmo.com/tools/application-api/api-reference#delete](https://docs.nexmo.com/tools/application-api/api-reference#delete?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+
+## Validate webhook signatures
+
+```ruby
+client = Nexmo::Client.new(signature_secret: 'secret')
+
+if client.check_signature(request.params):
+  # valid signature
+else:
+  # invalid signature
+```
+
+Docs: [https://docs.nexmo.com/messaging/signing-messages](https://docs.nexmo.com/messaging/signing-messages?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
+
+Note: you'll need to contact support@nexmo.com to enable message signing on
+your account before you can validate webhook signatures.
 
 
 API Coverage
