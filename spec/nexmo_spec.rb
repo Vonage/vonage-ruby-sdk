@@ -485,7 +485,7 @@ describe 'Nexmo::Client' do
 
   describe 'check_signature method' do
     it 'returns true if the signature in the given params is correct' do
-      params = {'a': '1', 'b': '2', 'timestamp': '1461605396', 'sig': '6af838ef94998832dbfc29020b564830'}
+      params = {'a' => '1', 'b' => '2', 'timestamp' => '1461605396', 'sig' => '6af838ef94998832dbfc29020b564830'}
 
       client = Nexmo::Client.new(key: @api_key, secret: @api_secret, signature_secret: 'secret')
 
