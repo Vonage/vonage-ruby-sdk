@@ -207,6 +207,10 @@ module Nexmo
       get(@api_host, '/number/lookup/json', params)
     end
 
+    def get_advanced_number_insight(params)
+      get(@api_host, '/ni/advanced/json', params)
+    end
+
     def request_number_insight(params)
       post(@host, '/ni/json', params)
     end

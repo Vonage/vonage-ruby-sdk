@@ -357,6 +357,14 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'get_advanced_number_insight method' do
+    it 'fetches the ni advanced resource and returns the response object' do
+      expect_get "#@api_base_url/ni/advanced/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+
+      @client.get_advanced_number_insight(number: '447525856424').must_equal(@response_object)
+    end
+  end
+
   describe 'request_number_insight method' do
     it 'posts to the number insight resource and returns the response object' do
       expect_post "#@base_url/ni/json", "api_key=#@api_key&api_secret=#@api_secret&number=447525856424&callback=https://example.com"
