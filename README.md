@@ -257,10 +257,11 @@ Docs: [https://docs.nexmo.com/tools/application-api/api-reference#delete](https:
 ```ruby
 client = Nexmo::Client.new(signature_secret: 'secret')
 
-if client.check_signature(request.params):
+if client.check_signature(request.GET)
   # valid signature
-else:
+else
   # invalid signature
+end
 ```
 
 Docs: [https://docs.nexmo.com/messaging/signing-messages](https://docs.nexmo.com/messaging/signing-messages?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
