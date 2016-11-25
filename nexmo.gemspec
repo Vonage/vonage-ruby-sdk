@@ -13,8 +13,15 @@ Gem::Specification.new do |s|
   s.files = Dir.glob('{lib,spec}/**/*') + %w(LICENSE.txt README.md nexmo.gemspec)
   s.required_ruby_version = '>= 1.9.3'
   s.add_dependency('jwt')
-  s.add_development_dependency('rake', '~> 10.1')
-  s.add_development_dependency('webmock', '~> 1.18')
+  s.add_development_dependency('rake', '~> 11.0')
   s.add_development_dependency('minitest', '~> 5.0')
+
+  if RUBY_VERSION == '1.9.3'
+    s.add_development_dependency('addressable', '< 2.5.0')
+    s.add_development_dependency('webmock', '~> 1.0')
+  else
+    s.add_development_dependency('webmock', '~> 2.0')
+  end
+
   s.require_path = 'lib'
 end
