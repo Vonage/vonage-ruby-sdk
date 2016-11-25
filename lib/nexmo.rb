@@ -200,11 +200,11 @@ module Nexmo
     end
 
     def get_basic_number_insight(params)
-      get(@api_host, '/number/format/json', params)
+      get(@api_host, '/ni/basic/json', params)
     end
 
     def get_standard_number_insight(params)
-      get(@api_host, '/number/lookup/json', params)
+      get(@api_host, '/ni/standard/json', params)
     end
 
     def get_number_insight(params)
@@ -215,6 +215,10 @@ module Nexmo
 
     def get_advanced_number_insight(params)
       get(@api_host, '/ni/advanced/json', params)
+    end
+
+    def get_advanced_async_number_insight(params)
+      get(@api_host, '/ni/advanced/async/json', params)
     end
 
     def request_number_insight(params)

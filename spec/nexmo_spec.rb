@@ -343,7 +343,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_basic_number_insight method' do
     it 'fetches the number format resource and returns the response object' do
-      expect_get "#@api_base_url/number/format/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+      expect_get "#@api_base_url/ni/basic/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
       @client.get_basic_number_insight(number: '447525856424').must_equal(@response_object)
     end
@@ -351,7 +351,7 @@ describe 'Nexmo::Client' do
 
   describe 'get_standard_insight method' do
     it 'fetches the number lookup resource and returns the response object' do
-      expect_get "#@api_base_url/number/lookup/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+      expect_get "#@api_base_url/ni/standard/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
       @client.get_standard_number_insight(number: '447525856424').must_equal(@response_object)
     end
@@ -372,6 +372,14 @@ describe 'Nexmo::Client' do
       expect_get "#@api_base_url/ni/advanced/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
       @client.get_advanced_number_insight(number: '447525856424').must_equal(@response_object)
+    end
+  end
+
+  describe 'get_advanced_async_number_insight method' do
+    it 'fetches the ni advanced async resource and returns the response object' do
+      expect_get "#@api_base_url/ni/advanced/async/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+
+      @client.get_advanced_async_number_insight(number: '447525856424').must_equal(@response_object)
     end
   end
 
@@ -558,7 +566,7 @@ describe 'Nexmo::Client' do
   end
 
   it 'provides an option for specifying a different api hostname to connect to' do
-    expect_get "https://debug.example.com/number/format/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+    expect_get "https://debug.example.com/ni/basic/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
     @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, api_host: 'debug.example.com')
 
