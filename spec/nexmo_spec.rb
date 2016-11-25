@@ -343,9 +343,17 @@ describe 'Nexmo::Client' do
 
   describe 'get_basic_number_insight method' do
     it 'fetches the number format resource and returns the response object' do
-      expect_get "#@api_base_url/number/format/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+      expect_get "#@api_base_url/ni/basic/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
       @client.get_basic_number_insight(number: '447525856424').must_equal(@response_object)
+    end
+  end
+
+  describe 'get_standard_insight method' do
+    it 'fetches the number lookup resource and returns the response object' do
+      expect_get "#@api_base_url/ni/standard/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+
+      @client.get_standard_number_insight(number: '447525856424').must_equal(@response_object)
     end
   end
 
@@ -353,7 +361,25 @@ describe 'Nexmo::Client' do
     it 'fetches the number lookup resource and returns the response object' do
       expect_get "#@api_base_url/number/lookup/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
-      @client.get_number_insight(number: '447525856424').must_equal(@response_object)
+      Kernel.stub :warn, proc { |message| message.must_match(/get_number_insight is deprecated/) } do
+        @client.get_number_insight(number: '447525856424').must_equal(@response_object)
+      end
+    end
+  end
+
+  describe 'get_advanced_number_insight method' do
+    it 'fetches the ni advanced resource and returns the response object' do
+      expect_get "#@api_base_url/ni/advanced/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+
+      @client.get_advanced_number_insight(number: '447525856424').must_equal(@response_object)
+    end
+  end
+
+  describe 'get_advanced_async_number_insight method' do
+    it 'fetches the ni advanced async resource and returns the response object' do
+      expect_get "#@api_base_url/ni/advanced/async/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+
+      @client.get_advanced_async_number_insight(number: '447525856424').must_equal(@response_object)
     end
   end
 
@@ -512,7 +538,7 @@ describe 'Nexmo::Client' do
   end
 
   it 'includes a user-agent header with the library version number and ruby version number' do
-    headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}"}
+    headers = {'User-Agent' => "nexmo-ruby/#{Nexmo::VERSION} ruby/#{RUBY_VERSION}"}
 
     stub_request(:get, /#{@base_url}/).with(headers: headers).to_return(@response_body)
 
@@ -522,7 +548,7 @@ describe 'Nexmo::Client' do
   it 'provides options for application name and version to be included in the user-agent header' do
     app_name, app_version = 'ExampleApp', 'X.Y.Z'
 
-    headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}/#{app_name}/#{app_version}"}
+    headers = {'User-Agent' => "nexmo-ruby/#{Nexmo::VERSION} ruby/#{RUBY_VERSION} #{app_name}/#{app_version}"}
 
     stub_request(:get, /#{@base_url}/).with(headers: headers).to_return(@response_body)
 
@@ -540,7 +566,7 @@ describe 'Nexmo::Client' do
   end
 
   it 'provides an option for specifying a different api hostname to connect to' do
-    expect_get "https://debug.example.com/number/format/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
+    expect_get "https://debug.example.com/ni/basic/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
     @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, api_host: 'debug.example.com')
 

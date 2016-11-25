@@ -30,10 +30,10 @@ module Nexmo
 
       @sns_host = options.fetch(:sns_host) { 'sns.nexmo.com' }
 
-      @user_agent = "ruby-nexmo/#{VERSION}/#{RUBY_VERSION}"
+      @user_agent = "nexmo-ruby/#{VERSION} ruby/#{RUBY_VERSION}"
 
       if options.key?(:app_name) && options.key?(:app_version)
-        @user_agent << "/#{options[:app_name]}/#{options[:app_version]}"
+        @user_agent << " #{options[:app_name]}/#{options[:app_version]}"
       end
     end
 
@@ -200,11 +200,25 @@ module Nexmo
     end
 
     def get_basic_number_insight(params)
-      get(@api_host, '/number/format/json', params)
+      get(@api_host, '/ni/basic/json', params)
+    end
+
+    def get_standard_number_insight(params)
+      get(@api_host, '/ni/standard/json', params)
     end
 
     def get_number_insight(params)
+      Kernel.warn "#{self.class}##{__method__} is deprecated (use #get_standard_number_insight instead)."
+
       get(@api_host, '/number/lookup/json', params)
+    end
+
+    def get_advanced_number_insight(params)
+      get(@api_host, '/ni/advanced/json', params)
+    end
+
+    def get_advanced_async_number_insight(params)
+      get(@api_host, '/ni/advanced/async/json', params)
     end
 
     def request_number_insight(params)

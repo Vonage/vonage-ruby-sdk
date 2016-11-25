@@ -1,3 +1,17 @@
+# 4.4.0
+
+* Added get_advanced_number_insight method
+
+* Added get_standard_number_insight method
+
+* Deprecated get_number_insight method
+
+* Added get_advanced_async_number_insight method
+
+* Changed basic and standard number insight methods to new NI endpoints
+
+* Fixed formatting of user-agent header
+
 # 4.3.1
 
 * Fixed bug in check_signature method
