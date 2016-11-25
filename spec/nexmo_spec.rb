@@ -538,7 +538,7 @@ describe 'Nexmo::Client' do
   end
 
   it 'includes a user-agent header with the library version number and ruby version number' do
-    headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}"}
+    headers = {'User-Agent' => "nexmo-ruby/#{Nexmo::VERSION} ruby/#{RUBY_VERSION}"}
 
     stub_request(:get, /#{@base_url}/).with(headers: headers).to_return(@response_body)
 
@@ -548,7 +548,7 @@ describe 'Nexmo::Client' do
   it 'provides options for application name and version to be included in the user-agent header' do
     app_name, app_version = 'ExampleApp', 'X.Y.Z'
 
-    headers = {'User-Agent' => "ruby-nexmo/#{Nexmo::VERSION}/#{RUBY_VERSION}/#{app_name}/#{app_version}"}
+    headers = {'User-Agent' => "nexmo-ruby/#{Nexmo::VERSION} ruby/#{RUBY_VERSION} #{app_name}/#{app_version}"}
 
     stub_request(:get, /#{@base_url}/).with(headers: headers).to_return(@response_body)
 

@@ -30,10 +30,10 @@ module Nexmo
 
       @sns_host = options.fetch(:sns_host) { 'sns.nexmo.com' }
 
-      @user_agent = "ruby-nexmo/#{VERSION}/#{RUBY_VERSION}"
+      @user_agent = "nexmo-ruby/#{VERSION} ruby/#{RUBY_VERSION}"
 
       if options.key?(:app_name) && options.key?(:app_version)
-        @user_agent << "/#{options[:app_name]}/#{options[:app_version]}"
+        @user_agent << " #{options[:app_name]}/#{options[:app_version]}"
       end
     end
 
