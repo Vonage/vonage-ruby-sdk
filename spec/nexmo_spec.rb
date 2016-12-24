@@ -269,16 +269,6 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'send_verification_request method' do
-    it 'posts to the verify resource and returns the response object' do
-      expect_post "#@api_base_url/verify/json", "api_key=#@api_key&api_secret=#@api_secret&number=447525856424&brand=MyApp"
-
-      Kernel.stub :warn, proc { |message| message.must_match(/send_verification_request is deprecated/) } do
-        @client.send_verification_request(number: '447525856424', brand: 'MyApp').must_equal(@response_object)
-      end
-    end
-  end
-
   describe 'check_verification method' do
     it 'posts to the verify check resource and returns the response object' do
       expect_post "#@api_base_url/verify/check/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&code=123445"
@@ -287,31 +277,11 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'check_verification_request method' do
-    it 'posts to the verify check resource and returns the response object' do
-      expect_post "#@api_base_url/verify/check/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&code=123445"
-
-      Kernel.stub :warn, proc { |message| message.must_match(/check_verification_request is deprecated/) } do
-        @client.check_verification_request(request_id: '8g88g88eg8g8gg9g90', code: '123445').must_equal(@response_object)
-      end
-    end
-  end
-
   describe 'get_verification method' do
     it 'fetches the verify search resource with the given request id and returns the response object' do
       expect_get "#@api_base_url/verify/search/json?api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90"
 
       @client.get_verification('8g88g88eg8g8gg9g90').must_equal(@response_object)
-    end
-  end
-
-  describe 'get_verification_request method' do
-    it 'fetches the verify search resource with the given request id and returns the response object' do
-      expect_get "#@api_base_url/verify/search/json?api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90"
-
-      Kernel.stub :warn, proc { |message| message.must_match(/get_verification_request is deprecated/) } do
-        @client.get_verification_request('8g88g88eg8g8gg9g90').must_equal(@response_object)
-      end
     end
   end
 
@@ -328,16 +298,6 @@ describe 'Nexmo::Client' do
       expect_post "#@api_base_url/verify/control/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&cmd=trigger_next_event"
 
       @client.trigger_next_verification_event('8g88g88eg8g8gg9g90').must_equal(@response_object)
-    end
-  end
-
-  describe 'control_verification_request method' do
-    it 'posts to the verify control resource and returns the response object' do
-      expect_post "#@api_base_url/verify/control/json", "api_key=#@api_key&api_secret=#@api_secret&request_id=8g88g88eg8g8gg9g90&cmd=cancel"
-
-      Kernel.stub :warn, proc { |message| message.must_match(/control_verification_request is deprecated/) } do
-        @client.control_verification_request(request_id: '8g88g88eg8g8gg9g90', cmd: 'cancel').must_equal(@response_object)
-      end
     end
   end
 

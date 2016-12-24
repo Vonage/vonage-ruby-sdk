@@ -159,30 +159,12 @@ module Nexmo
       post(@api_host, '/verify/json', params)
     end
 
-    def send_verification_request(params)
-      Kernel.warn "#{self.class}##{__method__} is deprecated (use #start_verification instead)."
-
-      post(@api_host, '/verify/json', params)
-    end
-
     def check_verification(request_id, params)
       post(@api_host, '/verify/check/json', params.merge(request_id: request_id))
     end
 
-    def check_verification_request(params)
-      Kernel.warn "#{self.class}##{__method__} is deprecated (use #check_verification instead)."
-
-      post(@api_host, '/verify/check/json', params)
-    end
-
     def get_verification(request_id)
       get(@api_host, '/verify/search/json', request_id: request_id)
-    end
-
-    def get_verification_request(id)
-      Kernel.warn "#{self.class}##{__method__} is deprecated (use #get_verification instead)."
-
-      get(@api_host, '/verify/search/json', request_id: id)
     end
 
     def cancel_verification(request_id)
@@ -191,12 +173,6 @@ module Nexmo
 
     def trigger_next_verification_event(request_id)
       post(@api_host, '/verify/control/json', request_id: request_id, cmd: 'trigger_next_event')
-    end
-
-    def control_verification_request(params)
-      Kernel.warn "#{self.class}##{__method__} is deprecated."
-
-      post(@api_host, '/verify/control/json', params)
     end
 
     def get_basic_number_insight(params)
