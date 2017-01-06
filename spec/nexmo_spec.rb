@@ -41,6 +41,14 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'track_voice_conversion method' do
+    it 'posts to the voice conversions resource and returns the response object' do
+      expect_post "#@api_base_url/conversions/voice", "message-id=12345&delivered=true&api_key=#@api_key&api_secret=#@api_secret"
+
+      @client.track_voice_conversion('12345', delivered: true).must_equal(@response_object)
+    end
+  end
+
   describe 'get_balance method' do
     it 'fetches the account balance resource and returns the response object' do
       expect_get "#@base_url/account/get-balance?api_key=#@api_key&api_secret=#@api_secret"
