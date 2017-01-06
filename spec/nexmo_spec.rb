@@ -33,11 +33,11 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'send sms conversion request' do
-    it 'posts to conversion api and returns the response object' do
+  describe 'track_message_conversion method' do
+    it 'posts to the sms conversions resource and returns the response object' do
       expect_post "#@api_base_url/conversions/sms", "message-id=12345&delivered=true&api_key=#@api_key&api_secret=#@api_secret"
 
-      @client.track_message_conversion("12345", delivered: true).must_equal(@response_object)
+      @client.track_message_conversion('12345', delivered: true).must_equal(@response_object)
     end
   end
 
