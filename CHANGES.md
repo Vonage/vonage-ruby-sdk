@@ -1,3 +1,11 @@
+# 4.5.0
+
+* Added track_message_conversion method
+
+* Added track_voice_conversion method
+
+* Removed deprecated methods for Verify API
+
 # 4.4.0
 
 * Added get_advanced_number_insight method
