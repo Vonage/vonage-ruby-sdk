@@ -41,6 +41,10 @@ module Nexmo
       post(@host, '/sms/json', params)
     end
 
+    def track_message_conversion(message_id, params = {})
+      post(@api_host, '/conversions/sms', {"message-id": message_id}.merge(params))
+    end
+
     def get_balance
       get(@host, '/account/get-balance')
     end
