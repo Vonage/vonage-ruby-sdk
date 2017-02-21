@@ -315,7 +315,9 @@ module Nexmo
 
       auth_payload = {application_id: @application_id}
 
-      message['Authorization'] = JWT.auth_header(auth_payload, @private_key)
+      token = JWT.auth_token(auth_payload, @private_key)
+
+      message['Authorization'] = "Bearer #{token}"
 
       request(uri, message)
     end
