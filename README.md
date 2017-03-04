@@ -252,6 +252,30 @@ response = client.delete_application(uuid)
 Docs: [https://docs.nexmo.com/tools/application-api/api-reference#delete](https://docs.nexmo.com/tools/application-api/api-reference#delete?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
 
 
+## JWT authentication
+
+By default the library generates a short lived JWT per request.
+
+To generate a long lived JWT for multiple requests or to specify JWT claims
+directly call Nexmo::JWT.auth_token to generate a token, and set the auth_token
+attribute on the client object. For example:
+
+```ruby
+claims = {
+  application_id: application_id,
+  nbf: 1483315200,
+  exp: 1514764800,
+  iat: 1483228800
+}
+
+private_key = File.read('path/to/private.key')
+
+auth_token = Nexmo::JWT.auth_token(claims, private_key)
+
+client.auth_token = auth_token
+````
+
+
 ## Validate webhook signatures
 
 ```ruby

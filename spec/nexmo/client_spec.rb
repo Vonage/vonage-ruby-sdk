@@ -513,6 +513,18 @@ describe 'Nexmo::Client' do
     proc { @client.get_balance }.must_raise(Nexmo::ServerError)
   end
 
+  it 'provides an accessor to set the authorization token' do
+    auth_token = 'auth_token_xxx'
+
+    headers = {'Authorization' => "Bearer #{auth_token}"}
+
+    @request = stub_request(:get, "#@api_base_url/v1/calls").with(headers: headers).to_return(@response_body)
+
+    @client.auth_token = auth_token
+
+    @client.get_calls
+  end
+
   it 'includes a user-agent header with the library version number and ruby version number' do
     headers = {'User-Agent' => "nexmo-ruby/#{Nexmo::VERSION} ruby/#{RUBY_VERSION}"}
 

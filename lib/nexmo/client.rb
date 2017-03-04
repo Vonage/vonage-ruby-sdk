@@ -3,7 +3,7 @@ require 'json'
 
 module Nexmo
   class Client
-    attr_accessor :key, :secret
+    attr_accessor :key, :secret, :auth_token
 
     def initialize(options = {})
       @key = options.fetch(:key) { ENV.fetch('NEXMO_API_KEY') }
@@ -313,9 +313,7 @@ module Nexmo
         message.body = JSON.generate(params)
       end
 
-      auth_payload = {application_id: @application_id}
-
-      token = JWT.auth_token(auth_payload, @private_key)
+      token = auth_token || JWT.auth_token({application_id: @application_id}, @private_key)
 
       message['Authorization'] = "Bearer #{token}"
 
