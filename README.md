@@ -1,5 +1,4 @@
-Nexmo Client Library for Ruby
-=============================
+# Nexmo Client Library for Ruby
 
 [![Gem Version](https://badge.fury.io/rb/nexmo.svg)](https://badge.fury.io/rb/nexmo) [![Build Status](https://api.travis-ci.org/Nexmo/nexmo-ruby.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-ruby)
 
@@ -16,8 +15,7 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [License](#license)
 
 
-Installation
-------------
+## Installation
 
 To install the Ruby client library using Rubygems:
 
@@ -28,8 +26,7 @@ Alternatively you can clone the repository:
     git clone git@github.com:Nexmo/nexmo-ruby.git
 
 
-Usage
------
+## Usage
 
 Begin by requiring the nexmo library:
 
@@ -294,8 +291,7 @@ Note: you'll need to contact support@nexmo.com to enable message signing on
 your account before you can validate webhook signatures.
 
 
-API Coverage
-------------
+## API Coverage
 
 * Account
     * [X] Balance
@@ -337,8 +333,7 @@ API Coverage
     * [X] Text-To-Speech Prompt
 
 
-License
--------
+## License
 
 This library is released under the [MIT License][license]
 
