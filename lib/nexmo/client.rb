@@ -285,7 +285,8 @@ module Nexmo
       uri = URI('https://' + host + request_uri)
 
       message = Net::HTTP::Put.new(uri.request_uri)
-      message.form_data = params.merge(api_key: @key, api_secret: @secret)
+      message['Content-Type'] = 'application/json'
+      message.body = JSON.generate(params.merge(api_key: @key, api_secret: @secret))
 
       request(uri, message)
     end

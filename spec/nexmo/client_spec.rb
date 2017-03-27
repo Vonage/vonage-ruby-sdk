@@ -594,7 +594,7 @@ describe 'Nexmo::Client' do
   def expect_put(url, data)
     body = WebMock::Util::QueryMapper.query_to_values(data)
 
-    headers = {'Content-Type' => 'application/x-www-form-urlencoded'}
+    headers = {'Content-Type' => 'application/json'}
 
     @request = stub_request(:put, url).with(body: body, headers: headers).to_return(@response_body)
   end
