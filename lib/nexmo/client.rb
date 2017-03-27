@@ -257,6 +257,10 @@ module Nexmo
       api_request(Net::HTTP::Put, "/v1/calls/#{uuid}/dtmf", params)
     end
 
+    def get_file(id)
+      api_request(Net::HTTP::Get, "/v1/files/#{id.split('/').last}")
+    end
+
     def check_signature(params)
       Signature.check(params, @signature_secret)
     end

@@ -485,6 +485,30 @@ describe 'Nexmo::Client' do
     end
   end
 
+  describe 'get_file method' do
+    before do
+      @url = "#@api_base_url/v1/files/xx-xx-xx-xx"
+
+      @request_headers = {'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/}
+
+      @response_body = 'BODY'
+
+      @response = {body: @response_body, headers: {'Content-Type' => 'application/octet-stream'}}
+    end
+
+    it 'fetches the file resource with the given id and returns the response body' do
+      @request = stub_request(:get, @url).with(headers: @request_headers).to_return(@response)
+
+      @client.get_file('xx-xx-xx-xx').must_equal(@response_body)
+    end
+
+    it 'fetches the file resource with the given url and returns the response body' do
+      @request = stub_request(:get, @url).with(headers: @request_headers).to_return(@response)
+
+      @client.get_file(@url).must_equal(@response_body)
+    end
+  end
+
   describe 'check_signature method' do
     it 'returns true if the signature in the given params is correct' do
       params = {'a' => '1', 'b' => '2', 'timestamp' => '1461605396', 'sig' => '6af838ef94998832dbfc29020b564830'}
