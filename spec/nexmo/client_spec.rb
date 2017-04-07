@@ -333,16 +333,6 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'get_number_insight method' do
-    it 'fetches the number lookup resource and returns the response object' do
-      expect_get "#@api_base_url/number/lookup/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
-
-      Kernel.stub :warn, proc { |message| message.must_match(/get_number_insight is deprecated/) } do
-        @client.get_number_insight(number: '447525856424').must_equal(@response_object)
-      end
-    end
-  end
-
   describe 'get_advanced_number_insight method' do
     it 'fetches the ni advanced resource and returns the response object' do
       expect_get "#@api_base_url/ni/advanced/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
