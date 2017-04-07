@@ -1,3 +1,13 @@
+# 4.6.0
+
+* Removed deprecated get_number_insight method
+
+* Fixed update_application method returning 400 errors
+
+* Added get_file method for downloading call recordings
+
+* Added auth_token accessor for specifying a JWT auth token
+
 # 4.5.0
 
 * Added track_message_conversion method
