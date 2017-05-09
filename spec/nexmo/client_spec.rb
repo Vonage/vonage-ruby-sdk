@@ -18,7 +18,7 @@ describe 'Nexmo::Client' do
 
     @response_body = {body: '{"key":"value"}', headers: {'Content-Type' => 'application/json;charset=utf-8'}}
 
-    @response_object = {'key' => 'value'}
+    @response_object = Nexmo::Entity.new(key: 'value')
 
     @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, application_id: @application_id, private_key: @private_key)
   end
