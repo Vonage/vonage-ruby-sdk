@@ -235,7 +235,7 @@ Docs: [https://docs.nexmo.com/number-insight/advanced](https://docs.nexmo.com/nu
 ### Advanced Number Insight Async
 
 ```ruby
-client.get_advanced_number_insight(number: '447700900000', callback=WEBHOOK_URL)
+client.get_advanced_number_insight(number: '447700900000', callback: webhook_url)
 ```
 
 The results of the API call will be sent via HTTP POST to the webhook URL specified in the callback parameter.
