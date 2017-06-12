@@ -248,7 +248,7 @@ Docs: [https://docs.nexmo.com/number-insight/advanced-async](https://docs.nexmo.
 ### Create an application
 
 ```ruby
-response = client.create_application(name: 'Example App', type: 'voice', answer_url: answer_url)
+response = client.create_application(name: 'Example App', type: 'voice', answer_url: answer_url, event_url: event_url)
 ```
 
 Docs: [https://docs.nexmo.com/tools/application-api/api-reference#create](https://docs.nexmo.com/tools/application-api/api-reference#create?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
