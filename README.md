@@ -41,19 +41,36 @@ Then construct a client object with your key and secret:
 client = Nexmo::Client.new(key: 'YOUR-API-KEY', secret: 'YOUR-API-SECRET')
 ```
 
-For production you can specify the `NEXMO_API_KEY` and `NEXMO_API_SECRET`
-environment variables instead of specifying the key and secret explicitly.
+You can now use the client object to [send a text message](#send-a-text-message),
+[start a verification](#start-a-verification), or [create an application](#create-an-application).
 
-For newer endpoints that support JWT authentication such as the Voice API,
-you can also specify the `application_id` and `private_key` arguments:
+For production you can specify the `NEXMO_API_KEY` and `NEXMO_API_SECRET`
+environment variables instead of specifying the key and secret explicitly,
+keeping your credentials out of source control.
+
+
+## Credentials
+
+To check signatures for incoming webhook requests you'll also need to specify
+the `signature_secret` argument:
+
+```ruby
+client = Nexmo::Client.new(signature_secret: 'secret')
+```
+
+Alternatively you can set the `NEXMO_SIGNATURE_SECRET` environment variable.
+
+To call newer endpoints that support JWT authentication such as the Voice API you'll
+also need to specify the `application_id` and `private_key` arguments. For example:
 
 ```ruby
 client = Nexmo::Client.new(application_id: application_id, private_key: private_key)
 ```
 
-In order to check signatures for incoming webhook requests, you'll also need
-to specify the `signature_secret` argument (or the `NEXMO_SIGNATURE_SECRET`
-environment variable).
+Both arguments should have string values corresponding to the `id` and `private_key`
+values returned in a ["create an application"](#create-an-application) response. These
+credentials can be stored in a datastore, in environment variables, on disk outside
+of source control, or in some kind of key management infrastructure.
 
 
 ## SMS API
