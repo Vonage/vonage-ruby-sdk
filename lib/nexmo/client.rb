@@ -255,6 +255,16 @@ module Nexmo
       api_request(Net::HTTP::Get, "/v1/files/#{id.split('/').last}")
     end
 
+    def save_file(id, filename)
+      api_request(Net::HTTP::Get, "/v1/files/#{id.split('/').last}") do |response|
+        File.open(filename, 'wb') do |file|
+          response.read_body do |chunk|
+            file.write(chunk)
+          end
+        end
+      end
+    end
+
     def check_signature(params)
       Signature.check(params, @signature_secret)
     end
@@ -298,7 +308,7 @@ module Nexmo
       request(uri, message)
     end
 
-    def api_request(message_class, path, params = nil)
+    def api_request(message_class, path, params = nil, &block)
       uri = URI('https://' + @api_host + path)
 
       unless message_class::REQUEST_HAS_BODY || params.nil? || params.empty?
@@ -316,7 +326,7 @@ module Nexmo
 
       message['Authorization'] = "Bearer #{token}"
 
-      request(uri, message)
+      request(uri, message, &block)
     end
 
     def request(uri, message)
@@ -331,6 +341,8 @@ module Nexmo
       when Net::HTTPNoContent
         :no_content
       when Net::HTTPSuccess
+        return (yield http_response) if block_given?
+
         if http_response['Content-Type'].split(';').first == 'application/json'
           JSON.parse(http_response.body)
         else

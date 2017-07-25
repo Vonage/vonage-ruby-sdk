@@ -25,6 +25,18 @@ describe 'Nexmo::Client' do
     @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, application_id: @application_id, private_key: @private_key)
   end
 
+  let(:authorization_header) { {'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/} }
+
+  let(:recording_id) { 'xx-xx-xx-xx' }
+
+  let(:recording_url) { "#@api_base_url/v1/files/xx-xx-xx-xx" }
+
+  let(:recording_content) { 'BODY' }
+
+  let(:recording_response) { {body: recording_content, headers: {'Content-Type' => 'application/octet-stream'}} }
+
+  let(:recording_filename) { 'test/file.mp3' }
+
   describe 'send_message method' do
     it 'posts to the sms resource and returns the response object' do
       expect_post "#@base_url/sms/json", "from=ruby&to=number&text=Hey!&api_key=#@api_key&api_secret=#@api_secret"
@@ -476,26 +488,36 @@ describe 'Nexmo::Client' do
   end
 
   describe 'get_file method' do
-    before do
-      @url = "#@api_base_url/v1/files/xx-xx-xx-xx"
-
-      @request_headers = {'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/}
-
-      @response_body = 'BODY'
-
-      @response = {body: @response_body, headers: {'Content-Type' => 'application/octet-stream'}}
-    end
-
     it 'fetches the file resource with the given id and returns the response body' do
-      @request = stub_request(:get, @url).with(headers: @request_headers).to_return(@response)
+      @request = stub_request(:get, recording_url).with(headers: authorization_header).to_return(recording_response)
 
-      @client.get_file('xx-xx-xx-xx').must_equal(@response_body)
+      @client.get_file(recording_id).must_equal(recording_content)
     end
 
     it 'fetches the file resource with the given url and returns the response body' do
-      @request = stub_request(:get, @url).with(headers: @request_headers).to_return(@response)
+      @request = stub_request(:get, recording_url).with(headers: authorization_header).to_return(recording_response)
 
-      @client.get_file(@url).must_equal(@response_body)
+      @client.get_file(recording_url).must_equal(recording_content)
+    end
+  end
+
+  describe 'save_file method' do
+    after { File.unlink(recording_filename) if File.exist?(recording_filename) }
+
+    it 'fetches the file resource with the given id and streams the response body to the given filename' do
+      @request = stub_request(:get, recording_url).with(headers: authorization_header).to_return(recording_response)
+
+      @client.save_file(recording_id, recording_filename)
+
+      File.read(recording_filename).must_equal(recording_content)
+    end
+
+    it 'fetches the file resource with the given url and streams the response body to the given filename' do
+      @request = stub_request(:get, recording_url).with(headers: authorization_header).to_return(recording_response)
+
+      @client.save_file(recording_url, recording_filename)
+
+      File.read(recording_filename).must_equal(recording_content)
     end
   end
 
