@@ -507,6 +507,30 @@ describe 'Nexmo::Client' do
 
       client.check_signature(params).must_equal(true)
     end
+
+    it 'raises an authentication error exception if the signature secret was not provided' do
+      client = Nexmo::Client.new(key: @api_key, secret: @api_secret)
+
+      exception = proc { @client.check_signature({}) }.must_raise(Nexmo::AuthenticationError)
+
+      exception.message.must_include('No signature_secret provided.')
+    end
+  end
+
+  it 'raises an authentication error exception if the application id was not provided' do
+    @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, private_key: @private_key)
+
+    exception = proc { @client.get_calls }.must_raise(Nexmo::AuthenticationError)
+
+    exception.message.must_include('No application_id provided.')
+  end
+
+  it 'raises an authentication error exception if the private key was not provided' do
+    @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, application_id: @application_id)
+
+    exception = proc { @client.get_calls }.must_raise(Nexmo::AuthenticationError)
+
+    exception.message.must_include('No private_key provided.')
   end
 
   it 'raises an authentication error exception if the response code is 401' do
