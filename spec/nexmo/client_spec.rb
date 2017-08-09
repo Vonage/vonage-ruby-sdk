@@ -325,7 +325,7 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'get_standard_insight method' do
+  describe 'get_standard_number_insight method' do
     it 'fetches the number lookup resource and returns the response object' do
       expect_get "#@api_base_url/ni/standard/json?api_key=#@api_key&api_secret=#@api_secret&number=447525856424"
 
