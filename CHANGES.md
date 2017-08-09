@@ -1,3 +1,9 @@
+# 4.7.0
+
+* Added better error messages for missing credentials
+
+* Added save_file method for downloading call recordings
+
 # 4.6.0
 
 * Removed deprecated get_number_insight method
