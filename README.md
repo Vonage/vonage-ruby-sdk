@@ -12,6 +12,7 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [Verify API](#verify-api)
 * [Number Insight API](#number-insight-api)
 * [Application API](#application-api)
+* [Numbers API](#numbers-api)
 * [Coverage](#api-coverage)
 * [License](#license)
 
@@ -301,6 +302,49 @@ response = client.delete_application(uuid)
 ```
 
 Docs: [https://developer.nexmo.com/api/application#destroy-an-application](https://developer.nexmo.com/api/application?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#destroy-an-application)
+
+
+## Numbers API
+
+### List owned numbers
+
+```ruby
+client.get_account_numbers
+```
+
+Docs: [https://developer.nexmo.com/api/developer/numbers#list-owned-numbers](https://developer.nexmo.com/api/developer/numbers?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#list-owned-numbers)
+
+### Search available numbers
+
+```ruby
+client.get_available_numbers('GB')
+```
+
+Docs: [https://developer.nexmo.com/api/developer/numbers#search-available-numbers](https://developer.nexmo.com/api/developer/numbers?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#search-available-numbers)
+
+### Buy a number
+
+```ruby
+client.buy_number(country: 'GB', msisdn: '447700900000')
+```
+
+Docs: [https://developer.nexmo.com/api/developer/numbers#buy-a-number](https://developer.nexmo.com/api/developer/numbers?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#buy-a-number)
+
+### Cancel a number
+
+```ruby
+client.cancel_number(country: 'GB', msisdn: '447700900000')
+```
+
+Docs: [https://developer.nexmo.com/api/developer/numbers#cancel-a-number](https://developer.nexmo.com/api/developer/numbers?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#cancel-a-number)
+
+### Update a number
+
+```ruby
+client.update_number(country: 'GB', msisdn: '447700900000', voiceCallbackType: 'app', voiceCallbackValue: application_id)
+```
+
+Docs: [https://developer.nexmo.com/api/developer/numbers#update-a-number](https://developer.nexmo.com/api/developer/numbers?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#update-a-number)
 
 
 ## JWT authentication
