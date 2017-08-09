@@ -6,6 +6,8 @@ module Nexmo
       params.flat_map { |k, vs| Array(vs).map { |v| "#{escape(k)}=#{escape(v)}" } }.join('&')
     end
 
+    private
+
     def self.escape(component)
       CGI.escape(component.to_s)
     end
