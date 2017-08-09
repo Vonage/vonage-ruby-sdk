@@ -11,6 +11,8 @@ module Nexmo
       ::JWT.secure_compare(signature, digest(params, secret))
     end
 
+    private
+
     def self.digest(params, secret)
       md5 = Digest::MD5.new
 
