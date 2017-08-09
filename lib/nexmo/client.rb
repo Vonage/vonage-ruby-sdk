@@ -266,6 +266,13 @@ module Nexmo
     end
 
     def check_signature(params)
+      unless @signature_secret
+        raise AuthenticationError.new('No signature_secret provided. ' \
+          'You can find your signature secret in the Nexmo dashboard. ' \
+          'See https://developer.nexmo.com/concepts/guides/signing-messages for details, ' \
+          'or email support@nexmo.com if you have any questions.')
+      end
+
       Signature.check(params, @signature_secret)
     end
 
@@ -322,7 +329,7 @@ module Nexmo
         message.body = JSON.generate(params)
       end
 
-      token = auth_token || JWT.auth_token({application_id: @application_id}, @private_key)
+      token = auth_token || generate_auth_token
 
       message['Authorization'] = "Bearer #{token}"
 
@@ -357,6 +364,26 @@ module Nexmo
       else
         raise Error, "#{http_response.code} response from #{uri.host}"
       end
+    end
+
+    def generate_auth_token
+      unless @application_id
+        raise AuthenticationError.new('No application_id provided. ' \
+          'Either provide an application_id, or set an auth token. ' \
+          'You can add new applications from the Nexmo dashboard. ' \
+          'See https://developer.nexmo.com/concepts/guides/applications for details, ' \
+          'or email support@nexmo.com if you have any questions.')
+      end
+
+      unless @private_key
+        raise AuthenticationError.new('No private_key provided. ' \
+          'Either provide a private_key, or set an auth token. ' \
+          'You can add new applications from the Nexmo dashboard. ' \
+          'See https://developer.nexmo.com/concepts/guides/applications for details, ' \
+          'or email support@nexmo.com if you have any questions.')
+      end
+
+      JWT.auth_token({application_id: @application_id}, @private_key)
     end
   end
 end
