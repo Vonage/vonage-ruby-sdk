@@ -15,6 +15,6 @@ Gem::Specification.new do |s|
   s.add_dependency('jwt')
   s.add_development_dependency('rake')
   s.add_development_dependency('minitest', '~> 5.0')
-  s.add_development_dependency('webmock', '~> 2.0')
+  s.add_development_dependency('webmock', '~> 3.0')
   s.require_path = 'lib'
 end
