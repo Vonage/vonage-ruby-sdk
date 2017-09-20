@@ -3,7 +3,7 @@ require 'json'
 
 module Nexmo
   class Client
-    attr_accessor :key, :secret, :auth_token
+    attr_accessor :key, :secret, :auth_token, :user_agent
 
     def initialize(options = {})
       @key = options.fetch(:key) { ENV['NEXMO_API_KEY'] }
@@ -25,6 +25,10 @@ module Nexmo
       if options.key?(:app_name) && options.key?(:app_version)
         @user_agent << " #{options[:app_name]}/#{options[:app_version]}"
       end
+    end
+
+    def authorization
+      'Bearer ' + (auth_token || generate_auth_token)
     end
 
     def send_message(params)
