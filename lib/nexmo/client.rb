@@ -6,9 +6,9 @@ module Nexmo
     attr_accessor :key, :secret, :auth_token
 
     def initialize(options = {})
-      @key = options.fetch(:key) { ENV.fetch('NEXMO_API_KEY') }
+      @key = options.fetch(:key) { ENV['NEXMO_API_KEY'] }
 
-      @secret = options.fetch(:secret) { ENV.fetch('NEXMO_API_SECRET') }
+      @secret = options.fetch(:secret) { ENV['NEXMO_API_SECRET'] }
 
       @signature_secret = options.fetch(:signature_secret) { ENV['NEXMO_SIGNATURE_SECRET'] }
 
@@ -280,7 +280,7 @@ module Nexmo
 
     def get(host, request_uri, params = {})
       uri = URI('https://' + host + request_uri)
-      uri.query = Params.encode(params.merge(api_key: @key, api_secret: @secret))
+      uri.query = Params.encode(params.merge(api_key_and_secret))
 
       message = Net::HTTP::Get.new(uri.request_uri)
 
@@ -291,7 +291,7 @@ module Nexmo
       uri = URI('https://' + host + request_uri)
 
       message = Net::HTTP::Post.new(uri.request_uri)
-      message.form_data = params.merge(api_key: @key, api_secret: @secret)
+      message.form_data = params.merge(api_key_and_secret)
 
       request(uri, message)
     end
@@ -301,14 +301,14 @@ module Nexmo
 
       message = Net::HTTP::Put.new(uri.request_uri)
       message['Content-Type'] = 'application/json'
-      message.body = JSON.generate(params.merge(api_key: @key, api_secret: @secret))
+      message.body = JSON.generate(params.merge(api_key_and_secret))
 
       request(uri, message)
     end
 
     def delete(host, request_uri)
       uri = URI('https://' + host + request_uri)
-      uri.query = Params.encode({api_key: @key, api_secret: @secret})
+      uri.query = Params.encode(api_key_and_secret)
 
       message = Net::HTTP::Delete.new(uri.request_uri)
 
@@ -364,6 +364,22 @@ module Nexmo
       else
         raise Error, "#{http_response.code} response from #{uri.host}"
       end
+    end
+
+    def api_key_and_secret
+      unless @key
+        raise AuthenticationError.new('No API key provided. ' \
+          'See https://developer.nexmo.com/concepts/guides/authentication for details, ' \
+          'or email support@nexmo.com if you have any questions.')
+      end
+
+      unless @secret
+        raise AuthenticationError.new('No API secret provided. ' \
+          'See https://developer.nexmo.com/concepts/guides/authentication for details, ' \
+          'or email support@nexmo.com if you have any questions.')
+      end
+
+      {api_key: @key, api_secret: @secret}
     end
 
     def generate_auth_token

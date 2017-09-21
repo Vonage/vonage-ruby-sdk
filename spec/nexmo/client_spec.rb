@@ -539,18 +539,34 @@ describe 'Nexmo::Client' do
     end
   end
 
-  it 'raises an authentication error exception if the application id was not provided' do
-    @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, private_key: @private_key)
+  it 'raises an authentication error exception if the api key was not provided' do
+    client = Nexmo::Client.new(secret: @api_secret)
 
-    exception = proc { @client.get_calls }.must_raise(Nexmo::AuthenticationError)
+    exception = proc { client.get_balance }.must_raise(Nexmo::AuthenticationError)
+
+    exception.message.must_include('No API key provided.')
+  end
+
+  it 'raises an authentication error exception if the api secret was not provided' do
+    client = Nexmo::Client.new(key: @api_key)
+
+    exception = proc { client.get_balance }.must_raise(Nexmo::AuthenticationError)
+
+    exception.message.must_include('No API secret provided.')
+  end
+
+  it 'raises an authentication error exception if the application id was not provided' do
+    client = Nexmo::Client.new(private_key: @private_key)
+
+    exception = proc { client.get_calls }.must_raise(Nexmo::AuthenticationError)
 
     exception.message.must_include('No application_id provided.')
   end
 
   it 'raises an authentication error exception if the private key was not provided' do
-    @client = Nexmo::Client.new(key: @api_key, secret: @api_secret, application_id: @application_id)
+    client = Nexmo::Client.new(application_id: @application_id)
 
-    exception = proc { @client.get_calls }.must_raise(Nexmo::AuthenticationError)
+    exception = proc { client.get_calls }.must_raise(Nexmo::AuthenticationError)
 
     exception.message.must_include('No private_key provided.')
   end
