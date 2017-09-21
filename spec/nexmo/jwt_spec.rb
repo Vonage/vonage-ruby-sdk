@@ -40,7 +40,7 @@ describe 'Nexmo::JWT' do
   private
 
   def decode(encoded_token)
-    JWT.decode(encoded_token, private_key, 'RS256').first
+    JWT.decode(encoded_token, private_key, verify=true, {algorithm: 'RS256'}).first
   end
 
   def application_id
