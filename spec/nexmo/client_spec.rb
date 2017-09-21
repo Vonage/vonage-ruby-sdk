@@ -533,7 +533,7 @@ describe 'Nexmo::Client' do
     it 'raises an authentication error exception if the signature secret was not provided' do
       client = Nexmo::Client.new(key: @api_key, secret: @api_secret)
 
-      exception = proc { @client.check_signature({}) }.must_raise(Nexmo::AuthenticationError)
+      exception = proc { client.check_signature({}) }.must_raise(Nexmo::AuthenticationError)
 
       exception.message.must_include('No signature_secret provided.')
     end
