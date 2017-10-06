@@ -18,6 +18,10 @@ module Nexmo
       request('/v1/calls/' + id, params: params, type: Put)
     end
 
+    def stream
+      @stream ||= CallStream.new(@client)
+    end
+
     private
 
     def authorization_header?

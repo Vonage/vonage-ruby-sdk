@@ -63,4 +63,8 @@ class NexmoCallsTest < Nexmo::Test
     assert_equal response_object, calls.update(call_uuid, params)
     assert_requested request
   end
+
+  def test_stream_method
+    assert_kind_of Nexmo::CallStream, calls.stream
+  end
 end
