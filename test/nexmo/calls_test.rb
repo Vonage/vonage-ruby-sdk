@@ -71,4 +71,8 @@ class NexmoCallsTest < Nexmo::Test
   def test_talk_method
     assert_kind_of Nexmo::CallTalk, calls.talk
   end
+
+  def test_dtmf_method
+    assert_kind_of Nexmo::CallDTMF, calls.dtmf
+  end
 end

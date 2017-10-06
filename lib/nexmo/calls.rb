@@ -26,6 +26,10 @@ module Nexmo
       @talk ||= CallTalk.new(@client)
     end
 
+    def dtmf
+      @dtmf ||= CallDTMF.new(@client)
+    end
+
     private
 
     def authorization_header?
