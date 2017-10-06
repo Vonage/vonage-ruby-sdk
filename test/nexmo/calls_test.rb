@@ -67,4 +67,8 @@ class NexmoCallsTest < Nexmo::Test
   def test_stream_method
     assert_kind_of Nexmo::CallStream, calls.stream
   end
+
+  def test_talk_method
+    assert_kind_of Nexmo::CallTalk, calls.talk
+  end
 end

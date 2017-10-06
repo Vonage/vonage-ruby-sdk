@@ -22,6 +22,10 @@ module Nexmo
       @stream ||= CallStream.new(@client)
     end
 
+    def talk
+      @talk ||= CallTalk.new(@client)
+    end
+
     private
 
     def authorization_header?
