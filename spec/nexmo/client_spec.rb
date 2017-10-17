@@ -185,22 +185,6 @@ describe 'Nexmo::Client' do
     end
   end
 
-  describe 'send_ussd_push_message method' do
-    it 'posts to the ussd resource and returns the response object' do
-      expect_post "#@base_url/ussd/json", "api_key=#@api_key&api_secret=#@api_secret&from=MyCompany20&to=447525856424&text=Hello"
-
-      @client.send_ussd_push_message(from: 'MyCompany20', to: '447525856424', text: 'Hello').must_equal(@response_object)
-    end
-  end
-
-  describe 'send_ussd_prompt_message method' do
-    it 'posts to the ussd prompt resource and returns the response object' do
-      expect_post "#@base_url/ussd-prompt/json", "api_key=#@api_key&api_secret=#@api_secret&from=virtual-number&to=447525856424&text=Hello"
-
-      @client.send_ussd_prompt_message(from: 'virtual-number', to: '447525856424', text: 'Hello').must_equal(@response_object)
-    end
-  end
-
   describe 'send_2fa_message method' do
     it 'posts to the short code two factor authentication resource and returns the response object' do
       expect_post "#@base_url/sc/us/2fa/json", "api_key=#@api_key&api_secret=#@api_secret&to=16365553226&pin=1234"

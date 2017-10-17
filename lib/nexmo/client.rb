@@ -99,14 +99,6 @@ module Nexmo
       get(@host, '/search/messages', Hash === params ? params : {ids: Array(params)})
     end
 
-    def send_ussd_push_message(params)
-      post(@host, '/ussd/json', params)
-    end
-
-    def send_ussd_prompt_message(params)
-      post(@host, '/ussd-prompt/json', params)
-    end
-
     def send_2fa_message(params)
       post(@host, '/sc/us/2fa/json', params)
     end
