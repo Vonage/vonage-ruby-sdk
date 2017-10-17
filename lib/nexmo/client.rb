@@ -20,11 +20,7 @@ module Nexmo
 
       @api_host = options.fetch(:api_host) { 'api.nexmo.com' }
 
-      @user_agent = "nexmo-ruby/#{VERSION} ruby/#{RUBY_VERSION}"
-
-      if options.key?(:app_name) && options.key?(:app_version)
-        @user_agent << " #{options[:app_name]}/#{options[:app_version]}"
-      end
+      @user_agent = UserAgent.string(options[:app_name], options[:app_version])
     end
 
     def authorization
