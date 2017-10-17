@@ -385,7 +385,7 @@ module Nexmo
           'or email support@nexmo.com if you have any questions.')
       end
 
-      JWT.auth_token({application_id: @application_id}, @private_key)
+      JWT.generate({application_id: @application_id}, @private_key)
     end
   end
 end

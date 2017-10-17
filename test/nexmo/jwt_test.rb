@@ -18,7 +18,7 @@ class NexmoJWTTest < Minitest::Test
     JWT.decode(token, private_key, _verify=true, {algorithm: 'RS256'}).first
   end
 
-  def test_auth_token_method_returns_payload_encoded_with_private_key
+  def test_generate_method_returns_payload_encoded_with_private_key
     time = Time.now.to_i
 
     payload = {
@@ -28,25 +28,25 @@ class NexmoJWTTest < Minitest::Test
       'jti' => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     }
 
-    token = Nexmo::JWT.auth_token(payload, private_key)
+    token = Nexmo::JWT.generate(payload, private_key)
 
     assert_equal decode(token), payload
   end
 
-  def test_auth_token_method_sets_default_value_for_iat_parameter
-    token = Nexmo::JWT.auth_token({}, private_key)
+  def test_generate_method_sets_default_value_for_iat_parameter
+    token = Nexmo::JWT.generate({}, private_key)
 
     assert_kind_of Integer, decode(token).fetch('iat')
   end
 
-  def test_auth_token_method_sets_default_value_for_exp_parameter
-    token = Nexmo::JWT.auth_token({}, private_key)
+  def test_generate_method_sets_default_value_for_exp_parameter
+    token = Nexmo::JWT.generate({}, private_key)
 
     assert_kind_of Integer, decode(token).fetch('exp')
   end
 
-  def test_auth_token_method_sets_default_value_for_jti_parameter
-    token = Nexmo::JWT.auth_token({}, private_key)
+  def test_generate_method_sets_default_value_for_jti_parameter
+    token = Nexmo::JWT.generate({}, private_key)
 
     assert_match uuid_pattern, decode(token).fetch('jti')
   end
