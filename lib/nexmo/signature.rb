@@ -2,13 +2,21 @@ require 'digest/md5'
 require 'jwt'
 
 module Nexmo
-  module Signature
+  class Signature
     def self.check(params, secret)
       params = params.dup
 
       signature = params.delete('sig')
 
       secure_compare(signature, digest(params, secret))
+    end
+
+    def initialize(client)
+      @client = client
+    end
+
+    def check(params)
+      self.class.check(params, @client.signature_secret)
     end
 
     private

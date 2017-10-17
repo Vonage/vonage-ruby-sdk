@@ -27,8 +27,8 @@ module Nexmo
 
       unless authorization_header?
         params ||= {}
-        params[:api_key] = @client.key
-        params[:api_secret] = @client.secret
+        params[:api_key] = @client.api_key
+        params[:api_secret] = @client.api_secret
       end
 
       unless type::REQUEST_HAS_BODY || params.nil? || params.empty?

@@ -16,6 +16,10 @@ module Nexmo
       {api_key: api_key, api_secret: api_secret}
     end
 
+    def signature_secret
+      'nexmo-signature-secret'
+    end
+
     def application_id
       'nexmo-application-id'
     end
@@ -25,7 +29,13 @@ module Nexmo
     end
 
     def client
-      @client ||= Nexmo::Client.new(key: api_key, secret: api_secret, application_id: application_id, private_key: private_key)
+      @client ||= Nexmo::Client.new({
+        api_key: api_key,
+        api_secret: api_secret,
+        signature_secret: signature_secret,
+        application_id: application_id,
+        private_key: private_key
+      })
     end
 
     def response
