@@ -1,6 +1,6 @@
 require 'rake/testtask'
 
-task :default => :spec
+task :default => :test
 
 Rake::TestTask.new(:spec) do |t|
   t.test_files = FileList['spec/**/*_spec.rb']
