@@ -1,3 +1,17 @@
+# 4.8.0
+
+* Nexmo::Client :key and :secret args are now optional
+
+  If you're only making calls to the Voice API you can now instantiate a client object with just an application_id and private_key. For example:
+
+      client = Nexmo::Client.new(application_id: application_id, private_key: private_key)
+
+* Fixed compatibility with ruby-jwt v2
+
+* Removed legacy SNS methods
+
+* Removed legacy USSD methods
+
 # 4.7.0
 
 * Added better error messages for missing credentials
