@@ -2,8 +2,10 @@
 
 module Nexmo
   class SMS < Namespace
+    include Keys
+
     def send(params)
-      request('/sms/json', params: params, type: Post)
+      request('/sms/json', params: hyphenate(params), type: Post)
     end
 
     private
