@@ -14,7 +14,9 @@ module Nexmo
       @attributes.key?(name) or super
     end
 
-    def method_missing(name)
+    def method_missing(name, *args)
+      return super unless @attributes.key?(name)
+
       @attributes[name]
     end
 

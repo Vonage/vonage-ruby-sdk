@@ -68,4 +68,18 @@ class NexmoEntityTest < Minitest::Test
 
     assert_equal entity.to_h, {id: value}
   end
+
+  def test_respond_to_method
+    entity1 = Nexmo::Entity.new
+    entity2 = Nexmo::Entity.new(key: 'value')
+
+    refute entity1.respond_to?(:key)
+    assert entity2.respond_to?(:key)
+  end
+
+  def test_method_missing_method_raises_no_method_error
+    entity = Nexmo::Entity.new
+
+    assert_raises(NoMethodError) { entity.key }
+  end
 end
