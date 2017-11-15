@@ -17,6 +17,11 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [License](#license)
 
 
+## Requirements
+
+Nexmo Ruby supports CRuby 2.0.0+ and JRuby 9k.
+
+
 ## Installation
 
 To install the Ruby client library using Rubygems:
