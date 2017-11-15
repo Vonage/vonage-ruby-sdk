@@ -60,11 +60,13 @@ class NexmoNumbersTest < Nexmo::Test
   def test_update_method
     uri = 'https://rest.nexmo.com/number/update'
 
-    params = {country: country, msisdn: msisdn, moHttpUrl: 'https://example.com/callback'}
+    mo_http_url = 'https://example.com/callback'
+
+    params = {'country' => country, 'msisdn' => msisdn, 'moHttpUrl' => mo_http_url}
 
     request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, numbers.update(params)
+    assert_equal response_object, numbers.update(country: country, msisdn: msisdn, mo_http_url: mo_http_url)
     assert_requested request
   end
 end

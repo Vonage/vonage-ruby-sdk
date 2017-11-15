@@ -347,7 +347,7 @@ Docs: [https://developer.nexmo.com/api/developer/numbers#cancel-a-number](https:
 ### Update a number
 
 ```ruby
-client.numbers.update(country: 'GB', msisdn: '447700900000', voiceCallbackType: 'app', voiceCallbackValue: application_id)
+client.numbers.update(country: 'GB', msisdn: '447700900000', voice_callback_type: 'app', voice_callback_value: application_id)
 ```
 
 Docs: [https://developer.nexmo.com/api/developer/numbers#update-a-number](https://developer.nexmo.com/api/developer/numbers?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#update-a-number)

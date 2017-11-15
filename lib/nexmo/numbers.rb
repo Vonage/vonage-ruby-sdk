@@ -2,6 +2,8 @@
 
 module Nexmo
   class Numbers < Namespace
+    include Keys
+
     def list(params)
       request('/account/numbers', params: params)
     end
@@ -19,7 +21,7 @@ module Nexmo
     end
 
     def update(params)
-      request('/number/update', params: params, type: Post)
+      request('/number/update', params: camelcase(params), type: Post)
     end
 
     private
