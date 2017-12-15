@@ -1,3 +1,31 @@
+# 5.0.0
+
+* Dropped support for Ruby 1.9
+
+* **(breaking change)** API methods are now namespaced
+
+  For example: `client.calls.list` instead of `client.get_calls`
+
+* **(breaking change)** API methods now return Nexmo::Entity objects
+
+  For example: `response.messages.first.status` instead of `response['messages'].first['status']`
+
+* **(breaking change)** Renamed Nexmo::Client `key` option to `api_key`
+
+* **(breaking change)** Renamed Nexmo::Client `secret` option to `api_secret`
+
+* **(breaking change)** Renamed `Nexmo::JWT.auth_token` method to `Nexmo::JWT.generate`
+
+* Param keys for the SMS API and Conversion API are now hyphenated for you
+
+  For example: `status_report_req: 1` instead of `'status-report-req' => 1`
+
+* Param keys for the Number API are now camelcased for you
+
+  For example: `voice_callback_type: 'app'` instead of `voiceCallbackType: 'app'`
+
+* Added new methods for update call actions (hangup, mute, unmute, earmuff, unearmuff, and transfer)
+
 # 4.8.0
 
 * Nexmo::Client :key and :secret args are now optional
