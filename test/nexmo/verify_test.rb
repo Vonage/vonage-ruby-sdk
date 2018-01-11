@@ -12,7 +12,7 @@ class NexmoVerifyTest < Nexmo::Test
   def test_request_method
     uri = 'https://api.nexmo.com/verify/json'
 
-    params = {number: '447700900000', brand: 'ExampleApp'}
+    params = {number: msisdn, brand: 'ExampleApp'}
 
     request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
 

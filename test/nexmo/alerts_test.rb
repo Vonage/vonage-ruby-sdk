@@ -5,10 +5,6 @@ class NexmoAlertsTest < Nexmo::Test
     Nexmo::Alerts.new(client)
   end
 
-  def msisdn
-    '447700900000'
-  end
-
   def test_list_method
     uri = 'https://rest.nexmo.com/sc/us/alert/opt-in/query/json'
 

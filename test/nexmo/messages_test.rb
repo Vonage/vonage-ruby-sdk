@@ -13,10 +13,6 @@ class NexmoMessagesTest < Nexmo::Test
     'YYYY-MM-DD'
   end
 
-  def recipient
-    '447700900000'
-  end
-
   def test_get_method
     uri = 'https://rest.nexmo.com/search/message'
 
@@ -46,7 +42,7 @@ class NexmoMessagesTest < Nexmo::Test
   def test_search_method_with_recipient_and_date
     uri = 'https://rest.nexmo.com/search/messages'
 
-    params = {date: date, to: recipient}
+    params = {date: date, to: msisdn}
 
     request = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
@@ -57,7 +53,7 @@ class NexmoMessagesTest < Nexmo::Test
   def test_rejections_method
     uri = 'https://rest.nexmo.com/search/rejections'
 
-    params = {date: date, to: recipient}
+    params = {date: date, to: msisdn}
 
     request = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 

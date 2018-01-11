@@ -9,10 +9,6 @@ class NexmoNumbersTest < Nexmo::Test
     'GB'
   end
 
-  def msisdn
-    '447700900000'
-  end
-
   def test_list_method
     uri = 'https://rest.nexmo.com/account/numbers'
 

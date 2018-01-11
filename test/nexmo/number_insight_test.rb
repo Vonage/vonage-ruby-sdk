@@ -5,10 +5,6 @@ class NexmoNumberInsightTest < Nexmo::Test
     Nexmo::NumberInsight.new(client)
   end
 
-  def msisdn
-    '447700900000'
-  end
-
   def params
     {number: msisdn}
   end

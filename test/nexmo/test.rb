@@ -49,5 +49,9 @@ module Nexmo
     def response_object
       Nexmo::Entity.new(key: 'value')
     end
+
+    def msisdn
+      '447700900000'
+    end
   end
 end

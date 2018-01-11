@@ -10,7 +10,7 @@ class NexmoSMSTest < Nexmo::Test
   end
 
   def test_send_method
-    params = {from: 'Ruby', to: '447700900000', text: 'Hello from Ruby!'}
+    params = {from: 'Ruby', to: msisdn, text: 'Hello from Ruby!'}
 
     request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
 
