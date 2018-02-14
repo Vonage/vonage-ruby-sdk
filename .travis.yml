@@ -2,17 +2,17 @@ language: ruby
 sudo: false
 cache: bundler
 rvm:
-  - 1.9.3
   - 2.0.0
   - 2.1
   - 2.2
   - 2.3.5
   - 2.4.2
+  - 2.5.0
   - ruby-head
-  - jruby-19mode
+  - jruby-9.1.6.0
 matrix:
   allow_failures:
     - rvm: ruby-head
-    - rvm: jruby-19mode
 before_install:
+  - gem update --system
   - gem update bundler

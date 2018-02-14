@@ -1,3 +1,3 @@
 module Nexmo
-  VERSION = '4.8.0'
+  VERSION = '5.0.0.pre1'
 end
