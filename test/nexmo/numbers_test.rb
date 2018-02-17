@@ -20,6 +20,15 @@ class NexmoNumbersTest < Nexmo::Test
     assert_requested request
   end
 
+  def test_list_method_without_args
+    uri = 'https://rest.nexmo.com/account/numbers'
+
+    request = stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
+
+    assert_equal response_object, numbers.list
+    assert_requested request
+  end
+
   def test_search_method
     uri = 'https://rest.nexmo.com/number/search'
 

@@ -4,7 +4,7 @@ module Nexmo
   class Numbers < Namespace
     include Keys
 
-    def list(params)
+    def list(params = nil)
       request('/account/numbers', params: params)
     end
 
