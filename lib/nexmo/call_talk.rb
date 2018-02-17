@@ -15,5 +15,9 @@ module Nexmo
     def authorization_header?
       true
     end
+
+    def json_body?
+      true
+    end
   end
 end

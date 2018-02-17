@@ -22,6 +22,10 @@ module Nexmo
       false
     end
 
+    def json_body?
+      false
+    end
+
     def request(path, params: nil, type: Get, &block)
       uri = URI('https://' + host + path)
 
@@ -38,8 +42,12 @@ module Nexmo
       message = type.new(uri.request_uri)
 
       if type::REQUEST_HAS_BODY
-        message['Content-Type'] = 'application/json'
-        message.body = JSON.generate(params)
+        if json_body?
+          message['Content-Type'] = 'application/json'
+          message.body = JSON.generate(params)
+        else
+          message.form_data = params
+        end
       end
 
       message['Authorization'] = @client.authorization if authorization_header?

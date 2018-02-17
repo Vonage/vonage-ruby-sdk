@@ -12,7 +12,7 @@ class NexmoConversionsTest < Nexmo::Test
   def test_track_sms_method
     uri = 'https://api.nexmo.com/conversions/sms'
 
-    params = {'message-id' => message_id, 'delivered' => true}
+    params = {'message-id' => message_id, 'delivered' => 'true'}
 
     request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
 
@@ -23,7 +23,7 @@ class NexmoConversionsTest < Nexmo::Test
   def test_track_voice_method
     uri = 'https://api.nexmo.com/conversions/voice'
 
-    params = {'message-id' => message_id, 'delivered' => true}
+    params = {'message-id' => message_id, 'delivered' => 'true'}
 
     request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
 
