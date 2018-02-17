@@ -1,3 +1,9 @@
+# 5.0.1
+
+* Fixed `client.numbers.buy` sending JSON instead of application/x-www-form-urlencoded
+
+* Fixed `client.numbers.list` to support calls without any arguments
+
 # 5.0.0
 
 * Dropped support for Ruby 1.9
