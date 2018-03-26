@@ -18,7 +18,7 @@ class NexmoPricingTest < Nexmo::Test
   end
 
   def test_get_method
-    uri = 'https://rest.nexmo.com/get-pricing/outbound/sms'
+    uri = 'https://rest.nexmo.com/account/get-pricing/outbound/sms'
 
     params = {country: country}
 
@@ -29,7 +29,7 @@ class NexmoPricingTest < Nexmo::Test
   end
 
   def test_list_method
-    uri = 'https://rest.nexmo.com/get-full-pricing/outbound/sms'
+    uri = 'https://rest.nexmo.com/account/get-full-pricing/outbound/sms'
 
     request = stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
 
@@ -38,7 +38,7 @@ class NexmoPricingTest < Nexmo::Test
   end
 
   def test_prefix_method
-    uri = 'https://rest.nexmo.com/get-prefix-pricing/outbound/sms'
+    uri = 'https://rest.nexmo.com/account/get-prefix-pricing/outbound/sms'
 
     params = {prefix: prefix}
 
