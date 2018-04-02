@@ -15,10 +15,6 @@ module Nexmo
 
       @private_key = options[:private_key]
 
-      @host = options.fetch(:host) { 'rest.nexmo.com' }
-
-      @api_host = options.fetch(:api_host) { 'api.nexmo.com' }
-
       @user_agent = UserAgent.string(options[:app_name], options[:app_version])
     end
 
