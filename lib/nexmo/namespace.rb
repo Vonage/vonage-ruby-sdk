@@ -26,7 +26,7 @@ module Nexmo
       false
     end
 
-    def request(path, params: nil, type: Get, &block)
+    def request(path, params: nil, type: Get, multipart: false, &block)
       uri = URI('https://' + host + path)
 
       unless authorization_header?
@@ -45,6 +45,8 @@ module Nexmo
         if json_body?
           message['Content-Type'] = 'application/json'
           message.body = JSON.generate(params)
+        elsif multipart
+          message.set_form(params, 'multipart/form-data')
         else
           message.form_data = params
         end
@@ -55,6 +57,7 @@ module Nexmo
 
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
+      http.set_debug_output STDERR
 
       response = http.request(message)
 
@@ -63,6 +66,8 @@ module Nexmo
 
     def parse(response, &block)
       case response
+      when Net::HTTPCreated
+        :created
       when Net::HTTPNoContent
         :no_content
       when Net::HTTPSuccess

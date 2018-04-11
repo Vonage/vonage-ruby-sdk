@@ -111,6 +111,10 @@ module Nexmo
       @files ||= Files.new(self)
     end
 
+    def media
+      @media ||= Media.new(self)
+    end
+
     def messages
       @messages ||= Messages.new(self)
     end
