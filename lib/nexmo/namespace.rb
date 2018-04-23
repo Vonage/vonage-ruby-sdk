@@ -26,6 +26,10 @@ module Nexmo
       false
     end
 
+    def logger
+      @client.logger
+    end
+
     def request(path, params: nil, type: Get, &block)
       uri = URI('https://' + host + path)
 
@@ -55,6 +59,8 @@ module Nexmo
 
       http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
       http.use_ssl = true
+
+      logger.info('Nexmo API request', method: message.method, path: uri.path)
 
       response = http.request(message)
 
