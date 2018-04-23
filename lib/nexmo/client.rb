@@ -16,6 +16,16 @@ module Nexmo
       @private_key = options[:private_key]
 
       @user_agent = UserAgent.string(options[:app_name], options[:app_version])
+
+      self.logger = options[:logger]
+    end
+
+    def logger
+      @logger
+    end
+
+    def logger=(logger)
+      @logger = Nexmo::KeyValueLogger.new(logger)
     end
 
     def authorization
