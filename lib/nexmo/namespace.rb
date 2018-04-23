@@ -80,14 +80,8 @@ module Nexmo
         :no_content
       when Net::HTTPSuccess
         parse_success(response, &block)
-      when Net::HTTPUnauthorized
-        raise AuthenticationError, "#{response.code} response from #{host}"
-      when Net::HTTPClientError
-        raise ClientError, "#{response.code} response from #{host}"
-      when Net::HTTPServerError
-        raise ServerError, "#{response.code} response from #{host}"
       else
-        raise Error, "#{response.code} response from #{host}"
+        handle_error(response)
       end
     end
 
@@ -98,6 +92,21 @@ module Nexmo
         yield response
       else
         response.body
+      end
+    end
+
+    def handle_error(response)
+      logger.debug(response.body)
+
+      case response
+      when Net::HTTPUnauthorized
+        raise AuthenticationError
+      when Net::HTTPClientError
+        raise ClientError
+      when Net::HTTPServerError
+        raise ServerError
+      else
+        raise Error
       end
     end
   end
