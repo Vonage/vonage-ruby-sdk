@@ -2,7 +2,13 @@
 
 module Nexmo
   class Client
-    attr_accessor :auth_token, :user_agent
+    attr_writer :api_key
+    attr_writer :api_secret
+    attr_writer :signature_secret
+    attr_writer :application_id
+    attr_writer :private_key
+    attr_accessor :user_agent
+    attr_accessor :auth_token
 
     def initialize(options = {})
       @api_key = options[:api_key] || ENV['NEXMO_API_KEY']
