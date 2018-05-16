@@ -47,24 +47,25 @@ module Nexmo
       end
 
       message = type.new(uri.request_uri)
-
-      if type::REQUEST_HAS_BODY
-        if json_body?
-          message['Content-Type'] = 'application/json'
-          message.body = JSON.generate(params)
-        else
-          message.form_data = params
-        end
-      end
-
       message['Authorization'] = @client.authorization if authorization_header?
       message['User-Agent'] = @client.user_agent
+
+      encode_body(params, message) if type::REQUEST_HAS_BODY
 
       logger.info('Nexmo API request', method: message.method, path: uri.path)
 
       response = @http.request(message)
 
       parse(response, &block)
+    end
+
+    def encode_body(params, message)
+      if json_body?
+        message['Content-Type'] = 'application/json'
+        message.body = JSON.generate(params)
+      else
+        message.form_data = params
+      end
     end
 
     def parse(response, &block)
