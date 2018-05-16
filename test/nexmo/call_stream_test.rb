@@ -14,10 +14,7 @@ class NexmoCallStreamTest < Nexmo::Test
   end
 
   def test_start_method
-    headers = {
-      'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/,
-      'Content-Type' => 'application/json'
-    }
+    headers = {'Authorization' => bearer_token, 'Content-Type' => 'application/json'}
 
     params = {stream_url: 'https://example.com/audio.mp3'}
 
@@ -28,9 +25,7 @@ class NexmoCallStreamTest < Nexmo::Test
   end
 
   def test_stop_method
-    headers = {
-      'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/
-    }
+    headers = {'Authorization' => bearer_token}
 
     request = stub_request(:delete, uri).with(headers: headers).to_return(response)
 

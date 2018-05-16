@@ -25,7 +25,7 @@ class NexmoApplicationsTest < Nexmo::Test
       event_url: 'https://example.com/event'
     }
 
-    request = stub_request(:post, applications_uri).with(body: params.merge(api_key_and_secret)).to_return(response)
+    request = stub_request(:post, applications_uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, applications.create(params)
     assert_requested request
@@ -50,7 +50,7 @@ class NexmoApplicationsTest < Nexmo::Test
   def test_update_method
     params = {answer_url: 'https://example.com/ncco'}
 
-    request = stub_request(:put, application_uri).with(body: params.merge(api_key_and_secret)).to_return(response)
+    request = stub_request(:put, application_uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, applications.update(application_id, params)
     assert_requested request

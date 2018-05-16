@@ -26,7 +26,7 @@ class NexmoFilesTest < Nexmo::Test
   end
 
   def headers
-    {'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/}
+    {'Authorization' => bearer_token}
   end
 
   def teardown

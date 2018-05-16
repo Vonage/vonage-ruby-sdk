@@ -14,7 +14,7 @@ class NexmoConversionsTest < Nexmo::Test
 
     params = {'message-id' => message_id, 'delivered' => 'true'}
 
-    request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
+    request = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, conversions.track_sms(message_id: message_id, delivered: true)
     assert_requested request
@@ -25,7 +25,7 @@ class NexmoConversionsTest < Nexmo::Test
 
     params = {'message-id' => message_id, 'delivered' => 'true'}
 
-    request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
+    request = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, conversions.track_voice(message_id: message_id, delivered: true)
     assert_requested request

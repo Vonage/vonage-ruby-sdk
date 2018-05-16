@@ -19,7 +19,7 @@ class NexmoAlertsTest < Nexmo::Test
 
     params = {msisdn: msisdn}
 
-    request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
+    request = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, alerts.remove(params)
     assert_requested request
@@ -30,7 +30,7 @@ class NexmoAlertsTest < Nexmo::Test
 
     params = {msisdn: msisdn}
 
-    request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
+    request = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, alerts.resubscribe(params)
     assert_requested request
@@ -41,7 +41,7 @@ class NexmoAlertsTest < Nexmo::Test
 
     params = {to: msisdn, server: 'host3', link: 'https://example.com/host3/mon'}
 
-    request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
+    request = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, alerts.send(params)
     assert_requested request

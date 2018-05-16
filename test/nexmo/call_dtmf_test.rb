@@ -14,10 +14,7 @@ class NexmoCallDTMFTest < Nexmo::Test
   end
 
   def test_send_method
-    headers = {
-      'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/,
-      'Content-Type' => 'application/json'
-    }
+    headers = {'Authorization' => bearer_token, 'Content-Type' => 'application/json'}
 
     params = {digits: '1234'}
 

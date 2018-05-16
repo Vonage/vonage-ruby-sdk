@@ -19,7 +19,7 @@ class NexmoAccountTest < Nexmo::Test
 
     params = {moCallBackUrl: 'https://example.com/callback'}
 
-    request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
+    request = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, account.update(params)
     assert_requested request
@@ -30,7 +30,7 @@ class NexmoAccountTest < Nexmo::Test
 
     params = {trx: '00X123456Y7890123Z'}
 
-    request = stub_request(:post, uri).with(body: params.merge(api_key_and_secret)).to_return(response)
+    request = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, account.topup(params)
     assert_requested request

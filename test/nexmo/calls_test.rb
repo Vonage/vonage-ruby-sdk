@@ -18,15 +18,10 @@ class NexmoCallsTest < Nexmo::Test
   end
 
   def headers
-    {'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/}
+    {'Authorization' => bearer_token, 'Content-Type' => 'application/json'}
   end
 
   def test_create_method
-    headers = {
-      'Authorization' => /\ABearer (.+)\.(.+)\.(.+)\z/,
-      'Content-Type' => 'application/json'
-    }
-
     params = {
       to: [{type: 'phone', number: '14843331234'}],
       from: {type: 'phone', number: '14843335555'},
@@ -40,6 +35,8 @@ class NexmoCallsTest < Nexmo::Test
   end
 
   def test_list_method
+    headers = {'Authorization' => bearer_token}
+
     params = {status: 'completed'}
 
     request = stub_request(:get, calls_uri).with(headers: headers, query: params).to_return(response)
@@ -49,6 +46,8 @@ class NexmoCallsTest < Nexmo::Test
   end
 
   def test_get_method
+    headers = {'Authorization' => bearer_token}
+
     request = stub_request(:get, call_uri).with(headers: headers).to_return(response)
 
     assert_equal response_object, calls.get(call_uuid)

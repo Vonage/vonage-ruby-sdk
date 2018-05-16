@@ -38,6 +38,14 @@ module Nexmo
       })
     end
 
+    def headers
+      {'Content-Type' => 'application/x-www-form-urlencoded'}
+    end
+
+    def bearer_token
+      /\ABearer (.+)\.(.+)\.(.+)\z/
+    end
+
     def response
       {body: '{"key":"value"}', headers: response_headers}
     end
