@@ -5,6 +5,7 @@
 This is the Ruby client library for Nexmo's API. To use it you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
+* [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
 * [SMS API](#sms-api)
@@ -13,7 +14,10 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [Number Insight API](#number-insight-api)
 * [Application API](#application-api)
 * [Numbers API](#numbers-api)
-* [Coverage](#api-coverage)
+* [Logging](#logging)
+* [JWT authentication](#jwt-authentication)
+* [Webhook signatures](#webhook-signatures)
+* [API coverage](#api-coverage)
 * [License](#license)
 
 
@@ -394,7 +398,7 @@ client.auth_token = auth_token
 ````
 
 
-## Validate webhook signatures
+## Webhook signatures
 
 ```ruby
 client = Nexmo::Client.new(signature_secret: 'secret')
@@ -408,11 +412,10 @@ end
 
 Docs: [https://developer.nexmo.com/concepts/guides/signing-messages](https://developer.nexmo.com/concepts/guides/signing-messages?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library)
 
-Note: you'll need to contact support@nexmo.com to enable message signing on
-your account before you can validate webhook signatures.
+Note: you'll need to contact support@nexmo.com to enable message signing on your account.
 
 
-## API Coverage
+## API coverage
 
 * Account
     * [X] Balance
