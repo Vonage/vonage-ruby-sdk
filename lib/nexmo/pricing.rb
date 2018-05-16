@@ -5,7 +5,9 @@ module Nexmo
     def initialize(client, type: nil)
       raise ArgumentError if type.nil?
 
-      @client, @type = client, type
+      @type = type
+
+      super client
     end
 
     attr_reader :type

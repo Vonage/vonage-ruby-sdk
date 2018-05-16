@@ -5,6 +5,9 @@ module Nexmo
   class Namespace
     def initialize(client)
       @client = client
+
+      @http = Net::HTTP.new(host, Net::HTTP.https_default_port)
+      @http.use_ssl = true
     end
 
     private
@@ -57,12 +60,9 @@ module Nexmo
       message['Authorization'] = @client.authorization if authorization_header?
       message['User-Agent'] = @client.user_agent
 
-      http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port)
-      http.use_ssl = true
-
       logger.info('Nexmo API request', method: message.method, path: uri.path)
 
-      response = http.request(message)
+      response = @http.request(message)
 
       parse(response, &block)
     end
