@@ -17,7 +17,7 @@ module Nexmo
 
       @user_agent = UserAgent.string(options[:app_name], options[:app_version])
 
-      self.logger = options[:logger]
+      self.logger = options[:logger] || (defined?(Rails.logger) && Rails.logger)
     end
 
     def logger
