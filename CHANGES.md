@@ -1,3 +1,25 @@
+# 5.1.0
+
+* Added logging functionality for requests and responses
+
+  Use the logger option to specify a logger. For example:
+
+      require 'logger'
+
+      logger = Logger.new(STDOUT)
+
+      client = Nexmo::Client.new(logger: logger)
+
+* Added Nexmo::Client#api_key= method
+
+* Added Nexmo::Client#api_secret= method
+
+* Added Nexmo::Client#signature_secret= method
+
+* Added Nexmo::Client#application_id= method
+
+* Added Nexmo::Client#private_key= method
+
 # 5.0.2
 
 * Fixed pricing endpoints
