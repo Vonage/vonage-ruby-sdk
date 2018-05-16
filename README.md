@@ -353,6 +353,23 @@ client.numbers.update(country: 'GB', msisdn: '447700900000', voice_callback_type
 Docs: [https://developer.nexmo.com/api/developer/numbers#update-a-number](https://developer.nexmo.com/api/developer/numbers?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#update-a-number)
 
 
+## Logging
+
+Use the logger option or attribute writer method to specify a logger. For example:
+
+```ruby
+require 'logger'
+
+logger = Logger.new(STDOUT)
+
+client = Nexmo::Client.new(logger: logger)
+```
+
+By default the library sets the logger to `Rails.logger` if it is defined.
+
+To disable logging set the logger to `nil`.
+
+
 ## JWT authentication
 
 By default the library generates a short lived JWT per request.
