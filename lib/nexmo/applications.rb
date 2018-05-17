@@ -21,5 +21,11 @@ module Nexmo
     def delete(id)
       request('/v1/applications/' + id, type: Delete)
     end
+
+    private
+
+    def json_body?
+      true
+    end
   end
 end

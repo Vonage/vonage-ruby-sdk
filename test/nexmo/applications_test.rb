@@ -17,6 +17,10 @@ class NexmoApplicationsTest < Nexmo::Test
     'xx-xx-xx-xx'
   end
 
+  def headers
+    {'Content-Type' => 'application/json'}
+  end
+
   def test_create_method
     params = {
       name: 'Example Application',
