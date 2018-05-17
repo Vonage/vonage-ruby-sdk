@@ -1,3 +1,7 @@
+# 5.1.1
+
+* Fixed `client.applications.update` sending application/x-www-form-urlencoded instead of JSON
+
 # 5.1.0
 
 * Added logging functionality for requests and responses
