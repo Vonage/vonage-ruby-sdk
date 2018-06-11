@@ -139,6 +139,10 @@ module Nexmo
       @pricing ||= PricingTypes.new(self)
     end
 
+    def redact
+      @redact ||= Redact.new(self)
+    end
+
     def sms
       @sms ||= SMS.new(self)
     end

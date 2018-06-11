@@ -13,4 +13,12 @@ class NexmoParamsTest < Minitest::Test
 
     assert_equal Nexmo::Params.encode(params), 'ids=00A0B0C0&ids=00A0B0C1&ids=00A0B0C2'
   end
+
+  def test_join_method_concatenates_params
+    assert_equal Nexmo::Params.join('a=b', {'c' => 'd'}), 'a=b&c=d'
+  end
+
+  def test_join_method_with_nil
+    assert_equal Nexmo::Params.join(nil, {'c' => 'd'}), 'c=d'
+  end
 end
