@@ -21,8 +21,8 @@ module Nexmo
       'api.nexmo.com'
     end
 
-    def authorization_header?
-      false
+    def authentication
+      @authentication ||= KeySecretParams.new(@client)
     end
 
     def json_body?
@@ -36,19 +36,21 @@ module Nexmo
     def request(path, params: nil, type: Get, &block)
       uri = URI('https://' + host + path)
 
-      unless authorization_header?
-        params ||= {}
-        params[:api_key] = @client.api_key
-        params[:api_secret] = @client.api_secret
-      end
+      params ||= {}
 
-      unless type::REQUEST_HAS_BODY || params.nil? || params.empty?
+      authentication.update(params)
+
+      unless type::REQUEST_HAS_BODY || params.empty?
         uri.query = Params.encode(params)
       end
 
+      authentication.update(uri)
+
       message = type.new(uri.request_uri)
-      message['Authorization'] = @client.authorization if authorization_header?
+
       message['User-Agent'] = @client.user_agent
+
+      authentication.update(message)
 
       encode_body(params, message) if type::REQUEST_HAS_BODY
 

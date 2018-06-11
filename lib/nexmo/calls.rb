@@ -61,8 +61,8 @@ module Nexmo
 
     private
 
-    def authorization_header?
-      true
+    def authentication
+      @authentication ||= BearerToken.new(@client)
     end
 
     def json_body?
