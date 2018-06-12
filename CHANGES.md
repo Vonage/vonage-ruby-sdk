@@ -1,3 +1,7 @@
+# 5.2.0
+
+* Added Redact API transaction method
+
 # 5.1.1
 
 * Fixed `client.applications.update` sending application/x-www-form-urlencoded instead of JSON
