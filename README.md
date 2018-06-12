@@ -14,6 +14,7 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [Number Insight API](#number-insight-api)
 * [Application API](#application-api)
 * [Numbers API](#numbers-api)
+* [Redact API](#redact-api)
 * [Logging](#logging)
 * [JWT authentication](#jwt-authentication)
 * [Webhook signatures](#webhook-signatures)
@@ -355,6 +356,17 @@ client.numbers.update(country: 'GB', msisdn: '447700900000', voice_callback_type
 ```
 
 Docs: [https://developer.nexmo.com/api/developer/numbers#update-a-number](https://developer.nexmo.com/api/developer/numbers?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#update-a-number)
+
+
+## Redact API
+
+### Redact a specific message
+
+```ruby
+client.redact.transaction(id: '00A0B0C0', product: 'sms')
+```
+
+Docs: [https://developer.nexmo.com/api/redact#transaction](https://developer.nexmo.com/api/redact?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#transaction)
 
 
 ## Logging
