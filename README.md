@@ -391,7 +391,7 @@ To disable logging set the logger to `nil`.
 By default the library generates a short lived JWT per request.
 
 To generate a long lived JWT for multiple requests or to specify JWT claims
-directly call `Nexmo::JWT.generate` to generate a token, and set the auth_token
+directly call `Nexmo::JWT.generate` to generate a token, and set the token
 attribute on the client object. For example:
 
 ```ruby
@@ -404,9 +404,7 @@ claims = {
 
 private_key = File.read('path/to/private.key')
 
-auth_token = Nexmo::JWT.generate(claims, private_key)
-
-client.auth_token = auth_token
+client.token = Nexmo::JWT.generate(claims, private_key)
 ````
 
 

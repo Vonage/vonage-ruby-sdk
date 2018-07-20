@@ -7,8 +7,8 @@ module Nexmo
     attr_writer :signature_secret
     attr_writer :application_id
     attr_writer :private_key
+    attr_writer :token
     attr_accessor :user_agent
-    attr_accessor :auth_token
 
     def initialize(options = {})
       @api_key = options[:api_key] || ENV['NEXMO_API_KEY']
@@ -20,6 +20,8 @@ module Nexmo
       @application_id = options[:application_id]
 
       @private_key = options[:private_key]
+
+      @token = nil
 
       @user_agent = UserAgent.string(options[:app_name], options[:app_version])
 
@@ -34,10 +36,14 @@ module Nexmo
       @logger = Nexmo::KeyValueLogger.new(logger)
     end
 
-    def authorization
-      token = auth_token || JWT.generate({application_id: application_id}, private_key)
+    def token
+      @token || JWT.generate({application_id: application_id}, private_key)
+    end
 
-      'Bearer ' + token
+    def auth_token=(auth_token)
+      Kernel.warn "#{self.class}##{__method__} is deprecated (use #token= instead)"
+
+      @token = auth_token
     end
 
     def api_key
