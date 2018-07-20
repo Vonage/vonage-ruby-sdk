@@ -11,7 +11,7 @@ Gem::Specification.new do |s|
   s.description = 'Nexmo Client Library for Ruby'
   s.summary = 'This is the Ruby client library for Nexmo\'s API. To use it you\'ll need a Nexmo account. Sign up for free at https://www.nexmo.com'
   s.files = Dir.glob('{lib,spec}/**/*') + %w(LICENSE.txt README.md nexmo.gemspec)
-  s.required_ruby_version = '>= 2.0.0'
+  s.required_ruby_version = '>= 2.1.0'
   s.add_dependency('jwt')
   s.add_development_dependency('rake', '~> 12.0')
   s.add_development_dependency('minitest', '~> 5.0')

@@ -42,12 +42,7 @@ module Nexmo
       update(id, action: 'unearmuff')
     end
 
-    def transfer(id, destination: nil)
-      # Ruby 2.0.0 does not support the syntax for required keyword arguments
-      # that was introduced in Ruby 2.1. The following line and the nil default
-      # can be removed when dropping support for Ruby 2.0.0.
-      raise ArgumentError, 'missing keyword: destination' if destination.nil?
-
+    def transfer(id, destination:)
       update(id, action: 'transfer', destination: destination)
     end
 
