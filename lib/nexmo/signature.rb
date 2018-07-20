@@ -8,7 +8,7 @@ module Nexmo
 
       signature = params.delete('sig')
 
-      secure_compare(signature, digest(params, secret))
+      ::JWT::SecurityUtils.secure_compare(signature, digest(params, secret))
     end
 
     def initialize(client)
@@ -20,16 +20,6 @@ module Nexmo
     end
 
     private
-
-    if defined?(::JWT::SecurityUtils) # ruby-jwt v2
-      def self.secure_compare(left, right)
-        ::JWT::SecurityUtils.secure_compare(left, right)
-      end
-    else
-      def self.secure_compare(left, right)
-        ::JWT.secure_compare(left, right)
-      end
-    end
 
     def self.digest(params, secret)
       md5 = Digest::MD5.new
