@@ -2,15 +2,13 @@
 
 module Nexmo
   class Redact < Namespace
+    self.authentication = KeySecretQuery
+
     def transaction(params)
       request('/v1/redact/transaction', params: params, type: Post)
     end
 
     private
-
-    def authentication
-      @authentication ||= KeySecretQuery.new(@client)
-    end
 
     def json_body?
       true

@@ -2,6 +2,8 @@
 
 module Nexmo
   class Calls < Namespace
+    self.authentication = BearerToken
+
     def create(params)
       request('/v1/calls', params: params, type: Post)
     end
@@ -60,10 +62,6 @@ module Nexmo
     end
 
     private
-
-    def authentication
-      @authentication ||= BearerToken.new(@client)
-    end
 
     def json_body?
       true

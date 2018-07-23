@@ -20,16 +20,20 @@ module Nexmo
       @host = host
     end
 
+    def self.authentication
+      @authentication ||= KeySecretParams
+    end
+
+    def self.authentication=(authentication)
+      @authentication = authentication
+    end
+
     private
 
     Get = Net::HTTP::Get
     Put = Net::HTTP::Put
     Post = Net::HTTP::Post
     Delete = Net::HTTP::Delete
-
-    def authentication
-      @authentication ||= KeySecretParams.new(@client)
-    end
 
     def json_body?
       false
@@ -44,6 +48,7 @@ module Nexmo
 
       params ||= {}
 
+      authentication = self.class.authentication.new(@client)
       authentication.update(params)
 
       unless type::REQUEST_HAS_BODY || params.empty?

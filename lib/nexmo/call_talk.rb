@@ -2,6 +2,8 @@
 
 module Nexmo
   class CallTalk < Namespace
+    self.authentication = BearerToken
+
     def start(id, params)
       request('/v1/calls/' + id + '/talk', params: params, type: Put)
     end
@@ -11,10 +13,6 @@ module Nexmo
     end
 
     private
-
-    def authentication
-      @authentication ||= BearerToken.new(@client)
-    end
 
     def json_body?
       true

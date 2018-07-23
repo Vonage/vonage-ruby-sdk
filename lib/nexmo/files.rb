@@ -2,6 +2,8 @@
 
 module Nexmo
   class Files < Namespace
+    self.authentication = BearerToken
+
     def get(id)
       request('/v1/files/' + id.split('/').last)
     end
@@ -14,12 +16,6 @@ module Nexmo
           end
         end
       end
-    end
-
-    private
-
-    def authentication
-      @authentication ||= BearerToken.new(@client)
     end
   end
 end

@@ -2,15 +2,13 @@
 
 module Nexmo
   class CallDTMF < Namespace
+    self.authentication = BearerToken
+
     def send(id, params)
       request('/v1/calls/' + id + '/dtmf', params: params, type: Put)
     end
 
     private
-
-    def authentication
-      @authentication ||= BearerToken.new(@client)
-    end
 
     def json_body?
       true
