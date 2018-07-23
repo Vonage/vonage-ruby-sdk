@@ -4,18 +4,14 @@ module Nexmo
   class CallStream < Namespace
     self.authentication = BearerToken
 
+    self.request_body = JSON
+
     def start(id, params)
       request('/v1/calls/' + id + '/stream', params: params, type: Put)
     end
 
     def stop(id)
       request('/v1/calls/' + id + '/stream', type: Delete)
-    end
-
-    private
-
-    def json_body?
-      true
     end
   end
 end

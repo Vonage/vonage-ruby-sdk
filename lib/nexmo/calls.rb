@@ -4,6 +4,8 @@ module Nexmo
   class Calls < Namespace
     self.authentication = BearerToken
 
+    self.request_body = JSON
+
     def create(params)
       request('/v1/calls', params: params, type: Post)
     end
@@ -59,12 +61,6 @@ module Nexmo
 
     def dtmf
       @dtmf ||= CallDTMF.new(@client)
-    end
-
-    private
-
-    def json_body?
-      true
     end
   end
 end

@@ -28,16 +28,20 @@ module Nexmo
       @authentication = authentication
     end
 
+    def self.request_body
+      @request_body ||= FormData
+    end
+
+    def self.request_body=(request_body)
+      @request_body = request_body
+    end
+
     private
 
     Get = Net::HTTP::Get
     Put = Net::HTTP::Put
     Post = Net::HTTP::Post
     Delete = Net::HTTP::Delete
-
-    def json_body?
-      false
-    end
 
     def logger
       @client.logger
@@ -63,22 +67,13 @@ module Nexmo
 
       authentication.update(message)
 
-      encode_body(params, message) if type::REQUEST_HAS_BODY
+      self.class.request_body.update(message, params) if type::REQUEST_HAS_BODY
 
       logger.info('Nexmo API request', method: message.method, path: uri.path)
 
       response = @http.request(message)
 
       parse(response, &block)
-    end
-
-    def encode_body(params, message)
-      if json_body?
-        message['Content-Type'] = 'application/json'
-        message.body = JSON.generate(params)
-      else
-        message.form_data = params
-      end
     end
 
     def parse(response, &block)
@@ -101,7 +96,7 @@ module Nexmo
 
     def parse_success(response)
       if response['Content-Type'].split(';').first == 'application/json'
-        JSON.parse(response.body, object_class: Nexmo::Entity)
+        ::JSON.parse(response.body, object_class: Nexmo::Entity)
       elsif block_given?
         yield response
       else
