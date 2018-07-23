@@ -2,6 +2,8 @@
 
 module Nexmo
   class Messages < Namespace
+    self.host = 'rest.nexmo.com'
+
     def get(id)
       request('/search/message', params: {id: id})
     end
@@ -12,12 +14,6 @@ module Nexmo
 
     def rejections(params)
       request('/search/rejections', params: params)
-    end
-
-    private
-
-    def host
-      'rest.nexmo.com'
     end
   end
 end

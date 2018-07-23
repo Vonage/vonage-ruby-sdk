@@ -2,6 +2,8 @@
 
 module Nexmo
   class Pricing < Namespace
+    self.host = 'rest.nexmo.com'
+
     def initialize(client, type: nil)
       raise ArgumentError if type.nil?
 
@@ -22,12 +24,6 @@ module Nexmo
 
     def prefix(prefix)
       request('/account/get-prefix-pricing/outbound/' + @type, params: {prefix: prefix})
-    end
-
-    private
-
-    def host
-      'rest.nexmo.com'
     end
   end
 end

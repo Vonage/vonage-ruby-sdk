@@ -2,6 +2,8 @@
 
 module Nexmo
   class Alerts < Namespace
+    self.host = 'rest.nexmo.com'
+
     def list
       request('/sc/us/alert/opt-in/query/json')
     end
@@ -14,12 +16,6 @@ module Nexmo
 
     def send(params)
       request('/sc/us/alert/json', params: params, type: Post)
-    end
-
-    private
-
-    def host
-      'rest.nexmo.com'
     end
   end
 end

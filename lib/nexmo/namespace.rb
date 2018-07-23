@@ -6,8 +6,18 @@ module Nexmo
     def initialize(client)
       @client = client
 
-      @http = Net::HTTP.new(host, Net::HTTP.https_default_port)
+      @host = self.class.host
+
+      @http = Net::HTTP.new(@host, Net::HTTP.https_default_port)
       @http.use_ssl = true
+    end
+
+    def self.host
+      @host ||= 'api.nexmo.com'
+    end
+
+    def self.host=(host)
+      @host = host
     end
 
     private
@@ -16,10 +26,6 @@ module Nexmo
     Put = Net::HTTP::Put
     Post = Net::HTTP::Post
     Delete = Net::HTTP::Delete
-
-    def host
-      'api.nexmo.com'
-    end
 
     def authentication
       @authentication ||= KeySecretParams.new(@client)
@@ -34,7 +40,7 @@ module Nexmo
     end
 
     def request(path, params: nil, type: Get, &block)
-      uri = URI('https://' + host + path)
+      uri = URI('https://' + @host + path)
 
       params ||= {}
 
@@ -72,7 +78,7 @@ module Nexmo
 
     def parse(response, &block)
       logger.info('Nexmo API response',
-        host: host,
+        host: @host,
         status: response.code,
         type: response.content_type,
         length: response.content_length,

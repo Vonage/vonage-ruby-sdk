@@ -4,6 +4,8 @@ module Nexmo
   class Numbers < Namespace
     include Keys
 
+    self.host = 'rest.nexmo.com'
+
     def list(params = nil)
       request('/account/numbers', params: params)
     end
@@ -22,12 +24,6 @@ module Nexmo
 
     def update(params)
       request('/number/update', params: camelcase(params), type: Post)
-    end
-
-    private
-
-    def host
-      'rest.nexmo.com'
     end
   end
 end

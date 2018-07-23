@@ -2,6 +2,8 @@
 
 module Nexmo
   class Account < Namespace
+    self.host = 'rest.nexmo.com'
+
     def balance
       request('/account/get-balance')
     end
@@ -12,12 +14,6 @@ module Nexmo
 
     def topup(params)
       request('/account/top-up', params: params, type: Post)
-    end
-
-    private
-
-    def host
-      'rest.nexmo.com'
     end
   end
 end
