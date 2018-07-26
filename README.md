@@ -144,7 +144,7 @@ Docs: [https://developer.nexmo.com/api/voice#modify-an-existing-call](https://de
 ```ruby
 stream_url = 'https://nexmo-community.github.io/ncco-examples/assets/voice_api_audio_streaming.mp3'
 
-response = client.stream.start(uuid, stream_url: stream_url)
+response = client.calls.stream.start(uuid, stream_url: [stream_url])
 ```
 
 Docs: [https://developer.nexmo.com/api/voice#stream-an-audio-file-to-an-active-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#stream-an-audio-file-to-an-active-call)
@@ -176,7 +176,7 @@ Docs: [https://developer.nexmo.com/api/voice#stop-sending-a-synthesized-speech-m
 ### Send DTMF tones to a call
 
 ```ruby
-response = client.dtmf.send(uuid, digits: '1234')
+response = client.calls.dtmf.send(uuid, digits: '1234')
 ```
 
 Docs: [https://developer.nexmo.com/api/voice#send-dual-tone-multi-frequency-dtmf-tones-to-an-active-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#send-dual-tone-multi-frequency-dtmf-tones-to-an-active-call)
