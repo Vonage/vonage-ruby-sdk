@@ -77,12 +77,7 @@ module Nexmo
     end
 
     def parse(response, &block)
-      logger.info('Nexmo API response',
-        host: @host,
-        status: response.code,
-        type: response.content_type,
-        length: response.content_length,
-        trace_id: response['x-nexmo-trace-id'])
+      log_response_info(response)
 
       case response
       when Net::HTTPNoContent
@@ -102,6 +97,15 @@ module Nexmo
       else
         response.body
       end
+    end
+
+    def log_response_info(response)
+      logger.info('Nexmo API response',
+        host: @host,
+        status: response.code,
+        type: response.content_type,
+        length: response.content_length,
+        trace_id: response['x-nexmo-trace-id'])
     end
 
     def handle_error(response)
