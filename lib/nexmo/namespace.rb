@@ -71,19 +71,19 @@ module Nexmo
 
       logger.info('Nexmo API request', method: message.method, path: uri.path)
 
-      response = @http.request(message)
+      response = @http.request(message, &block)
 
-      parse(response, &block)
-    end
-
-    def parse(response, &block)
       log_response_info(response)
 
+      parse(response) unless block
+    end
+
+    def parse(response)
       case response
       when Net::HTTPNoContent
         :no_content
       when Net::HTTPSuccess
-        parse_success(response, &block)
+        parse_success(response)
       else
         handle_error(response)
       end
@@ -92,8 +92,6 @@ module Nexmo
     def parse_success(response)
       if response['Content-Type'].split(';').first == 'application/json'
         ::JSON.parse(response.body, object_class: Nexmo::Entity)
-      elsif block_given?
-        yield response
       else
         response.body
       end
