@@ -75,7 +75,11 @@ module Nexmo
 
       log_response_info(response)
 
-      parse(response) unless block
+      return if block
+
+      logger.debug(response.body)
+
+      parse(response)
     end
 
     def parse(response)
@@ -88,8 +92,14 @@ module Nexmo
         else
           response
         end
+      when Net::HTTPUnauthorized
+        raise AuthenticationError
+      when Net::HTTPClientError
+        raise ClientError
+      when Net::HTTPServerError
+        raise ServerError
       else
-        handle_error(response)
+        raise Error
       end
     end
 
@@ -100,21 +110,6 @@ module Nexmo
         type: response.content_type,
         length: response.content_length,
         trace_id: response['x-nexmo-trace-id'])
-    end
-
-    def handle_error(response)
-      logger.debug(response.body)
-
-      case response
-      when Net::HTTPUnauthorized
-        raise AuthenticationError
-      when Net::HTTPClientError
-        raise ClientError
-      when Net::HTTPServerError
-        raise ServerError
-      else
-        raise Error
-      end
     end
   end
 end
