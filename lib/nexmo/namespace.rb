@@ -83,17 +83,13 @@ module Nexmo
       when Net::HTTPNoContent
         :no_content
       when Net::HTTPSuccess
-        parse_success(response)
+        if response['Content-Type'].split(';').first == 'application/json'
+          ::JSON.parse(response.body, object_class: Nexmo::Entity)
+        else
+          response
+        end
       else
         handle_error(response)
-      end
-    end
-
-    def parse_success(response)
-      if response['Content-Type'].split(';').first == 'application/json'
-        ::JSON.parse(response.body, object_class: Nexmo::Entity)
-      else
-        response.body
       end
     end
 
