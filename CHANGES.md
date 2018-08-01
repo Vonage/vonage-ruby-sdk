@@ -1,3 +1,11 @@
+# 5.3.0
+
+* Fixed `client.files.save` raising IOError (https://github.com/Nexmo/nexmo-ruby/issues/102)
+
+* Renamed Nexmo::Client#auth_token attribute to #token
+
+* Dropped support for Ruby 2.0.0
+
 # 5.2.0
 
 * Added Redact API transaction method
