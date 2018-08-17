@@ -33,7 +33,7 @@ module Nexmo
     end
 
     def logger=(logger)
-      @logger = Nexmo::KeyValueLogger.new(logger)
+      @logger = Logger.new(logger)
     end
 
     def token

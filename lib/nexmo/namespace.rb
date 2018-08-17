@@ -62,7 +62,7 @@ module Nexmo
 
       authentication.update(uri)
 
-      message = type.new(uri.request_uri)
+      message = type.new(uri)
 
       message['User-Agent'] = @client.user_agent
 
@@ -70,11 +70,11 @@ module Nexmo
 
       self.class.request_body.update(message, params) if type::REQUEST_HAS_BODY
 
-      logger.info('Nexmo API request', method: message.method, path: uri.path)
+      logger.log_request_info(message)
 
       response = @http.request(message, &block)
 
-      log_response_info(response)
+      logger.log_response_info(response, @host)
 
       return if block
 
@@ -102,15 +102,6 @@ module Nexmo
       else
         raise Error
       end
-    end
-
-    def log_response_info(response)
-      logger.info('Nexmo API response',
-        host: @host,
-        status: response.code,
-        type: response.content_type,
-        length: response.content_length,
-        trace_id: response['x-nexmo-trace-id'])
     end
   end
 end
