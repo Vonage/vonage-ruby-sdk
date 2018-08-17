@@ -5,8 +5,8 @@ Gem::Specification.new do |s|
   s.version = Nexmo::VERSION
   s.license = 'MIT'
   s.platform = Gem::Platform::RUBY
-  s.authors = ['Tim Craft']
-  s.email = ['mail@timcraft.com']
+  s.authors = ['Nexmo']
+  s.email = ['devrel@nexmo.com']
   s.homepage = 'https://github.com/Nexmo/nexmo-ruby'
   s.description = 'Nexmo Client Library for Ruby'
   s.summary = 'This is the Ruby client library for Nexmo\'s API. To use it you\'ll need a Nexmo account. Sign up for free at https://www.nexmo.com'
