@@ -7,6 +7,8 @@ module Nexmo
     def initialize(client)
       @client = client
 
+      @logger = client.logger
+
       @host = self.class.host
 
       @http = Net::HTTP.new(@host, Net::HTTP.https_default_port)
@@ -44,10 +46,6 @@ module Nexmo
     Post = Net::HTTP::Post
     Delete = Net::HTTP::Delete
 
-    def logger
-      @client.logger
-    end
-
     def request(path, params: nil, type: Get, &block)
       uri = URI('https://' + @host + path)
 
@@ -70,15 +68,15 @@ module Nexmo
 
       self.class.request_body.update(message, params) if type::REQUEST_HAS_BODY
 
-      logger.log_request_info(message)
+      @logger.log_request_info(message)
 
       response = @http.request(message, &block)
 
-      logger.log_response_info(response, @host)
+      @logger.log_response_info(response, @host)
 
       return if block
 
-      logger.debug(response.body)
+      @logger.debug(response.body)
 
       parse(response)
     end
