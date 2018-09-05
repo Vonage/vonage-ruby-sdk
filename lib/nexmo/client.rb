@@ -149,6 +149,10 @@ module Nexmo
       @redact ||= Redact.new(self)
     end
 
+    def secrets
+      @secrets ||= Secrets.new(self)
+    end
+
     def sms
       @sms ||= SMS.new(self)
     end
