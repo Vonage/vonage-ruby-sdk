@@ -15,6 +15,8 @@ module Nexmo
       @http.use_ssl = true
     end
 
+    attr_reader :http
+
     def self.host
       @host ||= 'api.nexmo.com'
     end
