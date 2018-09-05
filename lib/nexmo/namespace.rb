@@ -76,7 +76,7 @@ module Nexmo
 
       return if block
 
-      @logger.debug(response.body)
+      @logger.debug(response.body) if response.body
 
       parse(response)
     end
