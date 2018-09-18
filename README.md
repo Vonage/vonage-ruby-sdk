@@ -86,7 +86,7 @@ of source control, or in some kind of key management infrastructure.
 
 ## SMS API
 
-### Send a text message
+### Send an SMS
 
 ```ruby
 response = client.sms.send(from: 'Ruby', to: 'YOUR NUMBER', text: 'Hello world')
@@ -98,7 +98,7 @@ else
 end
 ```
 
-Docs: [https://developer.nexmo.com/api/sms#request](https://developer.nexmo.com/api/sms?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#request)
+Docs: [https://developer.nexmo.com/api/sms#send-an-sms](https://developer.nexmo.com/api/sms?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#send-an-sms)
 
 
 ## Voice API
