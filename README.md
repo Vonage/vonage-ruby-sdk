@@ -103,7 +103,7 @@ Docs: [https://developer.nexmo.com/api/sms#send-an-sms](https://developer.nexmo.
 
 ## Voice API
 
-### Make a call
+### Create an outbound call
 
 ```ruby
 response = client.calls.create({
@@ -113,33 +113,33 @@ response = client.calls.create({
 })
 ```
 
-Docs: [https://developer.nexmo.com/api/voice#create-an-outbound-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#create-an-outbound-call)
+Docs: [https://developer.nexmo.com/api/voice#createCall](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#createCall)
 
-### Retrieve a list of calls
+### Get details of your calls
 
 ```ruby
 response = client.calls.list
 ```
 
-Docs: [https://developer.nexmo.com/api/voice#retrieve-information-about-all-your-calls](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#retrieve-information-about-all-your-calls)
+Docs: [https://developer.nexmo.com/api/voice#getCalls](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#getCalls)
 
-### Retrieve a single call
+### Get detail of a specific call
 
 ```ruby
 response = client.calls.get(uuid)
 ```
 
-Docs: [https://developer.nexmo.com/api/voice#retrieve-information-about-a-single-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#retrieve-information-about-a-single-call)
+Docs: [https://developer.nexmo.com/api/voice#getCall](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#getCall)
 
-### Update a call
+### Modify an in progress call
 
 ```ruby
 response = client.calls.hangup(uuid)
 ```
 
-Docs: [https://developer.nexmo.com/api/voice#modify-an-existing-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#modify-an-existing-call)
+Docs: [https://developer.nexmo.com/api/voice#updateCall](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#updateCall)
 
-### Stream audio to a call
+### Play an audio file into a call
 
 ```ruby
 stream_url = 'https://nexmo-community.github.io/ncco-examples/assets/voice_api_audio_streaming.mp3'
@@ -147,39 +147,39 @@ stream_url = 'https://nexmo-community.github.io/ncco-examples/assets/voice_api_a
 response = client.calls.stream.start(uuid, stream_url: [stream_url])
 ```
 
-Docs: [https://developer.nexmo.com/api/voice#stream-an-audio-file-to-an-active-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#stream-an-audio-file-to-an-active-call)
+Docs: [https://developer.nexmo.com/api/voice#startStream](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#startStream)
 
-### Stop streaming audio to a call
+### Stop playing an audio file into a call
 
 ```ruby
 response = client.stream.stop(uuid)
 ```
 
-Docs: [https://developer.nexmo.com/api/voice#stop-streaming-an-audio-file-to-an-active-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#stop-streaming-an-audio-file-to-an-active-call)
+Docs: [https://developer.nexmo.com/api/voice#stopStream](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#stopStream)
 
-### Send a synthesized speech message to a call
+### Play text to speech into a call
 
 ```ruby
 response = client.talk.start(uuid, text: 'Hello')
 ```
 
-Docs: [https://developer.nexmo.com/api/voice#send-a-synthesized-speech-message-to-an-active-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#send-a-synthesized-speech-message-to-an-active-call)
+Docs: [https://developer.nexmo.com/api/voice#startTalk](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#startTalk)
 
-### Stop sending a synthesized speech message to a call
+### Stop text to speech in a call
 
 ```ruby
 response = client.talk.stop(uuid)
 ```
 
-Docs: [https://developer.nexmo.com/api/voice#stop-sending-a-synthesized-speech-message-to-an-active-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#stop-sending-a-synthesized-speech-message-to-an-active-call)
+Docs: [https://developer.nexmo.com/api/voice#stopTalk](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#stopTalk)
 
-### Send DTMF tones to a call
+### Play DTMF tones into a call
 
 ```ruby
 response = client.calls.dtmf.send(uuid, digits: '1234')
 ```
 
-Docs: [https://developer.nexmo.com/api/voice#send-dual-tone-multi-frequency-dtmf-tones-to-an-active-call](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#send-dual-tone-multi-frequency-dtmf-tones-to-an-active-call)
+Docs: [https://developer.nexmo.com/api/voice#startDTMF](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#startDTMF)
 
 
 ## Verify API
