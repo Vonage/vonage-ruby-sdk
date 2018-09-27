@@ -1,3 +1,9 @@
+# 5.4.0
+
+* Added methods for Secret Management API
+
+* Fixed debug logging of nil response bodies
+
 # 5.3.0
 
 * Fixed `client.files.save` raising IOError (https://github.com/Nexmo/nexmo-ruby/issues/102)
