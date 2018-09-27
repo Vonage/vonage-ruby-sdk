@@ -9,6 +9,8 @@ module Nexmo
     attr_writer :private_key
     attr_writer :token
     attr_accessor :user_agent
+    attr_accessor :proxy_addr
+    attr_accessor :proxy_port
 
     def initialize(options = {})
       @api_key = options[:api_key] || ENV['NEXMO_API_KEY']
@@ -26,6 +28,10 @@ module Nexmo
       @user_agent = UserAgent.string(options[:app_name], options[:app_version])
 
       self.logger = options[:logger] || (defined?(Rails.logger) && Rails.logger)
+
+      @proxy_addr = options[:proxy_addr]
+
+      @proxy_port = options[:proxy_port]
     end
 
     def logger

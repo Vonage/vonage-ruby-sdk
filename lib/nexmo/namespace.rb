@@ -11,9 +11,11 @@ module Nexmo
 
       @host = self.class.host
 
-      @http = Net::HTTP.new(@host, Net::HTTP.https_default_port)
+      @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, @client.proxy_addr, @client.proxy_port)
       @http.use_ssl = true
     end
+
+    attr_reader :http
 
     def self.host
       @host ||= 'api.nexmo.com'
