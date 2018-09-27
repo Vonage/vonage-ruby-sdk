@@ -14,6 +14,7 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [Number Insight API](#number-insight-api)
 * [Application API](#application-api)
 * [Numbers API](#numbers-api)
+* [Secret Management API](#secret-management-api)
 * [Redact API](#redact-api)
 * [Logging](#logging)
 * [JWT authentication](#jwt-authentication)
@@ -356,6 +357,41 @@ client.numbers.update(country: 'GB', msisdn: '447700900000', voice_callback_type
 ```
 
 Docs: [https://developer.nexmo.com/api/developer/numbers#update-a-number](https://developer.nexmo.com/api/developer/numbers?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#update-a-number)
+
+
+## Secret Management API
+
+### Retrieve a list of secrets
+
+```ruby
+client.secrets.list
+```
+
+Docs: [https://developer.nexmo.com/api/account/secret-management#retrieveSecrets](https://developer.nexmo.com/api/account/secret-management?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#retrieveSecrets)
+
+### Create a secret
+
+```ruby
+client.secrets.create(secret: 't0ps3cr3t')
+```
+
+Docs: [https://developer.nexmo.com/api/account/secret-management#createSecret](https://developer.nexmo.com/api/account/secret-management?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#createSecret)
+
+### Retrieve a secret
+
+```ruby
+client.secrets.get(secret_id)
+```
+
+Docs: [https://developer.nexmo.com/api/account/secret-management#retrieveSecret](https://developer.nexmo.com/api/account/secret-management?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#retrieveSecret)
+
+### Revoke a secret
+
+```ruby
+client.secrets.revoke(secret_id)
+```
+
+Docs: [https://developer.nexmo.com/api/account/secret-management#revokeSecret](https://developer.nexmo.com/api/account/secret-management?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#revokeSecret)
 
 
 ## Redact API
