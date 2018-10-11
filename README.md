@@ -53,7 +53,7 @@ Then construct a client object with your key and secret:
 client = Nexmo::Client.new(api_key: 'YOUR-API-KEY', api_secret: 'YOUR-API-SECRET')
 ```
 
-You can now use the client object to [send a text message](#send-a-text-message),
+You can now use the client object to [send an SMS](#send-an-sms),
 [start a verification](#start-a-verification), or [create an application](#create-an-application).
 
 For production you can specify the `NEXMO_API_KEY` and `NEXMO_API_SECRET`
