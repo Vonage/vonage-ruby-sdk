@@ -40,12 +40,6 @@ module Nexmo
       @token || JWT.generate({application_id: application_id}, private_key)
     end
 
-    def auth_token=(auth_token)
-      Kernel.warn "#{self.class}##{__method__} is deprecated (use #token= instead)"
-
-      @token = auth_token
-    end
-
     def api_key
       unless @api_key
         raise AuthenticationError.new('No API key provided. ' \
