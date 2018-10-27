@@ -5,6 +5,7 @@
 This is the Ruby client library for Nexmo's API. To use it you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
+## Index
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
