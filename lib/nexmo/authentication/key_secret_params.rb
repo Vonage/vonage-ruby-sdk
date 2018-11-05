@@ -1,5 +1,5 @@
 module Nexmo
-  class KeySecretParams < AbstractAuthentication
+  class KeySecretParams < AbstractAuthentication # :nodoc:
     def update(object)
       return unless object.is_a?(Hash)
 

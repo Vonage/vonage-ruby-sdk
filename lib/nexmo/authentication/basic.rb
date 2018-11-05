@@ -1,5 +1,5 @@
 module Nexmo
-  class Basic < AbstractAuthentication
+  class Basic < AbstractAuthentication # :nodoc:
     def update(object)
       return unless object.is_a?(Net::HTTPRequest)
 

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  module UserAgent
+  module UserAgent # :nodoc:
     def self.string(app_name, app_version)
       identifiers = []
       identifiers << 'nexmo-ruby/' + VERSION

@@ -1,5 +1,5 @@
 module Nexmo
-  class KeySecretQuery < AbstractAuthentication
+  class KeySecretQuery < AbstractAuthentication # :nodoc:
     def update(object)
       return unless object.is_a?(URI)
 

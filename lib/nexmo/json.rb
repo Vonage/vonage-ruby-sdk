@@ -2,7 +2,7 @@
 require 'json'
 
 module Nexmo
-  module JSON
+  module JSON # :nodoc:
     def self.update(http_request, params)
       http_request['Content-Type'] = 'application/json'
       http_request.body = ::JSON.generate(params)

@@ -1,5 +1,5 @@
 module Nexmo
-  class AbstractAuthentication
+  class AbstractAuthentication # :nodoc:
     def initialize(client)
       @client = client
     end

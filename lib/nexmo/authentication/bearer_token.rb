@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  class BearerToken < AbstractAuthentication
+  class BearerToken < AbstractAuthentication # :nodoc:
     def update(object)
       return unless object.is_a?(Net::HTTPRequest)
 

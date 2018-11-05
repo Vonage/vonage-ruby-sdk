@@ -2,7 +2,7 @@
 require 'cgi'
 
 module Nexmo
-  module Params
+  module Params # :nodoc:
     def self.encode(params)
       params.flat_map { |k, vs| Array(vs).map { |v| "#{escape(k)}=#{escape(v)}" } }.join('&')
     end
