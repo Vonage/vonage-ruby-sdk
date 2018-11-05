@@ -4,9 +4,9 @@ cache: bundler
 rvm:
   - 2.1
   - 2.2
-  - 2.3.7
-  - 2.4.4
-  - 2.5.1
+  - 2.3.8
+  - 2.4.5
+  - 2.5.3
   - jruby-9.1.17.0
   - jruby-9.2.0.0
 before_install:
