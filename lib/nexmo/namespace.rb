@@ -11,8 +11,10 @@ module Nexmo
 
       @host = self.class.host
 
-      @http = Net::HTTP.new(@host, Net::HTTP.https_default_port)
+      @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
       @http.use_ssl = true
+
+      @client.http_options.set(@http)
     end
 
     def self.host

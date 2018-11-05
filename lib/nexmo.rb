@@ -1,6 +1,7 @@
 require 'nexmo/version'
 require 'nexmo/params'
 require 'nexmo/form_data'
+require 'nexmo/http'
 require 'nexmo/json'
 require 'nexmo/jwt'
 require 'nexmo/signature'

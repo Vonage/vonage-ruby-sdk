@@ -25,7 +25,15 @@ module Nexmo
 
       @user_agent = UserAgent.string(options[:app_name], options[:app_version])
 
+      self.http_options = options[:http]
+
       self.logger = options[:logger] || (defined?(Rails.logger) && Rails.logger)
+    end
+
+    attr_reader :http_options
+
+    def http_options=(hash)
+      @http_options = HTTP::Options.new(hash)
     end
 
     def logger
