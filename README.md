@@ -153,7 +153,7 @@ Docs: [https://developer.nexmo.com/api/voice#startStream](https://developer.nexm
 ### Stop playing an audio file into a call
 
 ```ruby
-response = client.stream.stop(uuid)
+response = client.calls.stream.stop(uuid)
 ```
 
 Docs: [https://developer.nexmo.com/api/voice#stopStream](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#stopStream)
@@ -161,7 +161,7 @@ Docs: [https://developer.nexmo.com/api/voice#stopStream](https://developer.nexmo
 ### Play text to speech into a call
 
 ```ruby
-response = client.talk.start(uuid, text: 'Hello')
+response = client.calls.talk.start(uuid, text: 'Hello')
 ```
 
 Docs: [https://developer.nexmo.com/api/voice#startTalk](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#startTalk)
@@ -169,7 +169,7 @@ Docs: [https://developer.nexmo.com/api/voice#startTalk](https://developer.nexmo.
 ### Stop text to speech in a call
 
 ```ruby
-response = client.talk.stop(uuid)
+response = client.calls.talk.stop(uuid)
 ```
 
 Docs: [https://developer.nexmo.com/api/voice#stopTalk](https://developer.nexmo.com/api/voice?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#stopTalk)
