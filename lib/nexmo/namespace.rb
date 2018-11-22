@@ -93,14 +93,8 @@ module Nexmo
         else
           response
         end
-      when Net::HTTPUnauthorized
-        raise AuthenticationError
-      when Net::HTTPClientError
-        raise ClientError
-      when Net::HTTPServerError
-        raise ServerError
       else
-        raise Error
+        Error.parse(response)
       end
     end
   end
