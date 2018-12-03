@@ -1,3 +1,21 @@
+# 5.5.0
+
+* Added http options
+
+  This makes it possible to configure the underlying net/http connections for
+  things like timeouts, proxies, and SSL certificate settings. For example:
+
+      client = Nexmo::Client.new({
+        http: {
+          read_timeout: 5,
+          proxy_address: 'localhost',
+          proxy_port: 8888,
+          ca_file: 'certificate.pem'
+        }
+      })
+
+* Improved parsing of error message details
+
 # 5.4.0
 
 * Added methods for Secret Management API
