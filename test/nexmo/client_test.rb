@@ -109,6 +109,10 @@ class NexmoClientTest < Nexmo::Test
     assert_kind_of Nexmo::Redact, client.redact
   end
 
+  def test_secrets_method
+    assert_kind_of Nexmo::Secrets, client.secrets
+  end
+
   def test_sms_method
     assert_kind_of Nexmo::SMS, client.sms
   end
