@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'nexmo'
+require_relative './test'
 
 class NexmoErrorTest < Minitest::Test
   def response(code)

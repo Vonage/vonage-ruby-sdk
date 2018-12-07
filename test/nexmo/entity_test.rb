@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'nexmo/entity'
+require_relative './test'
 require 'json'
 
 class NexmoEntityTest < Minitest::Test

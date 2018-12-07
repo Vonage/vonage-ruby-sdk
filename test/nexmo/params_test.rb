@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'nexmo/params'
+require_relative './test'
 
 class NexmoParamsTest < Minitest::Test
   def test_encode_method_returns_urlencoded_string

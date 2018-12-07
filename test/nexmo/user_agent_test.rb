@@ -1,6 +1,4 @@
-require 'minitest/autorun'
-require 'nexmo/version'
-require 'nexmo/user_agent'
+require_relative './test'
 
 class NexmoUserAgentTest < Minitest::Test
   def app_name

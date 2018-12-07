@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'nexmo/http'
+require_relative './test'
 
 class NexmoHTTPOptionsTest < Minitest::Test
   def read_timeout

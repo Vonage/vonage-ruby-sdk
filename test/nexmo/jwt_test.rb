@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'nexmo/jwt'
+require_relative './test'
 
 class NexmoJWTTest < Minitest::Test
   def private_key

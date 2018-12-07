@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'nexmo/signature'
+require_relative './test'
 
 class NexmoSignatureTest < Minitest::Test
   def secret

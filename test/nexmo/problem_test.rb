@@ -1,5 +1,4 @@
-require 'minitest/autorun'
-require 'nexmo/problem'
+require_relative './test'
 
 class NexmoProblemTest < Minitest::Test
   PROBLEM = <<-EOS
