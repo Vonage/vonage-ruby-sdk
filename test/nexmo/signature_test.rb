@@ -5,15 +5,29 @@ class NexmoSignatureTest < Minitest::Test
     'secret'
   end
 
-  def test_check_method_returns_true_if_given_params_has_correct_sig_value
-    params = {'a' => '1', 'b' => '2', 'timestamp' => '1461605396', 'sig' => '6af838ef94998832dbfc29020b564830'}
-
-    assert_equal Nexmo::Signature.check(params, secret), true
+  def params
+    {'a' => '1', 'b' => '2', 'timestamp' => '1461605396'}
   end
 
-  def test_check_method_returns_false_otherwise
-    params = {'a' => '1', 'b' => '2', 'timestamp' => '1461605396', 'sig' => 'xxx'}
+  def params_with_valid_signature
+    params.merge('sig' => '6af838ef94998832dbfc29020b564830')
+  end
 
-    assert_equal Nexmo::Signature.check(params, secret), false
+  def params_with_invalid_signature
+    params.merge('sig' => 'xxx')
+  end
+
+  def test_check_class_method
+    assert_equal Nexmo::Signature.check(params_with_valid_signature, secret), true
+    assert_equal Nexmo::Signature.check(params_with_invalid_signature, secret), false
+  end
+
+  def test_check_instance_method
+    client = Nexmo::Client.new(signature_secret: secret)
+
+    signature = Nexmo::Signature.new(client)
+
+    assert_equal signature.check(params_with_valid_signature), true
+    assert_equal signature.check(params_with_invalid_signature), false
   end
 end
