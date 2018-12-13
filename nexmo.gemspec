@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.add_development_dependency('rake', '~> 12.0')
   s.add_development_dependency('minitest', '~> 5.0')
   s.add_development_dependency('webmock', '~> 3.0')
+  s.add_development_dependency('simplecov', '>= 0.16.1')
   s.require_path = 'lib'
   s.metadata = {
     'homepage' => 'https://github.com/Nexmo/nexmo-ruby',

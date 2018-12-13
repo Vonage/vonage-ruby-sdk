@@ -1,3 +1,9 @@
+require 'simplecov'
+
+SimpleCov.start do
+  add_filter 'test/nexmo'
+end
+
 require 'minitest/autorun'
 require 'webmock/minitest'
 require 'nexmo'
