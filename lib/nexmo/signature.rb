@@ -19,8 +19,6 @@ module Nexmo
       self.class.check(params, @client.signature_secret)
     end
 
-    private
-
     def self.digest(params, secret)
       md5 = Digest::MD5.new
 
@@ -32,5 +30,7 @@ module Nexmo
 
       md5.hexdigest
     end
+
+    private_class_method :digest
   end
 end

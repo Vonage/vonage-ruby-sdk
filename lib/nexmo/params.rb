@@ -15,10 +15,10 @@ module Nexmo
       string + '&' + encoded
     end
 
-    private
-
     def self.escape(component)
       CGI.escape(component.to_s)
     end
+
+    private_class_method :escape
   end
 end
