@@ -117,6 +117,10 @@ class NexmoClientTest < Nexmo::Test
     assert_kind_of Nexmo::SMS, client.sms
   end
 
+  def test_tfa_method
+    assert_kind_of Nexmo::TFA, client.tfa
+  end
+
   def test_verify_method
     assert_kind_of Nexmo::Verify, client.verify
   end
