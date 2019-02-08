@@ -165,6 +165,10 @@ module Nexmo
       @sms ||= SMS.new(self)
     end
 
+    def tfa
+      @tfa ||= TFA.new(self)
+    end
+
     def verify
       @verify ||= Verify.new(self)
     end

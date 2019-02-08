@@ -9,6 +9,7 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [Installation](#installation)
 * [Usage](#usage)
 * [SMS API](#sms-api)
+* [2FA API](#2fa-api)
 * [Voice API](#voice-api)
 * [Verify API](#verify-api)
 * [Number Insight API](#number-insight-api)
@@ -100,6 +101,23 @@ end
 ```
 
 Docs: [https://developer.nexmo.com/api/sms#send-an-sms](https://developer.nexmo.com/api/sms?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#send-an-sms)
+
+
+## 2FA API
+
+### Send a 2FA Token
+
+```ruby
+response = client.tfa.send(to: 'YOUR NUMBER', pin: '12345')
+
+if response.messages.first.status == '0'
+  puts "Sent message id=#{response.messages.first.message_id}"
+else
+  puts "Error: #{response.messages.first.error_text}"
+end
+```
+
+Docs: [https://developer.nexmo.com/api/sms/us-short-codes/2fa](https://developer.nexmo.com/api/sms/us-short-codes/2fa?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#send-a-2fa-token
 
 
 ## Voice API
@@ -483,7 +501,7 @@ Note: you'll need to contact support@nexmo.com to enable message signing on your
     * [X] Check
     * [X] Search
     * [X] Control
-* Messaging 
+* Messaging
     * [X] Send
     * [ ] Delivery Receipt
     * [ ] Inbound Messages
