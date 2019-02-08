@@ -81,6 +81,10 @@ class NexmoClientTest < Nexmo::Test
     assert_kind_of Nexmo::Calls, client.calls
   end
 
+  def test_conversations_method
+    assert_kind_of Nexmo::Conversations, client.conversations
+  end
+
   def test_conversions_method
     assert_kind_of Nexmo::Conversions, client.conversions
   end
