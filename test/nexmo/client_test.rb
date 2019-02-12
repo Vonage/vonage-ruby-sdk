@@ -32,7 +32,8 @@ class NexmoClientTest < Nexmo::Test
   def test_signature_secret_method_raises_authentication_error
     client = Nexmo::Client.new
 
-    exception = assert_raises(Nexmo::AuthenticationError) { client.signature_secret }
+    exception =
+      assert_raises(Nexmo::AuthenticationError) { client.signature_secret }
 
     assert_includes exception.message, 'No signature_secret provided.'
   end
@@ -44,7 +45,8 @@ class NexmoClientTest < Nexmo::Test
   def test_application_id_method_raises_authentication_error
     client = Nexmo::Client.new
 
-    exception = assert_raises(Nexmo::AuthenticationError) { client.application_id }
+    exception =
+      assert_raises(Nexmo::AuthenticationError) { client.application_id }
 
     assert_includes exception.message, 'No application_id provided.'
   end
@@ -115,5 +117,9 @@ class NexmoClientTest < Nexmo::Test
 
   def test_verify_method
     assert_kind_of Nexmo::Verify, client.verify
+  end
+
+  def test_tfa_method
+    assert_kind_of Nexmo::TFA, client.tfa
   end
 end

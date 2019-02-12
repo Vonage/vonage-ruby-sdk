@@ -117,7 +117,7 @@ else
 end
 ```
 
-Docs: [https://developer.nexmo.com/api/sms/us-short-codes/2fa](https://developer.nexmo.com/api/sms/us-short-codes/2fa?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#send-a-2fa-token
+Docs: [https://developer.nexmo.com/api/sms/us-short-codes/2fa](https://developer.nexmo.com/api/sms/us-short-codes/2fa?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library
 
 
 ## Voice API
