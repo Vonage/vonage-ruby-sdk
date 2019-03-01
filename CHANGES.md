@@ -1,3 +1,9 @@
+# 5.6.0
+
+* Added support for [US Short Code 2FA API](https://developer.nexmo.com/api/sms/us-short-codes/2fa) (thanks @dusty)
+
+* Added simplecov for measuring code coverage
+
 # 5.5.0
 
 * Added http options
