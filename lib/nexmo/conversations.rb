@@ -25,5 +25,9 @@ module Nexmo
     def delete(id)
       request('/beta/conversations/' + id, type: Delete)
     end
+
+    def users
+      @users ||= ConversationUsers.new(@client)
+    end
   end
 end

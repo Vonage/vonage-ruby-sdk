@@ -71,4 +71,8 @@ class NexmoConversationsTest < Nexmo::Test
     assert_equal response_object, conversations.delete(conversation_id)
     assert_requested request
   end
+
+  def test_users_method
+    assert_kind_of Nexmo::ConversationUsers, conversations.users
+  end
 end
