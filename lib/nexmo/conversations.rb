@@ -30,6 +30,10 @@ module Nexmo
       @events ||= ConversationEvents.new(@client)
     end
 
+    def legs
+      @legs ||= ConversationLegs.new(@client)
+    end
+
     def members
       @members ||= ConversationMembers.new(@client)
     end
