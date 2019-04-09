@@ -72,6 +72,10 @@ class NexmoConversationsTest < Nexmo::Test
     assert_requested request
   end
 
+  def test_events_method
+    assert_kind_of Nexmo::ConversationEvents, conversations.events
+  end
+
   def test_members_method
     assert_kind_of Nexmo::ConversationMembers, conversations.members
   end

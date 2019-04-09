@@ -26,6 +26,10 @@ module Nexmo
       request('/beta/conversations/' + id, type: Delete)
     end
 
+    def events
+      @events ||= ConversationEvents.new(@client)
+    end
+
     def members
       @members ||= ConversationMembers.new(@client)
     end
