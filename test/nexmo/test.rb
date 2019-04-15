@@ -67,5 +67,9 @@ module Nexmo
     def msisdn
       '447700900000'
     end
+
+    def conversation_id
+      'CON-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+    end
   end
 end

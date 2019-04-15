@@ -13,10 +13,6 @@ class NexmoConversationMembersTest < Nexmo::Test
     'USR-xxxxxx'
   end
 
-  def conversation_id
-    'CON-xxxxxx'
-  end
-
   def member_id
     'MEM-xxxxxx'
   end

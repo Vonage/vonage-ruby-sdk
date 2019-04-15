@@ -9,10 +9,6 @@ class NexmoConversationEventsTest < Nexmo::Test
     {'Authorization' => bearer_token}
   end
 
-  def conversation_id
-    'CON-xxxxxx'
-  end
-
   def event_id
     1
   end

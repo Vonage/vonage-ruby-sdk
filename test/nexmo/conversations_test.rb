@@ -13,10 +13,6 @@ class NexmoConversationsTest < Nexmo::Test
     'https://api.nexmo.com/beta/conversations/' + conversation_id
   end
 
-  def conversation_id
-    'xxxx'
-  end
-
   def headers
     {'Authorization' => bearer_token}
   end
