@@ -13,10 +13,6 @@ class NexmoCallsTest < Nexmo::Test
     'https://api.nexmo.com/v1/calls/' + call_uuid
   end
 
-  def call_uuid
-    'xx-xx-xx-xx'
-  end
-
   def headers
     {'Authorization' => bearer_token, 'Content-Type' => 'application/json'}
   end

@@ -5,10 +5,6 @@ class NexmoCallStreamTest < Nexmo::Test
     Nexmo::CallStream.new(client)
   end
 
-  def call_uuid
-    'xx-xx-xx-xx'
-  end
-
   def uri
     'https://api.nexmo.com/v1/calls/' + call_uuid + '/stream'
   end

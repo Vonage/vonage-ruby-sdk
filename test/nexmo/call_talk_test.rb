@@ -5,10 +5,6 @@ class NexmoCallTalkTest < Nexmo::Test
     Nexmo::CallTalk.new(client)
   end
 
-  def call_uuid
-    'xx-xx-xx-xx'
-  end
-
   def uri
     'https://api.nexmo.com/v1/calls/' + call_uuid + '/talk'
   end

@@ -71,5 +71,11 @@ module Nexmo
     def conversation_id
       'CON-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     end
+
+    def call_id
+      'CALL-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+    end
+
+    alias_method :call_uuid, :call_id
   end
 end
