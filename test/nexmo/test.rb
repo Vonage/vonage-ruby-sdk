@@ -52,6 +52,18 @@ module Nexmo
       /\ABearer (.+)\.(.+)\.(.+)\z/
     end
 
+    def authorization
+      bearer_token
+    end
+
+    def request(body: nil, query: nil)
+      headers = {'Authorization' => authorization}
+
+      headers['Content-Type'] = 'application/json' if body
+
+      {headers: headers, body: body, query: query}.reject { |k, v| v.nil? }
+    end
+
     def response
       {body: '{"key":"value"}', headers: response_headers}
     end

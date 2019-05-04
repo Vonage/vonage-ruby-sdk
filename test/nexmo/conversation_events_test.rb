@@ -5,10 +5,6 @@ class NexmoConversationEventsTest < Nexmo::Test
     Nexmo::ConversationEvents.new(client)
   end
 
-  def headers
-    {'Authorization' => bearer_token}
-  end
-
   def event_id
     1
   end
@@ -28,30 +24,28 @@ class NexmoConversationEventsTest < Nexmo::Test
   def test_create_method
     params = {type: 'text', from: member_id}
 
-    headers = {'Authorization' => bearer_token, 'Content-Type' => 'application/json'}
-
-    request_stub = stub_request(:post, events_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:post, events_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, events.create(conversation_id, params)
     assert_requested request_stub
   end
 
   def test_list_method
-    request_stub = stub_request(:get, events_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, events_uri).with(request).to_return(response)
 
     assert_equal response_object, events.list(conversation_id)
     assert_requested request_stub
   end
 
   def test_get_method
-    request_stub = stub_request(:get, event_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, event_uri).with(request).to_return(response)
 
     assert_equal response_object, events.get(conversation_id, event_id)
     assert_requested request_stub
   end
 
   def test_delete_method
-    request_stub = stub_request(:delete, event_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:delete, event_uri).with(request).to_return(response)
 
     assert_equal response_object, events.delete(conversation_id, event_id)
     assert_requested request_stub

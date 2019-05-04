@@ -13,19 +13,13 @@ class NexmoConversationsTest < Nexmo::Test
     'https://api.nexmo.com/beta/conversations/' + conversation_id
   end
 
-  def headers
-    {'Authorization' => bearer_token}
-  end
-
   def test_create_method
     params = {
       name: 'test_conversation',
       display_name: 'display_test_name'
     }
 
-    headers = {'Authorization' => bearer_token, 'Content-Type' => 'application/json'}
-
-    request_stub = stub_request(:post, conversations_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:post, conversations_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, conversations.create(params)
     assert_requested request_stub
@@ -34,14 +28,14 @@ class NexmoConversationsTest < Nexmo::Test
   def test_list_method
     params = {status: 'completed'}
 
-    request_stub = stub_request(:get, conversations_uri).with(headers: headers, query: params).to_return(response)
+    request_stub = stub_request(:get, conversations_uri).with(request(query: params)).to_return(response)
 
     assert_equal response_object, conversations.list(params)
     assert_requested request_stub
   end
 
   def test_get_method
-    request_stub = stub_request(:get, conversation_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, conversation_uri).with(request).to_return(response)
 
     assert_equal response_object, conversations.get(conversation_id)
     assert_requested request_stub
@@ -53,16 +47,14 @@ class NexmoConversationsTest < Nexmo::Test
       display_name: 'display_test_name'
     }
 
-    headers = {'Authorization' => bearer_token, 'Content-Type' => 'application/json'}
-
-    request_stub = stub_request(:put, conversation_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, conversation_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, conversations.update(conversation_id, params)
     assert_requested request_stub
   end
 
   def test_delete_method
-    request_stub = stub_request(:delete, conversation_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:delete, conversation_uri).with(request).to_return(response)
 
     assert_equal response_object, conversations.delete(conversation_id)
     assert_requested request_stub

@@ -13,10 +13,6 @@ class NexmoCallsTest < Nexmo::Test
     'https://api.nexmo.com/v1/calls/' + call_uuid
   end
 
-  def headers
-    {'Authorization' => bearer_token, 'Content-Type' => 'application/json'}
-  end
-
   def test_create_method
     params = {
       to: [{type: 'phone', number: '14843331234'}],
@@ -24,27 +20,23 @@ class NexmoCallsTest < Nexmo::Test
       answer_url: ['https://example.com/answer']
     }
 
-    request_stub = stub_request(:post, calls_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.create(params)
     assert_requested request_stub
   end
 
   def test_list_method
-    headers = {'Authorization' => bearer_token}
-
     params = {status: 'completed'}
 
-    request_stub = stub_request(:get, calls_uri).with(headers: headers, query: params).to_return(response)
+    request_stub = stub_request(:get, calls_uri).with(request(query: params)).to_return(response)
 
     assert_equal response_object, calls.list(params)
     assert_requested request_stub
   end
 
   def test_get_method
-    headers = {'Authorization' => bearer_token}
-
-    request_stub = stub_request(:get, call_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, call_uri).with(request).to_return(response)
 
     assert_equal response_object, calls.get(call_uuid)
     assert_requested request_stub
@@ -53,7 +45,7 @@ class NexmoCallsTest < Nexmo::Test
   def test_update_method
     params = {action: 'hangup'}
 
-    request_stub = stub_request(:put, call_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.update(call_uuid, params)
     assert_requested request_stub
@@ -62,7 +54,7 @@ class NexmoCallsTest < Nexmo::Test
   def test_hangup_method
     params = {action: 'hangup'}
 
-    request_stub = stub_request(:put, call_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.hangup(call_uuid)
     assert_requested request_stub
@@ -71,7 +63,7 @@ class NexmoCallsTest < Nexmo::Test
   def test_mute_method
     params = {action: 'mute'}
 
-    request_stub = stub_request(:put, call_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.mute(call_uuid)
     assert_requested request_stub
@@ -80,7 +72,7 @@ class NexmoCallsTest < Nexmo::Test
   def test_unmute_method
     params = {action: 'unmute'}
 
-    request_stub = stub_request(:put, call_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.unmute(call_uuid)
     assert_requested request_stub
@@ -89,7 +81,7 @@ class NexmoCallsTest < Nexmo::Test
   def test_earmuff_method
     params = {action: 'earmuff'}
 
-    request_stub = stub_request(:put, call_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.earmuff(call_uuid)
     assert_requested request_stub
@@ -98,7 +90,7 @@ class NexmoCallsTest < Nexmo::Test
   def test_unearmuff_method
     params = {action: 'unearmuff'}
 
-    request_stub = stub_request(:put, call_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.unearmuff(call_uuid)
     assert_requested request_stub
@@ -109,7 +101,7 @@ class NexmoCallsTest < Nexmo::Test
 
     params = {action: 'transfer', destination: destination}
 
-    request_stub = stub_request(:put, call_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.transfer(call_uuid, destination: destination)
     assert_requested request_stub

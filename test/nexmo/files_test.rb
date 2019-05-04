@@ -25,10 +25,6 @@ class NexmoFilesTest < Nexmo::Test
     'test/file.mp3'
   end
 
-  def headers
-    {'Authorization' => bearer_token}
-  end
-
   def teardown
     File.unlink(filename) if File.exist?(filename)
 
@@ -36,21 +32,21 @@ class NexmoFilesTest < Nexmo::Test
   end
 
   def test_get_method_with_id
-    request_stub = stub_request(:get, recording_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, recording_uri).with(request).to_return(response)
 
     assert_equal recording_content, files.get(recording_id)
     assert_requested request_stub
   end
 
   def test_get_method_with_url
-    request_stub = stub_request(:get, recording_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, recording_uri).with(request).to_return(response)
 
     assert_equal recording_content, files.get(recording_uri)
     assert_requested request_stub
   end
 
   def test_save_method_with_id
-    request_stub = stub_request(:get, recording_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, recording_uri).with(request).to_return(response)
 
     files.save(recording_id, filename)
 
@@ -59,7 +55,7 @@ class NexmoFilesTest < Nexmo::Test
   end
 
   def test_save_method_with_url
-    request_stub = stub_request(:get, recording_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, recording_uri).with(request).to_return(response)
 
     files.save(recording_uri, filename)
 
