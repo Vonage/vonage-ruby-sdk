@@ -129,6 +129,10 @@ module Nexmo
       @calls ||= Calls.new(self)
     end
 
+    def conversations
+      @conversations ||= Conversations.new(self)
+    end
+
     def conversions
       @conversions ||= Conversions.new(self)
     end

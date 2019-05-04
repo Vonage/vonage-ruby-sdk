@@ -12,6 +12,7 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [2FA API](#2fa-api)
 * [Voice API](#voice-api)
 * [Verify API](#verify-api)
+* [Conversation API](#conversation-api)
 * [Number Insight API](#number-insight-api)
 * [Application API](#application-api)
 * [Numbers API](#numbers-api)
@@ -252,6 +253,49 @@ client.verify.trigger_next_event('00e6c3377e5348cdaf567e1417c707a5')
 ```
 
 Docs: [https://developer.nexmo.com/api/verify#verify-control](https://developer.nexmo.com/api/verify?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#verify-control)
+
+
+## Conversation API
+
+### Create a conversation
+
+```ruby
+response = client.conversations.create(name: 'Example Conversation', display_name: 'Example Display Name')
+```
+
+Docs: [https://developer.nexmo.com/api/conversation#createConversation](https://developer.nexmo.com/api/conversation?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#createConversation)
+
+### Retrieve a list of conversations
+
+```ruby
+response = client.conversations.list
+```
+
+Docs: [https://developer.nexmo.com/api/conversation#listConversations](https://developer.nexmo.com/api/conversation?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#listConversations)
+
+### Retrieve a single conversation
+
+```ruby
+response = client.conversations.get(conversation_id)
+```
+
+Docs: [https://developer.nexmo.com/api/conversation#retrieveConversation](https://developer.nexmo.com/api/conversation?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#retrieveConversation)
+
+### Update a conversation
+
+```ruby
+response = client.conversations.update(conversation_id, answer_method: 'PUT')
+```
+
+Docs: [https://developer.nexmo.com/api/conversation#replaceConversation](https://developer.nexmo.com/api/conversation?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#replaceConversation)
+
+### Delete a conversation
+
+```ruby
+response = client.conversations.delete(conversation_id)
+```
+
+Docs: [https://developer.nexmo.com/api/conversation#deleteConversation](https://developer.nexmo.com/api/application?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library#deleteConversation)
 
 
 ## Number Insight API
