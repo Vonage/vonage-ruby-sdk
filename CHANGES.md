@@ -1,3 +1,7 @@
+# 5.7.0
+
+* Added support for [Conversation API](https://developer.nexmo.com/api/conversation)
+
 # 5.6.0
 
 * Added support for [US Short Code 2FA API](https://developer.nexmo.com/api/sms/us-short-codes/2fa) (thanks @dusty)
