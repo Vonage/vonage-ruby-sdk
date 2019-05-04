@@ -11,5 +11,5 @@ rvm:
   - jruby-9.1
   - jruby-9.2
 before_install:
-  - gem install rubygems-update -v '<3' && update_rubygems
+  - gem install rubygems-update -N -v '<3' && update_rubygems
   - gem update bundler
