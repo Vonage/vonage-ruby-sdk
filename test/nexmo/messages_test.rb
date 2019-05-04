@@ -18,10 +18,10 @@ class NexmoMessagesTest < Nexmo::Test
 
     params = {id: message_id}
 
-    request = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    request_stub = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, messages.get(message_id)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_search_method_with_ids
@@ -33,10 +33,10 @@ class NexmoMessagesTest < Nexmo::Test
 
     query = WebMock::Util::QueryMapper.values_to_query(values)
 
-    request = stub_request(:get, uri).with(query: query).to_return(response)
+    request_stub = stub_request(:get, uri).with(query: query).to_return(response)
 
     assert_equal response_object, messages.search(ids: [id1, id2, id3])
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_search_method_with_recipient_and_date
@@ -44,10 +44,10 @@ class NexmoMessagesTest < Nexmo::Test
 
     params = {date: date, to: msisdn}
 
-    request = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    request_stub = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, messages.search(params)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_rejections_method
@@ -55,9 +55,9 @@ class NexmoMessagesTest < Nexmo::Test
 
     params = {date: date, to: msisdn}
 
-    request = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    request_stub = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, messages.rejections(params)
-    assert_requested request
+    assert_requested request_stub
   end
 end

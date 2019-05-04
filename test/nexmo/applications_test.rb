@@ -29,41 +29,41 @@ class NexmoApplicationsTest < Nexmo::Test
       event_url: 'https://example.com/event'
     }
 
-    request = stub_request(:post, applications_uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    request_stub = stub_request(:post, applications_uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, applications.create(params)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_list_method
     params = {page_size: 20}
 
-    request = stub_request(:get, applications_uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    request_stub = stub_request(:get, applications_uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, applications.list(params)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_get_method
-    request = stub_request(:get, application_uri).with(query: api_key_and_secret).to_return(response)
+    request_stub = stub_request(:get, application_uri).with(query: api_key_and_secret).to_return(response)
 
     assert_equal response_object, applications.get(application_id)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_update_method
     params = {answer_url: 'https://example.com/ncco'}
 
-    request = stub_request(:put, application_uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    request_stub = stub_request(:put, application_uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, applications.update(application_id, params)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_delete_method
-    request = stub_request(:delete, application_uri).with(query: api_key_and_secret).to_return(status: 204)
+    request_stub = stub_request(:delete, application_uri).with(query: api_key_and_secret).to_return(status: 204)
 
     assert_equal :no_content, applications.delete(application_id)
-    assert_requested request
+    assert_requested request_stub
   end
 end

@@ -34,30 +34,30 @@ class NexmoSecretsTest < Nexmo::Test
 
     headers = authorization.merge('Content-Type' => 'application/json')
 
-    request = stub_request(:post, secrets_uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:post, secrets_uri).with(headers: headers, body: params).to_return(response)
 
     assert_equal response_object, secrets.create(params)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_list_method
-    request = stub_request(:get, secrets_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, secrets_uri).with(headers: headers).to_return(response)
 
     assert_equal response_object, secrets.list
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_get_method
-    request = stub_request(:get, secret_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, secret_uri).with(headers: headers).to_return(response)
 
     assert_equal response_object, secrets.get(secret_id)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_revoke_method
-    request = stub_request(:delete, secret_uri).with(headers: headers).to_return(status: 204)
+    request_stub = stub_request(:delete, secret_uri).with(headers: headers).to_return(status: 204)
 
     assert_equal :no_content, secrets.revoke(secret_id)
-    assert_requested request
+    assert_requested request_stub
   end
 end

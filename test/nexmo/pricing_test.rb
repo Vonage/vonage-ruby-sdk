@@ -22,19 +22,19 @@ class NexmoPricingTest < Nexmo::Test
 
     params = {country: country}
 
-    request = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    request_stub = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, pricing.get(country)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_list_method
     uri = 'https://rest.nexmo.com/account/get-full-pricing/outbound/sms'
 
-    request = stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
+    request_stub = stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
 
     assert_equal response_object, pricing.list
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_prefix_method
@@ -42,9 +42,9 @@ class NexmoPricingTest < Nexmo::Test
 
     params = {prefix: prefix}
 
-    request = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    request_stub = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, pricing.prefix(prefix)
-    assert_requested request
+    assert_requested request_stub
   end
 end

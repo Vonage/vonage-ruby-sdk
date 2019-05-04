@@ -14,18 +14,18 @@ class NexmoCallTalkTest < Nexmo::Test
 
     params = {text: 'Hello'}
 
-    request = stub_request(:put, uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, uri).with(headers: headers, body: params).to_return(response)
 
     assert_equal response_object, talk.start(call_uuid, params)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_stop_method
     headers = {'Authorization' => bearer_token}
 
-    request = stub_request(:delete, uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:delete, uri).with(headers: headers).to_return(response)
 
     assert_equal response_object, talk.stop(call_uuid)
-    assert_requested request
+    assert_requested request_stub
   end
 end

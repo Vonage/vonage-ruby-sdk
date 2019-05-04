@@ -22,16 +22,16 @@ class NexmoConversationLegsTest < Nexmo::Test
   end
 
   def test_list_method
-    request = stub_request(:get, legs_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:get, legs_uri).with(headers: headers).to_return(response)
 
     assert_equal response_object, legs.list
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_delete_method
-    request = stub_request(:delete, leg_uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:delete, leg_uri).with(headers: headers).to_return(response)
 
     assert_equal response_object, legs.delete(leg_id)
-    assert_requested request
+    assert_requested request_stub
   end
 end

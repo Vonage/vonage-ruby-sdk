@@ -14,9 +14,9 @@ class NexmoCallDTMFTest < Nexmo::Test
 
     params = {digits: '1234'}
 
-    request = stub_request(:put, uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, uri).with(headers: headers, body: params).to_return(response)
 
     assert_equal response_object, dtmf.send(call_uuid, params)
-    assert_requested request
+    assert_requested request_stub
   end
 end

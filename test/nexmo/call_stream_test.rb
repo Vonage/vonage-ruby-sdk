@@ -14,18 +14,18 @@ class NexmoCallStreamTest < Nexmo::Test
 
     params = {stream_url: 'https://example.com/audio.mp3'}
 
-    request = stub_request(:put, uri).with(headers: headers, body: params).to_return(response)
+    request_stub = stub_request(:put, uri).with(headers: headers, body: params).to_return(response)
 
     assert_equal response_object, stream.start(call_uuid, params)
-    assert_requested request
+    assert_requested request_stub
   end
 
   def test_stop_method
     headers = {'Authorization' => bearer_token}
 
-    request = stub_request(:delete, uri).with(headers: headers).to_return(response)
+    request_stub = stub_request(:delete, uri).with(headers: headers).to_return(response)
 
     assert_equal response_object, stream.stop(call_uuid)
-    assert_requested request
+    assert_requested request_stub
   end
 end
