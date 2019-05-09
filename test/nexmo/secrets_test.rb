@@ -22,7 +22,7 @@ class NexmoSecretsTest < Nexmo::Test
   end
 
   def authorization
-    'Basic bmV4bW8tYXBpLWtleTpuZXhtby1hcGktc2VjcmV0'
+    basic_authorization
   end
 
   def test_create_method

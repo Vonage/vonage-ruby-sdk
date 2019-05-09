@@ -52,6 +52,10 @@ module Nexmo
       /\ABearer (.+)\.(.+)\.(.+)\z/
     end
 
+    def basic_authorization
+      'Basic bmV4bW8tYXBpLWtleTpuZXhtby1hcGktc2VjcmV0'
+    end
+
     def authorization
       bearer_token
     end

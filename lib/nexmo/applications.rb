@@ -2,26 +2,28 @@
 
 module Nexmo
   class Applications < Namespace
+    self.authentication = Basic
+
     self.request_body = JSON
 
     def create(params)
-      request('/v1/applications', params: params, type: Post)
+      request('/v2/applications', params: params, type: Post)
     end
 
     def list(params = nil)
-      request('/v1/applications', params: params)
+      request('/v2/applications', params: params)
     end
 
     def get(id)
-      request('/v1/applications/' + id)
+      request('/v2/applications/' + id)
     end
 
     def update(id, params)
-      request('/v1/applications/' + id, params: params, type: Put)
+      request('/v2/applications/' + id, params: params, type: Put)
     end
 
     def delete(id)
-      request('/v1/applications/' + id, type: Delete)
+      request('/v2/applications/' + id, type: Delete)
     end
   end
 end
