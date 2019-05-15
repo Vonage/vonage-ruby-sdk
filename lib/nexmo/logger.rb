@@ -3,7 +3,7 @@ require 'logger'
 require 'forwardable'
 
 module Nexmo
-  class Logger # :nodoc:
+  class Logger
     def initialize(logger)
       @logger = logger || ::Logger.new(nil)
     end
@@ -45,4 +45,6 @@ module Nexmo
       fields.join(' ')
     end
   end
+
+  private_constant :Logger
 end

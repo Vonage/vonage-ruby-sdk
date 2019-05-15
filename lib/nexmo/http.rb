@@ -2,7 +2,7 @@
 require 'net/http'
 
 module Nexmo
-  module HTTP # :nodoc:
+  module HTTP
     class Options
       def initialize(hash)
         @hash = hash || {}
@@ -29,4 +29,6 @@ module Nexmo
       end
     end
   end
+
+  private_constant :HTTP
 end

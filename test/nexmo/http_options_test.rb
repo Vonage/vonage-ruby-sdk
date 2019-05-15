@@ -1,6 +1,8 @@
 require_relative './test'
 
 class NexmoHTTPOptionsTest < Minitest::Test
+  Options = Nexmo.const_get(:HTTP).const_get(:Options)
+
   def read_timeout
     5
   end
@@ -14,7 +16,7 @@ class NexmoHTTPOptionsTest < Minitest::Test
   end
 
   def test_invalid_option_raises_argument_error
-    exception = assert_raises(ArgumentError) { Nexmo::HTTP::Options.new(foo_timeout: 1) }
+    exception = assert_raises(ArgumentError) { Options.new(foo_timeout: 1) }
 
     assert_includes exception.message, ':foo_timeout is not a valid option'
   end
@@ -22,9 +24,7 @@ class NexmoHTTPOptionsTest < Minitest::Test
   def test_set_method
     http = Net::HTTP.new('example.com', Net::HTTP.https_default_port, p_addr = nil)
 
-    hash = {read_timeout: read_timeout, proxy_address: proxy_address, ca_file: ca_file}
-
-    options = Nexmo::HTTP::Options.new(hash)
+    options = Options.new(read_timeout: read_timeout, proxy_address: proxy_address, ca_file: ca_file)
     options.set(http)
 
     assert_equal read_timeout, http.read_timeout

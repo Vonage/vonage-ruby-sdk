@@ -1,6 +1,8 @@
 require_relative './test'
 
 class NexmoLoggerTest < Nexmo::Test
+  Logger = Nexmo.const_get(:Logger)
+
   def setup
     @io = StringIO.new
   end
@@ -12,7 +14,7 @@ class NexmoLoggerTest < Nexmo::Test
   end
 
   def test_with_null_logger
-    logger = Nexmo::Logger.new(Logger.new(nil))
+    logger = Logger.new(::Logger.new(nil))
 
     logger.info('Nexmo API response')
 
@@ -20,7 +22,7 @@ class NexmoLoggerTest < Nexmo::Test
   end
 
   def test_log_request_info
-    logger = Nexmo::Logger.new(Logger.new(io))
+    logger = Logger.new(::Logger.new(io))
 
     request = Net::HTTP::Get.new(uri)
 
@@ -32,7 +34,7 @@ class NexmoLoggerTest < Nexmo::Test
   end
 
   def test_log_response_info
-    logger = Nexmo::Logger.new(Logger.new(io))
+    logger = Logger.new(::Logger.new(io))
 
     response = Net::HTTPResponse.new(nil, 200, 'OK')
     response['Content-Type'] = 'application/json'
@@ -50,7 +52,7 @@ class NexmoLoggerTest < Nexmo::Test
   end
 
   def test_log_response_info_with_nil_values
-    logger = Nexmo::Logger.new(Logger.new(io))
+    logger = Logger.new(::Logger.new(io))
 
     response = Net::HTTPResponse.new(nil, 200, 'OK')
 

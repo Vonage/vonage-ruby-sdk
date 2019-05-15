@@ -1,5 +1,5 @@
 module Nexmo
-  class KeySecretQuery < AbstractAuthentication # :nodoc:
+  class KeySecretQuery < AbstractAuthentication
     def update(object)
       return unless object.is_a?(URI)
 
@@ -15,4 +15,6 @@ module Nexmo
       }
     end
   end
+
+  private_constant :KeySecretQuery
 end

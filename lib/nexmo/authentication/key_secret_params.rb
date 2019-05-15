@@ -1,5 +1,5 @@
 module Nexmo
-  class KeySecretParams < AbstractAuthentication # :nodoc:
+  class KeySecretParams < AbstractAuthentication
     def update(object)
       return unless object.is_a?(Hash)
 
@@ -7,4 +7,6 @@ module Nexmo
       object[:api_secret] = @client.api_secret
     end
   end
+
+  private_constant :KeySecretParams
 end

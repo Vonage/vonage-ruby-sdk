@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  module Keys # :nodoc:
+  module Keys
     if {}.respond_to?(:transform_keys)
       def hyphenate(hash)
         hash.transform_keys { |k| hyphenate_key(k) }
@@ -42,4 +42,6 @@ module Nexmo
       ATTRIBUTE_KEYS[k]
     end
   end
+
+  private_constant :Keys
 end

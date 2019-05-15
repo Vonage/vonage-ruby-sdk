@@ -2,7 +2,7 @@
 require 'json'
 
 module Nexmo
-  module Problem # :nodoc:
+  module Problem
     extend self
 
     def parse(body)
@@ -17,4 +17,6 @@ module Nexmo
       "#{title}. #{detail} See #{url} for more info, or email support@nexmo.com if you have any questions."
     end
   end
+
+  private_constant :Problem
 end

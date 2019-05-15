@@ -3,7 +3,8 @@ require 'json'
 
 module Nexmo
   class Error < StandardError
-    def self.parse(response) # :nodoc:
+    # @api private
+    def self.parse(response)
       exception_class = case response
         when Net::HTTPUnauthorized
           AuthenticationError

@@ -1,6 +1,8 @@
 require_relative './test'
 
 class NexmoProblemTest < Minitest::Test
+  Problem = Nexmo.const_get(:Problem)
+
   PROBLEM = <<-EOS
     {
       "type": "https://example.com/Error#out-of-credit",
@@ -11,7 +13,7 @@ class NexmoProblemTest < Minitest::Test
   EOS
 
   def test_parse
-    message = Nexmo::Problem.parse(PROBLEM)
+    message = Problem.parse(PROBLEM)
 
     assert_includes message, 'You do not have enough credit.'
     assert_includes message, 'Your current balance is 30, but that costs 50.'
