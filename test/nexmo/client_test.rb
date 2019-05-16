@@ -128,4 +128,13 @@ class NexmoClientTest < Nexmo::Test
   def test_verify_method
     assert_kind_of Nexmo::Verify, client.verify
   end
+
+  def test_raises_response_errors
+    pattern = %r{\Ahttps://rest\.nexmo\.com/}
+
+    stub_request(:get, pattern).to_return(status: 400).then.to_return(status: 500)
+
+    assert_raises(Nexmo::ClientError) { client.account.balance }
+    assert_raises(Nexmo::ServerError) { client.account.balance }
+  end
 end
