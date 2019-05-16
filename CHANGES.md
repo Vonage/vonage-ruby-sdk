@@ -1,3 +1,9 @@
+# 5.7.1
+
+* Fixed that response errors were not being raised as exceptions
+
+  The original/correct behaviour was broken in version 5.5.0. If you are using an affected version (5.5.0, 5.6.0, or 5.7.0) you are encouraged to upgrade
+
 # 5.7.0
 
 * Added support for [Conversation API](https://developer.nexmo.com/api/conversation)
