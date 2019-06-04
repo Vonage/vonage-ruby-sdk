@@ -27,7 +27,7 @@ module Nexmo
     end
 
     def application_id
-      'nexmo-application-id'
+      'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     end
 
     def private_key

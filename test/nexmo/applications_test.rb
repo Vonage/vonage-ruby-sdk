@@ -13,10 +13,6 @@ class NexmoApplicationsTest < Nexmo::Test
     'https://api.nexmo.com/v1/applications/' + application_id
   end
 
-  def application_id
-    'xx-xx-xx-xx'
-  end
-
   def headers
     {'Content-Type' => 'application/json'}
   end
