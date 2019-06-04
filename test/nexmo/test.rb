@@ -56,6 +56,10 @@ module Nexmo
       bearer_token
     end
 
+    def basic_authorization
+      'Basic bmV4bW8tYXBpLWtleTpuZXhtby1hcGktc2VjcmV0'
+    end
+
     def request(body: nil, query: nil)
       headers = {'Authorization' => authorization}
 
