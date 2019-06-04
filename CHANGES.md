@@ -1,3 +1,7 @@
+# 5.8.0
+
+* Added support for [Application API v2](https://developer.nexmo.com/api/application.v2)
+
 # 5.7.1
 
 * Fixed that response errors were not being raised as exceptions
