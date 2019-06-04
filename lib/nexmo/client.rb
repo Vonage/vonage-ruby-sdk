@@ -125,6 +125,10 @@ module Nexmo
       @applications ||= Applications.new(self)
     end
 
+    def applications_v2
+      @applications_v2 ||= ApplicationsV2.new(self)
+    end
+
     def calls
       @calls ||= Calls.new(self)
     end

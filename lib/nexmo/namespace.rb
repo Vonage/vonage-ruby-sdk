@@ -41,6 +41,10 @@ module Nexmo
       @request_body = request_body
     end
 
+    def self.request_headers
+      @request_headers ||= {}
+    end
+
     private
 
     Get = Net::HTTP::Get
@@ -65,6 +69,10 @@ module Nexmo
       message = type.new(uri)
 
       message['User-Agent'] = @client.user_agent
+
+      self.class.request_headers.each do |key, value|
+        message[key] = value
+      end
 
       authentication.update(message)
 

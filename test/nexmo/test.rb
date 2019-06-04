@@ -60,9 +60,8 @@ module Nexmo
       'Basic bmV4bW8tYXBpLWtleTpuZXhtby1hcGktc2VjcmV0'
     end
 
-    def request(body: nil, query: nil)
-      headers = {'Authorization' => authorization}
-
+    def request(body: nil, query: nil, headers: {})
+      headers['Authorization'] = authorization
       headers['Content-Type'] = 'application/json' if body
 
       {headers: headers, body: body, query: query}.reject { |k, v| v.nil? }
