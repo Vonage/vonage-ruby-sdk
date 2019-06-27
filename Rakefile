@@ -10,4 +10,3 @@ end
 Coveralls::RakeTask.new
 
 task :test_with_coveralls => [:test, 'coveralls:push']
-task :default => :test
