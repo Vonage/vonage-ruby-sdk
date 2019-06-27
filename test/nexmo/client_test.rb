@@ -1,5 +1,8 @@
 require_relative './test'
 
+require 'coveralls'
+Coveralls.wear!
+
 class NexmoClientTest < Nexmo::Test
   def test_api_key_method
     assert_equal client.api_key, api_key
