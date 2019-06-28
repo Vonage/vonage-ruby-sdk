@@ -13,3 +13,5 @@ rvm:
 before_install:
   - gem install rubygems-update -N -v '<3' && update_rubygems
   - gem update bundler
+script:
+  - bundle exec rake test_with_coveralls
