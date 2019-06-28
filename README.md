@@ -1,6 +1,6 @@
 # Nexmo Client Library for Ruby
 
-[![Gem Version](https://badge.fury.io/rb/nexmo.svg)](https://badge.fury.io/rb/nexmo) [![Build Status](https://api.travis-ci.org/Nexmo/nexmo-ruby.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-ruby) [![Coverage Status](https://coveralls.io/repos/github/Nexmo/nexmo-ruby/badge.svg?branch=coveralls)](https://coveralls.io/github/Nexmo/nexmo-ruby?branch=coveralls)
+[![Gem Version](https://badge.fury.io/rb/nexmo.svg)](https://badge.fury.io/rb/nexmo) [![Build Status](https://api.travis-ci.org/Nexmo/nexmo-ruby.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-ruby) [![Coverage Status](https://coveralls.io/repos/github/Nexmo/nexmo-ruby/badge.svg?branch=coveralls)](https://coveralls.io/github/Nexmo/nexmo-ruby?branch=master)
 
 This is the Ruby client library for Nexmo's API. To use it you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
