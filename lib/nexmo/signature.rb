@@ -15,6 +15,21 @@ module Nexmo
       @client = client
     end
 
+    # Check webhook request signature.
+    #
+    # @example
+    #   client = Nexmo::Client.new(signature_secret: 'secret')
+    #
+    #   if client.signature.check(request.GET)
+    #     # valid signature
+    #   else
+    #     # invalid signature
+    #   end
+    #
+    # @param [Hash] params
+    #
+    # @see https://developer.nexmo.com/concepts/guides/signing-messages
+    #
     def check(params)
       self.class.check(params, @client.signature_secret)
     end
