@@ -6,6 +6,18 @@ module Nexmo
 
     self.request_body = JSON
 
+    # Play DTMF tones into a call.
+    #
+    # @option params [String] :digits
+    #   The digits to send.
+    #
+    # @param [String] id
+    # @param [Hash] params
+    #
+    # @return [Entity]
+    #
+    # @see https://developer.nexmo.com/api/voice#startDTMF
+    #
     def send(id, params)
       request('/v1/calls/' + id + '/dtmf', params: params, type: Put)
     end
