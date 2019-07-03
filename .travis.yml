@@ -10,8 +10,6 @@ rvm:
   - 2.6
   - jruby-9.1
   - jruby-9.2
-before_install:
-  - gem install rubygems-update -N -v '<3' && update_rubygems
-  - gem update bundler
+  - truffleruby
 script:
   - bundle exec rake test_with_coveralls
