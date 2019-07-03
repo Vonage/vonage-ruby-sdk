@@ -36,24 +36,40 @@ module Nexmo
       @http_options = HTTP::Options.new(hash)
     end
 
+    # @return [Nexmo::Logger]
+    #
     def logger
       @logger
     end
 
+    # @return [Nexmo::Logger]
+    #
     def logger=(logger)
       @logger = Logger.new(logger)
     end
 
+    # Returns the value of attribute token, or a temporary short lived token.
+    #
+    # @return [String]
+    #
     def token
       @token || JWT.generate({application_id: application_id}, private_key)
     end
 
+    # @deprecated Use {#token=} instead.
+    #
     def auth_token=(auth_token)
       Kernel.warn "#{self.class}##{__method__} is deprecated (use #token= instead)"
 
       @token = auth_token
     end
 
+    # Returns the value of attribute api_key.
+    #
+    # @return [String]
+    #
+    # @raise [AuthenticationError]
+    #
     def api_key
       unless @api_key
         raise AuthenticationError.new('No API key provided. ' \
@@ -64,6 +80,12 @@ module Nexmo
       @api_key
     end
 
+    # Returns the value of attribute api_secret.
+    #
+    # @return [String]
+    #
+    # @raise [AuthenticationError]
+    #
     def api_secret
       unless @api_secret
         raise AuthenticationError.new('No API secret provided. ' \
@@ -74,6 +96,12 @@ module Nexmo
       @api_secret
     end
 
+    # Returns the value of attribute signature_secret.
+    #
+    # @return [String]
+    #
+    # @raise [AuthenticationError]
+    #
     def signature_secret
       unless @signature_secret
         raise AuthenticationError.new('No signature_secret provided. ' \
@@ -85,6 +113,12 @@ module Nexmo
       @signature_secret
     end
 
+    # Returns the value of attribute application_id.
+    #
+    # @return [String]
+    #
+    # @raise [AuthenticationError]
+    #
     def application_id
       unless @application_id
         raise AuthenticationError.new('No application_id provided. ' \
@@ -97,6 +131,12 @@ module Nexmo
       @application_id
     end
 
+    # Returns the value of attribute private_key.
+    #
+    # @return [String]
+    #
+    # @raise [AuthenticationError]
+    #
     def private_key
       unless @private_key
         raise AuthenticationError.new('No private_key provided. ' \
@@ -109,74 +149,110 @@ module Nexmo
       @private_key
     end
 
+    # @return [Signature]
+    #
     def signature
       @signature ||= Signature.new(self)
     end
 
+    # @return [Account]
+    #
     def account
       @account ||= Account.new(self)
     end
 
+    # @return [Alerts]
+    #
     def alerts
       @alerts ||= Alerts.new(self)
     end
 
+    # @return [Applications]
+    #
     def applications
       @applications ||= Applications.new(self)
     end
 
+    # @return [ApplicationsV2]
+    #
     def applications_v2
       @applications_v2 ||= ApplicationsV2.new(self)
     end
 
+    # @return [Calls]
+    #
     def calls
       @calls ||= Calls.new(self)
     end
 
+    # @return [Conversations]
+    #
     def conversations
       @conversations ||= Conversations.new(self)
     end
 
+    # @return [Conversions]
+    #
     def conversions
       @conversions ||= Conversions.new(self)
     end
 
+    # @return [Files]
+    #
     def files
       @files ||= Files.new(self)
     end
 
+    # @return [Messages]
+    #
     def messages
       @messages ||= Messages.new(self)
     end
 
+    # @return [NumberInsight]
+    #
     def number_insight
       @number_insight ||= NumberInsight.new(self)
     end
 
+    # @return [Numbers]
+    #
     def numbers
       @numbers ||= Numbers.new(self)
     end
 
+    # @return [PricingTypes]
+    #
     def pricing
       @pricing ||= PricingTypes.new(self)
     end
 
+    # @return [Redact]
+    #
     def redact
       @redact ||= Redact.new(self)
     end
 
+    # @return [Secrets]
+    #
     def secrets
       @secrets ||= Secrets.new(self)
     end
 
+    # @return [SMS]
+    #
     def sms
       @sms ||= SMS.new(self)
     end
 
+    # @return [TFA]
+    #
     def tfa
       @tfa ||= TFA.new(self)
     end
 
+    # @return [Verify]
+    #
     def verify
       @verify ||= Verify.new(self)
     end
