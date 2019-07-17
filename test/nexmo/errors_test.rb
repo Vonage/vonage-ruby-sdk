@@ -33,7 +33,7 @@ class NexmoErrorsTest < Minitest::Test
 
   def test_parse_with_problem_response
     problem_response = response(403).tap do |response|
-      response['Content-Type'] = 'application/problem+json'
+      response['Content-Type'] = 'application/json;charset=UTF-8'
       response.instance_variable_set(:@read, true)
       response.body = <<-EOS
         {
@@ -47,7 +47,10 @@ class NexmoErrorsTest < Minitest::Test
 
     error = Errors.parse(problem_response)
 
-    assert_includes error.message, 'You do not have enough credit'
+    assert_includes error.message, 'You do not have enough credit.'
+    assert_includes error.message, 'Your current balance is 30, but that costs 50.'
+    assert_includes error.message, 'See https://example.com/Error#out-of-credit for more info,'
+    assert_includes error.message, 'or email support@nexmo.com if you have any questions.'
   end
 
   def test_parse_with_invalid_parameters_response

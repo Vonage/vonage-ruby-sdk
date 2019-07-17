@@ -15,17 +15,25 @@ module Nexmo
           Error
         end
 
-      message = if content_type = response['Content-Type']
-        case content_type.split(';').first
-        when 'application/problem+json'
-          Problem.parse(response.body)
-        when 'application/json'
-          hash = ::JSON.parse(response.body)
+      message = if response.content_type == 'application/json'
+        hash = ::JSON.parse(response.body)
+
+        if hash.key?('error_title')
           hash['error_title']
+        elsif problem_details?(hash)
+          problem_details_message(hash)
         end
       end
 
       exception_class.new(message)
+    end
+
+    def self.problem_details?(hash)
+      hash.key?('title') && hash.key?('detail') && hash.key?('type')
+    end
+
+    def self.problem_details_message(hash)
+      "#{hash['title']}. #{hash['detail']} See #{hash['type']} for more info, or email support@nexmo.com if you have any questions."
     end
   end
 
