@@ -1,30 +1,32 @@
 require_relative './test'
 
-class NexmoErrorTest < Minitest::Test
+class NexmoErrorsTest < Minitest::Test
+  Errors = Nexmo.const_get(:Errors)
+
   def response(code)
     Net::HTTPResponse::CODE_TO_OBJ[code.to_s].new(nil, code.to_s, nil)
   end
 
   def test_parse_with_401_response
-    error = Nexmo::Error.parse(response(401))
+    error = Errors.parse(response(401))
 
     assert_kind_of Nexmo::AuthenticationError, error
   end
 
   def test_parse_with_4xx_response
-    error = Nexmo::Error.parse(response(400))
+    error = Errors.parse(response(400))
 
     assert_kind_of Nexmo::ClientError, error
   end
 
   def test_parse_with_5xx_response
-    error = Nexmo::Error.parse(response(500))
+    error = Errors.parse(response(500))
 
     assert_kind_of Nexmo::ServerError, error
   end
 
   def test_parse_with_other_response
-    error = Nexmo::Error.parse(response(101))
+    error = Errors.parse(response(101))
 
     assert_kind_of Nexmo::Error, error
   end
@@ -43,7 +45,7 @@ class NexmoErrorTest < Minitest::Test
       EOS
     end
 
-    error = Nexmo::Error.parse(problem_response)
+    error = Errors.parse(problem_response)
 
     assert_includes error.message, 'You do not have enough credit'
   end
@@ -61,7 +63,7 @@ class NexmoErrorTest < Minitest::Test
       EOS
     end
 
-    error = Nexmo::Error.parse(invalid_parameters_response)
+    error = Errors.parse(invalid_parameters_response)
 
     assert_includes error.message, 'Bad Request'
   end

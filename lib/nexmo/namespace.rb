@@ -102,7 +102,7 @@ module Nexmo
           response
         end
       else
-        raise Error.parse(response)
+        raise Errors.parse(response)
       end
     end
   end
