@@ -2,6 +2,8 @@
 
 module Nexmo
   class Account < Namespace
+    include Keys
+
     self.host = 'rest.nexmo.com'
 
     # Retrieve your account balance.
@@ -14,13 +16,17 @@ module Nexmo
       request('/account/get-balance')
     end
 
-    # Modify settings for your account including callback URLs and your API secret.
+    # Update the default callback URLs (where the webhooks are sent to) associated with your account.
     #
-    # @option params [String] :moCallBackUrl
+    # @note The URLs you provide must be valid and active. Nexmo will check that they return a 200 OK response before the setting is saved.
+    #
+    # @option params [String] :mo_call_back_url
     #   The URL where Nexmo will send a webhook when an SMS is received to a Nexmo number that does not have SMS handling configured.
+    #   Send an empty string to unset this value.
     #
-    # @option params [String] :drCallBackUrl
+    # @option params [String] :dr_call_back_url
     #   The URL where Nexmo will send a webhook when an delivery receipt is received without a specific callback URL configured.
+    #   Send an empty string to unset this value.
     #
     # @param [Hash] params
     #
@@ -29,7 +35,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/developer/account#settings
     #
     def update(params)
-      request('/account/settings', params: params, type: Post)
+      request('/account/settings', params: camelcase(params), type: Post)
     end
 
     # Top-up your account balance.
