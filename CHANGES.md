@@ -1,3 +1,11 @@
+# 5.9.0
+
+* Added YARD documentation
+
+* Changed error handling to accept application/json problem details responses
+
+* Changed Nexmo::Account#update to accept underscored parameter keys
+
 # 5.8.0
 
 * Added support for [Application API v2](https://developer.nexmo.com/api/application.v2)
