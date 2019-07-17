@@ -17,15 +17,8 @@ class NexmoSignatureTest < Minitest::Test
     params.merge('sig' => 'xxx')
   end
 
-  def test_check_class_method
-    assert_equal Nexmo::Signature.check(params_with_valid_signature, secret), true
-    assert_equal Nexmo::Signature.check(params_with_invalid_signature, secret), false
-  end
-
   def test_check_instance_method
-    client = Nexmo::Client.new(signature_secret: secret)
-
-    signature = Nexmo::Signature.new(client)
+    signature = Nexmo::Signature.new(secret)
 
     assert_equal signature.check(params_with_valid_signature), true
     assert_equal signature.check(params_with_invalid_signature), false

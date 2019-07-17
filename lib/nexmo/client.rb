@@ -152,7 +152,7 @@ module Nexmo
     # @return [Signature]
     #
     def signature
-      @signature ||= Signature.new(self)
+      @signature ||= Signature.new(signature_secret)
     end
 
     # @return [Account]

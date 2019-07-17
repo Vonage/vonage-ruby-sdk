@@ -3,16 +3,8 @@ require 'jwt'
 
 module Nexmo
   class Signature
-    def self.check(params, secret)
-      params = params.dup
-
-      signature = params.delete('sig')
-
-      ::JWT::SecurityUtils.secure_compare(signature, digest(params, secret))
-    end
-
-    def initialize(client)
-      @client = client
+    def initialize(secret)
+      @secret = secret
     end
 
     # Check webhook request signature.
@@ -31,21 +23,25 @@ module Nexmo
     # @see https://developer.nexmo.com/concepts/guides/signing-messages
     #
     def check(params)
-      self.class.check(params, @client.signature_secret)
+      params = params.dup
+
+      signature = params.delete('sig')
+
+      ::JWT::SecurityUtils.secure_compare(signature, digest(params))
     end
 
-    def self.digest(params, secret)
+    private
+
+    def digest(params)
       md5 = Digest::MD5.new
 
       params.sort.each do |k, v|
         md5.update("&#{k}=#{v}")
       end
 
-      md5.update(secret)
+      md5.update(@secret)
 
       md5.hexdigest
     end
-
-    private_class_method :digest
   end
 end
