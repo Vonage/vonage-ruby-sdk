@@ -1,48 +1,29 @@
-require 'nexmo/version'
-require 'nexmo/params'
-require 'nexmo/form_data'
-require 'nexmo/http'
-require 'nexmo/json'
-require 'nexmo/jwt'
-require 'nexmo/signature'
-require 'nexmo/user_agent'
-require 'nexmo/keys'
-require 'nexmo/entity'
-require 'nexmo/errors'
-require 'nexmo/errors/error'
-require 'nexmo/errors/client_error'
-require 'nexmo/errors/server_error'
-require 'nexmo/errors/authentication_error'
-require 'nexmo/authentication/abstract'
-require 'nexmo/authentication/basic'
-require 'nexmo/authentication/bearer_token'
-require 'nexmo/authentication/key_secret_params'
-require 'nexmo/authentication/key_secret_query'
-require 'nexmo/logger'
-require 'nexmo/namespace'
-require 'nexmo/client'
-require 'nexmo/account'
-require 'nexmo/alerts'
-require 'nexmo/applications'
-require 'nexmo/applications_v2'
-require 'nexmo/call_dtmf'
-require 'nexmo/call_stream'
-require 'nexmo/call_talk'
-require 'nexmo/calls'
-require 'nexmo/conversation_events'
-require 'nexmo/conversation_legs'
-require 'nexmo/conversation_members'
-require 'nexmo/conversation_users'
-require 'nexmo/conversations'
-require 'nexmo/conversions'
-require 'nexmo/files'
-require 'nexmo/messages'
-require 'nexmo/number_insight'
-require 'nexmo/numbers'
-require 'nexmo/pricing_types'
-require 'nexmo/pricing'
-require 'nexmo/redact'
-require 'nexmo/secrets'
-require 'nexmo/sms'
-require 'nexmo/tfa'
-require 'nexmo/verify'
+# frozen_string_literal: true
+require 'zeitwerk'
+
+module Nexmo
+  class ZeitwerkInflector < Zeitwerk::Inflector
+    def camelize(basename, _abspath)
+      case basename
+      when 'http', 'json', 'jwt', 'sms', 'tfa'
+        basename.upcase
+      when 'applications_v2'
+        'ApplicationsV2'
+      when 'call_dtmf'
+        'CallDTMF'
+      when 'version'
+        'VERSION'
+      else
+        super
+      end
+    end
+  end
+
+  private_constant :ZeitwerkInflector
+
+  loader = Zeitwerk::Loader.new
+  loader.tag = File.basename(__FILE__, '.rb')
+  loader.inflector = ZeitwerkInflector.new
+  loader.push_dir(__dir__)
+  loader.setup
+end
