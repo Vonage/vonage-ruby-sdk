@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoSecretsTest < Nexmo::Test
   def secrets
-    Nexmo::Secrets.new(client)
+    Nexmo::Secrets.new(config)
   end
 
   def account_id

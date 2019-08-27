@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoConversationLegsTest < Nexmo::Test
   def legs
-    Nexmo::ConversationLegs.new(client)
+    Nexmo::ConversationLegs.new(config)
   end
 
   def leg_id

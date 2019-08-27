@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoSMSTest < Nexmo::Test
   def sms
-    Nexmo::SMS.new(client)
+    Nexmo::SMS.new(config)
   end
 
   def uri

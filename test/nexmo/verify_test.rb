@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoVerifyTest < Nexmo::Test
   def verify
-    Nexmo::Verify.new(client)
+    Nexmo::Verify.new(config)
   end
 
   def request_id

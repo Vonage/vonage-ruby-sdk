@@ -4,17 +4,17 @@ require 'json'
 
 module Nexmo
   class Namespace
-    def initialize(client)
-      @client = client
+    def initialize(config)
+      @config = config
 
-      @logger = client.logger
+      @logger = config.logger
 
       @host = self.class.host
 
       @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
       @http.use_ssl = true
 
-      @client.http_options.set(@http)
+      @config.http.set(@http) unless @config.http.nil?
     end
 
     def self.host
@@ -57,7 +57,7 @@ module Nexmo
 
       params ||= {}
 
-      authentication = self.class.authentication.new(@client)
+      authentication = self.class.authentication.new(@config)
       authentication.update(params)
 
       unless type::REQUEST_HAS_BODY || params.empty?
@@ -68,7 +68,7 @@ module Nexmo
 
       message = type.new(uri)
 
-      message['User-Agent'] = @client.user_agent
+      message['User-Agent'] = UserAgent.string(@config.app_name, @config.app_version)
 
       self.class.request_headers.each do |key, value|
         message[key] = value

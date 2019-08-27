@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoRedactTest < Nexmo::Test
   def redact
-    Nexmo::Redact.new(client)
+    Nexmo::Redact.new(config)
   end
 
   def test_transaction_method

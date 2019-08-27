@@ -4,12 +4,12 @@ module Nexmo
   class Pricing < Namespace
     self.host = 'rest.nexmo.com'
 
-    def initialize(client, type: nil)
+    def initialize(config, type: nil)
       raise ArgumentError if type.nil?
 
       @type = type
 
-      super client
+      super config
     end
 
     attr_reader :type

@@ -1,67 +1,13 @@
 require_relative './test'
 
 class NexmoClientTest < Nexmo::Test
-  def test_api_key_method
-    assert_equal client.api_key, api_key
-  end
-
-  def test_api_key_method_raises_authentication_error
-    client = Nexmo::Client.new
-
-    exception = assert_raises(Nexmo::AuthenticationError) { client.api_key }
-
-    assert_includes exception.message, 'No API key provided.'
-  end
-
-  def test_api_secret_method
-    assert_equal client.api_secret, api_secret
-  end
-
-  def test_api_secret_method_raises_authentication_error
-    client = Nexmo::Client.new
-
-    exception = assert_raises(Nexmo::AuthenticationError) { client.api_secret }
-
-    assert_includes exception.message, 'No API secret provided.'
-  end
-
-  def test_signature_secret_method
-    assert_equal client.signature_secret, signature_secret
-  end
-
-  def test_signature_secret_method_raises_authentication_error
-    client = Nexmo::Client.new
-
-    exception = assert_raises(Nexmo::AuthenticationError) { client.signature_secret }
-
-    assert_includes exception.message, 'No signature_secret provided.'
-  end
-
-  def test_application_id_method
-    assert_equal client.application_id, application_id
-  end
-
-  def test_application_id_method_raises_authentication_error
-    client = Nexmo::Client.new
-
-    exception = assert_raises(Nexmo::AuthenticationError) { client.application_id }
-
-    assert_includes exception.message, 'No application_id provided.'
-  end
-
-  def test_private_key_method
-    assert_equal client.private_key, private_key
-  end
-
-  def test_private_key_method_raises_authentication_error
-    client = Nexmo::Client.new
-
-    exception = assert_raises(Nexmo::AuthenticationError) { client.private_key }
-
-    assert_includes exception.message, 'No private_key provided.'
+  def client
+    @client ||= Nexmo::Client.new
   end
 
   def test_signature_method
+    client = Nexmo::Client.new(signature_secret: signature_secret)
+
     assert_kind_of Nexmo::Signature, client.signature
   end
 
@@ -130,6 +76,8 @@ class NexmoClientTest < Nexmo::Test
   end
 
   def test_raises_response_errors
+    client = Nexmo::Client.new(api_key: api_key, api_secret: api_secret)
+
     pattern = %r{\Ahttps://rest\.nexmo\.com/}
 
     stub_request(:get, pattern).to_return(status: 400).then.to_return(status: 500)

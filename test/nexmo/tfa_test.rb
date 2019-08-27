@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoTFATest < Nexmo::Test
   def tfa
-    Nexmo::TFA.new(client)
+    Nexmo::TFA.new(config)
   end
 
   def uri

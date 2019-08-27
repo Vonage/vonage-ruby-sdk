@@ -1,12 +1,8 @@
 require_relative './test'
 
 class NexmoPricingTypesTest < Nexmo::Test
-  def client
-    Nexmo::Client.new
-  end
-
   def pricing
-    Nexmo::PricingTypes.new(client)
+    Nexmo::PricingTypes.new(config)
   end
 
   def test_sms_method

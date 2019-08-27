@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoAlertsTest < Nexmo::Test
   def alerts
-    Nexmo::Alerts.new(client)
+    Nexmo::Alerts.new(config)
   end
 
   def test_list_method

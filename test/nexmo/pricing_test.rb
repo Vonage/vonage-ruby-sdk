@@ -14,7 +14,7 @@ class NexmoPricingTest < Nexmo::Test
   end
 
   def pricing
-    Nexmo::Pricing.new(client, type: type)
+    Nexmo::Pricing.new(config, type: type)
   end
 
   def test_get_method

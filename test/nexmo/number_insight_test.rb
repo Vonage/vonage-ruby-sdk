@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoNumberInsightTest < Nexmo::Test
   def number_insight
-    Nexmo::NumberInsight.new(client)
+    Nexmo::NumberInsight.new(config)
   end
 
   def params

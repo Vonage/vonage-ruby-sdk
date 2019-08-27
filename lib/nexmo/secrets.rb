@@ -78,7 +78,7 @@ module Nexmo
     private
 
     def account_id
-      @client.api_key
+      @config.api_key
     end
   end
 end

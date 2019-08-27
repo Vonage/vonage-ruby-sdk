@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoCallTalkTest < Nexmo::Test
   def talk
-    Nexmo::CallTalk.new(client)
+    Nexmo::CallTalk.new(config)
   end
 
   def uri

@@ -231,19 +231,19 @@ module Nexmo
     # @return [CallStream]
     #
     def stream
-      @stream ||= CallStream.new(@client)
+      @stream ||= CallStream.new(@config)
     end
 
     # @return [CallTalk]
     #
     def talk
-      @talk ||= CallTalk.new(@client)
+      @talk ||= CallTalk.new(@config)
     end
 
     # @return [CallDTMF]
     #
     def dtmf
-      @dtmf ||= CallDTMF.new(@client)
+      @dtmf ||= CallDTMF.new(@config)
     end
   end
 end

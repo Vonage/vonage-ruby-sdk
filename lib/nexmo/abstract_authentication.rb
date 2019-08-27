@@ -1,7 +1,7 @@
 module Nexmo
   class AbstractAuthentication
-    def initialize(client)
-      @client = client
+    def initialize(config)
+      @config = config
     end
   end
 

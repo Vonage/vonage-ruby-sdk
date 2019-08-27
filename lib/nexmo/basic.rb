@@ -3,7 +3,7 @@ module Nexmo
     def update(object)
       return unless object.is_a?(Net::HTTPRequest)
 
-      object.basic_auth(@client.api_key, @client.api_secret)
+      object.basic_auth(@config.api_key, @config.api_secret)
     end
   end
 

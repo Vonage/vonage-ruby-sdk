@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoApplicationsTest < Nexmo::Test
   def applications
-    Nexmo::Applications.new(client)
+    Nexmo::Applications.new(config)
   end
 
   def applications_uri

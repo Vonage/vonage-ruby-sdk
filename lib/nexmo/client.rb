@@ -1,246 +1,111 @@
-# frozen_string_literal: true
-
 module Nexmo
   class Client
-    attr_writer :api_key
-    attr_writer :api_secret
-    attr_writer :signature_secret
-    attr_writer :application_id
-    attr_writer :private_key
-    attr_writer :token
-    attr_accessor :user_agent
+    attr_reader :config
 
-    def initialize(options = {})
-      @api_key = options[:api_key] || ENV['NEXMO_API_KEY']
-
-      @api_secret = options[:api_secret] || ENV['NEXMO_API_SECRET']
-
-      @signature_secret = options[:signature_secret] || ENV['NEXMO_SIGNATURE_SECRET']
-
-      @application_id = options[:application_id]
-
-      @private_key = options[:private_key]
-
-      @token = nil
-
-      @user_agent = UserAgent.string(options[:app_name], options[:app_version])
-
-      self.http_options = options[:http]
-
-      self.logger = options[:logger] || (defined?(Rails.logger) && Rails.logger)
-    end
-
-    attr_reader :http_options
-
-    def http_options=(hash)
-      @http_options = HTTP::Options.new(hash)
-    end
-
-    # @return [Nexmo::Logger]
-    #
-    def logger
-      @logger
-    end
-
-    # @return [Nexmo::Logger]
-    #
-    def logger=(logger)
-      @logger = Logger.new(logger)
-    end
-
-    # Returns the value of attribute token, or a temporary short lived token.
-    #
-    # @return [String]
-    #
-    def token
-      @token || JWT.generate({application_id: application_id}, private_key)
-    end
-
-    # Returns the value of attribute api_key.
-    #
-    # @return [String]
-    #
-    # @raise [AuthenticationError]
-    #
-    def api_key
-      unless @api_key
-        raise AuthenticationError.new('No API key provided. ' \
-          'See https://developer.nexmo.com/concepts/guides/authentication for details, ' \
-          'or email support@nexmo.com if you have any questions.')
-      end
-
-      @api_key
-    end
-
-    # Returns the value of attribute api_secret.
-    #
-    # @return [String]
-    #
-    # @raise [AuthenticationError]
-    #
-    def api_secret
-      unless @api_secret
-        raise AuthenticationError.new('No API secret provided. ' \
-          'See https://developer.nexmo.com/concepts/guides/authentication for details, ' \
-          'or email support@nexmo.com if you have any questions.')
-      end
-
-      @api_secret
-    end
-
-    # Returns the value of attribute signature_secret.
-    #
-    # @return [String]
-    #
-    # @raise [AuthenticationError]
-    #
-    def signature_secret
-      unless @signature_secret
-        raise AuthenticationError.new('No signature_secret provided. ' \
-          'You can find your signature secret in the Nexmo dashboard. ' \
-          'See https://developer.nexmo.com/concepts/guides/signing-messages for details, ' \
-          'or email support@nexmo.com if you have any questions.')
-      end
-
-      @signature_secret
-    end
-
-    # Returns the value of attribute application_id.
-    #
-    # @return [String]
-    #
-    # @raise [AuthenticationError]
-    #
-    def application_id
-      unless @application_id
-        raise AuthenticationError.new('No application_id provided. ' \
-          'Either provide an application_id, or set an auth token. ' \
-          'You can add new applications from the Nexmo dashboard. ' \
-          'See https://developer.nexmo.com/concepts/guides/applications for details, ' \
-          'or email support@nexmo.com if you have any questions.')
-      end
-
-      @application_id
-    end
-
-    # Returns the value of attribute private_key.
-    #
-    # @return [String]
-    #
-    # @raise [AuthenticationError]
-    #
-    def private_key
-      unless @private_key
-        raise AuthenticationError.new('No private_key provided. ' \
-          'Either provide a private_key, or set an auth token. ' \
-          'You can add new applications from the Nexmo dashboard. ' \
-          'See https://developer.nexmo.com/concepts/guides/applications for details, ' \
-          'or email support@nexmo.com if you have any questions.')
-      end
-
-      @private_key
+    def initialize(options = nil)
+      @config = Nexmo.config.merge(options)
     end
 
     # @return [Signature]
     #
     def signature
-      @signature ||= Signature.new(signature_secret)
+      @signature ||= Signature.new(config.signature_secret)
     end
 
     # @return [Account]
     #
     def account
-      @account ||= Account.new(self)
+      @account ||= Account.new(config)
     end
 
     # @return [Alerts]
     #
     def alerts
-      @alerts ||= Alerts.new(self)
+      @alerts ||= Alerts.new(config)
     end
 
     # @return [Applications]
     #
     def applications
-      @applications ||= Applications.new(self)
+      @applications ||= Applications.new(config)
     end
 
     # @return [Calls]
     #
     def calls
-      @calls ||= Calls.new(self)
+      @calls ||= Calls.new(config)
     end
 
     # @return [Conversations]
     #
     def conversations
-      @conversations ||= Conversations.new(self)
+      @conversations ||= Conversations.new(config)
     end
 
     # @return [Conversions]
     #
     def conversions
-      @conversions ||= Conversions.new(self)
+      @conversions ||= Conversions.new(config)
     end
 
     # @return [Files]
     #
     def files
-      @files ||= Files.new(self)
+      @files ||= Files.new(config)
     end
 
     # @return [Messages]
     #
     def messages
-      @messages ||= Messages.new(self)
+      @messages ||= Messages.new(config)
     end
 
     # @return [NumberInsight]
     #
     def number_insight
-      @number_insight ||= NumberInsight.new(self)
+      @number_insight ||= NumberInsight.new(config)
     end
 
     # @return [Numbers]
     #
     def numbers
-      @numbers ||= Numbers.new(self)
+      @numbers ||= Numbers.new(config)
     end
 
     # @return [PricingTypes]
     #
     def pricing
-      @pricing ||= PricingTypes.new(self)
+      @pricing ||= PricingTypes.new(config)
     end
 
     # @return [Redact]
     #
     def redact
-      @redact ||= Redact.new(self)
+      @redact ||= Redact.new(config)
     end
 
     # @return [Secrets]
     #
     def secrets
-      @secrets ||= Secrets.new(self)
+      @secrets ||= Secrets.new(config)
     end
 
     # @return [SMS]
     #
     def sms
-      @sms ||= SMS.new(self)
+      @sms ||= SMS.new(config)
     end
 
     # @return [TFA]
     #
     def tfa
-      @tfa ||= TFA.new(self)
+      @tfa ||= TFA.new(config)
     end
 
     # @return [Verify]
     #
     def verify
-      @verify ||= Verify.new(self)
+      @verify ||= Verify.new(config)
     end
   end
 end

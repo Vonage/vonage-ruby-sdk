@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoFilesTest < Nexmo::Test
   def files
-    Nexmo::Files.new(client)
+    Nexmo::Files.new(config)
   end
 
   def recording_uri

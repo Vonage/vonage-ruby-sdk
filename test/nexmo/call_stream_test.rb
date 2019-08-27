@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoCallStreamTest < Nexmo::Test
   def stream
-    Nexmo::CallStream.new(client)
+    Nexmo::CallStream.new(config)
   end
 
   def uri

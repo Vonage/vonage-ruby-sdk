@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoMessagesTest < Nexmo::Test
   def messages
-    Nexmo::Messages.new(client)
+    Nexmo::Messages.new(config)
   end
 
   def message_id

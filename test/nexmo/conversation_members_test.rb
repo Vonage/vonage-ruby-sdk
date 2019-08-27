@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoConversationMembersTest < Nexmo::Test
   def members
-    Nexmo::ConversationMembers.new(client)
+    Nexmo::ConversationMembers.new(config)
   end
 
   def user_id

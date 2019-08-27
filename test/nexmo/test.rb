@@ -34,8 +34,8 @@ module Nexmo
       File.read(File.expand_path(File.join(File.dirname(__FILE__), '..', 'private_key.txt')))
     end
 
-    def client
-      @client ||= Nexmo::Client.new({
+    def config
+      @config ||= Nexmo::Config.new.merge({
         api_key: api_key,
         api_secret: api_secret,
         signature_secret: signature_secret,

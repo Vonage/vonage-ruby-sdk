@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoCallDTMFTest < Nexmo::Test
   def dtmf
-    Nexmo::CallDTMF.new(client)
+    Nexmo::CallDTMF.new(config)
   end
 
   def uri

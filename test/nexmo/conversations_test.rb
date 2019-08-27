@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoConversationsTest < Nexmo::Test
   def conversations
-    Nexmo::Conversations.new(client)
+    Nexmo::Conversations.new(config)
   end
 
   def conversations_uri

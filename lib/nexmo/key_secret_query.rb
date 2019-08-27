@@ -10,8 +10,8 @@ module Nexmo
 
     def params
       {
-        api_key: @client.api_key,
-        api_secret: @client.api_secret
+        api_key: @config.api_key,
+        api_secret: @config.api_secret
       }
     end
   end

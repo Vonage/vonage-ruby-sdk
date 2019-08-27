@@ -5,7 +5,7 @@ module Nexmo
     def update(object)
       return unless object.is_a?(Net::HTTPRequest)
 
-      object['Authorization'] = 'Bearer ' + @client.token
+      object['Authorization'] = 'Bearer ' + @config.token
     end
   end
 

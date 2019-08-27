@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoConversationEventsTest < Nexmo::Test
   def events
-    Nexmo::ConversationEvents.new(client)
+    Nexmo::ConversationEvents.new(config)
   end
 
   def event_id

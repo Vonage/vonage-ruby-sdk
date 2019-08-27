@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoNumbersTest < Nexmo::Test
   def numbers
-    Nexmo::Numbers.new(client)
+    Nexmo::Numbers.new(config)
   end
 
   def country

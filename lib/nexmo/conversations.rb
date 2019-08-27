@@ -131,25 +131,25 @@ module Nexmo
     # @return [ConversationEvents]
     #
     def events
-      @events ||= ConversationEvents.new(@client)
+      @events ||= ConversationEvents.new(@config)
     end
 
     # @return [ConversationLegs]
     #
     def legs
-      @legs ||= ConversationLegs.new(@client)
+      @legs ||= ConversationLegs.new(@config)
     end
 
     # @return [ConversationMembers]
     #
     def members
-      @members ||= ConversationMembers.new(@client)
+      @members ||= ConversationMembers.new(@config)
     end
 
     # @return [ConversationUsers]
     #
     def users
-      @users ||= ConversationUsers.new(@client)
+      @users ||= ConversationUsers.new(@config)
     end
   end
 end

@@ -2,16 +2,16 @@
 
 module Nexmo
   class PricingTypes
-    def initialize(client)
-      @client = client
+    def initialize(config)
+      @config = config
     end
 
     def sms
-      @sms ||= Pricing.new(@client, type: 'sms')
+      @sms ||= Pricing.new(@config, type: 'sms')
     end
 
     def voice
-      @voice ||= Pricing.new(@client, type: 'voice')
+      @voice ||= Pricing.new(@config, type: 'voice')
     end
   end
 end

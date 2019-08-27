@@ -2,7 +2,7 @@ require_relative './test'
 
 class NexmoAccountTest < Nexmo::Test
   def account
-    Nexmo::Account.new(client)
+    Nexmo::Account.new(config)
   end
 
   def test_balance_method
