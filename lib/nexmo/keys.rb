@@ -2,30 +2,12 @@
 
 module Nexmo
   module Keys
-    if {}.respond_to?(:transform_keys)
-      def hyphenate(hash)
-        hash.transform_keys { |k| hyphenate_key(k) }
-      end
-
-      def camelcase(hash)
-        hash.transform_keys { |k| camelcase_key(k) }
-      end
-    else
-      def hyphenate(hash)
-        hash.each_with_object({}) { |(k, v), h| h[hyphenate_key(k)] = v }
-      end
-
-      def camelcase(hash)
-        hash.each_with_object({}) { |(k, v), h| h[camelcase_key(k)] = v }
-      end
+    def hyphenate(hash)
+      hash.transform_keys { |k| k.to_s.tr('_', '-') }
     end
 
-    def hyphenate_key(k)
-      k.to_s.tr('_', '-')
-    end
-
-    def camelcase_key(k)
-      k.to_s.gsub(/_(\w)/) { $1.upcase }
+    def camelcase(hash)
+      hash.transform_keys { |k| k.to_s.gsub(/_(\w)/) { $1.upcase } }
     end
 
     ATTRIBUTE_KEYS = Hash.new { |h, k| h[k] = k.split(PATTERN).join('_').downcase.to_sym }
