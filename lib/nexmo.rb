@@ -24,4 +24,12 @@ module Nexmo
   loader.inflector = ZeitwerkInflector.new
   loader.push_dir(__dir__)
   loader.setup
+
+  def self.config
+    @config ||= Config.new
+  end
+
+  def self.configure(&block)
+    block.call(config)
+  end
 end
