@@ -81,4 +81,10 @@ class NexmoEntityTest < Minitest::Test
 
     assert_raises(NoMethodError) { entity.key }
   end
+
+  def test_enumerable
+    entity = Nexmo::Entity.new(key: 'value')
+
+    assert_equal [[:key, 'value']], entity.each.map(&:to_a)
+  end
 end

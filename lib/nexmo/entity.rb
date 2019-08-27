@@ -31,5 +31,15 @@ module Nexmo
     attr_reader :attributes
 
     protected :attributes
+
+    def each_pair(&block)
+      return to_enum(:each_pair) unless block
+
+      @attributes.each_pair(&block)
+    end
+
+    alias_method :each, :each_pair
+
+    include Enumerable
   end
 end
