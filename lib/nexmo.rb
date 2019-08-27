@@ -7,8 +7,6 @@ module Nexmo
       case basename
       when 'http', 'json', 'jwt', 'sms', 'tfa'
         basename.upcase
-      when 'applications_v2'
-        'ApplicationsV2'
       when 'call_dtmf'
         'CallDTMF'
       when 'version'

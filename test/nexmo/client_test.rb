@@ -77,10 +77,6 @@ class NexmoClientTest < Nexmo::Test
     assert_kind_of Nexmo::Applications, client.applications
   end
 
-  def test_applications_v2_method
-    assert_kind_of Nexmo::ApplicationsV2, client.applications_v2
-  end
-
   def test_calls_method
     assert_kind_of Nexmo::Calls, client.calls
   end

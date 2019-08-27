@@ -2,9 +2,13 @@
 
 module Nexmo
   class Applications < Namespace
+    self.authentication = Basic
+
     self.request_body = JSON
 
-    # Create a new application.
+    self.request_headers['Content-Type'] = 'application/json'
+
+    # Create an application.
     #
     # @example
     #   params = {
@@ -17,38 +21,27 @@ module Nexmo
     #   response = client.applications.create(params)
     #
     # @option params [required, String] :name
-    #   The name of your application.
+    #   Application name.
     #
-    # @option params [required, String] :type
-    #   The Nexmo product or products that you access with this application.
-    #   Currently only `voice` and `messages` are supported.
+    # @option params [Hash] :keys
+    #   - **:public_key** (String) Public key
     #
-    # @option params [required, String] :answer_url
-    #   The URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-    #   As soon as your user answers a call Nexmo makes a request to answer_url.
-    #
-    # @option params [String] :answer_method
-    #   The HTTP method used to make the request to answer_url.
-    #   The default value is GET.
-    #
-    # @option params [required, String] :event_url
-    #   Nexmo sends event information asynchronously to this URL when status changes.
-    #
-    # @option params [String] :event_method
-    #   The HTTP method used to send event information to event_url.
-    #   The default value is POST.
+    # @option params [Hash] :capabilities
+    #   Your application can use multiple products.
+    #   This contains the configuration for each product.
+    #   This replaces the application `type` from version 1 of the Application API.
     #
     # @param [Hash] params
     #
     # @return [Entity]
     #
-    # @see https://developer.nexmo.com/api/application#create-an-application
+    # @see https://developer.nexmo.com/api/application.v2#createApplication
     #
     def create(params)
-      request('/v1/applications', params: params, type: Post)
+      request('/v2/applications', params: params, type: Post)
     end
 
-    # Retrieve details of all applications associated with your account.
+    # List available applications.
     #
     # @example
     #   response = client.applications.list
@@ -57,24 +50,22 @@ module Nexmo
     #   end
     #
     # @option params [Integer] :page_size
-    #   Set the number of items returned on each call to this endpoint.
-    #   The default is 10 records.
+    #   The number of applications per page.
     #
-    # @option params [Integer] :page_index
-    #   Set the offset from the first page.
-    #   The default value is 0.
+    # @option params [Integer] :page
+    #   The current page number (starts at 1).
     #
-    # @param [Hash, nil] params
+    # @param [Hash] params
     #
     # @return [Entity]
     #
-    # @see https://developer.nexmo.com/api/application#retrieve-your-applications
+    # @see https://developer.nexmo.com/api/application.v2#listApplication
     #
     def list(params = nil)
-      request('/v1/applications', params: params)
+      request('/v2/applications', params: params)
     end
 
-    # Retrieve details about a single application.
+    # Get an application.
     #
     # @example
     #   response = client.applications.get(id)
@@ -83,63 +74,54 @@ module Nexmo
     #
     # @return [Entity]
     #
-    # @see https://developer.nexmo.com/api/application#retrieve-an-application
+    # @see https://developer.nexmo.com/api/application.v2#getApplication
     #
     def get(id)
-      request('/v1/applications/' + id)
+      request('/v2/applications/' + id)
     end
 
-    # Update an existing application.
+    # Update an application.
     #
     # @example
     #   response = client.applications.update(id, answer_method: 'POST')
     #
     # @option params [required, String] :name
-    #   The name of your application.
+    #   Application name.
     #
-    # @option params [required, String] :type
-    #   The Nexmo product or products that you access with this application.
-    #   Currently only `voice` and `messages` are supported.
+    # @option params [Hash] :keys
+    #   - **:public_key** (String) Public key
     #
-    # @option params [required, String] :answer_url
-    #   The URL where your webhook delivers the Nexmo Call Control Object that governs this call.
-    #   As soon as your user answers a call Nexmo makes a request to answer_url.
-    #
-    # @option params [String] :answer_method
-    #   The HTTP method used to make the request to answer_url.
-    #   The default value is GET.
-    #
-    # @option params [required, String] :event_url
-    #   Nexmo sends event information asynchronously to this URL when status changes.
-    #
-    # @option params [String] :event_method
-    #   The HTTP method used to send event information to event_url.
-    #   The default value is POST.
+    # @option params [Hash] :capabilities
+    #   Your application can use multiple products.
+    #   This contains the configuration for each product.
+    #   This replaces the application `type` from version 1 of the Application API.
     #
     # @param [String] id
     # @param [Hash] params
     #
     # @return [Entity]
     #
-    # @see https://developer.nexmo.com/api/application#update-an-application
+    # @see https://developer.nexmo.com/api/application.v2#updateApplication
     #
     def update(id, params)
-      request('/v1/applications/' + id, params: params, type: Put)
+      request('/v2/applications/' + id, params: params, type: Put)
     end
 
-    # Delete a single application.
+    # Delete an application.
     #
     # @example
     #   response = client.applications.delete(id)
     #
+    # @note Deleting an application cannot be undone.
+    #
     # @param [String] id
     #
-    # @return [:no_content]
+    # @return [Entity]
     #
-    # @see https://developer.nexmo.com/api/application#destroy-an-application
+    # @see https://developer.nexmo.com/api/application.v2#deleteApplication
     #
     def delete(id)
-      request('/v1/applications/' + id, type: Delete)
+      request('/v2/applications/' + id, type: Delete)
     end
   end
 end

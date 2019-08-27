@@ -165,12 +165,6 @@ module Nexmo
       @applications ||= Applications.new(self)
     end
 
-    # @return [ApplicationsV2]
-    #
-    def applications_v2
-      @applications_v2 ||= ApplicationsV2.new(self)
-    end
-
     # @return [Calls]
     #
     def calls
