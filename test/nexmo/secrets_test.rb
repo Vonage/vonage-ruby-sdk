@@ -36,7 +36,7 @@ class NexmoSecretsTest < Nexmo::Test
   def test_list_method
     stub_request(:get, secrets_uri).with(request).to_return(response)
 
-    assert_kind_of Nexmo::Response, secrets.list
+    assert_kind_of Nexmo::Secrets::ListResponse, secrets.list
   end
 
   def test_get_method

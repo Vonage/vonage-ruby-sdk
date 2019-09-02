@@ -33,16 +33,16 @@ module Nexmo
     #
     # @example
     #   response = client.secrets.list
-    #   response._embedded.secrets.each do |item|
+    #   response.each do |item|
     #     puts "#{item.created_at} #{item.id}"
     #   end
     #
-    # @return [Response]
+    # @return [ListResponse]
     #
     # @see https://developer.nexmo.com/api/account#retrieveAPISecrets
     #
     def list
-      request('/accounts/' + account_id + '/secrets')
+      request('/accounts/' + account_id + '/secrets', response_class: ListResponse)
     end
 
     # Retrieve one API Secret.
