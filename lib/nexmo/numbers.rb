@@ -101,7 +101,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/developer/numbers#buyANumber
     #
     def buy(params)
-      request('/number/buy', params: params, type: Post)
+      request('/number/buy', params: params, type: Post, response_class: Response)
     end
 
     # Cancel your subscription for a specific inbound number.
@@ -122,7 +122,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/developer/numbers#cancelANumber
     #
     def cancel(params)
-      request('/number/cancel', params: params, type: Post)
+      request('/number/cancel', params: params, type: Post, response_class: Response)
     end
 
     # Change the behaviour of a number that you own.
@@ -178,7 +178,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/developer/numbers#updateANumber
     #
     def update(params)
-      request('/number/update', params: camelcase(params), type: Post)
+      request('/number/update', params: camelcase(params), type: Post, response_class: Response)
     end
   end
 end
