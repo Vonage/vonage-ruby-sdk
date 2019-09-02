@@ -16,7 +16,7 @@ class NexmoVerifyTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, verify.request(params)
+    assert_kind_of Nexmo::Verify::Response, verify.request(params)
   end
 
   def test_check_method
@@ -26,7 +26,7 @@ class NexmoVerifyTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, verify.check(params)
+    assert_kind_of Nexmo::Verify::Response, verify.check(params)
   end
 
   def test_search_method
@@ -36,7 +36,7 @@ class NexmoVerifyTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, verify.search(params)
+    assert_kind_of Nexmo::Verify::Response, verify.search(params)
   end
 
   def test_control_method
@@ -46,7 +46,7 @@ class NexmoVerifyTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, verify.control(params)
+    assert_kind_of Nexmo::Verify::Response, verify.control(params)
   end
 
   def test_cancel_method
@@ -56,7 +56,7 @@ class NexmoVerifyTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, verify.cancel(request_id)
+    assert_kind_of Nexmo::Verify::Response, verify.cancel(request_id)
   end
 
   def test_trigger_next_event_method
@@ -66,6 +66,6 @@ class NexmoVerifyTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, verify.trigger_next_event(request_id)
+    assert_kind_of Nexmo::Verify::Response, verify.trigger_next_event(request_id)
   end
 end

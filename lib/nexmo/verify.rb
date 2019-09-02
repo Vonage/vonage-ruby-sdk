@@ -6,6 +6,8 @@ module Nexmo
 
     private :http_request
 
+    self.response_class = Response
+
     # Generate and send a PIN to your user.
     #
     # @note You can make a maximum of one Verify request per second.
@@ -13,7 +15,7 @@ module Nexmo
     # @example
     #   response = client.verify.request(number: '447700900000', brand: 'Acme Inc')
     #
-    #   if response.status == '0'
+    #   if response.success?
     #     puts "Started verification request_id=#{response.request_id}"
     #   else
     #     puts "Error: #{response.error_text}"
@@ -71,7 +73,7 @@ module Nexmo
     # @example
     #   response = client.verify.check(request_id: request_id, code: '1234')
     #
-    #   if response.status == '0'
+    #   if response.success?
     #     puts "Verification complete, event_id=#{response.event_id}"
     #   else
     #     puts "Error: #{response.error_text}"
