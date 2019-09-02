@@ -11,7 +11,7 @@ module Nexmo
     # @example
     #   response = client.sms.send(from: 'Ruby', to: '447700900000', text: 'Hello world')
     #
-    #   if response.messages.first.status == '0'
+    #   if response.success?
     #     puts "Sent message id=#{response.messages.first.message_id}"
     #   else
     #     puts "Error: #{response.messages.first.error_text}"
@@ -103,7 +103,7 @@ module Nexmo
         @logger.warn(message)
       end
 
-      request('/sms/json', params: hyphenate(params), type: Post)
+      request('/sms/json', params: hyphenate(params), type: Post, response_class: Response)
     end
 
     private

@@ -14,7 +14,7 @@ class NexmoSMSTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, sms.send(params)
+    assert_kind_of Nexmo::SMS::Response, sms.send(params)
   end
 
   def test_mapping_underscored_keys_to_hyphenated_string_keys
@@ -22,7 +22,7 @@ class NexmoSMSTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, sms.send(status_report_req: 1)
+    assert_kind_of Nexmo::SMS::Response, sms.send(status_report_req: 1)
   end
 
   def test_warn_when_sending_unicode_without_type
