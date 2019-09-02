@@ -95,7 +95,21 @@ module Nexmo
     # @see https://developer.nexmo.com/api/sms#send-an-sms
     #
     def send(params)
+      if unicode?(params[:text]) && params[:type] != 'unicode'
+        message = 'Sending unicode text SMS without setting the type parameter to "unicode". ' \
+          'See https://developer.nexmo.com/messaging/sms for details, ' \
+          'or email support@nexmo.com if you have any questions.'
+
+        @logger.warn(message)
+      end
+
       request('/sms/json', params: hyphenate(params), type: Post)
+    end
+
+    private
+
+    def unicode?(text)
+      !GSM7.encoded?(text)
     end
   end
 end

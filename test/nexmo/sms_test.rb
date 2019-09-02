@@ -26,4 +26,19 @@ class NexmoSMSTest < Nexmo::Test
     assert_equal response_object, sms.send(status_report_req: 1)
     assert_requested request_stub
   end
+
+  def test_warn_when_sending_unicode_without_type
+    io = StringIO.new
+
+    sms = Nexmo::SMS.new(config.merge(logger: Logger.new(io, level: Logger::WARN)))
+
+    params = {from: 'Ruby', to: msisdn, text: "Unicode \u2713"}
+
+    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+
+    sms.send(params)
+
+    assert_includes io.string, 'WARN -- : Sending unicode text SMS without setting the type parameter'
+    assert_requested request_stub
+  end
 end
