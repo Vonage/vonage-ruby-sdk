@@ -10,7 +10,7 @@ module Nexmo
     #
     # @example
     #   response = client.numbers.list
-    #   response.numbers.each do |item|
+    #   response.each do |item|
     #     puts "#{item.msisdn} #{item.country} #{item.type}"
     #   end
     #
@@ -31,19 +31,19 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Response]
+    # @return [ListResponse]
     #
     # @see https://developer.nexmo.com/api/developer/numbers#getOwnedNumbers
     #
     def list(params = nil)
-      request('/account/numbers', params: params)
+      request('/account/numbers', params: params, response_class: ListResponse)
     end
 
     # Retrieve inbound numbers that are available for the specified country.
     #
     # @example
     #   response = client.numbers.search(country: 'GB')
-    #   response.numbers.each do |item|
+    #   response.each do |item|
     #     puts "#{item.msisdn} #{item.type} #{item.cost}"
     #   end
     #
@@ -75,12 +75,12 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Response]
+    # @return [ListResponse]
     #
     # @see https://developer.nexmo.com/api/developer/numbers#getAvailableNumbers
     #
     def search(params)
-      request('/number/search', params: params)
+      request('/number/search', params: params, response_class: ListResponse)
     end
 
     # Request to purchase a specific inbound number.

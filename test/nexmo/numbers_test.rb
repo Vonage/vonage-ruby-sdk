@@ -16,7 +16,7 @@ class NexmoNumbersTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, numbers.list(params)
+    assert_kind_of Nexmo::Numbers::ListResponse, numbers.list(params)
   end
 
   def test_list_method_without_args
@@ -24,7 +24,7 @@ class NexmoNumbersTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
 
-    assert_kind_of Nexmo::Response, numbers.list
+    assert_kind_of Nexmo::Numbers::ListResponse, numbers.list
   end
 
   def test_search_method
@@ -34,7 +34,7 @@ class NexmoNumbersTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::Response, numbers.search(params)
+    assert_kind_of Nexmo::Numbers::ListResponse, numbers.search(params)
   end
 
   def test_buy_method
