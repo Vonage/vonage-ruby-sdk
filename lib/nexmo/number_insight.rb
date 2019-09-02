@@ -2,6 +2,8 @@
 
 module Nexmo
   class NumberInsight < Namespace
+    self.response_class = Response
+
     # Provides basic number insight information about a number.
     #
     # @example
