@@ -4,7 +4,7 @@ cache: bundler
 rvm:
   - 2.5
   - 2.6
-  - jruby-9.2
+  - jruby-9.2.8.0
   - truffleruby
 script:
   - bundle exec rake test_with_coveralls
