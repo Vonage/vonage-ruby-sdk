@@ -20,7 +20,7 @@ module Nexmo
     # @param [String] id
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/voice#startStream
     #
@@ -32,7 +32,7 @@ module Nexmo
     #
     # @param [String] id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/voice#stopStream
     #

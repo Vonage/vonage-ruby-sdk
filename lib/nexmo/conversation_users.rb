@@ -20,7 +20,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#createUser
     #
@@ -30,7 +30,7 @@ module Nexmo
 
     # List users.
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#getUsers
     #
@@ -42,7 +42,7 @@ module Nexmo
     #
     # @param [String] id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#getUser
     #
@@ -69,7 +69,7 @@ module Nexmo
     # @param [String] id
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#updateUser
     #
@@ -81,7 +81,7 @@ module Nexmo
     #
     # @param [String] id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#deleteUser
     #

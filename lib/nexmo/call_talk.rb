@@ -24,7 +24,7 @@ module Nexmo
     # @param [String] id
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/voice#startTalk
     #
@@ -36,7 +36,7 @@ module Nexmo
     #
     # @param [String] id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/voice#stopTalk
     #

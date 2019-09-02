@@ -31,7 +31,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/developer/numbers#getOwnedNumbers
     #
@@ -75,7 +75,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/developer/numbers#getAvailableNumbers
     #
@@ -96,7 +96,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/developer/numbers#buyANumber
     #
@@ -117,7 +117,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/developer/numbers#cancelANumber
     #
@@ -173,7 +173,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/developer/numbers#updateANumber
     #

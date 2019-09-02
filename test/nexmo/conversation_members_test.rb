@@ -38,30 +38,30 @@ class NexmoConversationMembersTest < Nexmo::Test
   def test_create_method
     stub_request(:post, members_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, members.create(conversation_id, params)
+    assert_kind_of Nexmo::Response, members.create(conversation_id, params)
   end
 
   def test_list_method
     stub_request(:get, members_uri).with(request).to_return(response)
 
-    assert_equal response_object, members.list(conversation_id)
+    assert_kind_of Nexmo::Response, members.list(conversation_id)
   end
 
   def test_get_method
     stub_request(:get, member_uri).with(request).to_return(response)
 
-    assert_equal response_object, members.get(conversation_id, member_id)
+    assert_kind_of Nexmo::Response, members.get(conversation_id, member_id)
   end
 
   def test_update_method
     stub_request(:put, member_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, members.update(conversation_id, member_id, params)
+    assert_kind_of Nexmo::Response, members.update(conversation_id, member_id, params)
   end
 
   def test_delete_method
     stub_request(:delete, member_uri).with(request).to_return(response)
 
-    assert_equal response_object, members.delete(conversation_id, member_id)
+    assert_kind_of Nexmo::Response, members.delete(conversation_id, member_id)
   end
 end

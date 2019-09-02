@@ -14,12 +14,12 @@ class NexmoCallTalkTest < Nexmo::Test
 
     stub_request(:put, uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, talk.start(call_uuid, params)
+    assert_kind_of Nexmo::Response, talk.start(call_uuid, params)
   end
 
   def test_stop_method
     stub_request(:delete, uri).with(request).to_return(response)
 
-    assert_equal response_object, talk.stop(call_uuid)
+    assert_kind_of Nexmo::Response, talk.stop(call_uuid)
   end
 end

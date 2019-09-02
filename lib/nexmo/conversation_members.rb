@@ -34,7 +34,7 @@ module Nexmo
     # @param [String] conversation_id
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#createMember
     #
@@ -46,7 +46,7 @@ module Nexmo
     #
     # @param [String] conversation_id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#getMembers
     #
@@ -59,7 +59,7 @@ module Nexmo
     # @param [String] conversation_id
     # @param [String] member_id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#getMember
     #
@@ -79,7 +79,7 @@ module Nexmo
     # @param [String] member_id
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#updateMember
     #
@@ -92,7 +92,7 @@ module Nexmo
     # @param [String] conversation_id
     # @param [String] member_id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#deleteMember
     #

@@ -30,24 +30,24 @@ class NexmoSecretsTest < Nexmo::Test
 
     stub_request(:post, secrets_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, secrets.create(params)
+    assert_kind_of Nexmo::Response, secrets.create(params)
   end
 
   def test_list_method
     stub_request(:get, secrets_uri).with(request).to_return(response)
 
-    assert_equal response_object, secrets.list
+    assert_kind_of Nexmo::Response, secrets.list
   end
 
   def test_get_method
     stub_request(:get, secret_uri).with(request).to_return(response)
 
-    assert_equal response_object, secrets.get(secret_id)
+    assert_kind_of Nexmo::Response, secrets.get(secret_id)
   end
 
   def test_revoke_method
     stub_request(:delete, secret_uri).with(request).to_return(status: 204)
 
-    assert_equal :no_content, secrets.revoke(secret_id)
+    assert_kind_of Nexmo::Response, secrets.revoke(secret_id)
   end
 end

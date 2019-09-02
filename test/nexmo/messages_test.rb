@@ -20,7 +20,7 @@ class NexmoMessagesTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, messages.get(message_id)
+    assert_kind_of Nexmo::Response, messages.get(message_id)
   end
 
   def test_search_method_with_ids
@@ -34,7 +34,7 @@ class NexmoMessagesTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: query).to_return(response)
 
-    assert_equal response_object, messages.search(ids: [id1, id2, id3])
+    assert_kind_of Nexmo::Response, messages.search(ids: [id1, id2, id3])
   end
 
   def test_search_method_with_recipient_and_date
@@ -44,7 +44,7 @@ class NexmoMessagesTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, messages.search(params)
+    assert_kind_of Nexmo::Response, messages.search(params)
   end
 
   def test_rejections_method
@@ -54,6 +54,6 @@ class NexmoMessagesTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, messages.rejections(params)
+    assert_kind_of Nexmo::Response, messages.rejections(params)
   end
 end

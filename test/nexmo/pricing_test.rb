@@ -24,7 +24,7 @@ class NexmoPricingTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, pricing.get(country)
+    assert_kind_of Nexmo::Response, pricing.get(country)
   end
 
   def test_list_method
@@ -32,7 +32,7 @@ class NexmoPricingTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
 
-    assert_equal response_object, pricing.list
+    assert_kind_of Nexmo::Response, pricing.list
   end
 
   def test_prefix_method
@@ -42,6 +42,6 @@ class NexmoPricingTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, pricing.prefix(prefix)
+    assert_kind_of Nexmo::Response, pricing.prefix(prefix)
   end
 end

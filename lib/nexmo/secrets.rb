@@ -21,7 +21,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/account#createAPISecret
     #
@@ -37,7 +37,7 @@ module Nexmo
     #     puts "#{item.created_at} #{item.id}"
     #   end
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/account#retrieveAPISecrets
     #
@@ -52,7 +52,7 @@ module Nexmo
     #
     # @param [String] secret_id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/account#retrieveAPISecret
     #
@@ -67,7 +67,7 @@ module Nexmo
     #
     # @param [String] secret_id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/account#revokeAPISecret
     #

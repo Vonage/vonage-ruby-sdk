@@ -33,7 +33,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/application.v2#createApplication
     #
@@ -57,7 +57,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/application.v2#listApplication
     #
@@ -72,7 +72,7 @@ module Nexmo
     #
     # @param [String] id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/application.v2#getApplication
     #
@@ -99,7 +99,7 @@ module Nexmo
     # @param [String] id
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/application.v2#updateApplication
     #
@@ -116,7 +116,7 @@ module Nexmo
     #
     # @param [String] id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/application.v2#deleteApplication
     #

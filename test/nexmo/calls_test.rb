@@ -22,7 +22,7 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, calls.create(params)
+    assert_kind_of Nexmo::Response, calls.create(params)
   end
 
   def test_list_method
@@ -30,13 +30,13 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:get, calls_uri).with(request(query: params)).to_return(response)
 
-    assert_equal response_object, calls.list(params)
+    assert_kind_of Nexmo::Response, calls.list(params)
   end
 
   def test_get_method
     stub_request(:get, call_uri).with(request).to_return(response)
 
-    assert_equal response_object, calls.get(call_uuid)
+    assert_kind_of Nexmo::Response, calls.get(call_uuid)
   end
 
   def test_update_method
@@ -44,7 +44,7 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, calls.update(call_uuid, params)
+    assert_kind_of Nexmo::Response, calls.update(call_uuid, params)
   end
 
   def test_hangup_method
@@ -52,7 +52,7 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, calls.hangup(call_uuid)
+    assert_kind_of Nexmo::Response, calls.hangup(call_uuid)
   end
 
   def test_mute_method
@@ -60,7 +60,7 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, calls.mute(call_uuid)
+    assert_kind_of Nexmo::Response, calls.mute(call_uuid)
   end
 
   def test_unmute_method
@@ -68,7 +68,7 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, calls.unmute(call_uuid)
+    assert_kind_of Nexmo::Response, calls.unmute(call_uuid)
   end
 
   def test_earmuff_method
@@ -76,7 +76,7 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, calls.earmuff(call_uuid)
+    assert_kind_of Nexmo::Response, calls.earmuff(call_uuid)
   end
 
   def test_unearmuff_method
@@ -84,7 +84,7 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, calls.unearmuff(call_uuid)
+    assert_kind_of Nexmo::Response, calls.unearmuff(call_uuid)
   end
 
   def test_transfer_method
@@ -94,7 +94,7 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, calls.transfer(call_uuid, destination: destination)
+    assert_kind_of Nexmo::Response, calls.transfer(call_uuid, destination: destination)
   end
 
   def test_stream_method

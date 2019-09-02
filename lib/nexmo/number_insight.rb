@@ -17,7 +17,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/number-insight#getNumberInsightBasic
     #
@@ -45,7 +45,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/number-insight#getNumberInsightStandard
     #
@@ -77,7 +77,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/number-insight#getNumberInsightAdvanced
     #
@@ -112,7 +112,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/number-insight#getNumberInsightAsync
     #

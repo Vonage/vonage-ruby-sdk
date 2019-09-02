@@ -14,6 +14,6 @@ class NexmoCallDTMFTest < Nexmo::Test
 
     stub_request(:put, uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, dtmf.send(call_uuid, params)
+    assert_kind_of Nexmo::Response, dtmf.send(call_uuid, params)
   end
 end

@@ -34,13 +34,19 @@ class NexmoFilesTest < Nexmo::Test
   def test_get_method_with_id
     stub_request(:get, recording_uri).with(request).to_return(response)
 
-    assert_equal recording_content, files.get(recording_id)
+    response = files.get(recording_id)
+
+    assert_kind_of Nexmo::Response, response
+    assert_equal recording_content, response.http_response.body
   end
 
   def test_get_method_with_url
     stub_request(:get, recording_uri).with(request).to_return(response)
 
-    assert_equal recording_content, files.get(recording_uri)
+    response = files.get(recording_uri)
+
+    assert_kind_of Nexmo::Response, response
+    assert_equal recording_content, response.http_response.body
   end
 
   def test_save_method_with_id

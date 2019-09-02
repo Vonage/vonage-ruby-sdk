@@ -5,8 +5,7 @@ module Nexmo
     self.authentication = BearerToken
 
     def get(id)
-      response = request('/v1/files/' + id.split('/').last)
-      response.body
+      request('/v1/files/' + id.split('/').last)
     end
 
     def save(id, filename)

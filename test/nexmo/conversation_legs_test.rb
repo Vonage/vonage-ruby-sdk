@@ -20,12 +20,12 @@ class NexmoConversationLegsTest < Nexmo::Test
   def test_list_method
     stub_request(:get, legs_uri).with(request).to_return(response)
 
-    assert_equal response_object, legs.list
+    assert_kind_of Nexmo::Response, legs.list
   end
 
   def test_delete_method
     stub_request(:delete, leg_uri).with(request).to_return(response)
 
-    assert_equal response_object, legs.delete(leg_id)
+    assert_kind_of Nexmo::Response, legs.delete(leg_id)
   end
 end

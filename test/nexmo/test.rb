@@ -95,10 +95,6 @@ module Nexmo
       {'Content-Type' => 'application/json;charset=utf-8'}
     end
 
-    def response_object
-      Nexmo::Entity.new(key: 'value')
-    end
-
     def msisdn
       '447700900000'
     end

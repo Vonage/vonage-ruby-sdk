@@ -28,7 +28,7 @@ module Nexmo
     # @option params [Hash] :properties
     #   - **:ttl** (Integer) After how many seconds an empty conversation is deleted
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#createConversation
     #
@@ -58,7 +58,7 @@ module Nexmo
     #
     # @param [Hash, nil] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#replaceConversation
     #
@@ -73,7 +73,7 @@ module Nexmo
     #
     # @param [String] id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#retrieveConversation
     #
@@ -105,7 +105,7 @@ module Nexmo
     # @param [String] id
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#replaceConversation
     #
@@ -120,7 +120,7 @@ module Nexmo
     #
     # @param [String] id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#deleteConversation
     #

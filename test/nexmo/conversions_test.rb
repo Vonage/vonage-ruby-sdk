@@ -16,7 +16,7 @@ class NexmoConversionsTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, conversions.track_sms(message_id: message_id, delivered: true)
+    assert_kind_of Nexmo::Response, conversions.track_sms(message_id: message_id, delivered: true)
   end
 
   def test_track_voice_method
@@ -26,6 +26,6 @@ class NexmoConversionsTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, conversions.track_voice(message_id: message_id, delivered: true)
+    assert_kind_of Nexmo::Response, conversions.track_voice(message_id: message_id, delivered: true)
   end
 end

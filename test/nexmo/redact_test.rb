@@ -14,6 +14,6 @@ class NexmoRedactTest < Nexmo::Test
 
     stub_request(:post, uri).with(query: api_key_and_secret, headers: headers, body: params).to_return(status: 204)
 
-    assert_equal :no_content, redact.transaction(params)
+    assert_kind_of Nexmo::Response, redact.transaction(params)
   end
 end

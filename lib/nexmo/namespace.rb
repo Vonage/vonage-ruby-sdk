@@ -45,6 +45,14 @@ module Nexmo
       @request_headers ||= {}
     end
 
+    def self.response_class
+      @response_class ||= Response
+    end
+
+    def self.response_class=(response_class)
+      @response_class = response_class
+    end
+
     private
 
     Get = Net::HTTP::Get
@@ -52,7 +60,7 @@ module Nexmo
     Post = Net::HTTP::Post
     Delete = Net::HTTP::Delete
 
-    def request(path, params: nil, type: Get, &block)
+    def request(path, params: nil, type: Get, response_class: nil, &block)
       uri = URI('https://' + @host + path)
 
       params ||= {}
@@ -88,18 +96,20 @@ module Nexmo
 
       @logger.debug(response.body) if response.body
 
-      parse(response)
+      parse(response, response_class || self.class.response_class)
     end
 
-    def parse(response)
+    def parse(response, response_class)
       case response
       when Net::HTTPNoContent
-        :no_content
+        response_class.new(nil, response)
       when Net::HTTPSuccess
         if response['Content-Type'].split(';').first == 'application/json'
-          ::JSON.parse(response.body, object_class: Nexmo::Entity)
+          entity = ::JSON.parse(response.body, object_class: Nexmo::Entity)
+
+          response_class.new(entity, response)
         else
-          response
+          response_class.new(nil, response)
         end
       else
         raise Errors.parse(response)

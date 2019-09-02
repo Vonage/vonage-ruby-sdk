@@ -10,7 +10,7 @@ class NexmoAccountTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
 
-    assert_equal response_object, account.balance
+    assert_kind_of Nexmo::Response, account.balance
   end
 
   def test_update_method
@@ -22,7 +22,7 @@ class NexmoAccountTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, account.update(mo_call_back_url: callback_url)
+    assert_kind_of Nexmo::Response, account.update(mo_call_back_url: callback_url)
   end
 
   def test_topup_method
@@ -32,6 +32,6 @@ class NexmoAccountTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, account.topup(params)
+    assert_kind_of Nexmo::Response, account.topup(params)
   end
 end

@@ -8,7 +8,7 @@ module Nexmo
 
     # Retrieve your account balance.
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/developer/account#get-balance
     #
@@ -30,7 +30,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/developer/account#settings
     #
@@ -44,6 +44,8 @@ module Nexmo
     #   The ID associated with your original auto-reload transaction.
     #
     # @param [Hash] params
+    #
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/developer/account#top-up
     #

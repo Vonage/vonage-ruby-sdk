@@ -21,7 +21,7 @@ class NexmoConversationsTest < Nexmo::Test
 
     stub_request(:post, conversations_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, conversations.create(params)
+    assert_kind_of Nexmo::Response, conversations.create(params)
   end
 
   def test_list_method
@@ -29,13 +29,13 @@ class NexmoConversationsTest < Nexmo::Test
 
     stub_request(:get, conversations_uri).with(request(query: params)).to_return(response)
 
-    assert_equal response_object, conversations.list(params)
+    assert_kind_of Nexmo::Response, conversations.list(params)
   end
 
   def test_get_method
     stub_request(:get, conversation_uri).with(request).to_return(response)
 
-    assert_equal response_object, conversations.get(conversation_id)
+    assert_kind_of Nexmo::Response, conversations.get(conversation_id)
   end
 
   def test_update_method
@@ -46,13 +46,13 @@ class NexmoConversationsTest < Nexmo::Test
 
     stub_request(:put, conversation_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, conversations.update(conversation_id, params)
+    assert_kind_of Nexmo::Response, conversations.update(conversation_id, params)
   end
 
   def test_delete_method
     stub_request(:delete, conversation_uri).with(request).to_return(response)
 
-    assert_equal response_object, conversations.delete(conversation_id)
+    assert_kind_of Nexmo::Response, conversations.delete(conversation_id)
   end
 
   def test_events_method

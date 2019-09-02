@@ -26,7 +26,7 @@ class NexmoApplicationsTest < Nexmo::Test
 
     stub_request(:post, applications_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, applications.create(params)
+    assert_kind_of Nexmo::Response, applications.create(params)
   end
 
   def test_list_method
@@ -34,13 +34,13 @@ class NexmoApplicationsTest < Nexmo::Test
 
     stub_request(:get, applications_uri).with(request(query: params, headers: headers)).to_return(response)
 
-    assert_equal response_object, applications.list(params)
+    assert_kind_of Nexmo::Response, applications.list(params)
   end
 
   def test_get_method
     stub_request(:get, application_uri).with(request(headers: headers)).to_return(response)
 
-    assert_equal response_object, applications.get(application_id)
+    assert_kind_of Nexmo::Response, applications.get(application_id)
   end
 
   def test_update_method
@@ -48,12 +48,12 @@ class NexmoApplicationsTest < Nexmo::Test
 
     stub_request(:put, application_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, applications.update(application_id, params)
+    assert_kind_of Nexmo::Response, applications.update(application_id, params)
   end
 
   def test_delete_method
     stub_request(:delete, application_uri).with(request(headers: headers)).to_return(status: 204)
 
-    assert_equal :no_content, applications.delete(application_id)
+    assert_kind_of Nexmo::Response, applications.delete(application_id)
   end
 end

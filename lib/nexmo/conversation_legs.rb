@@ -6,7 +6,7 @@ module Nexmo
 
     # List legs.
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#listLegs
     #
@@ -18,7 +18,7 @@ module Nexmo
     #
     # @param [String] leg_id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#deleteLeg
     #

@@ -10,7 +10,7 @@ class NexmoAlertsTest < Nexmo::Test
 
     stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
 
-    assert_equal response_object, alerts.list
+    assert_kind_of Nexmo::Response, alerts.list
   end
 
   def test_remove_method
@@ -20,7 +20,7 @@ class NexmoAlertsTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, alerts.remove(params)
+    assert_kind_of Nexmo::Response, alerts.remove(params)
   end
 
   def test_resubscribe_method
@@ -30,7 +30,7 @@ class NexmoAlertsTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, alerts.resubscribe(params)
+    assert_kind_of Nexmo::Response, alerts.resubscribe(params)
   end
 
   def test_send_method
@@ -40,6 +40,6 @@ class NexmoAlertsTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, alerts.send(params)
+    assert_kind_of Nexmo::Response, alerts.send(params)
   end
 end

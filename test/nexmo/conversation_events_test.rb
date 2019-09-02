@@ -26,24 +26,24 @@ class NexmoConversationEventsTest < Nexmo::Test
 
     stub_request(:post, events_uri).with(request(body: params)).to_return(response)
 
-    assert_equal response_object, events.create(conversation_id, params)
+    assert_kind_of Nexmo::Response, events.create(conversation_id, params)
   end
 
   def test_list_method
     stub_request(:get, events_uri).with(request).to_return(response)
 
-    assert_equal response_object, events.list(conversation_id)
+    assert_kind_of Nexmo::Response, events.list(conversation_id)
   end
 
   def test_get_method
     stub_request(:get, event_uri).with(request).to_return(response)
 
-    assert_equal response_object, events.get(conversation_id, event_id)
+    assert_kind_of Nexmo::Response, events.get(conversation_id, event_id)
   end
 
   def test_delete_method
     stub_request(:delete, event_uri).with(request).to_return(response)
 
-    assert_equal response_object, events.delete(conversation_id, event_id)
+    assert_kind_of Nexmo::Response, events.delete(conversation_id, event_id)
   end
 end

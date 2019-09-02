@@ -8,7 +8,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/sms/us-short-codes/alerts/subscription
     #
-    # @return [Entity]
+    # @return [Response]
     #
     def list
       request('/sc/us/alert/opt-in/query/json')
@@ -21,7 +21,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/sms/us-short-codes/alerts/subscription
     #
@@ -56,7 +56,7 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/sms/us-short-codes/alerts/sending
     #

@@ -23,7 +23,7 @@ module Nexmo
     # @param [String] conversation_id
     # @param [Hash] params
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#createEvent
     #
@@ -35,7 +35,7 @@ module Nexmo
     #
     # @param [String] conversation_id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#getEvents
     #
@@ -48,7 +48,7 @@ module Nexmo
     # @param [String] conversation_id
     # @param [String] event_id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#getEvent
     #
@@ -61,7 +61,7 @@ module Nexmo
     # @param [String] conversation_id
     # @param [String] event_id
     #
-    # @return [Entity]
+    # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#deleteEvent
     #

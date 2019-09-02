@@ -14,7 +14,7 @@ class NexmoTFATest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, tfa.send(params)
+    assert_kind_of Nexmo::Response, tfa.send(params)
   end
 
   def test_mapping_underscored_keys_to_hyphenated_string_keys
@@ -22,6 +22,6 @@ class NexmoTFATest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_equal response_object, tfa.send(client_ref: '12345')
+    assert_kind_of Nexmo::Response, tfa.send(client_ref: '12345')
   end
 end
