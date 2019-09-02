@@ -61,7 +61,7 @@ module Nexmo
     #
     # @example
     #   response = client.calls.list
-    #   response._embedded.calls.each do |item|
+    #   response.each do |item|
     #     puts "#{item.uuid} #{item.direction} #{item.status}"
     #   end
     #
@@ -88,12 +88,12 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Response]
+    # @return [ListResponse]
     #
     # @see https://developer.nexmo.com/api/voice#getCalls
     #
     def list(params = nil)
-      request('/v1/calls', params: params)
+      request('/v1/calls', params: params, response_class: ListResponse)
     end
 
     # Get detail of a specific call.

@@ -30,7 +30,7 @@ class NexmoCallsTest < Nexmo::Test
 
     stub_request(:get, calls_uri).with(request(query: params)).to_return(response)
 
-    assert_kind_of Nexmo::Response, calls.list(params)
+    assert_kind_of Nexmo::Calls::ListResponse, calls.list(params)
   end
 
   def test_get_method
