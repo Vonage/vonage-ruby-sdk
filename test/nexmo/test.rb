@@ -10,6 +10,26 @@ require 'nexmo'
 
 module Nexmo
   class Test < Minitest::Test
+    def setup
+      super
+
+      @request_stubs = []
+    end
+
+    def stub_request(*args)
+      super.tap do |stub|
+        @request_stubs << stub
+      end
+    end
+
+    def teardown
+      @request_stubs.each do |stub|
+        assert_requested(stub)
+      end
+
+      super
+    end
+
     def api_key
       'nexmo-api-key'
     end

@@ -8,10 +8,9 @@ class NexmoAlertsTest < Nexmo::Test
   def test_list_method
     uri = 'https://rest.nexmo.com/sc/us/alert/opt-in/query/json'
 
-    request_stub = stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
+    stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
 
     assert_equal response_object, alerts.list
-    assert_requested request_stub
   end
 
   def test_remove_method
@@ -19,10 +18,9 @@ class NexmoAlertsTest < Nexmo::Test
 
     params = {msisdn: msisdn}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, alerts.remove(params)
-    assert_requested request_stub
   end
 
   def test_resubscribe_method
@@ -30,10 +28,9 @@ class NexmoAlertsTest < Nexmo::Test
 
     params = {msisdn: msisdn}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, alerts.resubscribe(params)
-    assert_requested request_stub
   end
 
   def test_send_method
@@ -41,9 +38,8 @@ class NexmoAlertsTest < Nexmo::Test
 
     params = {to: msisdn, server: 'host3', link: 'https://example.com/host3/mon'}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, alerts.send(params)
-    assert_requested request_stub
   end
 end

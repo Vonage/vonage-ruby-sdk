@@ -20,80 +20,71 @@ class NexmoCallsTest < Nexmo::Test
       answer_url: ['https://example.com/answer']
     }
 
-    request_stub = stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
+    stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.create(params)
-    assert_requested request_stub
   end
 
   def test_list_method
     params = {status: 'completed'}
 
-    request_stub = stub_request(:get, calls_uri).with(request(query: params)).to_return(response)
+    stub_request(:get, calls_uri).with(request(query: params)).to_return(response)
 
     assert_equal response_object, calls.list(params)
-    assert_requested request_stub
   end
 
   def test_get_method
-    request_stub = stub_request(:get, call_uri).with(request).to_return(response)
+    stub_request(:get, call_uri).with(request).to_return(response)
 
     assert_equal response_object, calls.get(call_uuid)
-    assert_requested request_stub
   end
 
   def test_update_method
     params = {action: 'hangup'}
 
-    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.update(call_uuid, params)
-    assert_requested request_stub
   end
 
   def test_hangup_method
     params = {action: 'hangup'}
 
-    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.hangup(call_uuid)
-    assert_requested request_stub
   end
 
   def test_mute_method
     params = {action: 'mute'}
 
-    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.mute(call_uuid)
-    assert_requested request_stub
   end
 
   def test_unmute_method
     params = {action: 'unmute'}
 
-    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.unmute(call_uuid)
-    assert_requested request_stub
   end
 
   def test_earmuff_method
     params = {action: 'earmuff'}
 
-    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.earmuff(call_uuid)
-    assert_requested request_stub
   end
 
   def test_unearmuff_method
     params = {action: 'unearmuff'}
 
-    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.unearmuff(call_uuid)
-    assert_requested request_stub
   end
 
   def test_transfer_method
@@ -101,10 +92,9 @@ class NexmoCallsTest < Nexmo::Test
 
     params = {action: 'transfer', destination: destination}
 
-    request_stub = stub_request(:put, call_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, call_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, calls.transfer(call_uuid, destination: destination)
-    assert_requested request_stub
   end
 
   def test_stream_method

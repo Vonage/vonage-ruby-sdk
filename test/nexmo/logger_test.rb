@@ -4,6 +4,8 @@ class NexmoLoggerTest < Nexmo::Test
   Logger = Nexmo.const_get(:Logger)
 
   def setup
+    super
+
     @io = StringIO.new
   end
 

@@ -24,41 +24,36 @@ class NexmoApplicationsTest < Nexmo::Test
   def test_create_method
     params = {name: 'Example Application'}
 
-    request_stub = stub_request(:post, applications_uri).with(request(body: params)).to_return(response)
+    stub_request(:post, applications_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, applications.create(params)
-    assert_requested request_stub
   end
 
   def test_list_method
     params = {page_size: 20}
 
-    request_stub = stub_request(:get, applications_uri).with(request(query: params, headers: headers)).to_return(response)
+    stub_request(:get, applications_uri).with(request(query: params, headers: headers)).to_return(response)
 
     assert_equal response_object, applications.list(params)
-    assert_requested request_stub
   end
 
   def test_get_method
-    request_stub = stub_request(:get, application_uri).with(request(headers: headers)).to_return(response)
+    stub_request(:get, application_uri).with(request(headers: headers)).to_return(response)
 
     assert_equal response_object, applications.get(application_id)
-    assert_requested request_stub
   end
 
   def test_update_method
     params = {name: 'Example Application'}
 
-    request_stub = stub_request(:put, application_uri).with(request(body: params)).to_return(response)
+    stub_request(:put, application_uri).with(request(body: params)).to_return(response)
 
     assert_equal response_object, applications.update(application_id, params)
-    assert_requested request_stub
   end
 
   def test_delete_method
-    request_stub = stub_request(:delete, application_uri).with(request(headers: headers)).to_return(status: 204)
+    stub_request(:delete, application_uri).with(request(headers: headers)).to_return(status: 204)
 
     assert_equal :no_content, applications.delete(application_id)
-    assert_requested request_stub
   end
 end

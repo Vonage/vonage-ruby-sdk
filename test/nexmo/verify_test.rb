@@ -14,10 +14,9 @@ class NexmoVerifyTest < Nexmo::Test
 
     params = {number: msisdn, brand: 'ExampleApp'}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, verify.request(params)
-    assert_requested request_stub
   end
 
   def test_check_method
@@ -25,10 +24,9 @@ class NexmoVerifyTest < Nexmo::Test
 
     params = {request_id: request_id, code: '123445'}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, verify.check(params)
-    assert_requested request_stub
   end
 
   def test_search_method
@@ -36,10 +34,9 @@ class NexmoVerifyTest < Nexmo::Test
 
     params = {request_id: request_id}
 
-    request_stub = stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, verify.search(params)
-    assert_requested request_stub
   end
 
   def test_control_method
@@ -47,10 +44,9 @@ class NexmoVerifyTest < Nexmo::Test
 
     params = {request_id: request_id, cmd: 'cancel'}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, verify.control(params)
-    assert_requested request_stub
   end
 
   def test_cancel_method
@@ -58,10 +54,9 @@ class NexmoVerifyTest < Nexmo::Test
 
     params = {request_id: request_id, cmd: 'cancel'}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, verify.cancel(request_id)
-    assert_requested request_stub
   end
 
   def test_trigger_next_event_method
@@ -69,9 +64,8 @@ class NexmoVerifyTest < Nexmo::Test
 
     params = {request_id: request_id, cmd: 'trigger_next_event'}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, verify.trigger_next_event(request_id)
-    assert_requested request_stub
   end
 end

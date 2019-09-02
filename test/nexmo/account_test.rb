@@ -8,10 +8,9 @@ class NexmoAccountTest < Nexmo::Test
   def test_balance_method
     uri = 'https://rest.nexmo.com/account/get-balance'
 
-    request_stub = stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
+    stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
 
     assert_equal response_object, account.balance
-    assert_requested request_stub
   end
 
   def test_update_method
@@ -21,10 +20,9 @@ class NexmoAccountTest < Nexmo::Test
 
     params = {'moCallBackUrl' => callback_url}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, account.update(mo_call_back_url: callback_url)
-    assert_requested request_stub
   end
 
   def test_topup_method
@@ -32,9 +30,8 @@ class NexmoAccountTest < Nexmo::Test
 
     params = {trx: '00X123456Y7890123Z'}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, account.topup(params)
-    assert_requested request_stub
   end
 end

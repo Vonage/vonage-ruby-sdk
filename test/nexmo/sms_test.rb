@@ -12,19 +12,17 @@ class NexmoSMSTest < Nexmo::Test
   def test_send_method
     params = {from: 'Ruby', to: msisdn, text: 'Hello from Ruby!'}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, sms.send(params)
-    assert_requested request_stub
   end
 
   def test_mapping_underscored_keys_to_hyphenated_string_keys
     params = {'status-report-req' => '1'}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     assert_equal response_object, sms.send(status_report_req: 1)
-    assert_requested request_stub
   end
 
   def test_warn_when_sending_unicode_without_type
@@ -34,11 +32,10 @@ class NexmoSMSTest < Nexmo::Test
 
     params = {from: 'Ruby', to: msisdn, text: "Unicode \u2713"}
 
-    request_stub = stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
     sms.send(params)
 
     assert_includes io.string, 'WARN -- : Sending unicode text SMS without setting the type parameter'
-    assert_requested request_stub
   end
 end

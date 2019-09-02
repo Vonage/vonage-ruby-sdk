@@ -75,14 +75,19 @@ class NexmoClientTest < Nexmo::Test
     assert_kind_of Nexmo::Verify, client.verify
   end
 
-  def test_raises_response_errors
+  def test_raises_client_error_for_4xx_responses
     client = Nexmo::Client.new(api_key: api_key, api_secret: api_secret)
 
-    pattern = %r{\Ahttps://rest\.nexmo\.com/}
-
-    stub_request(:get, pattern).to_return(status: 400).then.to_return(status: 500)
+    stub_request(:get, %r{\Ahttps://rest\.nexmo\.com/}).to_return(status: 400)
 
     assert_raises(Nexmo::ClientError) { client.account.balance }
+  end
+
+  def test_raises_server_error_for_5xx_responses
+    client = Nexmo::Client.new(api_key: api_key, api_secret: api_secret)
+
+    stub_request(:get, %r{\Ahttps://rest\.nexmo\.com/}).to_return(status: 500)
+
     assert_raises(Nexmo::ServerError) { client.account.balance }
   end
 end
