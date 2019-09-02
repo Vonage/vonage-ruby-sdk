@@ -45,7 +45,7 @@ module Nexmo
     #
     # @example
     #   response = client.applications.list
-    #   response._embedded.applications.each do |item|
+    #   response.each do |item|
     #     puts "#{item.id} #{item.name}"
     #   end
     #
@@ -57,12 +57,12 @@ module Nexmo
     #
     # @param [Hash] params
     #
-    # @return [Response]
+    # @return [ListResponse]
     #
     # @see https://developer.nexmo.com/api/application.v2#listApplication
     #
     def list(params = nil)
-      request('/v2/applications', params: params)
+      request('/v2/applications', params: params, response_class: ListResponse)
     end
 
     # Get an application.

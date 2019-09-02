@@ -34,7 +34,7 @@ class NexmoApplicationsTest < Nexmo::Test
 
     stub_request(:get, applications_uri).with(request(query: params, headers: headers)).to_return(response)
 
-    assert_kind_of Nexmo::Response, applications.list(params)
+    assert_kind_of Nexmo::Applications::ListResponse, applications.list(params)
   end
 
   def test_get_method
