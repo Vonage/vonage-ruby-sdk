@@ -128,6 +128,37 @@ module Nexmo
       request('/beta/conversations/' + id, type: Delete)
     end
 
+    # Record a conversation.
+    #
+    # @example
+    #   response = client.conversations.record(id, action: 'start')
+    #
+    # @option params [String] :action
+    #   Recording action. Must be one of `start` or `stop`.
+    #
+    # @option params [String] :event_url
+    #   The webhook endpoint where recording progress events are sent to.
+    #
+    # @option params [String] :event_method
+    #   The HTTP method used to send event information to **:event_url**.
+    #
+    # @option params [String] :split
+    #   Record the sent and received audio in separate channels of a stereo recording.
+    #
+    # @option params [String] :format
+    #   Record the conversation in a specific format.
+    #
+    # @param [String] id
+    # @param [Hash] params
+    #
+    # @return [Response]
+    #
+    # @see https://developer.nexmo.com/api/conversation#recordConversation
+    #
+    def record(id, params)
+      request('/beta/conversations/' + id + '/record', params: params, type: Put)
+    end
+
     # @return [Events]
     #
     def events

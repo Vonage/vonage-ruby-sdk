@@ -13,6 +13,10 @@ class NexmoConversationsTest < Nexmo::Test
     'https://api.nexmo.com/beta/conversations/' + conversation_id
   end
 
+  def conversation_record_uri
+    'https://api.nexmo.com/beta/conversations/' + conversation_id + '/record'
+  end
+
   def test_create_method
     params = {
       name: 'test_conversation',
@@ -53,6 +57,17 @@ class NexmoConversationsTest < Nexmo::Test
     stub_request(:delete, conversation_uri).with(request).to_return(response)
 
     assert_kind_of Nexmo::Response, conversations.delete(conversation_id)
+  end
+
+  def test_record_method
+    params = {
+      action: 'start',
+      format: 'wav'
+    }
+
+    stub_request(:put, conversation_record_uri).with(request(body: params)).to_return(response)
+
+    assert_kind_of Nexmo::Response, conversations.record(conversation_id, params)
   end
 
   def test_events_method
