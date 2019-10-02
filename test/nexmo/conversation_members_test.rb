@@ -5,10 +5,6 @@ class NexmoConversationMembersTest < Nexmo::Test
     Nexmo::ConversationMembers.new(config)
   end
 
-  def member_id
-    'MEM-xxxxxx'
-  end
-
   def members_uri
     "https://api.nexmo.com/beta/conversations/#{conversation_id}/members"
   end

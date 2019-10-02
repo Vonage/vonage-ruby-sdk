@@ -119,6 +119,10 @@ module Nexmo
       'USR-xxxxxx'
     end
 
+    def member_id
+      'MEM-xxxxxx'
+    end
+
     alias_method :call_uuid, :call_id
   end
 end

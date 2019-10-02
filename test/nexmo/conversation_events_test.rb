@@ -9,10 +9,6 @@ class NexmoConversationEventsTest < Nexmo::Test
     1
   end
 
-  def member_id
-    'MEM-xxxxxx'
-  end
-
   def events_uri
     "https://api.nexmo.com/beta/conversations/#{conversation_id}/events"
   end
