@@ -29,6 +29,14 @@ module Nexmo
     #   - `1` - Search for numbers that contain **:pattern**
     #   - `2` - Search for numbers that end with **:pattern**
     #
+    # @option params [Boolean] :has_application
+    #   Set this optional field to `true` to restrict your results to numbers associated with an application (any application).
+    #   Set to `false` to find all numbers not associated with any application.
+    #   Omit the field to avoid filtering on whether or not the number is assigned to an application.
+    #
+    # @option params [String] :application_id
+    #   The application that you want to return the numbers for.
+    #
     # @param [Hash] params
     #
     # @return [ListResponse]
