@@ -103,6 +103,10 @@ module Nexmo
       'GB'
     end
 
+    def prefix
+      '44'
+    end
+
     def conversation_id
       'CON-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     end

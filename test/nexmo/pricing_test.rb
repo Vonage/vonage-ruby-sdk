@@ -5,10 +5,6 @@ class NexmoPricingTest < Nexmo::Test
     'sms'
   end
 
-  def prefix
-    '44'
-  end
-
   def pricing
     Nexmo::Pricing.new(config, type: type)
   end
