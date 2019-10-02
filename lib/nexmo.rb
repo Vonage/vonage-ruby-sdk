@@ -5,12 +5,8 @@ module Nexmo
   class ZeitwerkInflector < Zeitwerk::Inflector
     def camelize(basename, _abspath)
       case basename
-      when 'http', 'json', 'jwt', 'sms', 'tfa', 'gsm7'
+      when 'http', 'json', 'jwt', 'sms', 'tfa', 'gsm7', 'dtmf', 'version'
         basename.upcase
-      when 'call_dtmf'
-        'CallDTMF'
-      when 'version'
-        'VERSION'
       else
         super
       end

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  class CallTalk < Namespace
+  class Calls::Talk < Namespace
     self.authentication = BearerToken
 
     self.request_body = JSON

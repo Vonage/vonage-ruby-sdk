@@ -1,8 +1,8 @@
-require_relative './test'
+require_relative '../test'
 
-class NexmoCallDTMFTest < Nexmo::Test
+class Nexmo::Calls::DTMFTest < Nexmo::Test
   def dtmf
-    Nexmo::CallDTMF.new(config)
+    Nexmo::Calls::DTMF.new(config)
   end
 
   def uri

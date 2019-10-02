@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  class CallStream < Namespace
+  class Calls::Stream < Namespace
     self.authentication = BearerToken
 
     self.request_body = JSON

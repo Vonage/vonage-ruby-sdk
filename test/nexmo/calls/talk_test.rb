@@ -1,8 +1,8 @@
-require_relative './test'
+require_relative '../test'
 
-class NexmoCallTalkTest < Nexmo::Test
+class Nexmo::Calls::TalkTest < Nexmo::Test
   def talk
-    Nexmo::CallTalk.new(config)
+    Nexmo::Calls::Talk.new(config)
   end
 
   def uri

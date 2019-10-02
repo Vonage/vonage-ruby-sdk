@@ -228,22 +228,22 @@ module Nexmo
       update(id, action: 'transfer', destination: destination)
     end
 
-    # @return [CallStream]
+    # @return [Stream]
     #
     def stream
-      @stream ||= CallStream.new(@config)
+      @stream ||= Stream.new(@config)
     end
 
-    # @return [CallTalk]
+    # @return [Talk]
     #
     def talk
-      @talk ||= CallTalk.new(@config)
+      @talk ||= Talk.new(@config)
     end
 
-    # @return [CallDTMF]
+    # @return [DTMF]
     #
     def dtmf
-      @dtmf ||= CallDTMF.new(@config)
+      @dtmf ||= DTMF.new(@config)
     end
   end
 end

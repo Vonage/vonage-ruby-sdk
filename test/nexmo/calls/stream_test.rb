@@ -1,8 +1,8 @@
-require_relative './test'
+require_relative '../test'
 
-class NexmoCallStreamTest < Nexmo::Test
+class Nexmo::Calls::StreamTest < Nexmo::Test
   def stream
-    Nexmo::CallStream.new(config)
+    Nexmo::Calls::Stream.new(config)
   end
 
   def uri

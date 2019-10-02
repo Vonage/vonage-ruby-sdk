@@ -98,14 +98,14 @@ class NexmoCallsTest < Nexmo::Test
   end
 
   def test_stream_method
-    assert_kind_of Nexmo::CallStream, calls.stream
+    assert_kind_of Nexmo::Calls::Stream, calls.stream
   end
 
   def test_talk_method
-    assert_kind_of Nexmo::CallTalk, calls.talk
+    assert_kind_of Nexmo::Calls::Talk, calls.talk
   end
 
   def test_dtmf_method
-    assert_kind_of Nexmo::CallDTMF, calls.dtmf
+    assert_kind_of Nexmo::Calls::DTMF, calls.dtmf
   end
 end
