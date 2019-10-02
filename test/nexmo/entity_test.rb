@@ -7,6 +7,7 @@ class NexmoEntityTest < Minitest::Test
 
     entity = Nexmo::Entity.new(id: value)
 
+    assert_equal entity[:id], value
     assert_equal entity.id, value
   end
 
@@ -16,6 +17,7 @@ class NexmoEntityTest < Minitest::Test
     entity = Nexmo::Entity.new
     entity['date_submitted'] = value
 
+    assert_equal entity[:date_submitted], value
     assert_equal entity.date_submitted, value
   end
 
@@ -25,6 +27,7 @@ class NexmoEntityTest < Minitest::Test
     entity = Nexmo::Entity.new
     entity['final-status'] = value
 
+    assert_equal entity[:final_status], value
     assert_equal entity.final_status, value
   end
 
@@ -34,6 +37,7 @@ class NexmoEntityTest < Minitest::Test
     entity = Nexmo::Entity.new
     entity['countryDisplayName'] = value
 
+    assert_equal entity[:country_display_name], value
     assert_equal entity.country_display_name, value
   end
 

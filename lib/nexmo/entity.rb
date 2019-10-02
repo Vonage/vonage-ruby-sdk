@@ -6,6 +6,10 @@ module Nexmo
       @attributes = kwargs
     end
 
+    def [](key)
+      @attributes[attribute_key(key)]
+    end
+
     def []=(key, value)
       @attributes[attribute_key(key)] = value
     end
