@@ -115,6 +115,10 @@ module Nexmo
       'CALL-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     end
 
+    def user_id
+      'USR-xxxxxx'
+    end
+
     alias_method :call_uuid, :call_id
   end
 end

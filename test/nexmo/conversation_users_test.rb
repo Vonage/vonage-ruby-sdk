@@ -13,10 +13,6 @@ class NexmoConversationUsersTest < Nexmo::Test
     'https://api.nexmo.com/beta/users/' + user_id
   end
 
-  def user_id
-    'xxx'
-  end
-
   def params
     {display_name: 'My User Name'}
   end

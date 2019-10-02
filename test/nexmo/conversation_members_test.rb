@@ -5,10 +5,6 @@ class NexmoConversationMembersTest < Nexmo::Test
     Nexmo::ConversationMembers.new(config)
   end
 
-  def user_id
-    'USR-xxxxxx'
-  end
-
   def member_id
     'MEM-xxxxxx'
   end
