@@ -1,8 +1,8 @@
-require_relative './test'
+require_relative '../test'
 
-class NexmoConversationUsersTest < Nexmo::Test
+class Nexmo::Conversations::UsersTest < Nexmo::Test
   def users
-    Nexmo::ConversationUsers.new(config)
+    Nexmo::Conversations::Users.new(config)
   end
 
   def users_uri

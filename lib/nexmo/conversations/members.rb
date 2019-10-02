@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  class ConversationMembers < Namespace
+  class Conversations::Members < Namespace
     self.authentication = BearerToken
 
     self.request_body = JSON

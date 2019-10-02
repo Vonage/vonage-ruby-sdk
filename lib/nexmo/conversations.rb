@@ -128,28 +128,28 @@ module Nexmo
       request('/beta/conversations/' + id, type: Delete)
     end
 
-    # @return [ConversationEvents]
+    # @return [Events]
     #
     def events
-      @events ||= ConversationEvents.new(@config)
+      @events ||= Events.new(@config)
     end
 
-    # @return [ConversationLegs]
+    # @return [Legs]
     #
     def legs
-      @legs ||= ConversationLegs.new(@config)
+      @legs ||= Legs.new(@config)
     end
 
-    # @return [ConversationMembers]
+    # @return [Members]
     #
     def members
-      @members ||= ConversationMembers.new(@config)
+      @members ||= Members.new(@config)
     end
 
-    # @return [ConversationUsers]
+    # @return [Users]
     #
     def users
-      @users ||= ConversationUsers.new(@config)
+      @users ||= Users.new(@config)
     end
   end
 end

@@ -1,8 +1,8 @@
-require_relative './test'
+require_relative '../test'
 
-class NexmoConversationEventsTest < Nexmo::Test
+class Nexmo::Conversations::EventsTest < Nexmo::Test
   def events
-    Nexmo::ConversationEvents.new(config)
+    Nexmo::Conversations::Events.new(config)
   end
 
   def event_id

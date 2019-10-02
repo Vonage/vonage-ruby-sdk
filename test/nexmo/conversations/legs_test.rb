@@ -1,8 +1,8 @@
-require_relative './test'
+require_relative '../test'
 
-class NexmoConversationLegsTest < Nexmo::Test
+class Nexmo::Conversations::LegsTest < Nexmo::Test
   def legs
-    Nexmo::ConversationLegs.new(config)
+    Nexmo::Conversations::Legs.new(config)
   end
 
   def leg_id

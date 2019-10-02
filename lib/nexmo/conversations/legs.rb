@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  class ConversationLegs < Namespace
+  class Conversations::Legs < Namespace
     self.authentication = BearerToken
 
     # List legs.

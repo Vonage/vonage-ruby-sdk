@@ -56,18 +56,18 @@ class NexmoConversationsTest < Nexmo::Test
   end
 
   def test_events_method
-    assert_kind_of Nexmo::ConversationEvents, conversations.events
+    assert_kind_of Nexmo::Conversations::Events, conversations.events
   end
 
   def test_legs_method
-    assert_kind_of Nexmo::ConversationLegs, conversations.legs
+    assert_kind_of Nexmo::Conversations::Legs, conversations.legs
   end
 
   def test_members_method
-    assert_kind_of Nexmo::ConversationMembers, conversations.members
+    assert_kind_of Nexmo::Conversations::Members, conversations.members
   end
 
   def test_users_method
-    assert_kind_of Nexmo::ConversationUsers, conversations.users
+    assert_kind_of Nexmo::Conversations::Users, conversations.users
   end
 end
