@@ -5,10 +5,6 @@ class NexmoPricingTest < Nexmo::Test
     'sms'
   end
 
-  def country
-    'GB'
-  end
-
   def prefix
     '44'
   end

@@ -5,10 +5,6 @@ class NexmoNumbersTest < Nexmo::Test
     Nexmo::Numbers.new(config)
   end
 
-  def country
-    'GB'
-  end
-
   def test_list_method
     uri = 'https://rest.nexmo.com/account/numbers'
 

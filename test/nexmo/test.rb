@@ -99,6 +99,10 @@ module Nexmo
       '447700900000'
     end
 
+    def country
+      'GB'
+    end
+
     def conversation_id
       'CON-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     end
