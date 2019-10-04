@@ -25,6 +25,7 @@ Gem::Specification.new do |s|
     'homepage' => 'https://github.com/Nexmo/nexmo-ruby',
     'source_code_uri' => 'https://github.com/Nexmo/nexmo-ruby',
     'bug_tracker_uri' => 'https://github.com/Nexmo/nexmo-ruby/issues',
-    'changelog_uri' => 'https://github.com/Nexmo/nexmo-ruby/blob/master/CHANGES.md'
+    'changelog_uri' => 'https://github.com/Nexmo/nexmo-ruby/blob/master/CHANGES.md',
+    'documentation_uri' => 'https://www.rubydoc.info/github/nexmo/nexmo-ruby'
   }
 end
