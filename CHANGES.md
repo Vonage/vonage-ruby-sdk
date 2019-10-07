@@ -1,3 +1,21 @@
+# 6.0.0
+
+* Dropped support for older rubies
+
+  **Required version is now Ruby 2.5.0**
+
+* Added Nexmo.configure method for global configuration
+
+* Added Nexmo::Conversations#record method for recording a conversation
+
+* Added zeitwerk dependency to handle constant autoloading
+
+* Changed `Nexmo::Applications` to use Application API v2 (potentially backwards incompatible)
+
+* Changed API methods to return `Nexmo::Response` objects instead of `Nexmo::Entity` objects (potentially backwards incompatible)
+
+* Removed the deprecated Nexmo::Client#auth_token= method
+
 # 5.9.0
 
 * Added YARD documentation
