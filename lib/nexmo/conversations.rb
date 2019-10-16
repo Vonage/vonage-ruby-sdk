@@ -156,7 +156,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/conversation#recordConversation
     #
     def record(id, params)
-      request('/beta/conversations/' + id + '/record', params: params, type: Put)
+      request('/v1/conversations/' + id + '/record', params: params, type: Put)
     end
 
     # @return [Events]

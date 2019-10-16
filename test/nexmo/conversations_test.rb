@@ -14,7 +14,7 @@ class NexmoConversationsTest < Nexmo::Test
   end
 
   def conversation_record_uri
-    'https://api.nexmo.com/beta/conversations/' + conversation_id + '/record'
+    'https://api.nexmo.com/v1/conversations/' + conversation_id + '/record'
   end
 
   def test_create_method
