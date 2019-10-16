@@ -1,3 +1,7 @@
+# 6.0.1
+
+* Fixed Nexmo::Conversations#record method to use the correct path
+
 # 6.0.0
 
 * Dropped support for older rubies
