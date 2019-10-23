@@ -7,6 +7,14 @@ class NexmoErrorsTest < Minitest::Test
     Net::HTTPResponse::CODE_TO_OBJ[code.to_s].new(nil, code.to_s, nil)
   end
 
+  def json_response(code, body)
+    response(code).tap do |response|
+      response['Content-Type'] = 'application/json;charset=UTF-8'
+      response.instance_variable_set(:@read, true)
+      response.body = body
+    end
+  end
+
   def test_parse_with_401_response
     error = Errors.parse(response(401))
 
@@ -32,20 +40,16 @@ class NexmoErrorsTest < Minitest::Test
   end
 
   def test_parse_with_problem_response
-    problem_response = response(403).tap do |response|
-      response['Content-Type'] = 'application/json;charset=UTF-8'
-      response.instance_variable_set(:@read, true)
-      response.body = <<-EOS
-        {
-          "type": "https://example.com/Error#out-of-credit",
-          "title": "You do not have enough credit",
-          "detail": "Your current balance is 30, but that costs 50.",
-          "instance": "<trace_id>"
-        }
-      EOS
-    end
+    error_response = json_response 403, <<-EOS
+      {
+        "type": "https://example.com/Error#out-of-credit",
+        "title": "You do not have enough credit",
+        "detail": "Your current balance is 30, but that costs 50.",
+        "instance": "<trace_id>"
+      }
+    EOS
 
-    error = Errors.parse(problem_response)
+    error = Errors.parse(error_response)
 
     assert_includes error.message, 'You do not have enough credit.'
     assert_includes error.message, 'Your current balance is 30, but that costs 50.'
@@ -54,34 +58,26 @@ class NexmoErrorsTest < Minitest::Test
   end
 
   def test_parse_with_invalid_parameters_response
-    invalid_parameters_response = response(400).tap do |response|
-      response['Content-Type'] = 'application/json'
-      response.instance_variable_set(:@read, true)
-      response.body = <<-EOS
-        {
-          "type": "BAD_REQUEST",
-          "error_title": "Bad Request",
-          "invalid_parameters": {"event_url": "Is required."}
-        }
-      EOS
-    end
+    error_response = json_response 400, <<-EOS
+      {
+        "type": "BAD_REQUEST",
+        "error_title": "Bad Request",
+        "invalid_parameters": {"event_url": "Is required."}
+      }
+    EOS
 
-    error = Errors.parse(invalid_parameters_response)
+    error = Errors.parse(error_response)
 
     assert_includes error.message, 'Bad Request'
   end
 
   def test_parse_with_code_and_description
-    error_response = response(404).tap do |response|
-      response['Content-Type'] = 'application/json'
-      response.instance_variable_set(:@read, true)
-      response.body = <<-EOS
-        {
-          "code": "http:error:not-found",
-          "description": "Endpoint does not exist, or you do not have access."
-        }
-      EOS
-    end
+    error_response = json_response 404, <<-EOS
+      {
+        "code": "http:error:not-found",
+        "description": "Endpoint does not exist, or you do not have access."
+      }
+    EOS
 
     error = Errors.parse(error_response)
 
