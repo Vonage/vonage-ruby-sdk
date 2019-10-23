@@ -70,4 +70,21 @@ class NexmoErrorsTest < Minitest::Test
 
     assert_includes error.message, 'Bad Request'
   end
+
+  def test_parse_with_code_and_description
+    error_response = response(404).tap do |response|
+      response['Content-Type'] = 'application/json'
+      response.instance_variable_set(:@read, true)
+      response.body = <<-EOS
+        {
+          "code": "http:error:not-found",
+          "description": "Endpoint does not exist, or you do not have access."
+        }
+      EOS
+    end
+
+    error = Errors.parse(error_response)
+
+    assert_includes error.message, 'Endpoint does not exist, or you do not have access'
+  end
 end

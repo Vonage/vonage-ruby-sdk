@@ -20,6 +20,8 @@ module Nexmo
 
         if hash.key?('error_title')
           hash['error_title']
+        elsif hash.key?('description')
+          hash['description']
         elsif problem_details?(hash)
           problem_details_message(hash)
         end
