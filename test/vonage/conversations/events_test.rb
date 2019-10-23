@@ -11,11 +11,11 @@ class Vonage::Conversations::EventsTest < Vonage::Test
   end
 
   def events_uri
-    "https://api.nexmo.com/beta/conversations/#{conversation_id}/events"
+    "https://api.nexmo.com/v0.1/conversations/#{conversation_id}/events"
   end
 
   def event_uri
-    "https://api.nexmo.com/beta/conversations/#{conversation_id}/events/#{event_id}"
+    "https://api.nexmo.com/v0.1/conversations/#{conversation_id}/events/#{event_id}"
   end
 
   def test_create_method
@@ -24,6 +24,16 @@ class Vonage::Conversations::EventsTest < Vonage::Test
     stub_request(:post, events_uri).with(request(body: params)).to_return(response)
 
     assert_kind_of Vonage::Response, events.create(conversation_id, params)
+  end
+
+  def test_create_method_with_error
+    params = {type: 'invalid', from: 'invalid-member'}
+
+    stub_request(:post, events_uri).with(request(body: params)).to_return(error_response)
+
+    assert_raises Vonage::ClientError do
+      events.create(conversation_id, params)
+    end
   end
 
   def test_list_method

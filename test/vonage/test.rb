@@ -97,6 +97,10 @@ module Vonage
     def response
       {body: '{"key":"value"}', headers: response_headers}
     end
+    
+    def error_response
+      {body: '{"key":"value"}', headers: response_headers, status: 404}
+    end
 
     def response_headers
       {'Content-Type' => 'application/json;charset=utf-8'}

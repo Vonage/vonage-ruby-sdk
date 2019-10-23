@@ -14,7 +14,10 @@ module Vonage
     #   Must be one of: `invite` or `join`.
     #
     # @option params [required, String] :user_id
-    #   User ID.
+    #   User ID. Must supply either :user_id or :user_name.
+    #
+    # @option params [required, String] :user_name
+    #   The name of the user. Must supply either :user_id or :user_name.
     #
     # @option params [String] :member_id
     #   Member ID.
@@ -22,15 +25,8 @@ module Vonage
     # @option params [required, Hash] :channel
     #   A user who joins a conversation as a member can have one channel per membership type.
     #
-    # @option params [Hash] :media
-    #   Media Object.
-    #
-    # @option params [String] :knocking_id
-    #   Knocker ID.
-    #   A knocker is a pre-member of a conversation who does not exist yet.
-    #
-    # @option params [String] :member_id_inviting
-    #   Member ID of the member that sends the invitation.
+    # @option params ['join', 'invite'] :action
+    #   The action to take when adding a user to the conversation. 
     #
     # @param [String] conversation_id
     # @param [Hash] params
@@ -40,10 +36,16 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#createMember
     #
     def create(conversation_id, params)
-      request('/beta/conversations/' + conversation_id + '/members', params: params, type: Post)
+      request('/v0.1/conversations/' + conversation_id + '/members', params: params, type: Post)
     end
 
     # List members.
+    #
+    # @option params (Integer) :page_size
+    #   The number of results returned per page.
+    #
+    # @option params ['asc', 'desc'] :order
+    #   Show the most (desc) / least (asc) recently created entries first.
     #
     # @param [String] conversation_id
     #
@@ -51,8 +53,8 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/conversation#getMembers
     #
-    def list(conversation_id)
-      request('/beta/conversations/' + conversation_id + '/members')
+    def list(conversation_id, params = nil)
+      request('/v0.1/conversations/' + conversation_id + '/members', params: params)
     end
 
     # Retrieve a member.
@@ -65,16 +67,16 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#getMember
     #
     def get(conversation_id, member_id)
-      request('/beta/conversations/' + conversation_id + '/members/' + member_id)
+      request('/v0.1/conversations/' + conversation_id + '/members/' + member_id)
     end
 
     # Update a member.
     #
-    # @option params [String] :action
-    #   Invite or join a member to a conversation.
+    # @option params ['join'] :state
+    #   The state that the member is in for this conversation.
     #
     # @option params [Hash] :channel
-    #   A user who joins a conversation as a member can have one channel per membership type.
+    #   - **:type** (String) A user who joins a conversation as a member can have one channel per membership type.
     #
     # @param [String] conversation_id
     # @param [String] member_id
@@ -85,7 +87,7 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#updateMember
     #
     def update(conversation_id, member_id, params)
-      request('/beta/conversations/' + conversation_id + '/members/' + member_id, params: params, type: Put)
+      request('/v0.1/conversations/' + conversation_id + '/members/' + member_id, params: params, type: Put)
     end
 
     # Delete a member.
@@ -98,7 +100,7 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#deleteMember
     #
     def delete(conversation_id, member_id)
-      request('/beta/conversations/' + conversation_id + '/members/' + member_id, type: Delete)
+      request('/v0.1/conversations/' + conversation_id + '/members/' + member_id, type: Delete)
     end
   end
 end

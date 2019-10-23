@@ -9,6 +9,8 @@ module Vonage
 
     self.request_body = JSON
 
+    self.request_headers['Accept'] = 'application/json'
+
     # Create a conversation.
     #
     # @example
@@ -24,12 +26,8 @@ module Vonage
     # @option params [String] :image_url
     #   A link to an image for conversations' and users' avatars.
     #
-    # @option params [Hash] :numbers
-    #   - **:sms** (String) phone number used for sms channel
-    #   - **:pstn** (String) phone number used for pstn channel
-    #
     # @option params [Hash] :properties
-    #   - **:ttl** (Integer) After how many seconds an empty conversation is deleted
+    #   - **:custom_data** (Hash) Any custom data that you'd like to attach to the conversation.
     #
     # @return [Response]
     #
@@ -37,7 +35,7 @@ module Vonage
     #
     sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def create(params)
-      request('/beta/conversations', params: params, type: Post)
+      request('/v0.1/conversations', params: params, type: Post)
     end
 
     # List all conversations associated with your application.
@@ -45,20 +43,14 @@ module Vonage
     # @example
     #   response = client.conversations.list
     #
-    # @option params [String] :date_start
-    #   Return the records that occurred after this point in time.
-    #
-    # @option params [String] :date_end
-    #   Return the records that occurred before this point in time.
-    #
     # @option params [Integer] :page_size
     #   Return this amount of records in the response.
     #
-    # @option params [Integer] :record_index
-    #   Return calls from this index in the response.
-    #
     # @option params ['asc', 'desc'] :order
     #   Return the records in ascending or descending order.
+    #
+    # @option params [String] :cursor
+    #   The cursor to start returning results from.
     #
     # @param [Hash, nil] params
     #
@@ -68,7 +60,7 @@ module Vonage
     #
     sig { params(params: T.nilable(T::Hash[Symbol, T.untyped])).returns(Vonage::Response) }
     def list(params = nil)
-      request('/beta/conversations', params: params)
+      request('/v0.1/conversations', params: params)
     end
 
     # Retrieve a conversation.
@@ -84,7 +76,7 @@ module Vonage
     #
     sig { params(id: String).returns(Vonage::Response) }
     def get(id)
-      request('/beta/conversations/' + id)
+      request('/v0.1/conversations/' + id)
     end
   
     # Update a conversation.
@@ -101,12 +93,8 @@ module Vonage
     # @option params [String] :image_url
     #   A link to an image for conversations' and users' avatars.
     #
-    # @option params [Hash] :numbers
-    #   - **:sms** (String) phone number used for sms channel
-    #   - **:pstn** (String) phone number used for pstn channel
-    #
     # @option params [Hash] :properties
-    #   - **:ttl** (Integer) After how many seconds an empty conversation is deleted
+    #   - **:custom_data** [Hash] Any custom data that you'd like to attach to the conversation.
     #
     # @param [String] id
     # @param [Hash] params
@@ -120,7 +108,7 @@ module Vonage
       params: T::Hash[Symbol, T.untyped]
     ).returns(Vonage::Response) }
     def update(id, params)
-      request('/beta/conversations/' + id, params: params, type: Put)
+      request('/v0.1/conversations/' + id, params: params, type: Put)
     end
 
     # Delete a conversation.
@@ -136,7 +124,7 @@ module Vonage
     #
     sig { params(id: String).returns(Vonage::Response) }
     def delete(id)
-      request('/beta/conversations/' + id, type: Delete)
+      request('/v0.1/conversations/' + id, type: Delete)
     end
 
     # Record a conversation.
