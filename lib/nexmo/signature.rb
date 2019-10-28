@@ -1,4 +1,3 @@
-require 'digest'
 require 'jwt'
 module Nexmo
   class Signature
@@ -33,14 +32,14 @@ module Nexmo
 
     def digest(signature_method, params)
       case signature_method
-      when 'md5'
-        hash = Digest::MD5.new
+      when 'md5hash', 'md5'
+        hash = OpenSSL::Digest::MD5.new
       when 'sha1'
-        hash = Digest::SHA1.new
+        hash = OpenSSL::Digest::SHA1.new
       when 'sha256'
-        hash = Digest::SHA256.new
+        hash = OpenSSL::Digest::SHA256.new
       when 'sha512'
-        hash = Digest::SHA512.new
+        hash = OpenSSL::Digest::SHA512.new
       else
         raise "Unknown signature algorithm: #{signature_method}. Expected: md5hash, md5, sha1, sha256, or sha512."
       end
@@ -51,7 +50,11 @@ module Nexmo
 
       hash.update(@secret)
 
-      hash.hexdigest
+      if signature_method == 'md5'
+        hash = OpenSSL::HMAC.hexdigest(hash, @secret, params.to_s)
+      else
+        hash.hexdigest
+      end
     end
   end
 end

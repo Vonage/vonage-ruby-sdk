@@ -9,8 +9,12 @@ class NexmoSignatureTest < Minitest::Test
     {'a' => '1', 'b' => '2', 'timestamp' => '1461605396'}
   end
 
-  def params_with_valid_signature_md5
+  def params_with_valid_signature_md5hash
     params.merge('sig' => '6af838ef94998832dbfc29020b564830')
+  end
+
+  def params_with_valid_signature_md5
+    params.merge('sig' => 'c5725da0ac958d4e03a90f3eeefa1475')
   end
 
   def params_with_valid_signature_sha1
@@ -29,7 +33,14 @@ class NexmoSignatureTest < Minitest::Test
     params.merge('sig' => 'xxx')
   end
 
-  def test_check_instance_method_with_md5
+  def test_check_instance_method_with_md5hash
+    signature = Nexmo::Signature.new(secret)
+
+    assert_equal signature.check('md5hash', params_with_valid_signature_md5hash), true
+    assert_equal signature.check('md5hash', params_with_invalid_signature), false
+  end
+
+  def test_check_instance_method_with_md5hmac
     signature = Nexmo::Signature.new(secret)
 
     assert_equal signature.check('md5', params_with_valid_signature_md5), true
