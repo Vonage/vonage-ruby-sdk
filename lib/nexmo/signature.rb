@@ -30,7 +30,7 @@ module Nexmo
 
     private
 
-    def digest(signature_method, params)
+    def digest(signature_method = 'md5hash', params)
       case signature_method
       when 'md5hash', 'md5'
         hash = OpenSSL::Digest::MD5.new
