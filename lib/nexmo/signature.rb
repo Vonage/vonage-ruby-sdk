@@ -20,7 +20,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/concepts/guides/signing-messages
     #
-    def check(signature_method, params)
+    def check(signature_method = 'md5hash', params)
       params = params.dup
 
       signature = params.delete('sig')
@@ -30,7 +30,7 @@ module Nexmo
 
     private
 
-    def digest(signature_method = 'md5hash', params)
+    def digest(signature_method, params)
       case signature_method
       when 'md5hash', 'md5'
         hash = OpenSSL::Digest::MD5.new
