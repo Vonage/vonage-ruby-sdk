@@ -1,4 +1,6 @@
+require 'openssl'
 require 'jwt'
+
 module Nexmo
   class Signature
     def initialize(secret)
@@ -20,40 +22,40 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/concepts/guides/signing-messages
     #
-    def check(signature_method = 'md5hash', params)
+    def check(params, signature_method: 'md5hash')
       params = params.dup
 
       signature = params.delete('sig')
 
-      ::JWT::SecurityUtils.secure_compare(signature, digest(signature_method, params))
+      ::JWT::SecurityUtils.secure_compare(signature, digest(params, signature_method))
     end
 
     private
 
-    def digest(signature_method, params)
+    def digest(params, signature_method)
       case signature_method
       when 'md5hash', 'md5'
-        hash = OpenSSL::Digest::MD5.new
+        digest = OpenSSL::Digest::MD5.new
       when 'sha1'
-        hash = OpenSSL::Digest::SHA1.new
+        digest = OpenSSL::Digest::SHA1.new
       when 'sha256'
-        hash = OpenSSL::Digest::SHA256.new
+        digest = OpenSSL::Digest::SHA256.new
       when 'sha512'
-        hash = OpenSSL::Digest::SHA512.new
+        digest = OpenSSL::Digest::SHA512.new
       else
         raise "Unknown signature algorithm: #{signature_method}. Expected: md5hash, md5, sha1, sha256, or sha512."
       end
 
       params.sort.each do |k, v|
-        hash.update("&#{k}=#{v}")
+        digest.update("&#{k}=#{v}")
       end
 
-      hash.update(@secret)
+      digest.update(@secret)
 
       if signature_method == 'md5'
-        hash = OpenSSL::HMAC.hexdigest(hash, @secret, params.to_s)
+        digest = OpenSSL::HMAC.hexdigest(digest, @secret, params.to_s)
       else
-        hash.hexdigest
+        digest.hexdigest
       end
     end
   end
