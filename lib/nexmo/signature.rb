@@ -1,4 +1,5 @@
 require 'openssl'
+require 'digest'
 require 'jwt'
 
 module Nexmo
@@ -33,29 +34,18 @@ module Nexmo
     private
 
     def digest(params, signature_method)
-      case signature_method
-      when 'md5hash', 'md5'
-        digest = OpenSSL::Digest::MD5.new
-      when 'sha1'
-        digest = OpenSSL::Digest::SHA1.new
-      when 'sha256'
-        digest = OpenSSL::Digest::SHA256.new
-      when 'sha512'
-        digest = OpenSSL::Digest::SHA512.new
+      digest_string = ''
+      params.sort.each do |k, v|
+        v.gsub(/[&_]/, '')
+        digest_string << "&#{k}=#{v}"
+      end
+
+      if ['md5', 'sha1', 'sha256', 'sha512'].include? signature_method
+        digest = OpenSSL::HMAC.hexdigest(signature_method, @secret, digest_string).upcase
+      elsif signature_method == 'md5hash'
+        digest = Digest::MD5.hexdigest("#{digest_string}#{@secret}")
       else
         raise "Unknown signature algorithm: #{signature_method}. Expected: md5hash, md5, sha1, sha256, or sha512."
-      end
-
-      params.sort.each do |k, v|
-        digest.update("&#{k}=#{v}")
-      end
-
-      digest.update(@secret)
-
-      if signature_method == 'md5'
-        digest = OpenSSL::HMAC.hexdigest(digest, @secret, params.to_s)
-      else
-        digest.hexdigest
       end
     end
   end

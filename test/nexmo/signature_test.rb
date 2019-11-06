@@ -2,31 +2,39 @@ require_relative './test'
 
 class NexmoSignatureTest < Minitest::Test
   def secret
-    'secret'
+    'my_secret_key_for_testing'
   end
 
   def params
-    {'a' => '1', 'b' => '2', 'timestamp' => '1461605396'}
+    {
+      'message-timestamp' => '2013-11-21 15:27:30',
+      'messageId' => '020000001B0FE827',
+      'msisdn' => '14843472194',
+      'text' => 'Test again',
+      'timestamp' => '1385047698',
+      'to' => '13239877404',
+      'type' => 'text'
+    }
   end
 
   def params_with_valid_signature_md5hash
-    params.merge('sig' => '6af838ef94998832dbfc29020b564830')
+    params.merge('sig' => 'd2e7b1dc968737c5998ad624e02f90b7')
   end
 
   def params_with_valid_signature_md5
-    params.merge('sig' => 'c5725da0ac958d4e03a90f3eeefa1475')
+    params.merge('sig' => 'DDEBD46008C2D4E93CCE578A332A52D5')
   end
 
   def params_with_valid_signature_sha1
-    params.merge('sig' => '879d0c829f44d32d29793187a8c9ec882a97dc0b')
+    params.merge('sig' => '27D0D05C2876C7CB1720DBCDBA4D492E1E55C09A')
   end
 
   def params_with_valid_signature_sha256
-    params.merge('sig' => '21c048bfc4fdcd3532ceb8dc110779d0fd2b754ea38b9eeb4ac17800a09d9ccd')
+    params.merge('sig' => 'DDB8397C2B90AAC7F3882D306475C9A5058C92322EEF43C92B298B6E0FC0D330')
   end
 
   def params_with_valid_signature_sha512
-    params.merge('sig' => '022fb2c734fcffc959fe66cdd8b625b9783ae7c38e1c7cc90bbe0bdde25688bdfbf2dc98abbfac2d3ef73ce3cc305d30bfaba370c831059c6fc336c9557f0d75')
+    params.merge('sig' => 'E0D3C650F8C9D1A5C174D10DDDBFB003E561F59B265616208B0487C5D819481CD3C311D59CF6165ECD1139622D5BA3A256C0D763AC4A9AD9144B5A426B94FE82')
   end
 
   def params_with_invalid_signature
