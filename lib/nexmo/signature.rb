@@ -41,9 +41,9 @@ module Nexmo
       end
 
       if ['md5', 'sha1', 'sha256', 'sha512'].include? signature_method
-        digest = OpenSSL::HMAC.hexdigest(signature_method, @secret, digest_string).upcase
+        OpenSSL::HMAC.hexdigest(signature_method, @secret, digest_string).upcase
       elsif signature_method == 'md5hash'
-        digest = Digest::MD5.hexdigest("#{digest_string}#{@secret}")
+        Digest::MD5.hexdigest("#{digest_string}#{@secret}")
       else
         raise "Unknown signature algorithm: #{signature_method}. Expected: md5hash, md5, sha1, sha256, or sha512."
       end
