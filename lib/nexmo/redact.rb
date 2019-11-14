@@ -2,7 +2,7 @@
 
 module Nexmo
   class Redact < Namespace
-    self.authentication = KeySecretQuery
+    self.authentication = Basic
 
     self.request_body = JSON
 
