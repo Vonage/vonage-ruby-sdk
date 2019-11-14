@@ -36,7 +36,7 @@ module Nexmo
     def digest(params, signature_method)
       digest_string = ''
       params.sort.each do |k, v|
-        v.gsub(/[&_]/, '')
+        v = v.tr('&=', '')
         digest_string << "&#{k}=#{v}"
       end
 
