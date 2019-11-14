@@ -1,5 +1,5 @@
 require 'openssl'
-require 'digest'
+require 'digest/md5'
 require 'jwt'
 
 module Nexmo
