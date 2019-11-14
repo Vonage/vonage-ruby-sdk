@@ -23,7 +23,7 @@ module Nexmo
     #
     #   private_key = File.read('path/to/private.key')
     #
-    #   client.token = Nexmo::JWT.generate(claims, private_key)
+    #   client.config.token = Nexmo::JWT.generate(claims, private_key)
     #
     # @param [Hash] payload
     # @param [String, OpenSSL::PKey::RSA] private_key
