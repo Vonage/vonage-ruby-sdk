@@ -85,4 +85,14 @@ class NexmoSignatureTest < Minitest::Test
 
     assert_equal 'Unknown signature algorithm: xxxx. Expected: md5hash, md5, sha1, sha256, or sha512.', exception.message
   end
+
+  def test_check_instance_method_replaces_disallowed_characters_with_underscores
+    signature = Nexmo::Signature.new(secret)
+
+    signature_value = 'c3d6a686ab9c7e7408bb1c0506e9629a'
+
+    assert_equal signature.check({'k' => '_', 'sig' => signature_value}), true
+    assert_equal signature.check({'k' => '&', 'sig' => signature_value}), true
+    assert_equal signature.check({'k' => '=', 'sig' => signature_value}), true
+  end
 end

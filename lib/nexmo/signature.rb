@@ -34,11 +34,7 @@ module Nexmo
     private
 
     def digest(params, signature_method)
-      digest_string = ''
-      params.sort.each do |k, v|
-        v = v.tr('&=', '')
-        digest_string << "&#{k}=#{v}"
-      end
+      digest_string = params.sort.map { |k, v| "&#{k}=#{v.tr('&=', '_')}" }.join
 
       if ['md5', 'sha1', 'sha256', 'sha512'].include? signature_method
         OpenSSL::HMAC.hexdigest(signature_method, @secret, digest_string).upcase
