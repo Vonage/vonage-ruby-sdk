@@ -43,7 +43,7 @@ module Nexmo
       when 'md5hash'
         Digest::MD5.hexdigest("#{digest_string}#{@secret}")
       else
-        raise "Unknown signature algorithm: #{signature_method}. Expected: md5hash, md5, sha1, sha256, or sha512."
+        raise ArgumentError, "Unknown signature algorithm: #{signature_method}. Expected: md5hash, md5, sha1, sha256, or sha512."
       end
     end
   end

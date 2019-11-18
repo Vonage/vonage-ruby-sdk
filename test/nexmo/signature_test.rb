@@ -79,7 +79,7 @@ class NexmoSignatureTest < Minitest::Test
   def test_check_instance_method_with_unknown_method
     signature = Nexmo::Signature.new(secret)
 
-    exception = assert_raises RuntimeError do
+    exception = assert_raises ArgumentError do
       signature.check(params_with_valid_signature_md5, signature_method: 'xxxx')
     end
 
