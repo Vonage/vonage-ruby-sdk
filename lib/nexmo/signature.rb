@@ -1,3 +1,4 @@
+require 'openssl'
 require 'digest/md5'
 require 'jwt'
 
@@ -22,26 +23,30 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/concepts/guides/signing-messages
     #
-    def check(params)
+    def check(params, signature_method: 'md5hash')
       params = params.dup
 
       signature = params.delete('sig')
 
-      ::JWT::SecurityUtils.secure_compare(signature, digest(params))
+      ::JWT::SecurityUtils.secure_compare(signature, digest(params, signature_method))
     end
 
     private
 
-    def digest(params)
-      md5 = Digest::MD5.new
-
+    def digest(params, signature_method)
+      digest_string = ''
       params.sort.each do |k, v|
-        md5.update("&#{k}=#{v}")
+        v = v.tr('&=', '')
+        digest_string << "&#{k}=#{v}"
       end
 
-      md5.update(@secret)
-
-      md5.hexdigest
+      if ['md5', 'sha1', 'sha256', 'sha512'].include? signature_method
+        OpenSSL::HMAC.hexdigest(signature_method, @secret, digest_string).upcase
+      elsif signature_method == 'md5hash'
+        Digest::MD5.hexdigest("#{digest_string}#{@secret}")
+      else
+        raise "Unknown signature algorithm: #{signature_method}. Expected: md5hash, md5, sha1, sha256, or sha512."
+      end
     end
   end
 end
