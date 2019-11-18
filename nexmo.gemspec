@@ -14,7 +14,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.5.0'
   s.add_dependency('jwt', '~> 2')
   s.add_dependency('zeitwerk', '~> 2')
-  s.add_development_dependency('rake', '~> 12.0')
+  s.add_development_dependency('rake', '~> 13')
   s.add_development_dependency('yard', '~> 0.9')
   s.add_development_dependency('minitest', '~> 5.0')
   s.add_development_dependency('webmock', '~> 3.0')
