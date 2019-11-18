@@ -10,6 +10,7 @@ module Nexmo
       self.logger = (defined?(Rails.logger) && Rails.logger) || ::Logger.new(nil)
       self.private_key = nil
       self.signature_secret = ENV['NEXMO_SIGNATURE_SECRET']
+      self.signature_method = ENV['NEXMO_SIGNATURE_METHOD'] || 'md5hash'
       self.token = nil
     end
 
@@ -145,6 +146,8 @@ module Nexmo
     end
 
     attr_writer :signature_secret
+
+    attr_accessor :signature_method
 
     # Returns the value of attribute token, or a temporary short lived token.
     #

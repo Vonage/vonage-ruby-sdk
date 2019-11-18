@@ -9,7 +9,7 @@ module Nexmo
     # @return [Signature]
     #
     def signature
-      @signature ||= Signature.new(config.signature_secret)
+      @signature ||= Signature.new(config)
     end
 
     # @return [Account]
