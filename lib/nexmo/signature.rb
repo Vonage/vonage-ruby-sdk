@@ -1,3 +1,4 @@
+# frozen_string_literal: true
 require 'openssl'
 require 'digest/md5'
 require 'jwt'
@@ -36,9 +37,10 @@ module Nexmo
     def digest(params, signature_method)
       digest_string = params.sort.map { |k, v| "&#{k}=#{v.tr('&=', '_')}" }.join
 
-      if ['md5', 'sha1', 'sha256', 'sha512'].include? signature_method
+      case signature_method
+      when 'md5', 'sha1', 'sha256', 'sha512'
         OpenSSL::HMAC.hexdigest(signature_method, @secret, digest_string).upcase
-      elsif signature_method == 'md5hash'
+      when 'md5hash'
         Digest::MD5.hexdigest("#{digest_string}#{@secret}")
       else
         raise "Unknown signature algorithm: #{signature_method}. Expected: md5hash, md5, sha1, sha256, or sha512."
