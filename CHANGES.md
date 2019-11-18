@@ -1,3 +1,16 @@
+# 6.1.0
+
+* Added support for newer signature methods
+
+  Use the `signature_method` config option or the `NEXMO_SIGNATURE_METHOD`
+  environment variable to specify a different signature method:
+
+    Nexmo.configure do |config|
+      config.signature_method = 'sha512'
+    end
+
+* Added support for error responses with description keys
+
 # 6.0.1
 
 * Fixed Nexmo::Conversations#record method to use the correct path
@@ -9,6 +22,19 @@
   **Required version is now Ruby 2.5.0**
 
 * Added Nexmo.configure method for global configuration
+
+  Use `Nexmo.configure` to specify config options globally:
+
+    Nexmo.configure do |config|
+      config.logger = Logger.new(STDOUT)
+    end
+
+  Alternatively use the Nexmo::Client#config attribute to set config options on a per client basis:
+
+    client = Nexmo::Client.new
+    client.config.logger = Logger.new(STDOUT)
+
+  Nexmo::Client objects can still be constructed with a hash of config options as before.
 
 * Added Nexmo::Conversations#record method for recording a conversation
 
