@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoMessagesTest < Nexmo::Test
+class Nexmo::MessagesTest < Nexmo::Test
   def messages
     Nexmo::Messages.new(config)
   end

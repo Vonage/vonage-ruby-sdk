@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoSignatureTest < Nexmo::Test
+class Nexmo::SignatureTest < Nexmo::Test
   def signature_secret
     'my_secret_key_for_testing'
   end

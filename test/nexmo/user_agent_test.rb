@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoUserAgentTest < Minitest::Test
+class Nexmo::UserAgentTest < Minitest::Test
   UserAgent = Nexmo.const_get(:UserAgent)
 
   def app_name

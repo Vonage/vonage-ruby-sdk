@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoRedactTest < Nexmo::Test
+class Nexmo::RedactTest < Nexmo::Test
   def redact
     Nexmo::Redact.new(config)
   end

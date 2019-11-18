@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoClientTest < Nexmo::Test
+class Nexmo::ClientTest < Nexmo::Test
   def client
     Nexmo::Client.new
   end

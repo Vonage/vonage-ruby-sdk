@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoErrorsTest < Minitest::Test
+class Nexmo::ErrorsTest < Minitest::Test
   Errors = Nexmo.const_get(:Errors)
 
   def response(code)

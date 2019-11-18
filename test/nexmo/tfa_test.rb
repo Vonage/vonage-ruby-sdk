@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoTFATest < Nexmo::Test
+class Nexmo::TFATest < Nexmo::Test
   def tfa
     Nexmo::TFA.new(config)
   end

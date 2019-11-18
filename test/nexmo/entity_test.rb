@@ -1,7 +1,7 @@
 require_relative './test'
 require 'json'
 
-class NexmoEntityTest < Minitest::Test
+class Nexmo::EntityTest < Minitest::Test
   def test_mapping_keyword_args_to_attribute_names
     value = 'xxxx-xxxx'
 

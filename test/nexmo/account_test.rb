@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoAccountTest < Nexmo::Test
+class Nexmo::AccountTest < Nexmo::Test
   def account
     Nexmo::Account.new(config)
   end

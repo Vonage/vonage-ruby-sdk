@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoVerifyTest < Nexmo::Test
+class Nexmo::VerifyTest < Nexmo::Test
   def verify
     Nexmo::Verify.new(config)
   end

@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoCallsTest < Nexmo::Test
+class Nexmo::CallsTest < Nexmo::Test
   def calls
     Nexmo::Calls.new(config)
   end

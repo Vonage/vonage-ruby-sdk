@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoGSM7Test < Minitest::Test
+class Nexmo::GSM7Test < Minitest::Test
   GSM7 = Nexmo.const_get(:GSM7)
 
   def test_encoded_method

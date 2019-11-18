@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoParamsTest < Minitest::Test
+class Nexmo::ParamsTest < Minitest::Test
   Params = Nexmo.const_get(:Params)
 
   def test_encode_method_returns_urlencoded_string

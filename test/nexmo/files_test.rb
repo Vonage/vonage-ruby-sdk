@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoFilesTest < Nexmo::Test
+class Nexmo::FilesTest < Nexmo::Test
   def files
     Nexmo::Files.new(config)
   end

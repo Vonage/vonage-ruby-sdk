@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoPricingTypesTest < Nexmo::Test
+class Nexmo::PricingTypesTest < Nexmo::Test
   def pricing
     Nexmo::PricingTypes.new(config)
   end

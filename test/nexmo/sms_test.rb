@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoSMSTest < Nexmo::Test
+class Nexmo::SMSTest < Nexmo::Test
   def sms
     Nexmo::SMS.new(config)
   end

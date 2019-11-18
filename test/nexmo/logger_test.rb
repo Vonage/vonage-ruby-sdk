@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoLoggerTest < Nexmo::Test
+class Nexmo::LoggerTest < Nexmo::Test
   Logger = Nexmo.const_get(:Logger)
 
   def setup

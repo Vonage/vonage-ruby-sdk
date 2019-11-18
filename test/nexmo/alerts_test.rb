@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoAlertsTest < Nexmo::Test
+class Nexmo::AlertsTest < Nexmo::Test
   def alerts
     Nexmo::Alerts.new(config)
   end

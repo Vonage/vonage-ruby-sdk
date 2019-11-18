@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoConversionsTest < Nexmo::Test
+class Nexmo::ConversionsTest < Nexmo::Test
   def conversions
     Nexmo::Conversions.new(config)
   end

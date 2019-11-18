@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoPricingTest < Nexmo::Test
+class Nexmo::PricingTest < Nexmo::Test
   def type
     'sms'
   end

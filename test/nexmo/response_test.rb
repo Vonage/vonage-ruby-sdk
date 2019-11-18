@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoResponseTest < Minitest::Test
+class Nexmo::ResponseTest < Minitest::Test
   def value
     'xxxx-xxxx'
   end

@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoHTTPOptionsTest < Minitest::Test
+class Nexmo::HTTPOptionsTest < Minitest::Test
   Options = Nexmo.const_get(:HTTP).const_get(:Options)
 
   def read_timeout

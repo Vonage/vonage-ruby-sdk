@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoConfigTest < Nexmo::Test
+class Nexmo::ConfigTest < Nexmo::Test
   def test_api_key_method
     assert_equal config.api_key, api_key
   end

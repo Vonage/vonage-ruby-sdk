@@ -1,6 +1,6 @@
 require_relative './test'
 
-class NexmoJWTTest < Minitest::Test
+class Nexmo::JWTTest < Minitest::Test
   def private_key
     @private_key ||= OpenSSL::PKey::RSA.new(1024)
   end
