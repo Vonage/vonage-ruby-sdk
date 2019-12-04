@@ -112,7 +112,9 @@ client = Nexmo::Client.new(token: token)
 To check webhook signatures you'll also need to specify the `signature_secret` option. For example:
 
 ```ruby
-client = Nexmo::Client.new(signature_secret: 'secret')
+client = Nexmo::Client.new
+client.config.signature_secret = 'secret'
+client.config.signature_method = 'sha512'
 
 if client.signature.check(request.GET)
   # valid signature
