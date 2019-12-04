@@ -2,12 +2,10 @@ require_relative './test'
 
 class NexmoClientTest < Nexmo::Test
   def client
-    @client ||= Nexmo::Client.new
+    Nexmo::Client.new
   end
 
   def test_signature_method
-    client = Nexmo::Client.new(signature_secret: signature_secret)
-
     assert_kind_of Nexmo::Signature, client.signature
   end
 
