@@ -14,11 +14,16 @@ module Nexmo
     #     puts "#{item.msisdn} #{item.country} #{item.type}"
     #   end
     #
-    # @option params [Integer] :index
-    #   Page index.
+    # @option params [String] :application_id
+    #   The application that you want to return the numbers for.
     #
-    # @option params [Integer] :size
-    #   Page size.
+    # @option params [Boolean] :has_application
+    #   Set this optional field to `true` to restrict your results to numbers associated with an application (any application).
+    #   Set to `false` to find all numbers not associated with any application.
+    #   Omit the field to avoid filtering on whether or not the number is assigned to an application.
+    #
+    # @option params [String] :country
+    #   The two character country code to filter on (in ISO 3166-1 alpha-2 format).
     #
     # @option params [String] :pattern
     #   The number pattern you want to search for. Use in conjunction with **:search_pattern**.
@@ -29,13 +34,11 @@ module Nexmo
     #   - `1` - Search for numbers that contain **:pattern**
     #   - `2` - Search for numbers that end with **:pattern**
     #
-    # @option params [Boolean] :has_application
-    #   Set this optional field to `true` to restrict your results to numbers associated with an application (any application).
-    #   Set to `false` to find all numbers not associated with any application.
-    #   Omit the field to avoid filtering on whether or not the number is assigned to an application.
+    # @option params [Integer] :size
+    #   Page size.
     #
-    # @option params [String] :application_id
-    #   The application that you want to return the numbers for.
+    # @option params [Integer] :index
+    #   Page index.
     #
     # @param [Hash] params
     #
@@ -102,6 +105,10 @@ module Nexmo
     # @option params [required, String] :msisdn
     #   An available inbound virtual number.
     #
+    # @option params [String] :target_api_key
+    #   If you'd like to perform an action on a subaccount, provide the `api_key` of that account here.
+    #   If you'd like to perform an action on your own account, you do not need to provide this field.
+    #
     # @param [Hash] params
     #
     # @return [Response]
@@ -122,6 +129,10 @@ module Nexmo
     #
     # @option params [required, String] :msisdn
     #   An available inbound virtual number.
+    #
+    # @option params [String] :target_api_key
+    #   If you'd like to perform an action on a subaccount, provide the `api_key` of that account here.
+    #   If you'd like to perform an action on your own account, you do not need to provide this field.
     #
     # @param [Hash] params
     #
@@ -160,16 +171,8 @@ module Nexmo
     # @option params [String] :mo_smpp_sys_type
     #   The associated system type for your SMPP client.
     #
-    # @option params [String] :messages_callback_type
-    #   The SMS webhook type (always `app`).
-    #   Must be used with the **:messages_callback_value** option.
-    #
-    # @option params [String] :messages_callback_value
-    #   A Nexmo Application ID.
-    #   Must be used with the **:messages_callback_type** option.
-    #
     # @option params [String] :voice_callback_type
-    #   The voice webhook type.
+    #   Specify whether inbound voice calls on your number are handled by your Application configuration, or forwarded to a SIP or a telephone number.
     #   Must be used with the **:voice_callback_value** option.
     #
     # @option params [String] :voice_callback_value
