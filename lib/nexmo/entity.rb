@@ -2,8 +2,8 @@ module Nexmo
   class Entity
     include Keys
 
-    def initialize(**kwargs)
-      @attributes = kwargs
+    def initialize(attributes = nil)
+      @attributes = attributes || {}
     end
 
     def [](key)
