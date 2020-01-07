@@ -1,3 +1,11 @@
+# 6.2.0
+
+* Upgraded zeitwerk dependency to version 2.2 or newer
+
+* Fixed authentication for Redact API method
+
+* Fixed ruby 2.7 deprecation warnings
+
 # 6.1.0
 
 * Added support for newer signature methods
