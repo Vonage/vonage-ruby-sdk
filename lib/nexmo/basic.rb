@@ -1,3 +1,4 @@
+# typed: ignore
 module Nexmo
   class Basic < AbstractAuthentication
     def update(object)

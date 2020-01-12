@@ -1,3 +1,4 @@
+# typed: ignore
 # frozen_string_literal: true
 require 'net/http'
 require 'json'
@@ -53,13 +54,6 @@ module Nexmo
       @response_class = response_class
     end
 
-    private
-
-    Get = Net::HTTP::Get
-    Put = Net::HTTP::Put
-    Post = Net::HTTP::Post
-    Delete = Net::HTTP::Delete
-
     def request(path, params: nil, type: Get, response_class: nil, &block)
       uri = URI('https://' + @host + path)
 
@@ -98,6 +92,13 @@ module Nexmo
 
       parse(response, response_class || self.class.response_class)
     end
+
+    private
+
+    Get = Net::HTTP::Get
+    Put = Net::HTTP::Put
+    Post = Net::HTTP::Post
+    Delete = Net::HTTP::Delete
 
     def parse(response, response_class)
       case response

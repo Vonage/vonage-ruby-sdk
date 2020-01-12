@@ -1,3 +1,4 @@
+# typed: ignore
 module Nexmo
   module GSM7
     CHARACTERS = "\n\f\r !\"\#$%&'()*+,-./0123456789:;<=>?@ABCDEFGHIJKLMNOPQRSTUVWXYZ[\\]^_abcdefghijklmnopqrstuvwxyz{|}~ ¡£¤¥§¿ÄÅÆÉÑÖØÜßàäåæçèéìñòöøùüΓΔΘΛΞΠΣΦΨΩ€"
@@ -9,5 +10,5 @@ module Nexmo
     end
   end
 
-  private_constant :GSM7
+  # private_constant :GSM7
 end

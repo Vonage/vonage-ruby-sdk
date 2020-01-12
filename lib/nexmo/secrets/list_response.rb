@@ -1,3 +1,4 @@
+# typed: ignore
 class Nexmo::Secrets::ListResponse < Nexmo::Response
   include Enumerable
 

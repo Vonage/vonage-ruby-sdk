@@ -1,3 +1,4 @@
+# typed: false
 module Nexmo
   class Client
     attr_reader :config

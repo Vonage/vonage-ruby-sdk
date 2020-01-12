@@ -1,3 +1,4 @@
+# typed: ignore
 # frozen_string_literal: true
 require 'logger'
 require 'forwardable'
@@ -15,7 +16,7 @@ module Nexmo
     end
 
     def log_request_info(request)
-      info do
+      @logger.info do
         format('Nexmo API request', {
           method: request.method,
           path: request.uri.path
@@ -24,7 +25,7 @@ module Nexmo
     end
 
     def log_response_info(response, host)
-      info do
+      @logger.info do
         format('Nexmo API response', {
           host: host,
           status: response.code,
@@ -46,5 +47,5 @@ module Nexmo
     end
   end
 
-  private_constant :Logger
+  # private_constant :Logger
 end

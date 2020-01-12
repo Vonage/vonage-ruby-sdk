@@ -1,3 +1,4 @@
+# typed: false
 require_relative './test'
 
 class Nexmo::NumberInsightTest < Nexmo::Test
