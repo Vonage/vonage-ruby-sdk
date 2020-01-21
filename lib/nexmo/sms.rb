@@ -104,7 +104,7 @@ module Nexmo
           'See https://developer.nexmo.com/messaging/sms for details, ' \
           'or email support@nexmo.com if you have any questions.'
         
-        @logger = T.let(@logger, Nexmo::Logger)
+        @logger = T.let(@logger, T.nilable(Nexmo::Logger))
         @logger.warn(message)
       end
 

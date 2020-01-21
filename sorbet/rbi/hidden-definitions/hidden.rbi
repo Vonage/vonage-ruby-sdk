@@ -1068,6 +1068,8 @@ class ERB::Compiler::Scanner
   DEFAULT_STAGS = ::T.let(nil, ::T.untyped)
 end
 
+Emitter = Psych::Stream::Emitter
+
 class Encoding
   def _dump(*_); end
 end
@@ -1476,6 +1478,10 @@ module GC
   def self.verify_internal_consistency(); end
 end
 
+module Gem::BundlerVersionFinder
+  def self.without_filtering(); end
+end
+
 Gem::Cache = Gem::SourceIndex
 
 class Gem::DependencyInstaller
@@ -1484,24 +1490,10 @@ class Gem::DependencyInstaller
   def gems_to_install(*args, &block); end
 end
 
-class Gem::Resolver
-end
+Gem::DependencyResolver = Gem::Resolver
 
-Gem::DependencyResolver::Conflict = Gem::Resolver::Conflict
-
-Gem::DependencyResolver::DependencyConflict = Gem::Resolver::Conflict
-
-module Gem::Resolver::Molinillo
-end
-
-Gem::DependencyResolver::Molinillo::SpecificationProvider = Gem::Resolver::Molinillo::SpecificationProvider
-
-Gem::DependencyResolver::Molinillo::UI = Gem::Resolver::Molinillo::UI
-
-module Gem::Resolver::Molinillo
-end
-
-class Gem::Resolver
+class Gem::Installer
+  def verify_spec_name(); end
 end
 
 class Gem::Licenses
@@ -1774,6 +1766,8 @@ JSON::State = JSON::Ext::Generator::State
 
 JSON::UnparserError = JSON::GeneratorError
 
+JSONTree = Psych::Visitors::JSONTree
+
 module JWT::Algos::Ecdsa
   NAMED_CURVES = ::T.let(nil, ::T.untyped)
   SUPPORTED = ::T.let(nil, ::T.untyped)
@@ -1961,8 +1955,6 @@ module MonitorMixin
   def synchronize(); end
 
   def try_mon_enter(); end
-  EXCEPTION_IMMEDIATE = ::T.let(nil, ::T.untyped)
-  EXCEPTION_NEVER = ::T.let(nil, ::T.untyped)
 end
 
 class MonitorMixin::ConditionVariable
@@ -2194,11 +2186,37 @@ end
 module Nexmo::Keys
 end
 
+class Nexmo::Logger
+  def debug(*args, &block); end
+
+  def error(*args, &block); end
+
+  def fatal(*args, &block); end
+
+  def info(*args, &block); end
+
+  def initialize(logger); end
+
+  def log_request_info(request); end
+
+  def log_response_info(response, host); end
+
+  def unknown(*args, &block); end
+
+  def warn(*args, &block); end
+end
+
+class Nexmo::Logger
+  extend ::Forwardable
+end
+
 class Nexmo::Messages
 end
 
 class Nexmo::Namespace
   def initialize(config); end
+
+  def parse(response, response_class); end
 
   def request(path, params: T.unsafe(nil), type: T.unsafe(nil), response_class: T.unsafe(nil), &block); end
 end
@@ -5015,8 +5033,6 @@ class Ripper::SexpBuilder
 
   def on_ignored_nl(tok); end
 
-  def on_ignored_sp(tok); end
-
   def on_imaginary(tok); end
 
   def on_int(tok); end
@@ -6393,6 +6409,8 @@ end
 module UnicodeNormalize
 end
 
+Visitor = Psych::Visitors::Visitor
+
 module Warning
   def warn(_); end
 end
@@ -6423,6 +6441,8 @@ module WebMock::Util::URI::CharacterClasses
 end
 
 YAML = Psych
+
+YAMLTree = Psych::Visitors::YAMLTree
 
 module YARD
   CONFIG_DIR = ::T.let(nil, ::T.untyped)
