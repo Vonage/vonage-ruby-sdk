@@ -7,6 +7,7 @@ module Nexmo
       self.api_key = ENV['NEXMO_API_KEY']
       self.api_secret = ENV['NEXMO_API_SECRET']
       self.application_id = nil
+      self.hosts = {}
       self.logger = (defined?(Rails.logger) && Rails.logger) || ::Logger.new(nil)
       self.private_key = nil
       self.signature_secret = ENV['NEXMO_SIGNATURE_SECRET']
@@ -85,6 +86,8 @@ module Nexmo
     attr_accessor :app_name
 
     attr_accessor :app_version
+
+    attr_accessor :hosts
 
     # Returns the value of attribute http.
     #

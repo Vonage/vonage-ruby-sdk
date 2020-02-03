@@ -9,7 +9,7 @@ module Nexmo
 
       @logger = config.logger
 
-      @host = self.class.host
+      @host = @config.hosts[self.class.host] || self.class.host
 
       @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
       @http.use_ssl = true
