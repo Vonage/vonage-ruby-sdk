@@ -4,6 +4,7 @@ require 'logger'
 require 'forwardable'
 
 module Nexmo
+  # @!visibility private
   class Logger
     def initialize(logger)
       @logger = logger || ::Logger.new(nil)
@@ -47,5 +48,4 @@ module Nexmo
     end
   end
 
-  # private_constant :Logger
 end

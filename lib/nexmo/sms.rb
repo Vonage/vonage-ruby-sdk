@@ -112,7 +112,7 @@ module Nexmo
 
     private
 
-    sig{ params(text: T.nilable(String)).returns(T::Boolean) }
+    sig { params(text: String).returns(T::Boolean) }
     def unicode?(text)
       !GSM7.encoded?(text)
     end
