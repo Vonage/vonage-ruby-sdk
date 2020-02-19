@@ -2,4 +2,4 @@
 Gemfile.lock
 coverage
 doc
-./sorbet/rbi/hidden-definitions/errors.txt
+sorbet/rbi/hidden-definitions/errors.txt
