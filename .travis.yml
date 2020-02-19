@@ -1,6 +1,7 @@
 dist: xenial
 language: ruby
 cache: bundler
+bundler_args: --without development
 rvm:
   - 2.5
   - 2.6
