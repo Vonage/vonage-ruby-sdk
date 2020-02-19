@@ -98,7 +98,7 @@ module Nexmo
     #
     sig { params(params: T::Hash[Symbol, T.untyped]).returns(Nexmo::SMS::Response) }
     def send(params)
-      if unicode?(params[:text]) && params[:type] != 'unicode'
+      if unicode?(params.fetch(:text)) && params[:type] != 'unicode'
         message = 'Sending unicode text SMS without setting the type parameter to "unicode". ' \
           'See https://developer.nexmo.com/messaging/sms for details, ' \
           'or email support@nexmo.com if you have any questions.'
