@@ -98,7 +98,6 @@ module Nexmo
       parse(response, response_class || self.class.response_class)
     end
 
-
     def parse(response, response_class)
       case response
       when Net::HTTPNoContent
