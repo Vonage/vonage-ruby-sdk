@@ -8,8 +8,6 @@ module Nexmo
     def initialize(config)
       @config = config
 
-      @logger = config.logger
-
       @host = self.class.host
 
       @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
@@ -87,15 +85,15 @@ module Nexmo
 
       self.class.request_body.update(message, params) if type::REQUEST_HAS_BODY
 
-      @logger.log_request_info(message)
+      logger.log_request_info(message)
 
       response = @http.request(message, &block)
 
-      @logger.log_response_info(response, @host)
+      logger.log_response_info(response, @host)
 
       return if block
 
-      @logger.debug(response.body) if response.body
+      logger.debug(response.body) if response.body
 
       parse(response, response_class || self.class.response_class)
     end
@@ -116,6 +114,10 @@ module Nexmo
       else
         raise Errors.parse(response)
       end
+    end
+
+    def logger
+      @config.logger
     end
   end
 

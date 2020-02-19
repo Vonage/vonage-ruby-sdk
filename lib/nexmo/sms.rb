@@ -102,9 +102,8 @@ module Nexmo
         message = 'Sending unicode text SMS without setting the type parameter to "unicode". ' \
           'See https://developer.nexmo.com/messaging/sms for details, ' \
           'or email support@nexmo.com if you have any questions.'
-        
-        @logger = T.let(@logger, T.nilable(Nexmo::Logger))
-        @logger.warn(message)
+
+        logger.warn(message)
       end
 
       request('/sms/json', params: hyphenate(params), type: Post, response_class: Response)
