@@ -1,3 +1,5 @@
+# typed: ignore
+
 class Nexmo::Calls::ListResponse < Nexmo::Response
   include Enumerable
 

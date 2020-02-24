@@ -1,3 +1,4 @@
+# typed: false
 require_relative './test'
 
 class Nexmo::FilesTest < Nexmo::Test

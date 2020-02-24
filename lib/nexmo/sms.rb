@@ -1,7 +1,9 @@
+# typed: strict
 # frozen_string_literal: true
 
 module Nexmo
   class SMS < Namespace
+    extend T::Sig
     include Keys
 
     self.host = 'rest.nexmo.com'
@@ -94,13 +96,14 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/sms#send-an-sms
     #
+    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Nexmo::SMS::Response) }
     def send(params)
-      if unicode?(params[:text]) && params[:type] != 'unicode'
+      if unicode?(params.fetch(:text)) && params[:type] != 'unicode'
         message = 'Sending unicode text SMS without setting the type parameter to "unicode". ' \
           'See https://developer.nexmo.com/messaging/sms for details, ' \
           'or email support@nexmo.com if you have any questions.'
 
-        @logger.warn(message)
+        logger.warn(message)
       end
 
       request('/sms/json', params: hyphenate(params), type: Post, response_class: Response)
@@ -108,6 +111,7 @@ module Nexmo
 
     private
 
+    sig { params(text: String).returns(T::Boolean) }
     def unicode?(text)
       !GSM7.encoded?(text)
     end

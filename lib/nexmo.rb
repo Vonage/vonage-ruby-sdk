@@ -1,5 +1,7 @@
+# typed: false
 # frozen_string_literal: true
 require 'zeitwerk'
+require 'sorbet-runtime'
 
 module Nexmo
   loader = Zeitwerk::Loader.new

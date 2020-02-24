@@ -1,3 +1,5 @@
+# typed: false
+
 module Nexmo
   class Entity
     include Keys

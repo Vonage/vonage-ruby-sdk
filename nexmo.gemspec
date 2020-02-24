@@ -14,6 +14,7 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.5.0'
   s.add_dependency('jwt', '~> 2')
   s.add_dependency('zeitwerk', '~> 2', '>= 2.2')
+  s.add_dependency('sorbet-runtime', '~> 0.5')
   s.require_path = 'lib'
   s.metadata = {
     'homepage' => 'https://github.com/Nexmo/nexmo-ruby',

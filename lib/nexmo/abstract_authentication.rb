@@ -1,3 +1,5 @@
+# typed: ignore
+
 module Nexmo
   class AbstractAuthentication
     def initialize(config)
