@@ -3,7 +3,7 @@
 
 module Nexmo
   class Alerts < Namespace
-    self.host = 'rest.nexmo.com'
+    self.host = :rest_host
 
     # Request the list of phone numbers opted out from your campaign.
     #

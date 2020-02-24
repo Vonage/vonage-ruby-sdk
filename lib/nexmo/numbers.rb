@@ -5,7 +5,7 @@ module Nexmo
   class Numbers < Namespace
     include Keys
 
-    self.host = 'rest.nexmo.com'
+    self.host = :rest_host
 
     # Retrieve all the inbound numbers associated with your Nexmo account.
     #

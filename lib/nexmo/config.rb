@@ -5,11 +5,13 @@ require 'logger'
 module Nexmo
   class Config
     def initialize
+      self.api_host = 'api.nexmo.com'
       self.api_key = ENV['NEXMO_API_KEY']
       self.api_secret = ENV['NEXMO_API_SECRET']
       self.application_id = nil
       self.logger = (defined?(Rails.logger) && Rails.logger) || ::Logger.new(nil)
       self.private_key = nil
+      self.rest_host = 'rest.nexmo.com'
       self.signature_secret = ENV['NEXMO_SIGNATURE_SECRET']
       self.signature_method = ENV['NEXMO_SIGNATURE_METHOD'] || 'md5hash'
       self.token = nil
@@ -26,6 +28,8 @@ module Nexmo
         config.write_attribute(name, value)
       end
     end
+
+    attr_accessor :api_host
 
     # Returns the value of attribute api_key.
     #
@@ -128,6 +132,8 @@ module Nexmo
     end
 
     attr_writer :private_key
+
+    attr_accessor :rest_host
 
     # Returns the value of attribute signature_secret.
     #

@@ -3,7 +3,7 @@
 
 module Nexmo
   class Messages < Namespace
-    self.host = 'rest.nexmo.com'
+    self.host = :rest_host
 
     def get(id)
       request('/search/message', params: {id: id})

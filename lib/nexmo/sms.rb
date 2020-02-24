@@ -6,7 +6,7 @@ module Nexmo
     extend T::Sig
     include Keys
 
-    self.host = 'rest.nexmo.com'
+    self.host = :rest_host
 
     # Send an outbound SMS from your Nexmo account.
     #

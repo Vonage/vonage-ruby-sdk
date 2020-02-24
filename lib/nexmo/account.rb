@@ -5,7 +5,7 @@ module Nexmo
   class Account < Namespace
     include Keys
 
-    self.host = 'rest.nexmo.com'
+    self.host = :rest_host
 
     # Retrieve your account balance.
     #

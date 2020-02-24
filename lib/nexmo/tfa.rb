@@ -5,7 +5,7 @@ module Nexmo
   class TFA < Namespace
     include Keys
 
-    self.host = 'rest.nexmo.com'
+    self.host = :rest_host
 
     def send(params)
       request('/sc/us/2fa/json', params: hyphenate(params), type: Post)

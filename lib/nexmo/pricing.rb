@@ -3,7 +3,7 @@
 
 module Nexmo
   class Pricing < Namespace
-    self.host = 'rest.nexmo.com'
+    self.host = :rest_host
 
     def initialize(config, type: nil)
       raise ArgumentError if type.nil?

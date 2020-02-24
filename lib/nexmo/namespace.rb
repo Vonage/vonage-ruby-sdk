@@ -8,7 +8,7 @@ module Nexmo
     def initialize(config)
       @config = config
 
-      @host = self.class.host
+      @host = self.class.host == :api_host ? @config.api_host : @config.rest_host
 
       @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
       @http.use_ssl = true
@@ -17,10 +17,12 @@ module Nexmo
     end
 
     def self.host
-      @host ||= 'api.nexmo.com'
+      @host ||= :api_host
     end
 
     def self.host=(host)
+      raise ArgumentError unless host == :rest_host
+
       @host = host
     end
 
