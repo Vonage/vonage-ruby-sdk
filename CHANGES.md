@@ -1,3 +1,16 @@
+# 6.3.0
+
+* Added `api_host` and `rest_host` config options
+
+  Use these options to override the default hostnames:
+
+      Nexmo.configure do |config|
+        config.api_host = 'api-sg-1.nexmo.com'
+        config.rest_host = 'rest-nexmo-com-xxx.curlhub.io'
+      end
+
+* Added type checking for SMS API
+
 # 6.2.0
 
 * Upgraded zeitwerk dependency to version 2.2 or newer
