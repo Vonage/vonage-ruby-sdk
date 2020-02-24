@@ -9,4 +9,6 @@ module Nexmo
       REGEXP =~ string
     end
   end
+
+  private_constant :GSM7
 end
