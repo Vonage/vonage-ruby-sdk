@@ -1,4 +1,5 @@
 # typed: false
+
 module Nexmo
   class Response
     def initialize(entity=nil, http_response=nil)

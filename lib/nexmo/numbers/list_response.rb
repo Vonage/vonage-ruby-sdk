@@ -1,4 +1,5 @@
 # typed: ignore
+
 class Nexmo::Numbers::ListResponse < Nexmo::Response
   include Enumerable
 

@@ -1,4 +1,5 @@
 # typed: ignore
+
 module Nexmo
   class KeySecretParams < AbstractAuthentication
     def update(object)

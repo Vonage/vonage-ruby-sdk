@@ -1,4 +1,5 @@
 # typed: ignore
+
 module Nexmo
   module FormData
     def self.update(http_request, params)
