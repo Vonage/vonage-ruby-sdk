@@ -8,9 +8,10 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Logging](#logging)
-* [JWT authentication](#jwt-authentication)
-* [Webhook signatures](#webhook-signatures)
+    * [Logging](#logging)
+    * [Host Overriding](#host-overriding)
+    * [JWT authentication](#jwt-authentication)
+    * [Webhook signatures](#webhook-signatures)
 * [Documentation](#documentation)
 * [License](#license)
 
@@ -71,6 +72,21 @@ client = Nexmo::Client.new(logger: logger)
 By default the library sets the logger to `Rails.logger` if it is defined.
 
 To disable logging set the logger to `nil`.
+
+
+## Host Overriding
+
+To override the default hosts that the SDK uses for HTTP requests, you need to
+specify the `api_host`, `rest_host` or both in the client configuration. For example:
+
+```ruby
+client = Nexmo::Client.new(
+  api_host: 'api-sg-1.nexmo.com',
+  rest_host: 'rest-sg-1.nexmoc.com'
+)
+```
+
+By default the hosts are set to `api.nexmo.com` and `rest.nexmo.com`, respectively.
 
 
 ## JWT authentication
