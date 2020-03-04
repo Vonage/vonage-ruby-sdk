@@ -85,7 +85,7 @@ module Nexmo
       headers['Authorization'] = authorization
       headers['Content-Type'] = 'application/json' if body
 
-      {headers: headers, body: body, query: query}.reject { |k, v| v.nil? }
+      {headers: headers, body: body, query: query}.compact
     end
 
     def response
