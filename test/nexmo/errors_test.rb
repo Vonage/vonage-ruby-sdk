@@ -84,4 +84,17 @@ class Nexmo::ErrorsTest < Minitest::Test
 
     assert_includes error.message, 'Endpoint does not exist, or you do not have access'
   end
+
+  def test_parse_with_error_label
+    error_response = json_response 400, <<-EOS
+      {
+        "error-code": "420",
+        "error-code-label": "Numbers from this country can be requested from the Dashboard (https://dashboard.nexmo.com/buy-numbers) as they require a valid local address to be provided before being purchased."
+      }
+    EOS
+
+    error = Errors.parse(error_response)
+
+    assert_includes error.message, 'Numbers from this country can be requested from the Dashboard'
+  end
 end
