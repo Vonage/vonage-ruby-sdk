@@ -9,7 +9,7 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
 * [Installation](#installation)
 * [Usage](#usage)
     * [Logging](#logging)
-    * [Overring the default hosts](#overriding-the-default-hosts)
+    * [Overriding the default hosts](#overriding-the-default-hosts)
     * [JWT authentication](#jwt-authentication)
     * [Webhook signatures](#webhook-signatures)
 * [Documentation](#documentation)
