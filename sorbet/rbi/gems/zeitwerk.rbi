@@ -7,7 +7,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/zeitwerk/all/zeitwerk.rbi
 #
-# zeitwerk-2.2.2
+# zeitwerk-2.3.0
 module Zeitwerk::RealModName
   def real_mod_name(mod); end
 end
@@ -27,6 +27,9 @@ class Zeitwerk::Loader
   def autoloaded_dirs; end
   def autoloads; end
   def cdef?(parent, cname); end
+  def collapse(*glob_patterns); end
+  def collapse_dirs; end
+  def collapse_glob_patterns; end
   def cpath(parent, cname); end
   def dir?(path); end
   def dirs; end
@@ -60,6 +63,7 @@ class Zeitwerk::Loader
   def promote_namespace_from_implicit_to_explicit(dir:, file:, parent:, cname:); end
   def push_dir(path); end
   def raise_if_conflicting_directory(dir); end
+  def recompute_collapse_dirs; end
   def recompute_ignored_paths; end
   def register_explicit_namespace(cpath); end
   def reload; end

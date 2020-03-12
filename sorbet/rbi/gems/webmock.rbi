@@ -470,7 +470,6 @@ class StubSocket
 end
 class Net::WebMockNetBufferedIO < Net::BufferedIO
   def initialize(io, *args); end
-  def rbuf_fill; end
 end
 module WebMock::NetHTTPUtility
   def self.check_right_http_connection; end
