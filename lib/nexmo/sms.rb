@@ -13,11 +13,7 @@ module Nexmo
     # @example
     #   response = client.sms.send(from: 'Ruby', to: '447700900000', text: 'Hello world')
     #
-    #   if response.success?
-    #     puts "Sent message id=#{response.messages.first.message_id}"
-    #   else
-    #     puts "Error: #{response.messages.first.error_text}"
-    #   end
+    #   puts "Sent message id=#{response.messages.first.message_id}"
     #
     # @option params [required, String] :from
     #   The name or number the message should be sent from.
@@ -96,7 +92,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/sms#send-an-sms
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Nexmo::SMS::Response) }
+    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Nexmo::Response) }
     def send(params)
       if unicode?(params.fetch(:text)) && params[:type] != 'unicode'
         message = 'Sending unicode text SMS without setting the type parameter to "unicode". ' \
@@ -106,7 +102,13 @@ module Nexmo
         logger.warn(message)
       end
 
-      request('/sms/json', params: hyphenate(params), type: Post, response_class: Response)
+      response = request('/sms/json', params: hyphenate(params), type: Post)
+
+      unless response.messages.first.status == '0'
+        raise Error, response.messages.first[:error_text]
+      end
+
+      response
     end
 
     private
