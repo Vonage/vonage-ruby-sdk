@@ -1,6 +1,6 @@
 # typed: ignore
 
-class Nexmo::Calls::ListResponse < Nexmo::Response
+class Nexmo::Voice::ListResponse < Nexmo::Response
   include Enumerable
 
   def each

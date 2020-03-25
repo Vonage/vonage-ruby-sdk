@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  class Calls::Talk < Namespace
+  class Voice::Talk < Namespace
     self.authentication = BearerToken
 
     self.request_body = JSON
