@@ -10,7 +10,6 @@ module Nexmo::Applications::Basic; end
 module Nexmo::Applications::Delete; end
 module Nexmo::Applications::Post; end
 module Nexmo::Applications::Put; end
-module Nexmo::Calls; end
 module Nexmo::Config::HTTP::Options; end
 module Nexmo::Config::Rails; end
 module Nexmo::Conversations::BearerToken; end
