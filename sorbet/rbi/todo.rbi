@@ -3,8 +3,6 @@
 
 # typed: strong
 module Nexmo::Account::Post; end
-module Nexmo::Account::Post; end
-module Nexmo::Alerts::Post; end
 module Nexmo::Alerts::Post; end
 module Nexmo::Applications::Basic; end
 module Nexmo::Applications::Delete; end
@@ -25,16 +23,12 @@ module Nexmo::Conversations::Members::Post; end
 module Nexmo::Conversations::Members::Put; end
 module Nexmo::Conversations::Post; end
 module Nexmo::Conversations::Put; end
-module Nexmo::Conversations::Put; end
 module Nexmo::Conversations::Users::BearerToken; end
 module Nexmo::Conversations::Users::Delete; end
 module Nexmo::Conversations::Users::Post; end
 module Nexmo::Conversations::Users::Put; end
 module Nexmo::Conversions::Post; end
-module Nexmo::Conversions::Post; end
 module Nexmo::Files::BearerToken; end
-module Nexmo::Numbers::Post; end
-module Nexmo::Numbers::Post; end
 module Nexmo::Numbers::Post; end
 module Nexmo::Redact::Basic; end
 module Nexmo::Redact::Post; end
@@ -43,8 +37,6 @@ module Nexmo::Secrets::Basic; end
 module Nexmo::Secrets::Delete; end
 module Nexmo::Secrets::Post; end
 module Nexmo::TFA::Post; end
-module Nexmo::Verify::Post; end
-module Nexmo::Verify::Post; end
 module Nexmo::Verify::Post; end
 module Nexmo::Voice::BearerToken; end
 module Nexmo::Voice::DTMF::BearerToken; end
