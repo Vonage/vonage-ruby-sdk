@@ -8,9 +8,9 @@ module Nexmo
       self.api_host = 'api.nexmo.com'
       self.api_key = ENV['NEXMO_API_KEY']
       self.api_secret = ENV['NEXMO_API_SECRET']
-      self.application_id = nil
+      self.application_id = ENV['NEXMO_APPLICATION_ID']
       self.logger = (defined?(Rails.logger) && Rails.logger) || ::Logger.new(nil)
-      self.private_key = nil
+      self.private_key = ENV['NEXMO_PRIVATE_KEY_PATH'] ? File.read(ENV['NEXMO_PRIVATE_KEY_PATH']) : ENV['NEXMO_PRIVATE_KEY']
       self.rest_host = 'rest.nexmo.com'
       self.signature_secret = ENV['NEXMO_SIGNATURE_SECRET']
       self.signature_method = ENV['NEXMO_SIGNATURE_METHOD'] || 'md5hash'
