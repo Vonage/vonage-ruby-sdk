@@ -1,5 +1,5 @@
 # typed: strong
 
 module Nexmo
-  VERSION = '6.3.0'
+  VERSION = '7.0.0'
 end

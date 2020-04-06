@@ -1,3 +1,27 @@
+# 7.0.0
+
+**Major Release with Breaking Changes**
+
+* Renamed the `Calls` class to `Voice`
+
+  This is a backwards incompatible change.
+
+* Raise exceptions for any error responses in the `NumberInsight`, `SMS` and `Verify` API classes
+
+  This change eliminates the need for users to build custom error handling for error responses
+  that come as part of a `200 OK` API response in the legacy APIs.
+
+  This is a backwards incompatible change.
+
+* Added support for additional environment variables
+
+  Support has been added for:
+    * `ENV['NEXMO_APPLICATION_ID']`
+    * `ENV['NEXMO_PRIVATE_KEY']`
+    * `ENV['NEXMO_PRIVATE_KEY_PATH']`
+
+* Added type checking for Account and Alerts APIs
+
 # 6.3.0
 
 * Added `api_host` and `rest_host` config options
