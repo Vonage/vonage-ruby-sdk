@@ -90,6 +90,7 @@ end
 
 class Array
   include ::JSON::Ext::Generator::GeneratorMethods::Array
+  include ::Tins::Blank::Array
   def bsearch(); end
 
   def bsearch_index(); end
@@ -118,7 +119,6 @@ BasicObject::BasicObject = BasicObject
 class BigDecimal
   def clone(); end
   EXCEPTION_NaN = ::T.let(nil, ::T.untyped)
-  SIGN_NaN = ::T.let(nil, ::T.untyped)
   VERSION = ::T.let(nil, ::T.untyped)
 end
 
@@ -887,6 +887,24 @@ class Coveralls::API
   API_PROTOCOL = ::T.let(nil, ::T.untyped)
 end
 
+class Crack::ParseError
+end
+
+class Crack::ParseError
+end
+
+module Crack::Util
+  def snake_case(str); end
+
+  def to_xml_attributes(hash); end
+end
+
+module Crack::Util
+  extend ::Crack::Util
+end
+
+DSLKit = Tins
+
 class Date::Infinity
   def initialize(d=T.unsafe(nil)); end
 end
@@ -1002,12 +1020,6 @@ class DidYouMean::PlainFormatter
 end
 
 class DidYouMean::PlainFormatter
-end
-
-class DidYouMean::SpellChecker
-  def correct(input); end
-
-  def initialize(dictionary:); end
 end
 
 class DidYouMean::VariableNameChecker
@@ -1183,6 +1195,10 @@ class Enumerator::Lazy
   def slice_when(*_); end
 end
 
+class Errno::EACCES
+  include ::Tins::Find::EXPECTED_STANDARD_ERRORS
+end
+
 class Errno::EAUTH
   Errno = ::T.let(nil, ::T.untyped)
 end
@@ -1212,6 +1228,14 @@ end
 
 Errno::EIPSEC = Errno::NOERROR
 
+class Errno::ELOOP
+  include ::Tins::Find::EXPECTED_STANDARD_ERRORS
+end
+
+class Errno::ENAMETOOLONG
+  include ::Tins::Find::EXPECTED_STANDARD_ERRORS
+end
+
 class Errno::ENEEDAUTH
   Errno = ::T.let(nil, ::T.untyped)
 end
@@ -1224,9 +1248,17 @@ class Errno::ENOATTR
 end
 
 class Errno::ENOATTR
+end
+
+class Errno::ENOENT
+  include ::Tins::Find::EXPECTED_STANDARD_ERRORS
 end
 
 Errno::ENOTCAPABLE = Errno::NOERROR
+
+class Errno::ENOTDIR
+  include ::Tins::Find::EXPECTED_STANDARD_ERRORS
+end
 
 class Errno::ENOTSUP
   Errno = ::T.let(nil, ::T.untyped)
@@ -1354,6 +1386,7 @@ end
 
 class FalseClass
   include ::JSON::Ext::Generator::GeneratorMethods::FalseClass
+  include ::Tins::Blank::FalseClass
 end
 
 class Fiber
@@ -1375,11 +1408,8 @@ class File::Stat
 end
 
 class File
-<<<<<<< HEAD
   def self.cleanpath(path, rel_root=T.unsafe(nil)); end
 
-=======
->>>>>>> master
   def self.exists?(_); end
 
   def self.lutime(*_); end
@@ -1496,6 +1526,7 @@ end
 
 class Hash
   include ::JSON::Ext::Generator::GeneratorMethods::Hash
+  include ::Tins::Blank::Hash
   def <(_); end
 
   def <=(_); end
@@ -1530,8 +1561,6 @@ class Hash
 
   def transform_keys!(); end
 
-  def transform_values(); end
-
   def transform_values!(); end
 
   def update(_); end
@@ -1546,7 +1575,33 @@ module HashDiff
 end
 
 class IO
+  def beep(); end
+
+  def cooked(); end
+
+  def cooked!(); end
+
+  def cursor(); end
+
+  def cursor=(); end
+
+  def echo=(echo); end
+
+  def echo?(); end
+
   def external_encoding(); end
+
+  def getch(*_); end
+
+  def getpass(*_); end
+
+  def goto(); end
+
+  def iflush(); end
+
+  def ioflush(); end
+
+  def noecho(); end
 
   def nonblock(*_); end
 
@@ -1556,11 +1611,19 @@ class IO
 
   def nread(); end
 
+  def oflush(); end
+
   def pathconf(_); end
 
   def pread(*_); end
 
+  def pressed?(); end
+
   def pwrite(_, _1); end
+
+  def raw(*_); end
+
+  def raw!(*_); end
 
   def ready?(); end
 
@@ -1570,6 +1633,10 @@ class IO
 
   def wait_writable(*_); end
 
+  def winsize(); end
+
+  def winsize=(winsize); end
+
   def write_nonblock(buf, exception: T.unsafe(nil)); end
 end
 
@@ -1578,6 +1645,8 @@ IO::EWOULDBLOCKWaitReadable = IO::EAGAINWaitReadable
 IO::EWOULDBLOCKWaitWritable = IO::EAGAINWaitWritable
 
 class IO
+  def self.console(*_); end
+
   def self.foreach(*_); end
 end
 
@@ -1787,8 +1856,6 @@ module Kernel
 
   def pretty_inspect(); end
 
-  def respond_to?(*_); end
-
   def yield_self(); end
 end
 
@@ -1835,7 +1902,35 @@ end
 
 Methods = T::Private::Methods
 
-MiniTest = Minitest
+module Minitest
+end
+
+MiniTest::Expectations = Minitest::Expectations
+
+class Minitest::Spec
+end
+
+module Minitest::Spec::DSL
+end
+
+MiniTest::Spec::DSL::InstanceMethods = Minitest::Spec::DSL::InstanceMethods
+
+module Minitest::Spec::DSL
+end
+
+class Minitest::Spec
+end
+
+class Minitest::Test
+end
+
+MiniTest::Test::LifecycleHooks = Minitest::Test::LifecycleHooks
+
+class Minitest::Test
+end
+
+module Minitest
+end
 
 module Minitest
   ENCS = ::T.let(nil, ::T.untyped)
@@ -1873,7 +1968,12 @@ class Minitest::Unit
 end
 
 class Module
+  include ::Tins::Memoize::CacheMethods
   def deprecate_constant(*_); end
+
+  def memoize_function(*function_ids); end
+
+  def memoize_method(*method_ids); end
 
   def undef_method(*_); end
 end
@@ -1954,8 +2054,6 @@ class Net::HTTP
   ENVIRONMENT_VARIABLE_IS_MULTIUSER_SAFE = ::T.let(nil, ::T.untyped)
 end
 
-Net::HTTP::ProxyMod = Net::HTTP::ProxyDelta
-
 class Net::HTTPAlreadyReported
   HAS_BODY = ::T.let(nil, ::T.untyped)
 end
@@ -1969,9 +2067,13 @@ Net::HTTPClientErrorCode = Net::HTTPClientError
 
 Net::HTTPFatalErrorCode = Net::HTTPClientError
 
-Net::HTTPInformation::EXCEPTION_TYPE = Net::HTTPError
+class Net::HTTPInformation
+end
 
-Net::HTTPInformationCode = Net::HTTPInformation
+Net::HTTPInformationCode::EXCEPTION_TYPE = Net::HTTPError
+
+class Net::HTTPInformation
+end
 
 class Net::HTTPLoopDetected
   HAS_BODY = ::T.let(nil, ::T.untyped)
@@ -1994,7 +2096,6 @@ Net::HTTPMultipleChoice = Net::HTTPMultipleChoices
 class Net::HTTPNotExtended
   HAS_BODY = ::T.let(nil, ::T.untyped)
 end
-<<<<<<< HEAD
 
 class Net::HTTPNotExtended
 end
@@ -2010,23 +2111,6 @@ Net::HTTPRedirection::EXCEPTION_TYPE = Net::HTTPRetriableError
 
 Net::HTTPRedirectionCode = Net::HTTPRedirection
 
-=======
-
-class Net::HTTPNotExtended
-end
-
-class Net::HTTPProcessing
-  HAS_BODY = ::T.let(nil, ::T.untyped)
-end
-
-class Net::HTTPProcessing
-end
-
-Net::HTTPRedirection::EXCEPTION_TYPE = Net::HTTPRetriableError
-
-Net::HTTPRedirectionCode = Net::HTTPRedirection
-
->>>>>>> master
 Net::HTTPRequestURITooLarge = Net::HTTPRequestURITooLong
 
 Net::HTTPResponceReceiver = Net::HTTPResponse
@@ -2037,7 +2121,15 @@ Net::HTTPServerError::EXCEPTION_TYPE = Net::HTTPFatalError
 
 Net::HTTPServerErrorCode = Net::HTTPServerError
 
-Net::HTTPSession = Net::HTTP
+class Net::HTTP
+end
+
+Net::HTTPSession::ProxyDelta = Net::HTTP::ProxyDelta
+
+Net::HTTPSession::ProxyMod = Net::HTTP::ProxyDelta
+
+class Net::HTTP
+end
 
 Net::HTTPSuccess::EXCEPTION_TYPE = Net::HTTPError
 
@@ -2075,6 +2167,11 @@ class Nexmo::Account
 end
 
 class Nexmo::Alerts
+end
+
+class Nexmo::Alerts
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
 end
 
 class Nexmo::Applications
@@ -2175,10 +2272,6 @@ class Nexmo::Namespace
   def self.request_body=(request_body); end
 
   def self.request_headers(); end
-
-  def self.response_class(); end
-
-  def self.response_class=(response_class); end
 end
 
 class Nexmo::NumberInsight
@@ -2246,25 +2339,29 @@ end
 class Nexmo::Voice::Stream
 end
 
-<<<<<<< HEAD
-=======
 class Nexmo::Voice::Talk
 end
 
 class NilClass
   include ::JSON::Ext::Generator::GeneratorMethods::NilClass
+  include ::Tins::Blank::NilClass
   def to_i(); end
 end
 
->>>>>>> master
 class NoMethodError
   def args(); end
 
   def private_call?(); end
 end
 
+class Numeric
+  include ::Tins::Blank::Numeric
+end
+
 class Object
   include ::JSON::Ext::Generator::GeneratorMethods::Object
+  include ::Tins::Blank::Object
+  include ::Tins::Full
   include ::PP::ObjectMixin
   def dclone(); end
 
@@ -4716,8 +4813,87 @@ module RbConfig
   def self.ruby(); end
 end
 
-class Regexp
-  def match?(*_); end
+module Readline
+  FILENAME_COMPLETION_PROC = ::T.let(nil, ::T.untyped)
+  HISTORY = ::T.let(nil, ::T.untyped)
+  USERNAME_COMPLETION_PROC = ::T.let(nil, ::T.untyped)
+  VERSION = ::T.let(nil, ::T.untyped)
+end
+
+module Readline
+  def self.basic_quote_characters(); end
+
+  def self.basic_quote_characters=(basic_quote_characters); end
+
+  def self.basic_word_break_characters(); end
+
+  def self.basic_word_break_characters=(basic_word_break_characters); end
+
+  def self.completer_quote_characters(); end
+
+  def self.completer_quote_characters=(completer_quote_characters); end
+
+  def self.completer_word_break_characters(); end
+
+  def self.completer_word_break_characters=(completer_word_break_characters); end
+
+  def self.completion_append_character(); end
+
+  def self.completion_append_character=(completion_append_character); end
+
+  def self.completion_case_fold(); end
+
+  def self.completion_case_fold=(completion_case_fold); end
+
+  def self.completion_proc(); end
+
+  def self.completion_proc=(completion_proc); end
+
+  def self.delete_text(*_); end
+
+  def self.emacs_editing_mode(); end
+
+  def self.emacs_editing_mode?(); end
+
+  def self.filename_quote_characters(); end
+
+  def self.filename_quote_characters=(filename_quote_characters); end
+
+  def self.get_screen_size(); end
+
+  def self.input=(input); end
+
+  def self.insert_text(_); end
+
+  def self.line_buffer(); end
+
+  def self.output=(output); end
+
+  def self.point(); end
+
+  def self.point=(point); end
+
+  def self.pre_input_hook(); end
+
+  def self.pre_input_hook=(pre_input_hook); end
+
+  def self.quoting_detection_proc(); end
+
+  def self.quoting_detection_proc=(quoting_detection_proc); end
+
+  def self.redisplay(); end
+
+  def self.refresh_line(); end
+
+  def self.set_screen_size(_, _1); end
+
+  def self.special_prefixes(); end
+
+  def self.special_prefixes=(special_prefixes); end
+
+  def self.vi_editing_mode(); end
+
+  def self.vi_editing_mode?(); end
 end
 
 class Ripper
@@ -5328,10 +5504,71 @@ class RubyVM
   def self.stat(*_); end
 end
 
+module SafeYAML
+  YAML_ENGINE = ::T.let(nil, ::T.untyped)
+end
+
+class SafeYAML::Deep
+end
+
+class SafeYAML::Deep
+  def self.copy(object); end
+
+  def self.freeze(object); end
+end
+
+class SafeYAML::LibyamlChecker
+  KNOWN_PATCHED_LIBYAML_VERSIONS = ::T.let(nil, ::T.untyped)
+  LIBYAML_VERSION = ::T.let(nil, ::T.untyped)
+  SAFE_LIBYAML_VERSION = ::T.let(nil, ::T.untyped)
+end
+
+class SafeYAML::LibyamlChecker
+  def self.libyaml_patched?(); end
+
+  def self.libyaml_version_ok?(); end
+end
+
+class SafeYAML::Parse
+end
+
+class SafeYAML::Parse::Date
+  DATE_MATCHER = ::T.let(nil, ::T.untyped)
+  MICROSECONDS_PER_SECOND = ::T.let(nil, ::T.untyped)
+  SECONDS_PER_DAY = ::T.let(nil, ::T.untyped)
+  SEC_FRACTION_MULTIPLIER = ::T.let(nil, ::T.untyped)
+  TIME_MATCHER = ::T.let(nil, ::T.untyped)
+end
+
+class SafeYAML::Parse::Date
+end
+
+class SafeYAML::Parse::Hexadecimal
+  MATCHER = ::T.let(nil, ::T.untyped)
+end
+
+class SafeYAML::Parse::Hexadecimal
+  def self.value(value); end
+end
+
+class SafeYAML::Parse::Sexagesimal
+  FLOAT_MATCHER = ::T.let(nil, ::T.untyped)
+  INTEGER_MATCHER = ::T.let(nil, ::T.untyped)
+end
+
+class SafeYAML::Parse::Sexagesimal
+  def self.value(value); end
+end
+
+class SafeYAML::Parse
+end
+
+module SafeYAML
+end
+
 ScanError = StringScanner::Error
 
 module SecureRandom
-  extend ::Random::Formatter
   def self.bytes(n); end
 end
 
@@ -5601,411 +5838,6 @@ module Socket::Constants
   TCP_NOPUSH = ::T.let(nil, ::T.untyped)
 end
 
-class Sorbet::Private::ConstantLookupCache
-  def all_module_aliases(); end
-
-  def all_module_names(); end
-
-  def all_named_modules(); end
-
-  def class_by_name(name); end
-
-  def name_by_class(klass); end
-  DEPRECATED_CONSTANTS = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::ConstantLookupCache::ConstantEntry
-  def aliases(); end
-
-  def aliases=(_); end
-
-  def const(); end
-
-  def const=(_); end
-
-  def const_name(); end
-
-  def const_name=(_); end
-
-  def found_name(); end
-
-  def found_name=(_); end
-
-  def owner(); end
-
-  def owner=(_); end
-
-  def primary_name(); end
-
-  def primary_name=(_); end
-end
-
-class Sorbet::Private::ConstantLookupCache::ConstantEntry
-  def self.[](*_); end
-
-  def self.members(); end
-end
-
-class Sorbet::Private::ConstantLookupCache
-end
-
-class Sorbet::Private::CreateConfig
-  include ::Sorbet::Private::StepInterface
-  SORBET_CONFIG_FILE = ::T.let(nil, ::T.untyped)
-  SORBET_DIR = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::CreateConfig
-  def self.main(); end
-
-  def self.output_file(); end
-end
-
-class Sorbet::Private::FetchRBIs
-  include ::Sorbet::Private::StepInterface
-  HEADER = ::T.let(nil, ::T.untyped)
-  RBI_CACHE_DIR = ::T.let(nil, ::T.untyped)
-  SORBET_CONFIG_FILE = ::T.let(nil, ::T.untyped)
-  SORBET_DIR = ::T.let(nil, ::T.untyped)
-  SORBET_RBI_LIST = ::T.let(nil, ::T.untyped)
-  SORBET_RBI_SORBET_TYPED = ::T.let(nil, ::T.untyped)
-  SORBET_TYPED_REPO = ::T.let(nil, ::T.untyped)
-  SORBET_TYPED_REVISION = ::T.let(nil, ::T.untyped)
-  XDG_CACHE_HOME = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::FetchRBIs
-  def self.fetch_sorbet_typed(); end
-
-  def self.main(); end
-
-  def self.matching_version_directories(root, version); end
-
-  def self.output_file(); end
-
-  def self.paths_for_gem_version(gemspec); end
-
-  def self.paths_for_ruby_version(ruby_version); end
-
-  def self.vendor_rbis_within_paths(vendor_paths); end
-end
-
-class Sorbet::Private::FindGemRBIs
-  include ::Sorbet::Private::StepInterface
-  GEM_DIR = ::T.let(nil, ::T.untyped)
-  HEADER = ::T.let(nil, ::T.untyped)
-  RBI_CACHE_DIR = ::T.let(nil, ::T.untyped)
-  XDG_CACHE_HOME = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::FindGemRBIs
-  def self.main(); end
-
-  def self.output_file(); end
-
-  def self.paths_within_gem_sources(gemspec); end
-end
-
-module Sorbet::Private::GemGeneratorTracepoint
-  include ::Sorbet::Private::StepInterface
-  OUTPUT = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::GemGeneratorTracepoint::ClassDefinition
-  def defs(); end
-
-  def defs=(_); end
-
-  def id(); end
-
-  def id=(_); end
-
-  def klass(); end
-
-  def klass=(_); end
-end
-
-class Sorbet::Private::GemGeneratorTracepoint::ClassDefinition
-  def self.[](*_); end
-
-  def self.members(); end
-end
-
-class Sorbet::Private::GemGeneratorTracepoint::TracepointSerializer
-  def initialize(files:, delegate_classes:); end
-
-  def serialize(output_dir); end
-  BAD_METHODS = ::T.let(nil, ::T.untyped)
-  HEADER = ::T.let(nil, ::T.untyped)
-  SPECIAL_METHOD_NAMES = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::GemGeneratorTracepoint::TracepointSerializer
-end
-
-class Sorbet::Private::GemGeneratorTracepoint::Tracer
-end
-
-class Sorbet::Private::GemGeneratorTracepoint::Tracer
-  def self.add_to_context(item); end
-
-  def self.disable_tracepoints(); end
-
-  def self.finish(); end
-
-  def self.install_tracepoints(); end
-
-  def self.on_method_added(mod, method, singleton); end
-
-  def self.on_module_created(mod); end
-
-  def self.on_module_extended(extended, extender); end
-
-  def self.on_module_included(included, includer); end
-
-  def self.pre_cache_module_methods(); end
-
-  def self.register_delegate_class(klass, delegate); end
-
-  def self.start(); end
-
-  def self.trace(); end
-
-  def self.trace_results(); end
-end
-
-module Sorbet::Private::GemGeneratorTracepoint
-  def self.main(output_dir=T.unsafe(nil)); end
-
-  def self.output_file(); end
-end
-
-class Sorbet::Private::GemLoader
-  GEM_LOADER = ::T.let(nil, ::T.untyped)
-  NO_GEM = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::GemLoader
-  def self.my_require(gem); end
-
-  def self.require_all_gems(); end
-
-  def self.require_gem(gem); end
-end
-
-class Sorbet::Private::HiddenMethodFinder
-  include ::Sorbet::Private::StepInterface
-  def all_modules_and_aliases(); end
-
-  def capture_stderr(); end
-
-  def constant_cache(); end
-
-  def gen_source_rbi(classes, aliases); end
-
-  def looks_like_stub_name(name); end
-
-  def main(); end
-
-  def mk_dir(); end
-
-  def read_constants(); end
-
-  def real_name(mod); end
-
-  def require_everything(); end
-
-  def rm_dir(); end
-
-  def serialize_alias(source_entry, rbi_entry, my_klass, source_symbols, rbi_symbols); end
-
-  def serialize_class(source_entry, rbi_entry, klass, source_symbols, rbi_symbols, source_by_name); end
-
-  def serialize_constants(source, rbi, klass, is_singleton, source_symbols, rbi_symbols); end
-
-  def symbols_id_to_name(entry, prefix); end
-
-  def write_constants(); end
-
-  def write_diff(source, rbi); end
-  BLACKLIST = ::T.let(nil, ::T.untyped)
-  DIFF_RBI = ::T.let(nil, ::T.untyped)
-  ERRORS_RBI = ::T.let(nil, ::T.untyped)
-  HEADER = ::T.let(nil, ::T.untyped)
-  HIDDEN_RBI = ::T.let(nil, ::T.untyped)
-  PATH = ::T.let(nil, ::T.untyped)
-  RBI_CONSTANTS = ::T.let(nil, ::T.untyped)
-  RBI_CONSTANTS_ERR = ::T.let(nil, ::T.untyped)
-  SOURCE_CONSTANTS = ::T.let(nil, ::T.untyped)
-  SOURCE_CONSTANTS_ERR = ::T.let(nil, ::T.untyped)
-  TMP_PATH = ::T.let(nil, ::T.untyped)
-  TMP_RBI = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::HiddenMethodFinder
-  def self.main(); end
-
-  def self.output_file(); end
-end
-
-module Sorbet::Private::Main
-end
-
-module Sorbet::Private::Main
-  def self.cyan(msg); end
-
-  def self.emojify(emoji, msg); end
-
-  def self.init(); end
-
-  def self.main(argv); end
-
-  def self.make_step(step); end
-
-  def self.usage(); end
-
-  def self.yellow(msg); end
-end
-
-module Sorbet::Private::RealStdlib
-end
-
-module Sorbet::Private::RealStdlib
-  def self.real_ancestors(mod); end
-
-  def self.real_autoload?(o, klass); end
-
-  def self.real_const_get(obj, const, arg); end
-
-  def self.real_constants(mod); end
-
-  def self.real_eqeq(obj, other); end
-
-  def self.real_hash(o); end
-
-  def self.real_instance_methods(mod, arg); end
-
-  def self.real_is_a?(o, klass); end
-
-  def self.real_method(obj, sym); end
-
-  def self.real_name(o); end
-
-  def self.real_object_id(o); end
-
-  def self.real_private_instance_methods(mod, arg); end
-
-  def self.real_singleton_class(obj); end
-
-  def self.real_singleton_methods(mod, arg); end
-
-  def self.real_spaceship(obj, arg); end
-
-  def self.real_superclass(o); end
-end
-
-class Sorbet::Private::RequireEverything
-end
-
-class Sorbet::Private::RequireEverything
-  def self.excluded_rails_files(); end
-
-  def self.load_bundler(); end
-
-  def self.load_rails(); end
-
-  def self.my_require(abs_path, numerator, denominator); end
-
-  def self.patch_kernel(); end
-
-  def self.rails?(); end
-
-  def self.rails_load_paths(); end
-
-  def self.rb_file_paths(); end
-
-  def self.require_all_files(); end
-
-  def self.require_everything(); end
-end
-
-class Sorbet::Private::Serialize
-  def alias(base, other_name); end
-
-  def ancestor_has_method(method, klass); end
-
-  def blacklisted_method(method); end
-
-  def class_or_module(class_name); end
-
-  def comparable?(value); end
-
-  def constant(const, value); end
-
-  def from_method(method); end
-
-  def initialize(constant_cache); end
-
-  def serialize_method(method, static=T.unsafe(nil), with_sig: T.unsafe(nil)); end
-
-  def serialize_sig(parameters); end
-
-  def to_sig(kind, name); end
-
-  def valid_class_name(name); end
-
-  def valid_method_name(name); end
-  BLACKLIST_CONSTANTS = ::T.let(nil, ::T.untyped)
-  KEYWORDS = ::T.let(nil, ::T.untyped)
-  SPECIAL_METHOD_NAMES = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::Serialize
-  def self.header(typed=T.unsafe(nil), subcommand=T.unsafe(nil)); end
-end
-
-module Sorbet::Private::Status
-end
-
-module Sorbet::Private::Status
-  def self.done(); end
-
-  def self.say(message, print_without_tty: T.unsafe(nil)); end
-end
-
-module Sorbet::Private::StepInterface
-end
-
-module Sorbet::Private::StepInterface
-  def self.main(); end
-
-  def self.output_file(); end
-end
-
-class Sorbet::Private::SuggestTyped
-  include ::Sorbet::Private::StepInterface
-end
-
-class Sorbet::Private::SuggestTyped
-  def self.main(); end
-
-  def self.output_file(); end
-
-  def self.suggest_typed(); end
-end
-
-class Sorbet::Private::TodoRBI
-  include ::Sorbet::Private::StepInterface
-  HEADER = ::T.let(nil, ::T.untyped)
-  OUTPUT = ::T.let(nil, ::T.untyped)
-end
-
-class Sorbet::Private::TodoRBI
-  def self.main(); end
-
-  def self.output_file(); end
-end
-
 class SortedSet
   def initialize(*args, &block); end
 end
@@ -6014,12 +5846,15 @@ class SortedSet
   def self.setup(); end
 end
 
+Spruz = Tins
+
 class StopIteration
   def result(); end
 end
 
 class String
   include ::JSON::Ext::Generator::GeneratorMethods::String
+  include ::Tins::Blank::String
   def []=(*_); end
 
   def casecmp?(_); end
@@ -6185,6 +6020,110 @@ Struct::Passwd = Etc::Passwd
 
 Struct::Tms = Process::Tms
 
+class Sync
+  include ::Sync_m
+  def exclusive?(); end
+
+  def lock(m=T.unsafe(nil)); end
+
+  def locked?(); end
+
+  def shared?(); end
+
+  def synchronize(mode=T.unsafe(nil)); end
+
+  def try_lock(mode=T.unsafe(nil)); end
+
+  def unlock(m=T.unsafe(nil)); end
+end
+
+class Sync
+end
+
+module Sync_m
+  def initialize(*args); end
+
+  def sync_ex_count(); end
+
+  def sync_ex_count=(sync_ex_count); end
+
+  def sync_ex_locker(); end
+
+  def sync_ex_locker=(sync_ex_locker); end
+
+  def sync_exclusive?(); end
+
+  def sync_extend(); end
+
+  def sync_inspect(); end
+
+  def sync_lock(m=T.unsafe(nil)); end
+
+  def sync_locked?(); end
+
+  def sync_mode(); end
+
+  def sync_mode=(sync_mode); end
+
+  def sync_sh_locker(); end
+
+  def sync_sh_locker=(sync_sh_locker); end
+
+  def sync_shared?(); end
+
+  def sync_synchronize(mode=T.unsafe(nil)); end
+
+  def sync_try_lock(mode=T.unsafe(nil)); end
+
+  def sync_unlock(m=T.unsafe(nil)); end
+
+  def sync_upgrade_waiting(); end
+
+  def sync_upgrade_waiting=(sync_upgrade_waiting); end
+
+  def sync_waiting(); end
+
+  def sync_waiting=(sync_waiting); end
+  EX = ::T.let(nil, ::T.untyped)
+  SH = ::T.let(nil, ::T.untyped)
+  UN = ::T.let(nil, ::T.untyped)
+end
+
+class Sync_m::Err
+end
+
+class Sync_m::Err::LockModeFailer
+  Message = ::T.let(nil, ::T.untyped)
+end
+
+class Sync_m::Err::LockModeFailer
+  def self.Fail(mode); end
+end
+
+class Sync_m::Err::UnknownLocker
+  Message = ::T.let(nil, ::T.untyped)
+end
+
+class Sync_m::Err::UnknownLocker
+  def self.Fail(th); end
+end
+
+class Sync_m::Err
+  def self.Fail(*opt); end
+end
+
+module Sync_m
+  def self.append_features(cl); end
+
+  def self.define_aliases(cl); end
+
+  def self.extend_object(obj); end
+end
+
+Synchronizer = Sync
+
+Synchronizer_m = Sync_m
+
 class SystemCallError
   def errno(); end
 end
@@ -6210,12 +6149,2816 @@ end
 class Tempfile::Remover
 end
 
+module Term
+end
+
+module Term::ANSIColor
+  include ::Term::ANSIColor::Movement
+  def attributes(); end
+
+  def black(string=T.unsafe(nil), &block); end
+
+  def blink(string=T.unsafe(nil), &block); end
+
+  def blue(string=T.unsafe(nil), &block); end
+
+  def bold(string=T.unsafe(nil), &block); end
+
+  def bright_black(string=T.unsafe(nil), &block); end
+
+  def bright_blue(string=T.unsafe(nil), &block); end
+
+  def bright_cyan(string=T.unsafe(nil), &block); end
+
+  def bright_green(string=T.unsafe(nil), &block); end
+
+  def bright_magenta(string=T.unsafe(nil), &block); end
+
+  def bright_red(string=T.unsafe(nil), &block); end
+
+  def bright_white(string=T.unsafe(nil), &block); end
+
+  def bright_yellow(string=T.unsafe(nil), &block); end
+
+  def clear(string=T.unsafe(nil), &block); end
+
+  def color(name, string=T.unsafe(nil), &block); end
+
+  def conceal(string=T.unsafe(nil), &block); end
+
+  def concealed(string=T.unsafe(nil), &block); end
+
+  def cyan(string=T.unsafe(nil), &block); end
+
+  def dark(string=T.unsafe(nil), &block); end
+
+  def faint(string=T.unsafe(nil), &block); end
+
+  def green(string=T.unsafe(nil), &block); end
+
+  def intense_black(string=T.unsafe(nil), &block); end
+
+  def intense_blue(string=T.unsafe(nil), &block); end
+
+  def intense_cyan(string=T.unsafe(nil), &block); end
+
+  def intense_green(string=T.unsafe(nil), &block); end
+
+  def intense_magenta(string=T.unsafe(nil), &block); end
+
+  def intense_red(string=T.unsafe(nil), &block); end
+
+  def intense_white(string=T.unsafe(nil), &block); end
+
+  def intense_yellow(string=T.unsafe(nil), &block); end
+
+  def italic(string=T.unsafe(nil), &block); end
+
+  def magenta(string=T.unsafe(nil), &block); end
+
+  def negative(string=T.unsafe(nil), &block); end
+
+  def on_black(string=T.unsafe(nil), &block); end
+
+  def on_blue(string=T.unsafe(nil), &block); end
+
+  def on_bright_black(string=T.unsafe(nil), &block); end
+
+  def on_bright_blue(string=T.unsafe(nil), &block); end
+
+  def on_bright_cyan(string=T.unsafe(nil), &block); end
+
+  def on_bright_green(string=T.unsafe(nil), &block); end
+
+  def on_bright_magenta(string=T.unsafe(nil), &block); end
+
+  def on_bright_red(string=T.unsafe(nil), &block); end
+
+  def on_bright_white(string=T.unsafe(nil), &block); end
+
+  def on_bright_yellow(string=T.unsafe(nil), &block); end
+
+  def on_color(name, string=T.unsafe(nil), &block); end
+
+  def on_cyan(string=T.unsafe(nil), &block); end
+
+  def on_green(string=T.unsafe(nil), &block); end
+
+  def on_intense_black(string=T.unsafe(nil), &block); end
+
+  def on_intense_blue(string=T.unsafe(nil), &block); end
+
+  def on_intense_cyan(string=T.unsafe(nil), &block); end
+
+  def on_intense_green(string=T.unsafe(nil), &block); end
+
+  def on_intense_magenta(string=T.unsafe(nil), &block); end
+
+  def on_intense_red(string=T.unsafe(nil), &block); end
+
+  def on_intense_white(string=T.unsafe(nil), &block); end
+
+  def on_intense_yellow(string=T.unsafe(nil), &block); end
+
+  def on_magenta(string=T.unsafe(nil), &block); end
+
+  def on_red(string=T.unsafe(nil), &block); end
+
+  def on_white(string=T.unsafe(nil), &block); end
+
+  def on_yellow(string=T.unsafe(nil), &block); end
+
+  def rapid_blink(string=T.unsafe(nil), &block); end
+
+  def red(string=T.unsafe(nil), &block); end
+
+  def reset(string=T.unsafe(nil), &block); end
+
+  def reverse(string=T.unsafe(nil), &block); end
+
+  def strikethrough(string=T.unsafe(nil), &block); end
+
+  def support?(feature); end
+
+  def term_ansicolor_attributes(); end
+
+  def uncolor(string=T.unsafe(nil)); end
+
+  def uncolored(string=T.unsafe(nil)); end
+
+  def underline(string=T.unsafe(nil), &block); end
+
+  def underscore(string=T.unsafe(nil), &block); end
+
+  def white(string=T.unsafe(nil), &block); end
+
+  def yellow(string=T.unsafe(nil), &block); end
+  ATTRIBUTE_NAMES = ::T.let(nil, ::T.untyped)
+  COLORED_REGEXP = ::T.let(nil, ::T.untyped)
+  VERSION = ::T.let(nil, ::T.untyped)
+  VERSION_ARRAY = ::T.let(nil, ::T.untyped)
+  VERSION_BUILD = ::T.let(nil, ::T.untyped)
+  VERSION_MAJOR = ::T.let(nil, ::T.untyped)
+  VERSION_MINOR = ::T.let(nil, ::T.untyped)
+end
+
+class Term::ANSIColor::Attribute
+  def apply(string=T.unsafe(nil), &block); end
+
+  def background?(); end
+
+  def code(); end
+
+  def distance_to(other, options=T.unsafe(nil)); end
+
+  def gradient_to(other, options=T.unsafe(nil)); end
+
+  def gray?(); end
+
+  def initialize(name, code, options=T.unsafe(nil)); end
+
+  def name(); end
+
+  def rgb(); end
+
+  def rgb_color?(); end
+
+  def to_rgb_triple(); end
+end
+
+class Term::ANSIColor::Attribute::Color256
+end
+
+class Term::ANSIColor::Attribute::Color256
+end
+
+class Term::ANSIColor::Attribute::Color8
+end
+
+class Term::ANSIColor::Attribute::Color8
+end
+
+class Term::ANSIColor::Attribute::IntenseColor8
+end
+
+class Term::ANSIColor::Attribute::IntenseColor8
+end
+
+class Term::ANSIColor::Attribute::Text
+end
+
+class Term::ANSIColor::Attribute::Text
+end
+
+class Term::ANSIColor::Attribute
+  def self.[](name); end
+
+  def self.attributes(&block); end
+
+  def self.get(name); end
+
+  def self.named_attributes(&block); end
+
+  def self.nearest_rgb_color(color, options=T.unsafe(nil)); end
+
+  def self.nearest_rgb_on_color(color, options=T.unsafe(nil)); end
+
+  def self.rgb_colors(options=T.unsafe(nil), &block); end
+
+  def self.set(name, code, options=T.unsafe(nil)); end
+end
+
+class Term::ANSIColor::HSLTriple
+  def ==(other); end
+
+  def adjust_hue(degree); end
+
+  def complement(); end
+
+  def css(); end
+
+  def darken(percentage); end
+
+  def desaturate(percentage); end
+
+  def grayscale(); end
+
+  def hue(); end
+
+  def initialize(hue, saturation, lightness); end
+
+  def lighten(percentage); end
+
+  def lightness(); end
+
+  def method_missing(name, *args, &block); end
+
+  def saturate(percentage); end
+
+  def saturation(); end
+
+  def to_hsl_triple(); end
+
+  def to_rgb_triple(); end
+end
+
+class Term::ANSIColor::HSLTriple
+  def self.[](thing); end
+
+  def self.from_css(css); end
+
+  def self.from_hash(options); end
+
+  def self.from_rgb_triple(rgb); end
+end
+
+module Term::ANSIColor::Movement
+  def clear_screen(string=T.unsafe(nil), &block); end
+
+  def erase_in_display(n=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def erase_in_line(n=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def hide_cursor(string=T.unsafe(nil), &block); end
+
+  def move_backward(columns=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def move_down(lines=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def move_forward(columns=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def move_home(string=T.unsafe(nil), &block); end
+
+  def move_to(line=T.unsafe(nil), column=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def move_to_column(column=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def move_to_line(line=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def move_to_next_line(lines=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def move_to_previous_line(lines=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def move_up(lines=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def restore_position(string=T.unsafe(nil), &block); end
+
+  def return_to_position(string=T.unsafe(nil), &block); end
+
+  def save_position(string=T.unsafe(nil), &block); end
+
+  def scroll_down(pages=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def scroll_up(pages=T.unsafe(nil), string=T.unsafe(nil), &block); end
+
+  def show_cursor(string=T.unsafe(nil), &block); end
+
+  def terminal_columns(); end
+
+  def terminal_lines(); end
+end
+
+module Term::ANSIColor::Movement
+end
+
+class Term::ANSIColor::PPMReader
+  include ::Term::ANSIColor
+  include ::Term::ANSIColor::Movement
+  def each_row(); end
+
+  def initialize(io, options=T.unsafe(nil)); end
+
+  def reset_io(); end
+
+  def to_a(); end
+end
+
+class Term::ANSIColor::PPMReader
+end
+
+module Term::ANSIColor::RGBColorMetrics
+end
+
+module Term::ANSIColor::RGBColorMetrics::CIELab
+end
+
+class Term::ANSIColor::RGBColorMetrics::CIELab::CIELabTriple
+  include ::Term::ANSIColor::RGBColorMetricsHelpers::WeightedEuclideanDistance
+end
+
+class Term::ANSIColor::RGBColorMetrics::CIELab::CIELabTriple
+  extend ::Term::ANSIColor::RGBColorMetricsHelpers::NormalizeRGBTriple
+  def self.from_rgb_triple(rgb_triple); end
+end
+
+module Term::ANSIColor::RGBColorMetrics::CIELab
+  def self.distance(rgb1, rgb2); end
+end
+
+module Term::ANSIColor::RGBColorMetrics::CIEXYZ
+end
+
+class Term::ANSIColor::RGBColorMetrics::CIEXYZ::CIEXYZTriple
+  include ::Term::ANSIColor::RGBColorMetricsHelpers::WeightedEuclideanDistance
+end
+
+class Term::ANSIColor::RGBColorMetrics::CIEXYZ::CIEXYZTriple
+  extend ::Term::ANSIColor::RGBColorMetricsHelpers::NormalizeRGBTriple
+  def self.from_rgb_triple(rgb_triple); end
+end
+
+module Term::ANSIColor::RGBColorMetrics::CIEXYZ
+  def self.distance(rgb1, rgb2); end
+end
+
+module Term::ANSIColor::RGBColorMetrics::CompuPhase
+end
+
+module Term::ANSIColor::RGBColorMetrics::CompuPhase
+  def self.distance(rgb1, rgb2); end
+end
+
+module Term::ANSIColor::RGBColorMetrics::Euclidean
+end
+
+module Term::ANSIColor::RGBColorMetrics::Euclidean
+  def self.distance(rgb1, rgb2); end
+end
+
+module Term::ANSIColor::RGBColorMetrics::NTSC
+end
+
+module Term::ANSIColor::RGBColorMetrics::NTSC
+  def self.distance(rgb1, rgb2); end
+end
+
+module Term::ANSIColor::RGBColorMetrics::YUV
+end
+
+class Term::ANSIColor::RGBColorMetrics::YUV::YUVTriple
+  include ::Term::ANSIColor::RGBColorMetricsHelpers::WeightedEuclideanDistance
+end
+
+class Term::ANSIColor::RGBColorMetrics::YUV::YUVTriple
+  def self.from_rgb_triple(rgb_triple); end
+end
+
+module Term::ANSIColor::RGBColorMetrics::YUV
+  def self.distance(rgb1, rgb2); end
+end
+
+module Term::ANSIColor::RGBColorMetrics
+  def self.metric(name); end
+
+  def self.metric?(name); end
+
+  def self.metrics(); end
+end
+
+module Term::ANSIColor::RGBColorMetricsHelpers
+end
+
+module Term::ANSIColor::RGBColorMetricsHelpers::NormalizeRGBTriple
+end
+
+module Term::ANSIColor::RGBColorMetricsHelpers::NormalizeRGBTriple
+end
+
+module Term::ANSIColor::RGBColorMetricsHelpers::WeightedEuclideanDistance
+  def weighted_euclidean_distance_to(other, weights=T.unsafe(nil)); end
+end
+
+module Term::ANSIColor::RGBColorMetricsHelpers::WeightedEuclideanDistance
+end
+
+module Term::ANSIColor::RGBColorMetricsHelpers
+end
+
+class Term::ANSIColor::RGBTriple
+  include ::Term::ANSIColor::RGBColorMetricsHelpers::WeightedEuclideanDistance
+  def ==(other); end
+
+  def blue(); end
+
+  def blue_p(); end
+
+  def color(string); end
+
+  def css(percentage: T.unsafe(nil)); end
+
+  def distance_to(other, options=T.unsafe(nil)); end
+
+  def gradient_to(other, options=T.unsafe(nil)); end
+
+  def gray?(); end
+
+  def green(); end
+
+  def green_p(); end
+
+  def html(); end
+
+  def initialize(red, green, blue); end
+
+  def invert(); end
+
+  def method_missing(name, *args, &block); end
+
+  def percentages(); end
+
+  def red(); end
+
+  def red_p(); end
+
+  def to_a(); end
+
+  def to_hsl_triple(); end
+
+  def to_rgb_triple(); end
+
+  def values(); end
+end
+
+class Term::ANSIColor::RGBTriple
+  def self.[](thing); end
+
+  def self.from_array(array); end
+
+  def self.from_css(css); end
+
+  def self.from_hash(options); end
+
+  def self.from_html(html); end
+end
+
+module Term::ANSIColor
+  extend ::Term::ANSIColor
+  extend ::Term::ANSIColor::Movement
+  def self.coloring=(val); end
+
+  def self.coloring?(); end
+
+  def self.create_color_method(color_name, color_value); end
+end
+
+module Term
+end
+
+class Thor
+  include ::Thor::Base
+  include ::Thor::Invocation
+  include ::Thor::Shell
+  def help(command=T.unsafe(nil), subcommand=T.unsafe(nil)); end
+  Correctable = ::T.let(nil, ::T.untyped)
+  HELP_MAPPINGS = ::T.let(nil, ::T.untyped)
+  TEMPLATE_EXTNAME = ::T.let(nil, ::T.untyped)
+  THOR_RESERVED_WORDS = ::T.let(nil, ::T.untyped)
+end
+
+module Thor::Actions
+  def _cleanup_options_and_set(options, key); end
+
+  def _shared_configuration(); end
+
+  def action(instance); end
+
+  def add_file(destination, *args, &block); end
+
+  def add_link(destination, *args); end
+
+  def append_file(path, *args, &block); end
+
+  def append_to_file(path, *args, &block); end
+
+  def apply(path, config=T.unsafe(nil)); end
+
+  def behavior(); end
+
+  def behavior=(behavior); end
+
+  def chmod(path, mode, config=T.unsafe(nil)); end
+
+  def comment_lines(path, flag, *args); end
+
+  def copy_file(source, *args, &block); end
+
+  def create_file(destination, *args, &block); end
+
+  def create_link(destination, *args); end
+
+  def destination_root(); end
+
+  def destination_root=(root); end
+
+  def directory(source, *args, &block); end
+
+  def empty_directory(destination, config=T.unsafe(nil)); end
+
+  def find_in_source_paths(file); end
+
+  def get(source, *args, &block); end
+
+  def gsub_file(path, flag, *args, &block); end
+
+  def in_root(); end
+
+  def initialize(args=T.unsafe(nil), options=T.unsafe(nil), config=T.unsafe(nil)); end
+
+  def inject_into_class(path, klass, *args, &block); end
+
+  def inject_into_file(destination, *args, &block); end
+
+  def inject_into_module(path, module_name, *args, &block); end
+
+  def insert_into_file(destination, *args, &block); end
+
+  def inside(dir=T.unsafe(nil), config=T.unsafe(nil), &block); end
+
+  def link_file(source, *args); end
+
+  def prepend_file(path, *args, &block); end
+
+  def prepend_to_file(path, *args, &block); end
+
+  def relative_to_original_destination_root(path, remove_dot=T.unsafe(nil)); end
+
+  def remove_dir(path, config=T.unsafe(nil)); end
+
+  def remove_file(path, config=T.unsafe(nil)); end
+
+  def run(command, config=T.unsafe(nil)); end
+
+  def run_ruby_script(command, config=T.unsafe(nil)); end
+
+  def source_paths(); end
+
+  def template(source, *args, &block); end
+
+  def thor(command, *args); end
+
+  def uncomment_lines(path, flag, *args); end
+end
+
+class Thor::Actions::CapturableERB
+end
+
+class Thor::Actions::CapturableERB
+end
+
+module Thor::Actions::ClassMethods
+  def add_runtime_options!(); end
+
+  def source_paths(); end
+
+  def source_paths_for_search(); end
+
+  def source_root(path=T.unsafe(nil)); end
+end
+
+module Thor::Actions::ClassMethods
+end
+
+class Thor::Actions::CreateFile
+  def data(); end
+
+  def force_on_collision?(); end
+
+  def force_or_skip_or_conflict(force, skip, &block); end
+
+  def identical?(); end
+
+  def initialize(base, destination, data, config=T.unsafe(nil)); end
+
+  def on_conflict_behavior(&block); end
+
+  def render(); end
+end
+
+class Thor::Actions::CreateFile
+end
+
+class Thor::Actions::CreateLink
+end
+
+class Thor::Actions::CreateLink
+end
+
+class Thor::Actions::Directory
+  def execute!(); end
+
+  def file_level_lookup(previous_lookup); end
+
+  def files(lookup); end
+
+  def initialize(base, source, destination=T.unsafe(nil), config=T.unsafe(nil), &block); end
+
+  def source(); end
+end
+
+class Thor::Actions::Directory
+end
+
+class Thor::Actions::EmptyDirectory
+  def base(); end
+
+  def config(); end
+
+  def convert_encoded_instructions(filename); end
+
+  def destination(); end
+
+  def destination=(destination); end
+
+  def exists?(); end
+
+  def given_destination(); end
+
+  def initialize(base, destination, config=T.unsafe(nil)); end
+
+  def invoke!(); end
+
+  def invoke_with_conflict_check(&block); end
+
+  def on_conflict_behavior(); end
+
+  def on_file_clash_behavior(); end
+
+  def pretend?(); end
+
+  def relative_destination(); end
+
+  def revoke!(); end
+
+  def say_status(status, color); end
+end
+
+class Thor::Actions::EmptyDirectory
+end
+
+class Thor::Actions::InjectIntoFile
+  def behavior(); end
+
+  def flag(); end
+
+  def initialize(base, destination, data, config); end
+
+  def replace!(regexp, string, force); end
+
+  def replacement(); end
+
+  def say_status(behavior); end
+end
+
+class Thor::Actions::InjectIntoFile
+end
+
+module Thor::Actions
+  def self.included(base); end
+end
+
+class Thor::AmbiguousCommandError
+end
+
+class Thor::AmbiguousCommandError
+end
+
+Thor::AmbiguousTaskError = Thor::AmbiguousCommandError
+
+class Thor::Argument
+  def banner(); end
+
+  def default(); end
+
+  def default_banner(); end
+
+  def description(); end
+
+  def enum(); end
+
+  def human_name(); end
+
+  def initialize(name, options=T.unsafe(nil)); end
+
+  def name(); end
+
+  def required(); end
+
+  def required?(); end
+
+  def show_default?(); end
+
+  def type(); end
+
+  def usage(); end
+
+  def valid_type?(type); end
+
+  def validate!(); end
+  VALID_TYPES = ::T.let(nil, ::T.untyped)
+end
+
+class Thor::Argument
+end
+
+class Thor::Arguments
+  def initialize(arguments=T.unsafe(nil)); end
+
+  def parse(args); end
+
+  def remaining(); end
+  NUMERIC = ::T.let(nil, ::T.untyped)
+end
+
+class Thor::Arguments
+  def self.parse(*args); end
+
+  def self.split(args); end
+end
+
+module Thor::Base
+  def args(); end
+
+  def args=(args); end
+
+  def initialize(args=T.unsafe(nil), local_options=T.unsafe(nil), config=T.unsafe(nil)); end
+
+  def options(); end
+
+  def options=(options); end
+
+  def parent_options(); end
+
+  def parent_options=(parent_options); end
+end
+
+module Thor::Base::ClassMethods
+  def all_commands(); end
+
+  def all_tasks(); end
+
+  def argument(name, options=T.unsafe(nil)); end
+
+  def arguments(); end
+
+  def attr_accessor(*_); end
+
+  def attr_reader(*_); end
+
+  def attr_writer(*_); end
+
+  def baseclass(); end
+
+  def basename(); end
+
+  def build_option(name, options, scope); end
+
+  def build_options(options, scope); end
+
+  def check_default_type(); end
+
+  def check_default_type!(); end
+
+  def check_default_type?(); end
+
+  def check_unknown_options(); end
+
+  def check_unknown_options!(); end
+
+  def check_unknown_options?(config); end
+
+  def class_option(name, options=T.unsafe(nil)); end
+
+  def class_options(options=T.unsafe(nil)); end
+
+  def class_options_help(shell, groups=T.unsafe(nil)); end
+
+  def commands(); end
+
+  def create_command(meth); end
+
+  def create_task(meth); end
+
+  def disable_required_check?(command_name); end
+
+  def dispatch(command, given_args, given_opts, config); end
+
+  def exit_on_failure?(); end
+
+  def find_and_refresh_command(name); end
+
+  def find_and_refresh_task(name); end
+
+  def from_superclass(method, default=T.unsafe(nil)); end
+
+  def group(name=T.unsafe(nil)); end
+
+  def handle_argument_error(command, error, args, arity); end
+
+  def handle_no_command_error(command, has_namespace=T.unsafe(nil)); end
+
+  def handle_no_task_error(command, has_namespace=T.unsafe(nil)); end
+
+  def inherited(klass); end
+
+  def initialize_added(); end
+
+  def is_thor_reserved_word?(word, type); end
+
+  def method_added(meth); end
+
+  def namespace(name=T.unsafe(nil)); end
+
+  def no_commands(); end
+
+  def no_tasks(); end
+
+  def print_options(shell, options, group_name=T.unsafe(nil)); end
+
+  def public_command(*names); end
+
+  def public_task(*names); end
+
+  def remove_argument(*names); end
+
+  def remove_class_option(*names); end
+
+  def remove_command(*names); end
+
+  def remove_task(*names); end
+
+  def start(given_args=T.unsafe(nil), config=T.unsafe(nil)); end
+
+  def stop_on_unknown_option?(command_name); end
+
+  def strict_args_position(); end
+
+  def strict_args_position!(); end
+
+  def strict_args_position?(config); end
+
+  def tasks(); end
+end
+
+module Thor::Base::ClassMethods
+end
+
+module Thor::Base
+  def self.included(base); end
+
+  def self.register_klass_file(klass); end
+
+  def self.shell(); end
+
+  def self.shell=(shell); end
+
+  def self.subclass_files(); end
+
+  def self.subclasses(); end
+end
+
+class Thor::Command
+  def formatted_usage(klass, namespace=T.unsafe(nil), subcommand=T.unsafe(nil)); end
+
+  def handle_argument_error?(instance, error, caller); end
+
+  def handle_no_method_error?(instance, error, caller); end
+
+  def hidden?(); end
+
+  def initialize(name, description, long_description, usage, options=T.unsafe(nil)); end
+
+  def local_method?(instance, name); end
+
+  def not_debugging?(instance); end
+
+  def private_method?(instance); end
+
+  def public_method?(instance); end
+
+  def required_options(); end
+
+  def run(instance, args=T.unsafe(nil)); end
+
+  def sans_backtrace(backtrace, caller); end
+  FILE_REGEXP = ::T.let(nil, ::T.untyped)
+end
+
+class Thor::Command
+end
+
+module Thor::CoreExt
+end
+
+class Thor::CoreExt::HashWithIndifferentAccess
+  def [](key); end
+
+  def []=(key, value); end
+
+  def convert_key(key); end
+
+  def delete(key); end
+
+  def fetch(key, *args); end
+
+  def initialize(hash=T.unsafe(nil)); end
+
+  def key?(key); end
+
+  def merge(other); end
+
+  def merge!(other); end
+
+  def method_missing(method, *args); end
+
+  def replace(other_hash); end
+
+  def reverse_merge(other); end
+
+  def reverse_merge!(other_hash); end
+
+  def values_at(*indices); end
+end
+
+class Thor::CoreExt::HashWithIndifferentAccess
+end
+
+class Thor::CoreExt::OrderedHash
+end
+
+class Thor::CoreExt::OrderedHash
+end
+
+module Thor::CoreExt
+end
+
+class Thor::DynamicCommand
+  def initialize(name, options=T.unsafe(nil)); end
+end
+
+class Thor::DynamicCommand
+end
+
+Thor::DynamicTask = Thor::DynamicCommand
+
+class Thor::Error
+end
+
+class Thor::Error
+end
+
+class Thor::Group
+  include ::Thor::Base
+  include ::Thor::Invocation
+  include ::Thor::Shell
+  def _invoke_for_class_method(klass, command=T.unsafe(nil), *args, &block); end
+end
+
+class Thor::Group
+  extend ::Thor::Base::ClassMethods
+  extend ::Thor::Invocation::ClassMethods
+  def self.banner(); end
+
+  def self.desc(description=T.unsafe(nil)); end
+
+  def self.get_options_from_invocations(group_options, base_options); end
+
+  def self.handle_argument_error(command, error, _args, arity); end
+
+  def self.help(shell); end
+
+  def self.invocation_blocks(); end
+
+  def self.invocations(); end
+
+  def self.invoke(*names, &block); end
+
+  def self.invoke_from_option(*names, &block); end
+
+  def self.printable_commands(*_); end
+
+  def self.printable_tasks(*_); end
+
+  def self.remove_invocation(*names); end
+
+  def self.self_command(); end
+
+  def self.self_task(); end
+end
+
+class Thor::HiddenCommand
+end
+
+class Thor::HiddenCommand
+end
+
+Thor::HiddenTask = Thor::HiddenCommand
+
+module Thor::Invocation
+  def _parse_initialization_options(args, opts, config); end
+
+  def _retrieve_class_and_command(name, sent_command=T.unsafe(nil)); end
+
+  def _retrieve_class_and_task(name, sent_command=T.unsafe(nil)); end
+
+  def _shared_configuration(); end
+
+  def current_command_chain(); end
+
+  def initialize(args=T.unsafe(nil), options=T.unsafe(nil), config=T.unsafe(nil), &block); end
+
+  def invoke(name=T.unsafe(nil), *args); end
+
+  def invoke_all(); end
+
+  def invoke_command(command, *args); end
+
+  def invoke_task(command, *args); end
+
+  def invoke_with_padding(*args); end
+end
+
+module Thor::Invocation::ClassMethods
+  def prepare_for_invocation(key, name); end
+end
+
+module Thor::Invocation::ClassMethods
+end
+
+module Thor::Invocation
+  def self.included(base); end
+end
+
+class Thor::InvocationError
+end
+
+class Thor::InvocationError
+end
+
+module Thor::LineEditor
+end
+
+class Thor::LineEditor::Basic
+  def initialize(prompt, options); end
+
+  def options(); end
+
+  def prompt(); end
+
+  def readline(); end
+end
+
+class Thor::LineEditor::Basic
+  def self.available?(); end
+end
+
+class Thor::LineEditor::Readline
+end
+
+class Thor::LineEditor::Readline::PathCompletion
+  def initialize(text); end
+
+  def matches(); end
+end
+
+class Thor::LineEditor::Readline::PathCompletion
+end
+
+class Thor::LineEditor::Readline
+end
+
+module Thor::LineEditor
+  def self.best_available(); end
+
+  def self.readline(prompt, options=T.unsafe(nil)); end
+end
+
+class Thor::MalformattedArgumentError
+end
+
+class Thor::MalformattedArgumentError
+end
+
+class Thor::Option
+  def aliases(); end
+
+  def array?(); end
+
+  def boolean?(); end
+
+  def dasherize(str); end
+
+  def dasherized?(); end
+
+  def group(); end
+
+  def hash?(); end
+
+  def hide(); end
+
+  def lazy_default(); end
+
+  def numeric?(); end
+
+  def string?(); end
+
+  def switch_name(); end
+
+  def undasherize(str); end
+
+  def usage(padding=T.unsafe(nil)); end
+
+  def validate_default_type!(); end
+  VALID_TYPES = ::T.let(nil, ::T.untyped)
+end
+
+class Thor::Option
+  def self.parse(key, value); end
+end
+
+class Thor::Options
+  def check_unknown!(); end
+
+  def current_is_switch?(); end
+
+  def current_is_switch_formatted?(); end
+
+  def initialize(hash_options=T.unsafe(nil), defaults=T.unsafe(nil), stop_on_unknown=T.unsafe(nil), disable_required_check=T.unsafe(nil)); end
+
+  def normalize_switch(arg); end
+
+  def parse_boolean(switch); end
+
+  def parse_peek(switch, option); end
+
+  def parsing_options?(); end
+
+  def switch?(arg); end
+
+  def switch_option(arg); end
+  EQ_RE = ::T.let(nil, ::T.untyped)
+  LONG_RE = ::T.let(nil, ::T.untyped)
+  OPTS_END = ::T.let(nil, ::T.untyped)
+  SHORT_NUM = ::T.let(nil, ::T.untyped)
+  SHORT_RE = ::T.let(nil, ::T.untyped)
+  SHORT_SQ_RE = ::T.let(nil, ::T.untyped)
+end
+
+class Thor::Options
+  def self.to_switches(options); end
+end
+
+module Thor::RakeCompat
+  include ::Rake::DSL
+  include ::Rake::FileUtilsExt
+  include ::FileUtils
+  include ::FileUtils::StreamUtils_
+end
+
+module Thor::RakeCompat
+  def self.included(base); end
+
+  def self.rake_classes(); end
+end
+
+class Thor::RequiredArgumentMissingError
+end
+
+class Thor::RequiredArgumentMissingError
+end
+
+module Thor::Sandbox
+end
+
+module Thor::Sandbox
+end
+
+module Thor::Shell
+  def _shared_configuration(); end
+
+  def ask(*args, &block); end
+
+  def error(*args, &block); end
+
+  def file_collision(*args, &block); end
+
+  def initialize(args=T.unsafe(nil), options=T.unsafe(nil), config=T.unsafe(nil)); end
+
+  def no?(*args, &block); end
+
+  def print_in_columns(*args, &block); end
+
+  def print_table(*args, &block); end
+
+  def print_wrapped(*args, &block); end
+
+  def say(*args, &block); end
+
+  def say_status(*args, &block); end
+
+  def set_color(*args, &block); end
+
+  def shell(); end
+
+  def shell=(shell); end
+
+  def terminal_width(*args, &block); end
+
+  def with_padding(); end
+
+  def yes?(*args, &block); end
+  SHELL_DELEGATED_METHODS = ::T.let(nil, ::T.untyped)
+end
+
+class Thor::Shell::Basic
+  def as_unicode(); end
+
+  def ask(statement, *args); end
+
+  def ask_filtered(statement, color, options); end
+
+  def ask_simply(statement, color, options); end
+
+  def base(); end
+
+  def base=(base); end
+
+  def can_display_colors?(); end
+
+  def dynamic_width(); end
+
+  def dynamic_width_stty(); end
+
+  def dynamic_width_tput(); end
+
+  def error(statement); end
+
+  def file_collision(destination); end
+
+  def file_collision_help(); end
+
+  def git_merge_tool(); end
+
+  def indent(count=T.unsafe(nil)); end
+
+  def is?(value); end
+
+  def lookup_color(color); end
+
+  def merge(destination, content); end
+
+  def merge_tool(); end
+
+  def mute(); end
+
+  def mute?(); end
+
+  def no?(statement, color=T.unsafe(nil)); end
+
+  def padding(); end
+
+  def padding=(value); end
+
+  def prepare_message(message, *color); end
+
+  def print_in_columns(array); end
+
+  def print_table(array, options=T.unsafe(nil)); end
+
+  def print_wrapped(message, options=T.unsafe(nil)); end
+
+  def quiet?(); end
+
+  def say(message=T.unsafe(nil), color=T.unsafe(nil), force_new_line=T.unsafe(nil)); end
+
+  def say_status(status, message, log_status=T.unsafe(nil)); end
+
+  def set_color(string, *_); end
+
+  def show_diff(destination, content); end
+
+  def stderr(); end
+
+  def stdout(); end
+
+  def terminal_width(); end
+
+  def truncate(string, width); end
+
+  def unix?(); end
+
+  def yes?(statement, color=T.unsafe(nil)); end
+  DEFAULT_TERMINAL_WIDTH = ::T.let(nil, ::T.untyped)
+end
+
+class Thor::Shell::Basic
+end
+
+class Thor::Shell::Color
+  def diff_lcs_loaded?(); end
+
+  def output_diff_line(diff); end
+
+  def set_color(string, *colors); end
+  BLACK = ::T.let(nil, ::T.untyped)
+  BLUE = ::T.let(nil, ::T.untyped)
+  BOLD = ::T.let(nil, ::T.untyped)
+  CLEAR = ::T.let(nil, ::T.untyped)
+  CYAN = ::T.let(nil, ::T.untyped)
+  GREEN = ::T.let(nil, ::T.untyped)
+  MAGENTA = ::T.let(nil, ::T.untyped)
+  ON_BLACK = ::T.let(nil, ::T.untyped)
+  ON_BLUE = ::T.let(nil, ::T.untyped)
+  ON_CYAN = ::T.let(nil, ::T.untyped)
+  ON_GREEN = ::T.let(nil, ::T.untyped)
+  ON_MAGENTA = ::T.let(nil, ::T.untyped)
+  ON_RED = ::T.let(nil, ::T.untyped)
+  ON_WHITE = ::T.let(nil, ::T.untyped)
+  ON_YELLOW = ::T.let(nil, ::T.untyped)
+  RED = ::T.let(nil, ::T.untyped)
+  WHITE = ::T.let(nil, ::T.untyped)
+  YELLOW = ::T.let(nil, ::T.untyped)
+end
+
+class Thor::Shell::Color
+end
+
+class Thor::Shell::HTML
+  def ask(statement, color=T.unsafe(nil)); end
+
+  def diff_lcs_loaded?(); end
+
+  def output_diff_line(diff); end
+
+  def set_color(string, *colors); end
+  BLACK = ::T.let(nil, ::T.untyped)
+  BLUE = ::T.let(nil, ::T.untyped)
+  BOLD = ::T.let(nil, ::T.untyped)
+  CYAN = ::T.let(nil, ::T.untyped)
+  GREEN = ::T.let(nil, ::T.untyped)
+  MAGENTA = ::T.let(nil, ::T.untyped)
+  ON_BLACK = ::T.let(nil, ::T.untyped)
+  ON_BLUE = ::T.let(nil, ::T.untyped)
+  ON_CYAN = ::T.let(nil, ::T.untyped)
+  ON_GREEN = ::T.let(nil, ::T.untyped)
+  ON_MAGENTA = ::T.let(nil, ::T.untyped)
+  ON_RED = ::T.let(nil, ::T.untyped)
+  ON_WHITE = ::T.let(nil, ::T.untyped)
+  ON_YELLOW = ::T.let(nil, ::T.untyped)
+  RED = ::T.let(nil, ::T.untyped)
+  WHITE = ::T.let(nil, ::T.untyped)
+  YELLOW = ::T.let(nil, ::T.untyped)
+end
+
+class Thor::Shell::HTML
+end
+
+module Thor::Shell
+end
+
+Thor::Task = Thor::Command
+
+class Thor::UndefinedCommandError
+  def all_commands(); end
+
+  def command(); end
+
+  def initialize(command, all_commands, namespace); end
+end
+
+class Thor::UndefinedCommandError::SpellChecker
+  def corrections(); end
+
+  def error(); end
+
+  def initialize(error); end
+
+  def spell_checker(); end
+end
+
+class Thor::UndefinedCommandError::SpellChecker
+end
+
+class Thor::UndefinedCommandError
+end
+
+Thor::UndefinedTaskError = Thor::UndefinedCommandError
+
+class Thor::UnknownArgumentError
+  def initialize(switches, unknown); end
+
+  def switches(); end
+
+  def unknown(); end
+end
+
+class Thor::UnknownArgumentError::SpellChecker
+  def corrections(); end
+
+  def error(); end
+
+  def initialize(error); end
+
+  def spell_checker(); end
+end
+
+class Thor::UnknownArgumentError::SpellChecker
+end
+
+class Thor::UnknownArgumentError
+end
+
+module Thor::Util
+end
+
+module Thor::Util
+  def self.camel_case(str); end
+
+  def self.escape_globs(path); end
+
+  def self.find_by_namespace(namespace); end
+
+  def self.find_class_and_command_by_namespace(namespace, fallback=T.unsafe(nil)); end
+
+  def self.find_class_and_task_by_namespace(namespace, fallback=T.unsafe(nil)); end
+
+  def self.globs_for(path); end
+
+  def self.load_thorfile(path, content=T.unsafe(nil), debug=T.unsafe(nil)); end
+
+  def self.namespace_from_thor_class(constant); end
+
+  def self.namespaces_in_content(contents, file=T.unsafe(nil)); end
+
+  def self.ruby_command(); end
+
+  def self.snake_case(str); end
+
+  def self.thor_classes_in(klass); end
+
+  def self.thor_root(); end
+
+  def self.thor_root_glob(); end
+
+  def self.user_home(); end
+end
+
+class Thor
+  extend ::Thor::Base::ClassMethods
+  extend ::Thor::Invocation::ClassMethods
+  def self.banner(command, namespace=T.unsafe(nil), subcommand=T.unsafe(nil)); end
+
+  def self.check_unknown_options!(options=T.unsafe(nil)); end
+
+  def self.command_help(shell, command_name); end
+
+  def self.default_command(meth=T.unsafe(nil)); end
+
+  def self.default_task(meth=T.unsafe(nil)); end
+
+  def self.desc(usage, description, options=T.unsafe(nil)); end
+
+  def self.disable_required_check(); end
+
+  def self.disable_required_check!(*command_names); end
+
+  def self.disable_required_check?(command); end
+
+  def self.dispatch(meth, given_args, given_opts, config); end
+
+  def self.dynamic_command_class(); end
+
+  def self.find_command_possibilities(meth); end
+
+  def self.find_task_possibilities(meth); end
+
+  def self.help(shell, subcommand=T.unsafe(nil)); end
+
+  def self.long_desc(long_description, options=T.unsafe(nil)); end
+
+  def self.map(mappings=T.unsafe(nil)); end
+
+  def self.method_option(name, options=T.unsafe(nil)); end
+
+  def self.method_options(options=T.unsafe(nil)); end
+
+  def self.normalize_command_name(meth); end
+
+  def self.normalize_task_name(meth); end
+
+  def self.option(name, options=T.unsafe(nil)); end
+
+  def self.options(options=T.unsafe(nil)); end
+
+  def self.package_name(name, _=T.unsafe(nil)); end
+
+  def self.printable_commands(all=T.unsafe(nil), subcommand=T.unsafe(nil)); end
+
+  def self.printable_tasks(all=T.unsafe(nil), subcommand=T.unsafe(nil)); end
+
+  def self.register(klass, subcommand_name, usage, description, options=T.unsafe(nil)); end
+
+  def self.retrieve_command_name(args); end
+
+  def self.retrieve_task_name(args); end
+
+  def self.stop_on_unknown_option(); end
+
+  def self.stop_on_unknown_option!(*command_names); end
+
+  def self.stop_on_unknown_option?(command); end
+
+  def self.subcommand(subcommand, subcommand_class); end
+
+  def self.subcommand_classes(); end
+
+  def self.subcommand_help(cmd); end
+
+  def self.subcommands(); end
+
+  def self.subtask(subcommand, subcommand_class); end
+
+  def self.subtask_help(cmd); end
+
+  def self.subtasks(); end
+
+  def self.task_help(shell, command_name); end
+end
+
+module Tins
+  VERSION = ::T.let(nil, ::T.untyped)
+  VERSION_ARRAY = ::T.let(nil, ::T.untyped)
+  VERSION_BUILD = ::T.let(nil, ::T.untyped)
+  VERSION_MAJOR = ::T.let(nil, ::T.untyped)
+  VERSION_MINOR = ::T.let(nil, ::T.untyped)
+end
+
+module Tins::Annotate
+  def annotate(name); end
+end
+
+module Tins::Annotate
+end
+
+module Tins::Attempt
+  def attempt(opts=T.unsafe(nil), &block); end
+end
+
+module Tins::Attempt
+end
+
+class Tins::Bijection
+  def []=(key, value); end
+
+  def fill(); end
+
+  def initialize(inverted=T.unsafe(nil)); end
+
+  def inverted(); end
+end
+
+class Tins::Bijection
+  def self.[](*pairs); end
+end
+
+module Tins::Blank
+end
+
+module Tins::Blank::Array
+end
+
+module Tins::Blank::Array
+  def self.included(modul); end
+end
+
+module Tins::Blank::FalseClass
+  def blank?(); end
+end
+
+module Tins::Blank::FalseClass
+end
+
+module Tins::Blank::Hash
+end
+
+module Tins::Blank::Hash
+  def self.included(modul); end
+end
+
+module Tins::Blank::NilClass
+  def blank?(); end
+end
+
+module Tins::Blank::NilClass
+end
+
+module Tins::Blank::Numeric
+  def blank?(); end
+end
+
+module Tins::Blank::Numeric
+end
+
+module Tins::Blank::Object
+  def blank?(); end
+
+  def present?(); end
+end
+
+module Tins::Blank::Object
+end
+
+module Tins::Blank::String
+  def blank?(); end
+end
+
+module Tins::Blank::String
+end
+
+module Tins::Blank::TrueClass
+  def blank?(); end
+end
+
+module Tins::Blank::TrueClass
+end
+
+module Tins::Blank
+end
+
+module Tins::BlankSlate
+end
+
+module Tins::BlankSlate
+  def self.with(*ids); end
+end
+
+module Tins::BlockSelf
+end
+
+module Tins::BlockSelf
+  def self.block_self(&block); end
+end
+
+module Tins::CasePredicate
+  def case?(*args); end
+end
+
+module Tins::CasePredicate
+end
+
+module Tins::ClassMethod
+  include ::Tins::Eigenclass
+  def class_attr_accessor(*ids); end
+
+  def class_attr_reader(*ids); end
+
+  def class_attr_writer(*ids); end
+
+  def class_define_method(name, &block); end
+end
+
+module Tins::ClassMethod
+end
+
+module Tins::Complete
+end
+
+module Tins::Complete
+  def self.complete(prompt: T.unsafe(nil), add_hist: T.unsafe(nil), &block); end
+end
+
+module Tins::Concern
+  def append_features(base); end
+
+  def included(base=T.unsafe(nil), &block); end
+end
+
+module Tins::Concern
+  def self.extended(base); end
+end
+
+module Tins::Constant
+  def constant(name, value=T.unsafe(nil)); end
+end
+
+module Tins::Constant
+end
+
+module Tins::ConstantMaker
+  def const_missing(id); end
+end
+
+module Tins::ConstantMaker
+end
+
+module Tins::CountBy
+  def count_by(&b); end
+end
+
+module Tins::CountBy
+end
+
+module Tins::DSLAccessor
+  def dsl_accessor(name, *default, &block); end
+
+  def dsl_reader(name, *default, &block); end
+end
+
+module Tins::DSLAccessor
+end
+
+module Tins::DateDummy
+end
+
+module Tins::DateDummy
+  def self.included(modul); end
+end
+
+module Tins::DateTimeDummy
+end
+
+module Tins::DateTimeDummy
+  def self.included(modul); end
+end
+
+module Tins::DeepConstGet
+  def deep_const_get(path, start_module=T.unsafe(nil)); end
+end
+
+module Tins::DeepConstGet
+  def self.const_defined_in?(modul, constant); end
+
+  def self.deep_const_get(path, start_module=T.unsafe(nil)); end
+end
+
+module Tins::DeepDup
+  def deep_dup(); end
+end
+
+module Tins::DeepDup
+end
+
+module Tins::Deflect
+  def deflect(from, id, deflector); end
+
+  def deflect?(from, id); end
+
+  def deflect_start(from, id, deflector); end
+
+  def deflect_stop(from, id); end
+end
+
+class Tins::Deflect::DeflectError
+end
+
+class Tins::Deflect::DeflectError
+end
+
+class Tins::Deflect::Deflector
+end
+
+class Tins::Deflect::Deflector
+end
+
+class Tins::Deflect::DeflectorCollection
+  def add(klass, id, deflector); end
+
+  def delete(klass, id); end
+
+  def find(klass, id); end
+
+  def member?(klass, id); end
+end
+
+class Tins::Deflect::DeflectorCollection
+end
+
+module Tins::Deflect
+  def self.deflect?(from, id); end
+
+  def self.deflecting(); end
+
+  def self.deflecting=(value); end
+end
+
+module Tins::Delegate
+  def delegate(method_name, opts=T.unsafe(nil)); end
+  UNSET = ::T.let(nil, ::T.untyped)
+end
+
+module Tins::Delegate
+end
+
+class Tins::Duration
+  include ::Comparable
+  def days?(); end
+
+  def format(template=T.unsafe(nil), precision: T.unsafe(nil)); end
+
+  def fractional_seconds?(); end
+
+  def hours?(); end
+
+  def initialize(seconds); end
+
+  def minutes?(); end
+
+  def seconds?(); end
+
+  def to_f(); end
+end
+
+class Tins::Duration
+end
+
+module Tins::DynamicScope
+  include ::Tins::Scope
+  def dynamic_defined?(id); end
+
+  def dynamic_scope(&block); end
+
+  def dynamic_scope_name(); end
+
+  def dynamic_scope_name=(dynamic_scope_name); end
+
+  def method_missing(id, *args); end
+end
+
+class Tins::DynamicScope::Context
+  def [](name); end
+
+  def []=(name, value); end
+end
+
+class Tins::DynamicScope::Context
+end
+
+module Tins::DynamicScope
+end
+
+module Tins::Eigenclass
+  def eigenclass(); end
+
+  def eigenclass_eval(&block); end
+end
+
+module Tins::Eigenclass
+end
+
+module Tins::Expose
+  def expose(method_name=T.unsafe(nil), *args, &block); end
+end
+
+module Tins::Expose
+end
+
+module Tins::ExtractLastArgumentOptions
+  def extract_last_argument_options(); end
+end
+
+module Tins::ExtractLastArgumentOptions
+end
+
+module Tins::FileBinary
+  def ascii?(options=T.unsafe(nil)); end
+
+  def binary?(options=T.unsafe(nil)); end
+end
+
+module Tins::FileBinary::ClassMethods
+  def ascii?(name, options=T.unsafe(nil)); end
+
+  def binary?(name, options=T.unsafe(nil)); end
+end
+
+module Tins::FileBinary::ClassMethods
+end
+
+module Tins::FileBinary::Constants
+  BINARY = ::T.let(nil, ::T.untyped)
+  SEEK_SET = ::T.let(nil, ::T.untyped)
+  ZERO = ::T.let(nil, ::T.untyped)
+end
+
+module Tins::FileBinary::Constants
+end
+
+module Tins::FileBinary
+  def self.default_options(); end
+
+  def self.default_options=(default_options); end
+
+  def self.included(modul); end
+end
+
+module Tins::Find
+end
+
+module Tins::Find::EXPECTED_STANDARD_ERRORS
+end
+
+module Tins::Find::EXPECTED_STANDARD_ERRORS
+end
+
+class Tins::Find::Finder
+  def find(*paths); end
+
+  def follow_symlinks(); end
+
+  def follow_symlinks=(follow_symlinks); end
+
+  def initialize(opts=T.unsafe(nil)); end
+
+  def prepare_path(path); end
+
+  def protect_from_errors(errors=T.unsafe(nil)); end
+
+  def raise_errors(); end
+
+  def raise_errors=(raise_errors); end
+
+  def show_hidden(); end
+
+  def show_hidden=(show_hidden); end
+
+  def suffix(); end
+
+  def suffix=(suffix); end
+
+  def visit_path?(path); end
+end
+
+module Tins::Find::Finder::PathExtension
+  def directory?(); end
+
+  def exist?(); end
+
+  def file(); end
+
+  def file?(); end
+
+  def finder(); end
+
+  def finder=(finder); end
+
+  def finder_stat(); end
+
+  def lstat(); end
+
+  def pathname(); end
+
+  def stat(); end
+
+  def suffix(); end
+end
+
+module Tins::Find::Finder::PathExtension
+end
+
+class Tins::Find::Finder
+end
+
+module Tins::Find
+  def self.find(*paths, &block); end
+
+  def self.prune(); end
+end
+
+module Tins::FromModule
+  include ::Tins::ParameterizedModule
+  def from(*args, &block); end
+
+  def parameterize(opts=T.unsafe(nil)); end
+end
+
+module Tins::FromModule
+end
+
+module Tins::Full
+  def all_full?(); end
+
+  def full?(dispatch=T.unsafe(nil), *args); end
+end
+
+module Tins::Full
+end
+
+module Tins::GO
+end
+
+module Tins::GO::EnumerableExtension
+  include ::Enumerable
+  def <<(argument); end
+
+  def each(&block); end
+
+  def push(argument); end
+end
+
+module Tins::GO::EnumerableExtension
+end
+
+module Tins::GO
+  def self.go(s, args=T.unsafe(nil), defaults: T.unsafe(nil)); end
+end
+
+class Tins::Generator
+  include ::Enumerable
+  def add_dimension(enum, iterator=T.unsafe(nil)); end
+
+  def each(&block); end
+
+  def initialize(enums); end
+
+  def size(); end
+end
+
+class Tins::Generator
+  def self.[](*enums); end
+end
+
+module Tins::HashSymbolizeKeysRecursive
+  def symbolize_keys_recursive(); end
+
+  def symbolize_keys_recursive!(); end
+end
+
+module Tins::HashSymbolizeKeysRecursive
+end
+
+module Tins::HashUnion
+  def |(other); end
+end
+
+module Tins::HashUnion
+end
+
+module Tins::Implement
+  def implement(method_name, msg=T.unsafe(nil)); end
+
+  def implement_in_submodule(method_name); end
+  MESSAGES = ::T.let(nil, ::T.untyped)
+end
+
+module Tins::Implement
+end
+
+module Tins::InstanceExec
+end
+
+module Tins::InstanceExec
+  def self.included(*_); end
+end
+
+module Tins::Interpreter
+  def interpret(source, *args); end
+
+  def interpret_with_binding(source, my_binding, *args); end
+end
+
+module Tins::Interpreter
+end
+
+class Tins::Limited
+  def execute(); end
+
+  def initialize(maximum); end
+
+  def maximum(); end
+end
+
+class Tins::Limited
+end
+
+class Tins::LinesFile
+  include ::Enumerable
+  def each(&block); end
+
+  def empty?(); end
+
+  def file_linenumber(); end
+
+  def filename(); end
+
+  def filename=(filename); end
+
+  def initialize(lines, line_number=T.unsafe(nil)); end
+
+  def last_line_number(); end
+
+  def line(); end
+
+  def line_number(); end
+
+  def line_number=(number); end
+
+  def match_backward(regexp, previous_after_match=T.unsafe(nil)); end
+
+  def match_forward(regexp, next_after_match=T.unsafe(nil)); end
+
+  def next!(); end
+
+  def previous!(); end
+
+  def rewind(); end
+end
+
+module Tins::LinesFile::LineExtension
+  def filename(); end
+
+  def line_number(); end
+end
+
+module Tins::LinesFile::LineExtension
+end
+
+class Tins::LinesFile
+  def self.for_file(file, line_number=T.unsafe(nil)); end
+
+  def self.for_filename(filename, line_number=T.unsafe(nil)); end
+
+  def self.for_lines(lines, line_number=T.unsafe(nil)); end
+end
+
+module Tins::Memoize
+end
+
+module Tins::Memoize::CacheMethods
+  def __memoize_cache__(); end
+
+  def memoize_apply_visibility(id); end
+
+  def memoize_cache_clear(); end
+end
+
+module Tins::Memoize::CacheMethods
+end
+
+module Tins::Memoize
+end
+
+module Tins::MethodDescription
+  def description(style: T.unsafe(nil)); end
+
+  def signature(); end
+end
+
+class Tins::MethodDescription::Parameters
+end
+
+class Tins::MethodDescription::Parameters::BlockParameter
+end
+
+class Tins::MethodDescription::Parameters::BlockParameter
+end
+
+class Tins::MethodDescription::Parameters::GenericParameter
+end
+
+class Tins::MethodDescription::Parameters::GenericParameter
+end
+
+class Tins::MethodDescription::Parameters::KeyParameter
+end
+
+class Tins::MethodDescription::Parameters::KeyParameter
+end
+
+class Tins::MethodDescription::Parameters::KeyreqParameter
+end
+
+class Tins::MethodDescription::Parameters::KeyreqParameter
+end
+
+class Tins::MethodDescription::Parameters::KeyrestParameter
+end
+
+class Tins::MethodDescription::Parameters::KeyrestParameter
+end
+
+class Tins::MethodDescription::Parameters::OptParameter
+end
+
+class Tins::MethodDescription::Parameters::OptParameter
+end
+
+class Tins::MethodDescription::Parameters::Parameter
+  def ==(other); end
+end
+
+class Tins::MethodDescription::Parameters::Parameter
+end
+
+class Tins::MethodDescription::Parameters::ReqParameter
+end
+
+class Tins::MethodDescription::Parameters::ReqParameter
+end
+
+class Tins::MethodDescription::Parameters::RestParameter
+end
+
+class Tins::MethodDescription::Parameters::RestParameter
+end
+
+class Tins::MethodDescription::Parameters
+  def self.build(type, name); end
+end
+
+class Tins::MethodDescription::Signature
+  def ==(other); end
+
+  def ===(method); end
+
+  def eql?(other); end
+
+  def initialize(*parameters); end
+
+  def parameters(); end
+end
+
+class Tins::MethodDescription::Signature
+end
+
+module Tins::MethodDescription
+end
+
+module Tins::MethodMissingDelegator
+  def method_missing(id, *a, &b); end
+
+  def method_missing_delegator(); end
+
+  def method_missing_delegator=(method_missing_delegator); end
+end
+
+class Tins::MethodMissingDelegator::DelegatorClass
+  include ::Tins::MethodMissingDelegator::DelegatorModule
+  include ::Tins::MethodMissingDelegator
+end
+
+class Tins::MethodMissingDelegator::DelegatorClass
+end
+
+module Tins::MethodMissingDelegator::DelegatorModule
+  include ::Tins::MethodMissingDelegator
+  def initialize(delegator, *a, &b); end
+end
+
+module Tins::MethodMissingDelegator::DelegatorModule
+end
+
+module Tins::MethodMissingDelegator
+end
+
+module Tins::Minimize
+  def minimize(); end
+
+  def minimize!(); end
+
+  def unminimize(); end
+
+  def unminimize!(); end
+end
+
+module Tins::Minimize
+end
+
+module Tins::ModuleGroup
+end
+
+module Tins::ModuleGroup
+  def self.[](*modules); end
+end
+
+module Tins::NULL
+end
+
+module Tins::NULL
+  extend ::Tins::Null
+end
+
+class Tins::NamedSet
+  def initialize(name); end
+
+  def name(); end
+
+  def name=(name); end
+end
+
+class Tins::NamedSet
+end
+
+module Tins::Null
+  def as_json(*_); end
+
+  def blank?(); end
+
+  def const_missing(*_); end
+
+  def inspect(); end
+
+  def method_missing(*_); end
+
+  def nil?(); end
+
+  def to_a(); end
+
+  def to_ary(); end
+
+  def to_f(); end
+
+  def to_i(); end
+
+  def to_int(); end
+
+  def to_json(*_); end
+
+  def to_s(); end
+
+  def to_str(); end
+end
+
+module Tins::Null::Kernel
+  def Null(value=T.unsafe(nil)); end
+
+  def NullPlus(opts=T.unsafe(nil)); end
+
+  def null(value=T.unsafe(nil)); end
+
+  def null_plus(opts=T.unsafe(nil)); end
+end
+
+module Tins::Null::Kernel
+end
+
+module Tins::Null
+end
+
+class Tins::NullClass
+  include ::Tins::Null
+end
+
+class Tins::NullClass
+end
+
+class Tins::NullPlus
+  include ::Tins::Null
+  def initialize(opts=T.unsafe(nil)); end
+end
+
+class Tins::NullPlus
+end
+
+module Tins::Once
+  include ::File::Constants
+end
+
+module Tins::Once
+  def self.only_once(lock_filename=T.unsafe(nil), locking_constant=T.unsafe(nil)); end
+
+  def self.try_only_once(lock_filename=T.unsafe(nil), locking_constant=T.unsafe(nil), &block); end
+end
+
+module Tins::P
+end
+
+module Tins::P
+end
+
+module Tins::ParameterizedModule
+  def parameterize_for(*args, &block); end
+end
+
+module Tins::ParameterizedModule
+end
+
+module Tins::PartialApplication
+  def partial(*args); end
+end
+
+module Tins::PartialApplication
+  def self.included(modul); end
+end
+
+module Tins::ProcCompose
+  def *(other); end
+
+  def compose(other); end
+end
+
+module Tins::ProcCompose
+end
+
+module Tins::ProcPrelude
+  def apply(&my_proc); end
+
+  def array(*args); end
+
+  def call(obj, &my_proc); end
+
+  def const(konst=T.unsafe(nil), &my_proc); end
+
+  def first(*args); end
+
+  def from(&block); end
+
+  def head(*args); end
+
+  def id1(*args); end
+
+  def last(*args); end
+
+  def map_apply(my_method, *args, &my_proc); end
+
+  def nth(n); end
+
+  def rotate(n=T.unsafe(nil)); end
+
+  def second(*args); end
+
+  def swap(n=T.unsafe(nil)); end
+
+  def tail(*args); end
+end
+
+module Tins::ProcPrelude
+end
+
+module Tins::RangePlus
+  def +(other); end
+end
+
+module Tins::RangePlus
+end
+
+module Tins::RequireMaybe
+  def require_maybe(library); end
+end
+
+module Tins::RequireMaybe
+end
+
+module Tins::Responding
+  def responding?(*method_names); end
+end
+
+module Tins::Responding
+end
+
+module Tins::Scope
+  def scope(name=T.unsafe(nil)); end
+
+  def scope_block(scope_frame, name=T.unsafe(nil)); end
+
+  def scope_get(name=T.unsafe(nil)); end
+
+  def scope_pop(name=T.unsafe(nil)); end
+
+  def scope_push(scope_frame, name=T.unsafe(nil)); end
+
+  def scope_reverse(name=T.unsafe(nil), &block); end
+
+  def scope_top(name=T.unsafe(nil)); end
+end
+
+module Tins::Scope
+end
+
+module Tins::SecureWrite
+  def secure_write(filename, content=T.unsafe(nil), mode=T.unsafe(nil)); end
+end
+
+module Tins::SecureWrite
+end
+
+module Tins::SexySingleton
+  def _dump(depth=T.unsafe(nil)); end
+
+  def clone(); end
+
+  def dup(); end
+end
+
+Tins::SexySingleton::SingletonClassMethods = Singleton::SingletonClassMethods
+
+module Tins::SexySingleton
+  def self.__init__(klass); end
+
+  def self.included(klass); end
+end
+
+module Tins::StringByteOrderMark
+  def bom_encoding(); end
+end
+
+module Tins::StringByteOrderMark
+end
+
+module Tins::StringCamelize
+  def camelcase(first_letter=T.unsafe(nil)); end
+
+  def camelize(first_letter=T.unsafe(nil)); end
+end
+
+module Tins::StringCamelize
+end
+
+module Tins::StringUnderscore
+  def underscore(); end
+end
+
+module Tins::StringUnderscore
+end
+
+module Tins::StringVersion
+  def version(); end
+  LEVELS = ::T.let(nil, ::T.untyped)
+  SYMBOLS = ::T.let(nil, ::T.untyped)
+end
+
+class Tins::StringVersion::Version
+  include ::Comparable
+  def ==(other); end
+
+  def [](level); end
+
+  def []=(level, value); end
+
+  def array(); end
+
+  def build(); end
+
+  def build=(new_level); end
+
+  def bump(level=T.unsafe(nil)); end
+
+  def initialize(string); end
+
+  def level_of(specifier); end
+
+  def major(); end
+
+  def major=(new_level); end
+
+  def minor(); end
+
+  def minor=(new_level); end
+
+  def pred!(); end
+
+  def revision(); end
+
+  def revision=(new_level); end
+
+  def succ!(); end
+
+  def to_a(); end
+end
+
+class Tins::StringVersion::Version
+end
+
+module Tins::StringVersion
+end
+
+module Tins::Subhash
+  def subhash(*patterns); end
+end
+
+module Tins::Subhash
+end
+
+module Tins::SymbolMaker
+  def method_missing(id, *args); end
+end
+
+module Tins::SymbolMaker
+end
+
+module Tins::TempIO
+  def temp_io(content: T.unsafe(nil), name: T.unsafe(nil)); end
+end
+
+class Tins::TempIO::Enum
+  include ::Tins::TempIO
+  def initialize(chunk_size: T.unsafe(nil), filename: T.unsafe(nil), &content_proc); end
+end
+
+class Tins::TempIO::Enum
+end
+
+module Tins::TempIO
+end
+
+module Tins::Terminal
+end
+
+module Tins::Terminal
+  def self.cols(); end
+
+  def self.columns(); end
+
+  def self.lines(); end
+
+  def self.rows(); end
+
+  def self.winsize(); end
+end
+
+module Tins::ThreadGlobal
+  def instance_thread_global(name, value=T.unsafe(nil)); end
+
+  def thread_global(name, default_value=T.unsafe(nil), &default); end
+end
+
+module Tins::ThreadGlobal
+end
+
+module Tins::ThreadLocal
+  def instance_thread_local(name, default_value=T.unsafe(nil), &default); end
+
+  def thread_local(name, default_value=T.unsafe(nil), &default); end
+end
+
+module Tins::ThreadLocal
+end
+
+module Tins::TimeDummy
+end
+
+module Tins::TimeDummy
+  def self.included(modul); end
+end
+
+module Tins::To
+  def to(string); end
+end
+
+module Tins::To
+end
+
+module Tins::ToProc
+  def to_proc(); end
+end
+
+module Tins::ToProc
+end
+
+class Tins::Token
+  def bits(); end
+
+  def bits=(bits); end
+
+  def initialize(bits: T.unsafe(nil), length: T.unsafe(nil), alphabet: T.unsafe(nil), random: T.unsafe(nil)); end
+  BASE16_ALPHABET = ::T.let(nil, ::T.untyped)
+  BASE32_ALPHABET = ::T.let(nil, ::T.untyped)
+  BASE32_EXTENDED_HEX_ALPHABET = ::T.let(nil, ::T.untyped)
+  BASE64_ALPHABET = ::T.let(nil, ::T.untyped)
+  BASE64_URL_FILENAME_SAFE_ALPHABET = ::T.let(nil, ::T.untyped)
+  DEFAULT_ALPHABET = ::T.let(nil, ::T.untyped)
+end
+
+class Tins::Token
+end
+
+module Tins::UniqBy
+  def uniq_by(&b); end
+end
+
+module Tins::UniqBy
+end
+
+module Tins::Unit
+  PREFIX_F = ::T.let(nil, ::T.untyped)
+  PREFIX_LC = ::T.let(nil, ::T.untyped)
+  PREFIX_UC = ::T.let(nil, ::T.untyped)
+end
+
+class Tins::Unit::FormatParser
+  def initialize(format, unit_parser); end
+
+  def parse(); end
+end
+
+class Tins::Unit::FormatParser
+end
+
+class Tins::Unit::ParserError
+end
+
+class Tins::Unit::ParserError
+end
+
+class Tins::Unit::Prefix
+  def fraction(); end
+
+  def fraction=(_); end
+
+  def multiplier(); end
+
+  def multiplier=(_); end
+
+  def name(); end
+
+  def name=(_); end
+
+  def step(); end
+
+  def step=(_); end
+end
+
+class Tins::Unit::Prefix
+  def self.[](*_); end
+
+  def self.members(); end
+end
+
+class Tins::Unit::UnitParser
+  def initialize(source, unit, prefixes=T.unsafe(nil)); end
+
+  def number(); end
+
+  def parse(); end
+
+  def scan(re); end
+
+  def scan_char(char); end
+
+  def scan_number(); end
+
+  def scan_unit(); end
+  NUMBER = ::T.let(nil, ::T.untyped)
+end
+
+class Tins::Unit::UnitParser
+end
+
+module Tins::Unit
+  def self.format(value, format: T.unsafe(nil), prefix: T.unsafe(nil), unit: T.unsafe(nil)); end
+
+  def self.parse(string, format: T.unsafe(nil), unit: T.unsafe(nil), prefix: T.unsafe(nil)); end
+
+  def self.parse?(string, **options); end
+
+  def self.prefixes(identifier); end
+end
+
+module Tins::Write
+end
+
+module Tins::Write
+  def self.extended(modul); end
+end
+
+module Tins
+end
+
 class TracePoint
   def event(); end
 end
 
 class TrueClass
   include ::JSON::Ext::Generator::GeneratorMethods::TrueClass
+  include ::Tins::Blank::TrueClass
 end
 
 module URI
@@ -9551,14 +12294,6 @@ end
 
 module Zeitwerk::ExplicitNamespace
   extend ::Zeitwerk::RealModName
-end
-
-class Zeitwerk::Loader
-  def collapse(*glob_patterns); end
-
-  def collapse_dirs(); end
-
-  def collapse_glob_patterns(); end
 end
 
 module Zlib
