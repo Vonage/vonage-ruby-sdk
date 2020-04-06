@@ -23,7 +23,7 @@ class Nexmo::ClientTest < Nexmo::Test
   end
 
   def test_calls_method
-    assert_kind_of Nexmo::Calls, client.calls
+    assert_kind_of Nexmo::Voice, client.voice
   end
 
   def test_conversations_method

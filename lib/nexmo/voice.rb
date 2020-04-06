@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  class Calls < Namespace
+  class Voice < Namespace
     self.authentication = BearerToken
 
     self.request_body = JSON
@@ -10,7 +10,7 @@ module Nexmo
     # Create an outbound Call.
     #
     # @example
-    #   response = client.calls.create({
+    #   response = client.voice.create({
     #     to: [{type: 'phone', number: '14843331234'}],
     #     from: {type: 'phone', number: '14843335555'},
     #     answer_url: ['https://example.com/answer']
@@ -61,7 +61,7 @@ module Nexmo
     # Get details of your calls.
     #
     # @example
-    #   response = client.calls.list
+    #   response = client.voice.list
     #   response.each do |item|
     #     puts "#{item.uuid} #{item.direction} #{item.status}"
     #   end
@@ -100,7 +100,7 @@ module Nexmo
     # Get detail of a specific call.
     #
     # @example
-    #   response = client.calls.get(id)
+    #   response = client.voice.get(id)
     #
     # @param [String] id
     #
@@ -115,7 +115,7 @@ module Nexmo
     # Modify an in progress call.
     #
     # @example
-    #   response = client.calls.update(id, action: 'hangup')
+    #   response = client.voice.update(id, action: 'hangup')
     #
     # @option params [required, String] :action
     #
@@ -136,7 +136,7 @@ module Nexmo
     # Hangup an in progress call.
     #
     # @example
-    #   response = client.calls.hangup(id)
+    #   response = client.voice.hangup(id)
     #
     # @param [String] id
     #
@@ -151,7 +151,7 @@ module Nexmo
     # Mute an in progress call.
     #
     # @example
-    #   response = client.calls.mute(id)
+    #   response = client.voice.mute(id)
     #
     # @param [String] id
     #
@@ -166,7 +166,7 @@ module Nexmo
     # Unmute an in progress call.
     #
     # @example
-    #   response = client.calls.unmute(id)
+    #   response = client.voice.unmute(id)
     #
     # @param [String] id
     #
@@ -181,7 +181,7 @@ module Nexmo
     # Earmuff an in progress call.
     #
     # @example
-    #   response = client.calls.earmuff(id)
+    #   response = client.voice.earmuff(id)
     #
     # @param [String] id
     #
@@ -196,7 +196,7 @@ module Nexmo
     # Unearmuff an in progress call.
     #
     # @example
-    #   response = client.calls.unearmuff(id)
+    #   response = client.voice.unearmuff(id)
     #
     # @param [String] id
     #
@@ -216,7 +216,7 @@ module Nexmo
     #     url: ['https://example.com/ncco.json']
     #   }
     #
-    #   response = client.calls.transfer(id, destination: destination)
+    #   response = client.voice.transfer(id, destination: destination)
     #
     # @param [String] id
     # @param [Hash] destination

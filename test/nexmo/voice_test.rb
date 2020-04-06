@@ -1,9 +1,9 @@
 # typed: false
 require_relative './test'
 
-class Nexmo::CallsTest < Nexmo::Test
+class Nexmo::VoiceTest < Nexmo::Test
   def calls
-    Nexmo::Calls.new(config)
+    Nexmo::Voice.new(config)
   end
 
   def calls_uri
@@ -31,7 +31,7 @@ class Nexmo::CallsTest < Nexmo::Test
 
     stub_request(:get, calls_uri).with(request(query: params)).to_return(response)
 
-    assert_kind_of Nexmo::Calls::ListResponse, calls.list(params)
+    assert_kind_of Nexmo::Voice::ListResponse, calls.list(params)
   end
 
   def test_get_method
@@ -99,14 +99,14 @@ class Nexmo::CallsTest < Nexmo::Test
   end
 
   def test_stream_method
-    assert_kind_of Nexmo::Calls::Stream, calls.stream
+    assert_kind_of Nexmo::Voice::Stream, calls.stream
   end
 
   def test_talk_method
-    assert_kind_of Nexmo::Calls::Talk, calls.talk
+    assert_kind_of Nexmo::Voice::Talk, calls.talk
   end
 
   def test_dtmf_method
-    assert_kind_of Nexmo::Calls::DTMF, calls.dtmf
+    assert_kind_of Nexmo::Voice::DTMF, calls.dtmf
   end
 end

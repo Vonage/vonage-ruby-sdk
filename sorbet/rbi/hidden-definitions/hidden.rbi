@@ -1375,8 +1375,11 @@ class File::Stat
 end
 
 class File
+<<<<<<< HEAD
   def self.cleanpath(path, rel_root=T.unsafe(nil)); end
 
+=======
+>>>>>>> master
   def self.exists?(_); end
 
   def self.lutime(*_); end
@@ -1991,6 +1994,7 @@ Net::HTTPMultipleChoice = Net::HTTPMultipleChoices
 class Net::HTTPNotExtended
   HAS_BODY = ::T.let(nil, ::T.untyped)
 end
+<<<<<<< HEAD
 
 class Net::HTTPNotExtended
 end
@@ -2006,6 +2010,23 @@ Net::HTTPRedirection::EXCEPTION_TYPE = Net::HTTPRetriableError
 
 Net::HTTPRedirectionCode = Net::HTTPRedirection
 
+=======
+
+class Net::HTTPNotExtended
+end
+
+class Net::HTTPProcessing
+  HAS_BODY = ::T.let(nil, ::T.untyped)
+end
+
+class Net::HTTPProcessing
+end
+
+Net::HTTPRedirection::EXCEPTION_TYPE = Net::HTTPRetriableError
+
+Net::HTTPRedirectionCode = Net::HTTPRedirection
+
+>>>>>>> master
 Net::HTTPRequestURITooLarge = Net::HTTPRequestURITooLong
 
 Net::HTTPResponceReceiver = Net::HTTPResponse
@@ -2065,26 +2086,6 @@ class Nexmo::Applications::ListResponse
 end
 
 class Nexmo::Applications::ListResponse
-end
-
-class Nexmo::Calls
-end
-
-class Nexmo::Calls::DTMF
-end
-
-class Nexmo::Calls::ListResponse
-  include ::Enumerable
-  def each(&blk); end
-end
-
-class Nexmo::Calls::ListResponse
-end
-
-class Nexmo::Calls::Stream
-end
-
-class Nexmo::Calls::Talk
 end
 
 class Nexmo::Conversations
@@ -2228,11 +2229,34 @@ end
 class Nexmo::Verify
 end
 
+class Nexmo::Voice
+end
+
+class Nexmo::Voice::DTMF
+end
+
+class Nexmo::Voice::ListResponse
+  include ::Enumerable
+  def each(&blk); end
+end
+
+class Nexmo::Voice::ListResponse
+end
+
+class Nexmo::Voice::Stream
+end
+
+<<<<<<< HEAD
+=======
+class Nexmo::Voice::Talk
+end
+
 class NilClass
   include ::JSON::Ext::Generator::GeneratorMethods::NilClass
   def to_i(); end
 end
 
+>>>>>>> master
 class NoMethodError
   def args(); end
 
@@ -9527,6 +9551,14 @@ end
 
 module Zeitwerk::ExplicitNamespace
   extend ::Zeitwerk::RealModName
+end
+
+class Zeitwerk::Loader
+  def collapse(*glob_patterns); end
+
+  def collapse_dirs(); end
+
+  def collapse_glob_patterns(); end
 end
 
 module Zlib

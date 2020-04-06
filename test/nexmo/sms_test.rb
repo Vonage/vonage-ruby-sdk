@@ -10,12 +10,30 @@ class Nexmo::SMSTest < Nexmo::Test
     'https://rest.nexmo.com/sms/json'
   end
 
+  def response
+    {
+      headers: response_headers,
+      body: '{"messages":[{"status":"0"}]}'
+    }
+  end
+
+  def error_response
+    {
+      headers: response_headers,
+      body: '{"messages":[{"status":"1"}]}'
+    }
+  end
+
   def test_send_method
     params = {from: 'Ruby', to: msisdn, text: 'Hello from Ruby!'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
 
-    assert_kind_of Nexmo::SMS::Response, sms.send(params)
+    assert_kind_of Nexmo::Response, sms.send(params)
+
+    assert_raises Nexmo::Error do
+      sms.send(params)
+    end
   end
 
   def test_mapping_underscored_keys_to_hyphenated_string_keys
@@ -23,7 +41,7 @@ class Nexmo::SMSTest < Nexmo::Test
 
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
 
-    assert_kind_of Nexmo::SMS::Response, sms.send(text: 'Hey', status_report_req: 1)
+    assert_kind_of Nexmo::Response, sms.send(text: 'Hey', status_report_req: 1)
   end
 
   def test_warn_when_sending_unicode_without_type

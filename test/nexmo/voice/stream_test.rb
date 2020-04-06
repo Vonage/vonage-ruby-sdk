@@ -1,9 +1,9 @@
 # typed: false
 require_relative '../test'
 
-class Nexmo::Calls::StreamTest < Nexmo::Test
+class Nexmo::Voice::StreamTest < Nexmo::Test
   def stream
-    Nexmo::Calls::Stream.new(config)
+    Nexmo::Voice::Stream.new(config)
   end
 
   def uri

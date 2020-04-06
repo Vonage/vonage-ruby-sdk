@@ -25,7 +25,7 @@ module Nexmo
 
     def teardown
       @request_stubs.each do |stub|
-        assert_requested(stub)
+        assert_requested(stub, at_least_times: 1)
       end
 
       super
@@ -85,7 +85,7 @@ module Nexmo
       headers['Authorization'] = authorization
       headers['Content-Type'] = 'application/json' if body
 
-      {headers: headers, body: body, query: query}.reject { |k, v| v.nil? }
+      {headers: headers, body: body, query: query}.compact
     end
 
     def response

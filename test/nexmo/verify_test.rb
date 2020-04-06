@@ -10,14 +10,32 @@ class Nexmo::VerifyTest < Nexmo::Test
     '8g88g88eg8g8gg9g90'
   end
 
+  def response
+    {
+      headers: response_headers,
+      body: '{"status":"0"}'
+    }
+  end
+
+  def error_response
+    {
+      headers: response_headers,
+      body: '{"status":"101","error_text":"No response found"}'
+    }
+  end
+
   def test_request_method
     uri = 'https://api.nexmo.com/verify/json'
 
     params = {number: msisdn, brand: 'ExampleApp'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
 
-    assert_kind_of Nexmo::Verify::Response, verify.request(params)
+    assert_kind_of Nexmo::Response, verify.request(params)
+
+    assert_raises Nexmo::Error do
+      verify.request(params)
+    end
   end
 
   def test_check_method
@@ -25,9 +43,13 @@ class Nexmo::VerifyTest < Nexmo::Test
 
     params = {request_id: request_id, code: '123445'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
 
-    assert_kind_of Nexmo::Verify::Response, verify.check(params)
+    assert_kind_of Nexmo::Response, verify.check(params)
+
+    assert_raises Nexmo::Error do
+      verify.check(params)
+    end
   end
 
   def test_search_method
@@ -35,9 +57,13 @@ class Nexmo::VerifyTest < Nexmo::Test
 
     params = {request_id: request_id}
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response, error_response)
 
-    assert_kind_of Nexmo::Verify::Response, verify.search(params)
+    assert_kind_of Nexmo::Response, verify.search(params)
+
+    assert_raises Nexmo::Error do
+      verify.search(params)
+    end
   end
 
   def test_control_method
@@ -45,9 +71,13 @@ class Nexmo::VerifyTest < Nexmo::Test
 
     params = {request_id: request_id, cmd: 'cancel'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
 
-    assert_kind_of Nexmo::Verify::Response, verify.control(params)
+    assert_kind_of Nexmo::Response, verify.control(params)
+
+    assert_raises Nexmo::Error do
+      verify.control(params)
+    end
   end
 
   def test_cancel_method
@@ -55,9 +85,13 @@ class Nexmo::VerifyTest < Nexmo::Test
 
     params = {request_id: request_id, cmd: 'cancel'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
 
-    assert_kind_of Nexmo::Verify::Response, verify.cancel(request_id)
+    assert_kind_of Nexmo::Response, verify.cancel(request_id)
+
+    assert_raises Nexmo::Error do
+      verify.cancel(request_id)
+    end
   end
 
   def test_trigger_next_event_method
@@ -65,8 +99,12 @@ class Nexmo::VerifyTest < Nexmo::Test
 
     params = {request_id: request_id, cmd: 'trigger_next_event'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
 
-    assert_kind_of Nexmo::Verify::Response, verify.trigger_next_event(request_id)
+    assert_kind_of Nexmo::Response, verify.trigger_next_event(request_id)
+
+    assert_raises Nexmo::Error do
+      verify.trigger_next_event(request_id)
+    end
   end
 end

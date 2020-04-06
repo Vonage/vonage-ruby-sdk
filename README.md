@@ -2,15 +2,18 @@
 
 [![Gem Version](https://badge.fury.io/rb/nexmo.svg)](https://badge.fury.io/rb/nexmo) [![Build Status](https://api.travis-ci.org/Nexmo/nexmo-ruby.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-ruby) [![Coverage Status](https://coveralls.io/repos/github/Nexmo/nexmo-ruby/badge.svg?branch=coveralls)](https://coveralls.io/github/Nexmo/nexmo-ruby?branch=master)
 
+<img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
+
 This is the Ruby client library for Nexmo's API. To use it you'll
 need a Nexmo account. Sign up [for free at nexmo.com][signup].
 
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
-* [Logging](#logging)
-* [JWT authentication](#jwt-authentication)
-* [Webhook signatures](#webhook-signatures)
+    * [Logging](#logging)
+    * [Overriding the default hosts](#overriding-the-default-hosts)
+    * [JWT authentication](#jwt-authentication)
+    * [Webhook signatures](#webhook-signatures)
 * [Documentation](#documentation)
 * [License](#license)
 
@@ -71,6 +74,21 @@ client = Nexmo::Client.new(logger: logger)
 By default the library sets the logger to `Rails.logger` if it is defined.
 
 To disable logging set the logger to `nil`.
+
+
+## Overriding the default hosts
+
+To override the default hosts that the SDK uses for HTTP requests, you need to
+specify the `api_host`, `rest_host` or both in the client configuration. For example:
+
+```ruby
+client = Nexmo::Client.new(
+  api_host: 'api-sg-1.nexmo.com',
+  rest_host: 'rest-sg-1.nexmo.com'
+)
+```
+
+By default the hosts are set to `api.nexmo.com` and `rest.nexmo.com`, respectively.
 
 
 ## JWT authentication

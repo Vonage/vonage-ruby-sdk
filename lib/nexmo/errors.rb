@@ -21,6 +21,8 @@ module Nexmo
 
         if hash.key?('error_title')
           hash['error_title']
+        elsif hash.key?('error-code-label')
+          hash['error-code-label']
         elsif hash.key?('description')
           hash['description']
         elsif problem_details?(hash)

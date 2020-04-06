@@ -7,8 +7,6 @@ module Nexmo
 
     private :http_request
 
-    self.response_class = Response
-
     # Generate and send a PIN to your user.
     #
     # @note You can make a maximum of one Verify request per second.
@@ -16,11 +14,7 @@ module Nexmo
     # @example
     #   response = client.verify.request(number: '447700900000', brand: 'Acme Inc')
     #
-    #   if response.success?
-    #     puts "Started verification request_id=#{response.request_id}"
-    #   else
-    #     puts "Error: #{response.error_text}"
-    #   end
+    #   puts "Started verification request_id=#{response.request_id}"
     #
     # @option params [required, String] :number
     #   The mobile or landline phone number to verify.
@@ -66,7 +60,11 @@ module Nexmo
     # @see https://developer.nexmo.com/api/verify#verifyRequest
     #
     def request(params)
-      http_request('/verify/json', params: params, type: Post)
+      response = http_request('/verify/json', params: params, type: Post)
+
+      raise Error, response[:error_text] if error?(response)
+
+      response
     end
 
     # Confirm that the PIN you received from your user matches the one sent by Nexmo in your verification request.
@@ -74,11 +72,7 @@ module Nexmo
     # @example
     #   response = client.verify.check(request_id: request_id, code: '1234')
     #
-    #   if response.success?
-    #     puts "Verification complete, event_id=#{response.event_id}"
-    #   else
-    #     puts "Error: #{response.error_text}"
-    #   end
+    #   puts "Verification complete, event_id=#{response.event_id}"
     #
     # @option params [required, String] :request_id
     #   The Verify request to check.
@@ -98,7 +92,11 @@ module Nexmo
     # @see https://developer.nexmo.com/api/verify#verifyCheck
     #
     def check(params)
-      http_request('/verify/check/json', params: params, type: Post)
+      response = http_request('/verify/check/json', params: params, type: Post)
+
+      raise Error, response[:error_text] if error?(response)
+
+      response
     end
 
     # Check the status of past or current verification requests.
@@ -120,7 +118,11 @@ module Nexmo
     # @see https://developer.nexmo.com/api/verify#verifySearch
     #
     def search(params)
-      http_request('/verify/search/json', params: params)
+      response = http_request('/verify/search/json', params: params)
+
+      raise Error, response[:error_text] if error?(response)
+
+      response
     end
 
     # Control the progress of your verification requests.
@@ -142,7 +144,11 @@ module Nexmo
     # @see https://developer.nexmo.com/api/verify#verifyControl
     #
     def control(params)
-      http_request('/verify/control/json', params: params, type: Post)
+      response = http_request('/verify/control/json', params: params, type: Post)
+
+      raise Error, response[:error_text] if error?(response)
+
+      response
     end
 
     # Cancel an existing verification request.
@@ -173,6 +179,12 @@ module Nexmo
     #
     def trigger_next_event(id)
       control(request_id: id, cmd: 'trigger_next_event')
+    end
+
+    private
+
+    def error?(response)
+      response.respond_to?(:error_text)
     end
   end
 end
