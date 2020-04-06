@@ -1,7 +1,7 @@
 # typed: false
 require_relative '../test'
 
-class Nexmo::Calls::ListResponseTest < Nexmo::Test
+class Nexmo::Voice::ListResponseTest < Nexmo::Test
   def test_each_method
     entity = Nexmo::Entity.new({
       id: call_id
@@ -15,7 +15,7 @@ class Nexmo::Calls::ListResponseTest < Nexmo::Test
       })
     })
 
-    response = Nexmo::Calls::ListResponse.new(list_entity)
+    response = Nexmo::Voice::ListResponse.new(list_entity)
 
     enumerator = response.each
 

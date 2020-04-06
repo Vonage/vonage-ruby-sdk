@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module Nexmo
-  class Calls::DTMF < Namespace
+  class Voice::DTMF < Namespace
     self.authentication = BearerToken
 
     self.request_body = JSON

@@ -32,12 +32,6 @@ module Nexmo
       @applications ||= Applications.new(config)
     end
 
-    # @return [Calls]
-    #
-    def calls
-      @calls ||= Calls.new(config)
-    end
-
     # @return [Conversations]
     #
     def conversations
@@ -108,6 +102,12 @@ module Nexmo
     #
     def verify
       @verify ||= Verify.new(config)
+    end
+
+    # @return [Voice]
+    #
+    def voice
+      @voice ||= Voice.new(config)
     end
   end
 end

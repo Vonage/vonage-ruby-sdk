@@ -1,9 +1,9 @@
 # typed: false
 require_relative '../test'
 
-class Nexmo::Calls::DTMFTest < Nexmo::Test
+class Nexmo::Voice::DTMFTest < Nexmo::Test
   def dtmf
-    Nexmo::Calls::DTMF.new(config)
+    Nexmo::Voice::DTMF.new(config)
   end
 
   def uri
