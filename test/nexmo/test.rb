@@ -25,7 +25,7 @@ module Nexmo
 
     def teardown
       @request_stubs.each do |stub|
-        assert_requested(stub)
+        assert_requested(stub, at_least_times: 1)
       end
 
       super

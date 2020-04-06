@@ -3,8 +3,6 @@
 
 module Nexmo
   class NumberInsight < Namespace
-    self.response_class = Response
-
     # Provides basic number insight information about a number.
     #
     # @example
@@ -25,7 +23,11 @@ module Nexmo
     # @see https://developer.nexmo.com/api/number-insight#getNumberInsightBasic
     #
     def basic(params)
-      request('/ni/basic/json', params: params)
+      response = request('/ni/basic/json', params: params)
+
+      raise Error, response[:status_message] unless response.status.zero?
+
+      response
     end
 
     # Provides standard number insight information about a number.
@@ -53,7 +55,11 @@ module Nexmo
     # @see https://developer.nexmo.com/api/number-insight#getNumberInsightStandard
     #
     def standard(params)
-      request('/ni/standard/json', params: params)
+      response = request('/ni/standard/json', params: params)
+
+      raise Error, response[:status_message] unless response.status.zero?
+
+      response
     end
 
     # Provides advanced number insight information about a number synchronously.
@@ -85,7 +91,11 @@ module Nexmo
     # @see https://developer.nexmo.com/api/number-insight#getNumberInsightAdvanced
     #
     def advanced(params)
-      request('/ni/advanced/json', params: params)
+      response = request('/ni/advanced/json', params: params)
+
+      raise Error, response[:status_message] unless response.status.zero?
+
+      response
     end
 
     # Provides advanced number insight number information *asynchronously* using the URL specified in the callback parameter.
@@ -120,7 +130,11 @@ module Nexmo
     # @see https://developer.nexmo.com/api/number-insight#getNumberInsightAsync
     #
     def advanced_async(params)
-      request('/ni/advanced/async/json', params: params)
+      response = request('/ni/advanced/async/json', params: params)
+
+      raise Error, response[:status_message] unless response.status.zero?
+
+      response
     end
   end
 end

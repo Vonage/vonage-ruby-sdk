@@ -46,14 +46,6 @@ module Nexmo
       @request_headers ||= {}
     end
 
-    def self.response_class
-      @response_class ||= Response
-    end
-
-    def self.response_class=(response_class)
-      @response_class = response_class
-    end
-
     protected
 
     Get = Net::HTTP::Get
@@ -61,7 +53,7 @@ module Nexmo
     Post = Net::HTTP::Post
     Delete = Net::HTTP::Delete
 
-    def request(path, params: nil, type: Get, response_class: nil, &block)
+    def request(path, params: nil, type: Get, response_class: Response, &block)
       uri = URI('https://' + @host + path)
 
       params ||= {}
@@ -97,7 +89,7 @@ module Nexmo
 
       logger.debug(response.body) if response.body
 
-      parse(response, response_class || self.class.response_class)
+      parse(response, response_class)
     end
 
     def parse(response, response_class)
