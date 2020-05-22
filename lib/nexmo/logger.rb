@@ -46,6 +46,4 @@ module Nexmo
       fields.join(' ')
     end
   end
-
-  private_constant :Logger
 end

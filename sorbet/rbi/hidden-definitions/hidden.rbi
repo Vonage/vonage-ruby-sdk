@@ -2211,6 +2211,11 @@ class Nexmo::Client
   extend ::T::Private::Methods::SingletonMethodHooks
 end
 
+class Nexmo::Config
+  extend ::T::Private::Methods::MethodHooks
+  extend ::T::Private::Methods::SingletonMethodHooks
+end
+
 class Nexmo::Conversations
 end
 
@@ -2244,13 +2249,19 @@ module Nexmo::FormData
   def self.update(http_request, params); end
 end
 
-module Nexmo::GSM7
-  CHARACTERS = ::T.let(nil, ::T.untyped)
-  REGEXP = ::T.let(nil, ::T.untyped)
+module Nexmo::HTTP
 end
 
-module Nexmo::GSM7
-  def self.encoded?(string); end
+class Nexmo::HTTP::Options
+  def initialize(hash); end
+
+  def set(http); end
+end
+
+class Nexmo::HTTP::Options
+end
+
+module Nexmo::HTTP
 end
 
 class Nexmo::KeySecretParams
@@ -2269,6 +2280,30 @@ module Nexmo::Keys
 end
 
 module Nexmo::Keys
+end
+
+class Nexmo::Logger
+  def debug(*args, &block); end
+
+  def error(*args, &block); end
+
+  def fatal(*args, &block); end
+
+  def info(*args, &block); end
+
+  def initialize(logger); end
+
+  def log_request_info(request); end
+
+  def log_response_info(response, host); end
+
+  def unknown(*args, &block); end
+
+  def warn(*args, &block); end
+end
+
+class Nexmo::Logger
+  extend ::Forwardable
 end
 
 class Nexmo::Messages

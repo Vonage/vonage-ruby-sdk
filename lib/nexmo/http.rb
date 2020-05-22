@@ -30,6 +30,4 @@ module Nexmo
       end
     end
   end
-
-  private_constant :HTTP
 end
