@@ -1,8 +1,9 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 module Nexmo
   class Applications < Namespace
+    extend T::Sig
     self.authentication = Basic
 
     self.request_body = JSON
@@ -14,9 +15,20 @@ module Nexmo
     # @example
     #   params = {
     #     name: 'Example App',
-    #     type: 'voice',
-    #     answer_url: answer_url,
-    #     event_url: event_url
+    #     capabilities: {
+    #       'messages': {
+    #         'webhooks': {
+    #           'inbound_url': {
+    #             'address': 'https://example.com/webhooks/inbound',
+    #             'http_method': 'POST'
+    #           },
+    #           'status_url': {
+    #             'address': 'https://example.com/webhooks/status',
+    #             'http_method': 'POST'
+    #           }
+    #         }
+    #       }
+    #     }
     #   }
     #
     #   response = client.applications.create(params)
@@ -38,6 +50,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/application.v2#createApplication
     #
+    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Nexmo::Response) }
     def create(params)
       request('/v2/applications', params: params, type: Post)
     end
@@ -62,6 +75,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/application.v2#listApplication
     #
+    sig { params(params: T.nilable(T::Hash[Symbol, Integer])).returns(Nexmo::Response) }
     def list(params = nil)
       request('/v2/applications', params: params, response_class: ListResponse)
     end
@@ -77,6 +91,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/application.v2#getApplication
     #
+    sig { params(id: String).returns(Nexmo::Response) }
     def get(id)
       request('/v2/applications/' + id)
     end
@@ -104,6 +119,10 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/application.v2#updateApplication
     #
+    sig { params(
+      id: String,
+      params: T::Hash[Symbol, T.untyped]
+    ).returns(Nexmo::Response) }
     def update(id, params)
       request('/v2/applications/' + id, params: params, type: Put)
     end
@@ -121,6 +140,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/application.v2#deleteApplication
     #
+    sig { params(id: String).returns(Nexmo::Response) }
     def delete(id)
       request('/v2/applications/' + id, type: Delete)
     end
