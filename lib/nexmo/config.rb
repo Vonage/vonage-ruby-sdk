@@ -192,7 +192,7 @@ module Nexmo
     sig { returns(T.nilable(String)) }
     def token
       @token = T.let(nil, T.nilable(String))
-      @token || JWT.generate({application_id: application_id}, private_key)
+      @token || JWT.generate({application_id: application_id}, T.must(private_key))
     end
 
     sig { params(token: T.nilable(String)).returns(T.nilable(String)) }
