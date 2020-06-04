@@ -129,7 +129,7 @@ module Nexmo
 
     # @return [Nexmo::Logger]
     #
-    sig { params(logger: T.any(::Logger, Nexmo::Logger)).returns(T.nilable(Nexmo::Logger)) }
+    sig { params(logger: T.nilable(T.any(::Logger, Nexmo::Logger))).returns(T.nilable(Nexmo::Logger)) }
     def logger=(logger)
       @logger = T.let(Logger.new(logger), T.nilable(Nexmo::Logger))
     end

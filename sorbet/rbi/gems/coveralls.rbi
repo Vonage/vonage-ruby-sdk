@@ -8,6 +8,7 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/coveralls/all/coveralls.rbi
 #
 # coveralls-0.8.23
+
 module Coveralls
   def noisy; end
   def noisy=(arg0); end

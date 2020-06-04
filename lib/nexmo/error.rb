@@ -1,4 +1,4 @@
-# typed: strict
+# typed: strong
 
 module Nexmo
   class Error < StandardError

@@ -5,7 +5,7 @@
 #
 #   https://github.com/sorbet/sorbet-typed/edit/master/lib/bundler/all/bundler.rbi
 #
-# typed: strict
+# typed: strong
 
 module Bundler
   FREEBSD = ::T.let(nil, T.untyped)
@@ -8459,7 +8459,7 @@ end
 module Bundler::UI
 end
 
-class Bundler::UI::RGProxy < Gem::SilentUI
+class Bundler::UI::RGProxy < Bundler::UI::Silent
   sig do
     params(
       ui: T.untyped,
