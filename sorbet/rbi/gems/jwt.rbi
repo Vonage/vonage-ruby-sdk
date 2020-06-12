@@ -8,6 +8,7 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/jwt/all/jwt.rbi
 #
 # jwt-2.2.1
+
 module JWT
   def decode(jwt, key = nil, verify = nil, options = nil, &keyfinder); end
   def encode(payload, key, algorithm = nil, header_fields = nil); end

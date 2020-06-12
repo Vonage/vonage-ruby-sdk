@@ -8,6 +8,14 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/crack/all/crack.rbi
 #
 # crack-0.4.3
+
+module Crack
+end
+module Crack::Util
+  def snake_case(str); end
+  def to_xml_attributes(hash); end
+  extend Crack::Util
+end
 class REXMLUtiliyNodeString < String
   def attributes; end
   def attributes=(arg0); end
@@ -34,8 +42,6 @@ class REXMLUtilityNode
   def typecast_value(value); end
   def undasherize_keys(params); end
   def unnormalize_xml_entities(value); end
-end
-module Crack
 end
 class Crack::REXMLParser
   def self.parse(xml); end

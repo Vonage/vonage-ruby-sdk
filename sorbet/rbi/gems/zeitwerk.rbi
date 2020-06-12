@@ -8,6 +8,7 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/zeitwerk/all/zeitwerk.rbi
 #
 # zeitwerk-2.3.0
+
 module Zeitwerk::RealModName
   def real_mod_name(mod); end
 end

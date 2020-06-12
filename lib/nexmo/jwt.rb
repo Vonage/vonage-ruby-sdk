@@ -1,4 +1,4 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 require 'securerandom'
 require 'openssl'
@@ -6,6 +6,8 @@ require 'jwt'
 
 module Nexmo
   module JWT
+    extend T::Sig
+
     # Generate an encoded JSON Web Token.
     #
     # By default the Nexmo Ruby SDK generates a short lived JWT per request.
@@ -31,9 +33,10 @@ module Nexmo
     #
     # @return [String]
     #
+    sig { params(payload: T::Hash[T.any(Symbol, String), T.any(String, Integer)], private_key: T.any(OpenSSL::PKey::RSA, String)).returns(String) }
     def self.generate(payload, private_key)
       payload[:iat] = iat = Time.now.to_i unless payload.key?(:iat) || payload.key?('iat')
-      payload[:exp] = iat + 60 unless payload.key?(:exp) || payload.key?('exp')
+      payload[:exp] = T.must(iat) + 60 unless payload.key?(:exp) || payload.key?('exp')
       payload[:jti] = SecureRandom.uuid unless payload.key?(:jti) || payload.key?('jti')
 
       private_key = OpenSSL::PKey::RSA.new(private_key) unless private_key.respond_to?(:sign)
