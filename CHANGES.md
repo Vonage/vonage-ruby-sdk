@@ -1,3 +1,8 @@
+# 7.1.0
+
+* Added support for Payment Services Directive 2 (PSD2) Request: https://developer.nexmo.com/api/verify#verifyRequestWithPSD2
+* Introduced strict typing to more SDK classes
+
 # 7.0.0
 
 **Major Release with Breaking Changes**
