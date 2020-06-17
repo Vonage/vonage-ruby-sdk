@@ -1,4 +1,4 @@
-# typed: true
+# typed: false
 # frozen_string_literal: true
 require 'logger'
 
@@ -12,7 +12,7 @@ module Nexmo
       self.api_key = T.let(ENV['NEXMO_API_KEY'], T.nilable(String))
       self.api_secret = T.let(ENV['NEXMO_API_SECRET'], T.nilable(String))
       self.application_id = ENV['NEXMO_APPLICATION_ID']
-      self.logger = (defined?(Rails.logger) && Rails.log) || Nexmo::Logger.new(nil)
+      self.logger = (defined?(Rails.logger) && Rails.logger) || Nexmo::Logger.new(nil)
       self.private_key = ENV['NEXMO_PRIVATE_KEY_PATH'] ? File.read(T.must(ENV['NEXMO_PRIVATE_KEY_PATH'])) : ENV['NEXMO_PRIVATE_KEY']
       self.rest_host = 'rest.nexmo.com'
       self.signature_secret = ENV['NEXMO_SIGNATURE_SECRET']
