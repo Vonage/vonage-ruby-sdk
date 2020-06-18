@@ -1,3 +1,7 @@
+# 7.1.2
+
+* Bug fix: Restore broken instantiation and SMS functionality due to earlier changes in Sorbet introduction.
+
 # 7.1.1
 
 * Bug fix: Client instantiation was broken in the last release from a redefinition of an object in a method check during Sorbet introduction.
