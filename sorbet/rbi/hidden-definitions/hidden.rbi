@@ -5969,9 +5969,17 @@ Net::HTTPServerErrorCode = Net::HTTPServerError
 class Net::HTTP
 end
 
+Net::HTTPSession::Delete = Net::HTTP::Delete
+
+Net::HTTPSession::Get = Net::HTTP::Get
+
+Net::HTTPSession::Post = Net::HTTP::Post
+
 Net::HTTPSession::ProxyDelta = Net::HTTP::ProxyDelta
 
 Net::HTTPSession::ProxyMod = Net::HTTP::ProxyDelta
+
+Net::HTTPSession::Put = Net::HTTP::Put
 
 class Net::HTTP
 end
@@ -6147,6 +6155,14 @@ class Nexmo::Namespace
 
   def request(path, params: T.unsafe(nil), type: T.unsafe(nil), response_class: T.unsafe(nil), &block); end
 end
+
+Nexmo::Namespace::Delete = Net::HTTP::Delete
+
+Nexmo::Namespace::Get = Net::HTTP::Get
+
+Nexmo::Namespace::Post = Net::HTTP::Post
+
+Nexmo::Namespace::Put = Net::HTTP::Put
 
 class Nexmo::Namespace
   def self.authentication(); end
