@@ -6,6 +6,4 @@ module Nexmo
       @config = config
     end
   end
-
-  private_constant :AbstractAuthentication
 end

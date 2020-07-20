@@ -1,9 +1,12 @@
-# typed: ignore
+# typed: strict
 # frozen_string_literal: true
 require 'json'
 
 module Nexmo
   module Errors
+    extend T::Sig
+
+    sig {params(response: T.any(Net::HTTPUnauthorized, Net::HTTPClientError, Net::HTTPServerError, T.untyped)).returns(Nexmo::Error)}
     def self.parse(response)
       exception_class = case response
         when Net::HTTPUnauthorized
@@ -33,10 +36,12 @@ module Nexmo
       exception_class.new(message)
     end
 
+    sig { params(hash: T::Hash[String, T.untyped]).returns(T::Boolean) }
     def self.problem_details?(hash)
       hash.key?('title') && hash.key?('detail') && hash.key?('type')
     end
 
+    sig { params(hash: T::Hash[String, T.untyped]).returns(String) }
     def self.problem_details_message(hash)
       "#{hash['title']}. #{hash['detail']} See #{hash['type']} for more info, or email support@nexmo.com if you have any questions."
     end

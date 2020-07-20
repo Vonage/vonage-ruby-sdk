@@ -8,6 +8,7 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/hashdiff/all/hashdiff.rbi
 #
 # hashdiff-0.3.8
+
 module HashDiff
   def self.best_diff(obj1, obj2, options = nil, &block); end
   def self.comparable?(obj1, obj2, strict = nil); end

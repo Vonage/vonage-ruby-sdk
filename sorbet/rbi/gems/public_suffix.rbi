@@ -8,6 +8,7 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/public_suffix/all/public_suffix.rbi
 #
 # public_suffix-3.0.3
+
 module PublicSuffix
   def self.decompose(name, rule); end
   def self.domain(name, **options); end
