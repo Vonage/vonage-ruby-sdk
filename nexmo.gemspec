@@ -12,7 +12,7 @@ Gem::Specification.new do |s|
   s.summary = 'This is the Ruby client library for Nexmo\'s API. To use it you\'ll need a Nexmo account. Sign up for free at https://www.nexmo.com'
   s.files = Dir.glob('lib/**/*.rb') + %w(LICENSE.txt README.md nexmo.gemspec)
   s.required_ruby_version = '>= 2.5.0'
-  s.add_dependency('jwt', '~> 2')
+  s.add_dependency('nexmo-jwt', '~> 0.1')
   s.add_dependency('zeitwerk', '~> 2', '>= 2.2')
   s.add_dependency('sorbet-runtime', '~> 0.5')
   s.require_path = 'lib'

@@ -2,10 +2,10 @@
 # frozen_string_literal: true
 require 'securerandom'
 require 'openssl'
-require 'jwt'
+require 'nexmo-jwt'
 
 module Nexmo
-  module JWT
+  class JWT
     # Generate an encoded JSON Web Token.
     #
     # By default the Nexmo Ruby SDK generates a short lived JWT per request.
@@ -14,12 +14,14 @@ module Nexmo
     # directly call {Nexmo::JWT.generate} to generate a token, and set the token
     # attribute on the client object.
     #
+    # Documentation for the Nexmo Ruby JWT generator gem can be found at
+    # https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby
+    #
     # @example
     #   claims = {
     #     application_id: application_id,
-    #     nbf: 1483315200,
-    #     exp: 1514764800,
-    #     iat: 1483228800
+    #     ttl: 800,
+    #     subject: 'My_Subject'
     #   }
     #
     #   private_key = File.read('path/to/private.key')
@@ -31,14 +33,9 @@ module Nexmo
     #
     # @return [String]
     #
-    def self.generate(payload, private_key)
-      payload[:iat] = iat = Time.now.to_i unless payload.key?(:iat) || payload.key?('iat')
-      payload[:exp] = iat + 60 unless payload.key?(:exp) || payload.key?('exp')
-      payload[:jti] = SecureRandom.uuid unless payload.key?(:jti) || payload.key?('jti')
-
-      private_key = OpenSSL::PKey::RSA.new(private_key) unless private_key.respond_to?(:sign)
-
-      ::JWT.encode(payload, private_key, 'RS256')
+    def self.generate(payload, private_key = nil)
+      payload[:private_key] = private_key unless payload[:private_key]
+      @token = Nexmo::JWTBuilder.new(payload).jwt.generate
     end
   end
 end
