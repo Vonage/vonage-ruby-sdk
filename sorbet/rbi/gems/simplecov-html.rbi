@@ -8,6 +8,7 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/simplecov-html/all/simplecov-html.rbi
 #
 # simplecov-html-0.10.2
+
 module SimpleCov
 end
 module SimpleCov::Formatter

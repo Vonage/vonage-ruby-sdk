@@ -8,6 +8,7 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/webmock/all/webmock.rbi
 #
 # webmock-3.5.1
+
 module WebMock
   def after_request(*args, &block); end
   def allow_net_connect!(*args, &block); end

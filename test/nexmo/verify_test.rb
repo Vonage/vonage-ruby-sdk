@@ -107,4 +107,18 @@ class Nexmo::VerifyTest < Nexmo::Test
       verify.trigger_next_event(request_id)
     end
   end
+
+  def test_psd2_method
+    uri = 'https://api.nexmo.com/verify/psd2/json'
+
+    params = {number: msisdn, payee: 'ExampleApp', amount: 48.00}
+
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
+
+    assert_kind_of Nexmo::Response, verify.psd2(params)
+
+    assert_raises Nexmo::Error do
+      verify.psd2(params)
+    end
+  end
 end

@@ -1,3 +1,16 @@
+# 7.1.2
+
+* Bug fix: Restore broken instantiation and SMS functionality due to earlier changes in Sorbet introduction.
+
+# 7.1.1
+
+* Bug fix: Client instantiation was broken in the last release from a redefinition of an object in a method check during Sorbet introduction.
+
+# 7.1.0
+
+* Added support for Payment Services Directive 2 (PSD2) Request: https://developer.nexmo.com/api/verify#verifyRequestWithPSD2
+* Introduced strict typing to more SDK classes
+
 # 7.0.0
 
 **Major Release with Breaking Changes**

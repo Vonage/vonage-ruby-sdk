@@ -1,8 +1,9 @@
-# typed: false
+# typed: strict
 # frozen_string_literal: true
 
 module Nexmo
   class Verify < Namespace
+    extend T::Sig
     alias_method :http_request, :request
 
     private :http_request
@@ -59,8 +60,9 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/verify#verifyRequest
     #
-    def request(params)
-      response = http_request('/verify/json', params: params, type: Post)
+    sig { params(params: T.untyped, uri: T.untyped).returns(T.untyped) }
+    def request(params, uri = '/verify/json')
+      response = http_request(uri, params: params, type: Post)
 
       raise Error, response[:error_text] if error?(response)
 
@@ -91,6 +93,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/verify#verifyCheck
     #
+    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Nexmo::Response) }
     def check(params)
       response = http_request('/verify/check/json', params: params, type: Post)
 
@@ -117,6 +120,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/verify#verifySearch
     #
+    sig { params(params: T::Hash[Symbol, T.untyped]).returns(T.any(T::Hash[Symbol, T.untyped], Nexmo::Response)) }
     def search(params)
       response = http_request('/verify/search/json', params: params)
 
@@ -143,6 +147,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/verify#verifyControl
     #
+    sig { params(params: T::Hash[Symbol, T.untyped]).returns(T.untyped) }
     def control(params)
       response = http_request('/verify/control/json', params: params, type: Post)
 
@@ -162,6 +167,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/verify#verifyControl
     #
+    sig { params(id: String).returns(Nexmo::Response) }
     def cancel(id)
       control(request_id: id, cmd: 'cancel')
     end
@@ -177,12 +183,69 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/verify#verifyControl
     #
+    sig { params(id: String).returns(Nexmo::Response) }
     def trigger_next_event(id)
       control(request_id: id, cmd: 'trigger_next_event')
     end
 
+    # Send a PSD2-compliant payment token to a user for payment authorization
+    #
+    # @example
+    #   response = client.verify.psd2(number: '447700900000', payee: 'Acme Inc', amount: 48.00)
+    #
+    # @option params [required, String] :number
+    #   The mobile or landline phone number to verify.
+    #   Unless you are setting **:country** explicitly, this number must be in E.164 format.
+    #
+    # @option params [String] :country
+    #   If you do not provide **:number** in international format or you are not sure if **:number** is correctly formatted, specify the two-character country code in **:country**.
+    #   Verify will then format the number for you.
+    #
+    # @option params [required, String] :payee
+    #   An alphanumeric string to indicate to the user the name of the recipient that they are confirming a payment to.
+    #
+    # @option params [required, Float] :amount
+    #   The decimal amount of the payment to be confirmed, in Euros
+    #
+    # @option params [Integer] :code_length
+    #   The length of the verification code.
+    #
+    # @option params [String] :lg
+    #   By default, the SMS or text-to-speech (TTS) message is generated in the locale that matches the **:number**.
+    #   For example, the text message or TTS message for a `33*` number is sent in French.
+    #   Use this parameter to explicitly control the language, accent and gender used for the Verify request.
+    #
+    # @option params [Integer] :pin_expiry
+    #   How log the generated verification code is valid for, in seconds.
+    #   When you specify both **:pin_expiry** and **:next_event_wait** then **:pin_expiry** must be an integer multiple of **:next_event_wait** otherwise **:pin_expiry** is defaulted to equal **:next_event_wait**.
+    #   See [changing the event timings](https://developer.nexmo.com/verify/guides/changing-default-timings).
+    #
+    # @option params [Integer] :next_event_wait
+    #   Specifies the wait time in seconds between attempts to deliver the verification code.
+    #
+    # @option params [Integer] :workflow_id
+    #   Selects the predefined sequence of SMS and TTS (Text To Speech) actions to use in order to convey the PIN to your user.
+    #   For example, an id of 1 identifies the workflow SMS - TTS - TTS.
+    #   For a list of all workflows and their associated ids, please visit the [developer portal](https://developer.nexmo.com/verify/guides/workflows-and-events).
+    #
+    # @param [Hash] params
+    #
+    # @return [Response]
+    #
+    # @see https://developer.nexmo.com/api/verify#verifyRequestWithPSD2
+    #
+    sig { params(params: T.untyped, uri: T.untyped).returns(T.any(Nexmo::Error, Nexmo::Response)) }
+    def psd2(params, uri = '/verify/psd2/json')
+      response = http_request(uri, params: params, type: Post)
+
+      raise Error, response[:error_text] if error?(response)
+
+      response
+    end
+
     private
 
+    sig { params(response: T.untyped).returns(T::Boolean) }
     def error?(response)
       response.respond_to?(:error_text)
     end

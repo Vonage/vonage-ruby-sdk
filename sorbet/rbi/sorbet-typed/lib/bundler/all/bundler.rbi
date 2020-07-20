@@ -8459,7 +8459,7 @@ end
 module Bundler::UI
 end
 
-class Bundler::UI::RGProxy < Gem::SilentUI
+class Bundler::UI::RGProxy < Bundler::UI::Silent
   sig do
     params(
       ui: T.untyped,

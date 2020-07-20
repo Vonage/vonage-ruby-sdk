@@ -8,6 +8,7 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/addressable/all/addressable.rbi
 #
 # addressable-2.6.0
+
 module Addressable
 end
 module Addressable::VERSION

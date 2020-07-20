@@ -8,6 +8,7 @@
 #   https://github.com/sorbet/sorbet-typed/new/master?filename=lib/yard/all/yard.rbi
 #
 # yard-0.9.20
+
 module YARD
   def self.load_plugins; end
   def self.parse(*args); end
@@ -116,7 +117,7 @@ class File < IO
   def self.empty?(arg0); end
   def self.join(*arg0); end
   def self.read_binary(file); end
-  def self.relative_path(from, to); end
+  def self.split(arg0); end
 end
 module Gem
   def self.source_index; end
