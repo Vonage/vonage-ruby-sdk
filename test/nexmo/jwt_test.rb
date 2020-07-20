@@ -58,6 +58,8 @@ class Nexmo::JWTTest < Minitest::Test
   end
 
   def test_generate_method_sets_provided_value_for_ttl_parameter
+    Timecop.freeze(Time.at(1595253613))
+
     payload = {
       :application_id => application_id,
       :private_key => private_key,
@@ -67,7 +69,7 @@ class Nexmo::JWTTest < Minitest::Test
     token = Nexmo::JWT.generate(payload)
     decoded = decode(token)
 
-    assert_equal decoded.fetch('ttl'), payload.fetch(:ttl)
+    assert_equal decoded.fetch('exp'), 1595254313
   end
 
   def test_generate_method_jwt_string_comparison
