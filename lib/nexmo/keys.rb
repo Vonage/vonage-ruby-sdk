@@ -25,10 +25,9 @@ module Nexmo
       ]
       hash.transform_keys do |k|
         if exceptions.include?(k.to_s)
-          k.to_s.gsub(/_(\w)/) { $1.upcase.to_s }
-        else
-          k
+          next k.to_s.gsub(/_(\w)/) { $1.upcase.to_s }
         end
+          k
       end
     end
 
