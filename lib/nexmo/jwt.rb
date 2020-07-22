@@ -34,7 +34,9 @@ module Nexmo
     # @return [String]
     #
     def self.generate(payload, private_key = nil)
-      payload[:private_key] = private_key unless payload[:private_key]
+      raise "Expecting 'private_key' in either the payload or as a separate parameter" if !payload[:private_key] && !private_key
+
+      payload[:private_key] = private_key if private_key && !payload[:private_key]
       @token = Nexmo::JWTBuilder.new(payload).jwt.generate
     end
   end
