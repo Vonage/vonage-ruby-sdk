@@ -7,6 +7,7 @@ end
 
 require 'minitest/autorun'
 require 'webmock/minitest'
+require 'timecop'
 require 'nexmo'
 
 module Nexmo

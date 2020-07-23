@@ -112,18 +112,19 @@ the token option. For example:
 ```ruby
 claims = {
   application_id: application_id,
+  private_key: 'path/to/private.key',
   nbf: 1483315200,
-  exp: 1514764800,
-  iat: 1483228800
+  ttl: 800
 }
 
-private_key = File.read('path/to/private.key')
-
-token = Nexmo::JWT.generate(claims, private_key)
+token = Nexmo::JWT.generate(claims)
 
 client = Nexmo::Client.new(token: token)
 ````
 
+Documentation for the Nexmo Ruby JWT generator gem can be found at
+[https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby](https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby).
+The documentation outlines all the possible parameters you can use to customize and build a token with.
 
 ## Webhook signatures
 
