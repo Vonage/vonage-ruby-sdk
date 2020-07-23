@@ -80,4 +80,35 @@ class Nexmo::JWTTest < Minitest::Test
 
     assert_equal token, sample_token
   end
+
+  def test_exception_behavior_without_private_key
+    payload = {
+      :application_id => application_id
+    }
+
+    exception = assert_raises { Nexmo::JWT.generate(payload) }
+
+    assert_match "Expecting 'private_key' in either the payload or as a separate parameter", exception.message
+  end
+
+  def test_no_exception_with_private_key_in_payload
+    payload = {
+      :application_id => application_id,
+      :private_key => private_key
+    }
+
+    token = Nexmo::JWT.generate(payload)
+
+    assert token
+  end
+
+  def test_no_exception_with_private_key_in_second_argument
+    payload = {
+      :application_id => application_id
+    }
+
+    token = Nexmo::JWT.generate(payload, private_key)
+
+    assert token
+  end
 end
