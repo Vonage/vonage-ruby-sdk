@@ -1,6 +1,6 @@
 # Nexmo Client Library for Ruby
 
-[![Gem Version](https://badge.fury.io/rb/nexmo.svg)](https://badge.fury.io/rb/nexmo) [![Build Status](https://api.travis-ci.org/Nexmo/nexmo-ruby.svg?branch=master)](https://travis-ci.org/Nexmo/nexmo-ruby) [![Coverage Status](https://coveralls.io/repos/github/Nexmo/nexmo-ruby/badge.svg?branch=coveralls)](https://coveralls.io/github/Nexmo/nexmo-ruby?branch=master)
+[![Gem Version](https://badge.fury.io/rb/nexmo.svg)](https://badge.fury.io/rb/nexmo) [![Coverage Status](https://github.com/nexmo/nexmo-ruby/workflows/CI/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Nexmo/nexmo-ruby/badge.svg?branch=coveralls)](https://coveralls.io/github/Nexmo/nexmo-ruby?branch=master)
 
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
 
@@ -112,18 +112,19 @@ the token option. For example:
 ```ruby
 claims = {
   application_id: application_id,
+  private_key: 'path/to/private.key',
   nbf: 1483315200,
-  exp: 1514764800,
-  iat: 1483228800
+  ttl: 800
 }
 
-private_key = File.read('path/to/private.key')
-
-token = Nexmo::JWT.generate(claims, private_key)
+token = Nexmo::JWT.generate(claims)
 
 client = Nexmo::Client.new(token: token)
 ````
 
+Documentation for the Nexmo Ruby JWT generator gem can be found at
+[https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby](https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby).
+The documentation outlines all the possible parameters you can use to customize and build a token with.
 
 ## Webhook signatures
 
