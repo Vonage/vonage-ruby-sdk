@@ -57,6 +57,7 @@ module Nexmo
       uri = URI('https://' + @host + path)
 
       params ||= {}
+      params = params_to_hash(params)
 
       authentication = self.class.authentication.new(@config)
       authentication.update(params)
@@ -90,6 +91,16 @@ module Nexmo
       logger.debug(response.body) if response.body
 
       parse(response, response_class)
+    end
+
+    def params_to_hash(params)
+      if !params.is_a?(Hash)
+        hash = {}
+        params.instance_variables.each {|var| hash[var.to_s.delete("@").to_sym] = params.instance_variable_get(var) if !params.instance_variable_get(var).nil? }
+        params = hash
+      end
+
+      params
     end
 
     def parse(response, response_class)

@@ -55,7 +55,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/voice#createCall
     #
     def create(params)
-      request('/v1/calls', params: params, type: Post)
+      request('/v1/calls', params: Nexmo::Voice::Builders::CreateCall.new(params), type: Post)
     end
 
     # Get details of your calls.
