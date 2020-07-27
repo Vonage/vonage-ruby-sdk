@@ -8,8 +8,6 @@ module Nexmo::Applications::Basic; end
 module Nexmo::Applications::Delete; end
 module Nexmo::Applications::Post; end
 module Nexmo::Applications::Put; end
-module Nexmo::Config::HTTP::Options; end
-module Nexmo::Config::Rails; end
 module Nexmo::Conversations::BearerToken; end
 module Nexmo::Conversations::Delete; end
 module Nexmo::Conversations::Events::BearerToken; end

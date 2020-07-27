@@ -1,8 +1,10 @@
-# typed: true
+# typed: strict
 # frozen_string_literal: true
 
 module Nexmo
   class Redact < Namespace
+    extend T::Sig
+
     self.authentication = Basic
 
     self.request_body = JSON
@@ -27,6 +29,7 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/redact#redact-message
     #
+    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Nexmo::Response) }
     def transaction(params)
       request('/v1/redact/transaction', params: params, type: Post)
     end
