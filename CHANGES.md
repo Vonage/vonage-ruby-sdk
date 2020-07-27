@@ -1,3 +1,8 @@
+# 7.2.0
+
+* Replaced JWT generation with the [`nexmo-jwt` gem](https://github.com/Nexmo/nexmo-jwt-ruby).
+* Bug fix: Restored ability to update `app_id` in the Numbers API with the SDK.
+
 # 7.1.2
 
 * Bug fix: Restore broken instantiation and SMS functionality due to earlier changes in Sorbet introduction.
