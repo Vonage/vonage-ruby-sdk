@@ -130,7 +130,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/voice#updateCall
     #
     def update(id, params)
-      request('/v1/calls/' + id, params: params, type: Put)
+      request('/v1/calls/' + id, params: Nexmo::Voice::Builders::UpdateCall.new(params), type: Put)
     end
 
     # Hangup an in progress call.

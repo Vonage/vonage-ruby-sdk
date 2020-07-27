@@ -1,5 +1,6 @@
 # typed: ignore
 # frozen_string_literal: true
+
 module Nexmo
   class Voice::Builders::CreateCall < Namespace
     attr_accessor :to, :from, :event_url, :event_method, :machine_detection, :length_timer, :ringing_timer, :ncco, :answer_url
