@@ -27,14 +27,24 @@ module Nexmo
 
     def validate_no_params_conflict(builder)
       if builder.ncco && builder.answer_url
-        raise ClientError.new("Expected either 'ncco' param or 'answer_url' param, not both.")
+        raise ClientError.new("Expected either 'ncco' param or 'answer_url' param, not both")
       end
     end
 
     def validate_required_params_data(builder)
       validate_to_param(builder.to)
       validate_from_param(builder.from)
-      builder.ncco ? validate_ncco_param(builder.ncco) : validate_answer_url_param(builder.answer_url)
+      if !builder.ncco && !builder.answer_url
+        raise ClientError.new("Expected either 'answer_url' or 'ncco' parameter to be provided")
+      end
+
+      if builder.ncco && !builder.answer_url
+        validate_ncco_param(builder.ncco)
+      end
+
+      if !builder.ncco && builder.answer_url
+        validate_answer_url_param(builder.answer_url)
+      end
     end
 
     def validate_optional_params_data(builder)
@@ -47,7 +57,7 @@ module Nexmo
       end
 
       if builder.ringing_timer
-        valiate_ringing_timer_param(builder.ringing_timer)
+        validate_ringing_timer_param(builder.ringing_timer)
       end
 
       if builder.length_timer
@@ -103,17 +113,17 @@ module Nexmo
 
     def validate_event_method_param(event_method_param)
       raise ClientError.new("Expected value of 'event_method' parameter to be a String") if !event_method_param.is_a?(String)
-      raise ClientError.new("Expected value of 'event_method' parameter to be either 'GET' or 'POST'") if event_method_param != 'GET' || event_method_param != 'POST'
+      raise ClientError.new("Expected value of 'event_method' parameter to be either 'GET' or 'POST'") unless event_method_param == 'GET' || event_method_param == 'POST'
     end
 
     def validate_ringing_timer_param(ringing_timer_param)
       raise ClientError.new("Expected 'ringing_timer' parameter to be an Integer") if !ringing_timer_param.is_a?(Integer)
-      raise ClientError.new("Expected 'ringing_timer' parameter to be between 1 and 120") if ringing_timer_param < 0 || ringing_timer_param > 120
+      raise ClientError.new("Expected 'ringing_timer' parameter to be between 1 and 120") if ringing_timer_param < 1 || ringing_timer_param > 120
     end
 
     def validate_length_timer_param(length_timer_param)
       raise ClientError.new("Expected 'length_timer' parameter to be an Integer") if !length_timer_param.is_a?(Integer)
-      raise ClientError.new("Expected 'length_timer' parameter to be between 1 and 120") if length_timer_param < 0 || length_timer_param > 7200
+      raise ClientError.new("Expected 'length_timer' parameter to be between 1 and 7200") if length_timer_param < 1 || length_timer_param > 7200
     end
   end
 end
