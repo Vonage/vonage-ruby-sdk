@@ -94,7 +94,7 @@ module Nexmo
     # @see https://developer.nexmo.com/api/voice#getCalls
     #
     def list(params = nil)
-      request('/v1/calls', params: params, response_class: ListResponse)
+      request('/v1/calls', params: Nexmo::Voice::Builders::ListCalls.new(params), response_class: ListResponse)
     end
 
     # Get detail of a specific call.
