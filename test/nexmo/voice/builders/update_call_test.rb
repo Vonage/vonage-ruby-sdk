@@ -19,7 +19,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
     builder = Nexmo::Voice::Builders::UpdateCall.new(params)
 
     assert_equal builder.action, params[:action]
-    assert_equal builder.destination, nil
+    assert_nil builder.destination
   end
 
   def test_with_params_conflict
