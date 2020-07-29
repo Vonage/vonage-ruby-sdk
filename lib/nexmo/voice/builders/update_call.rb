@@ -48,7 +48,7 @@ module Nexmo
       
       if destination_param[:url]
         raise ClientError.new("Expected 'url' parameter to be an Array") unless destination_param[:url].is_a?(Array)
-        raise ClientError.new("Expected only item in 'url' parameter Array") unless destination_param[:url].length == 1
+        raise ClientError.new("Expected only one item in 'url' parameter Array") unless destination_param[:url].length == 1
         raise ClientError.new("Expected item value in 'url' parameter to be a String") unless destination_param[:url][0].is_a?(String)
       end
     end
