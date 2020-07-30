@@ -47,8 +47,8 @@ module Nexmo
     #
     # @see https://developer.nexmo.com/api/developer/numbers#getOwnedNumbers
     #
-    def list(params = nil)
-      request('/account/numbers', params: params, response_class: ListResponse)
+    def list(params = {})
+      request('/account/numbers', params: Nexmo::Numbers::Builders::ListNumbers.new(params), response_class: ListResponse)
     end
 
     # Retrieve inbound numbers that are available for the specified country.

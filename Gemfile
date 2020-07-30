@@ -10,4 +10,5 @@ gem 'simplecov', '~> 0.16'
 gem 'coveralls', '~> 0.8'
 gem 'json', '~> 2'
 gem 'timecop', '~> 0.9'
+gem 'countries', '~> 3.0'
 gem 'sorbet', :group => :development
