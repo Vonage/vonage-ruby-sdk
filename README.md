@@ -15,6 +15,8 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
     * [JWT authentication](#jwt-authentication)
     * [Webhook signatures](#webhook-signatures)
 * [Documentation](#documentation)
+* [Frequently Asked Questions](#frequently-asked-questions)
+    * [Supported APIs](#supported-apis)
 * [License](#license)
 
 
@@ -155,6 +157,31 @@ Nexmo Ruby code examples: https://github.com/Nexmo/nexmo-ruby-code-snippets
 
 Nexmo API reference: https://developer.nexmo.com/api
 
+## Frequently Asked Questions
+
+## Supported APIs
+
+The following is a list of Vonage APIs and whether the Ruby SDK provides support for them:
+
+| API   | API Release Status |  Supported?
+|----------|:---------:|:-------------:|
+| Account API | General Availability |✅|
+| Alerts API | General Availability |✅|
+| Application API | General Availability |✅|
+| Audit API | Beta |❌|
+| Conversation API | Beta |❌|
+| Dispatch API | Beta |❌|
+| External Accounts API | Beta |❌|
+| Media API | Beta | ❌|
+| Messages API | Beta |❌|
+| Number Insight API | General Availability |✅|
+| Number Management API | General Availability |✅|
+| Pricing API | General Availability |✅|
+| Redact API | General Availability |✅|
+| Reports API | Beta |❌|
+| SMS API | General Availability |✅|
+| Verify API | General Availability |✅|
+| Voice API | General Availability |✅|
 
 ## License
 
