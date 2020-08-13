@@ -117,7 +117,7 @@ class File < IO
   def self.empty?(arg0); end
   def self.join(*arg0); end
   def self.read_binary(file); end
-  def self.split(arg0); end
+  def self.relative_path(from, to); end
 end
 module Gem
   def self.source_index; end
