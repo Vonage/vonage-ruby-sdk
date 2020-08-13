@@ -177,7 +177,7 @@ The following is a list of Vonage APIs and whether the Ruby SDK provides support
 | Number Insight API | General Availability |✅|
 | Number Management API | General Availability |✅|
 | Pricing API | General Availability |✅|
-| Redact API | General Availability |✅|
+| Redact API | Developer Preview |✅|
 | Reports API | Beta |❌|
 | SMS API | General Availability |✅|
 | Verify API | General Availability |✅|
