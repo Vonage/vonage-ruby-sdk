@@ -9,5 +9,6 @@ gem 'yard', '~> 0.9'
 gem 'simplecov', '~> 0.16'
 gem 'coveralls', '~> 0.8'
 gem 'json', '~> 2'
+gem 'timecop'
 gem 'sorbet', :group => :development
 gem 'sorbet-runtime'
