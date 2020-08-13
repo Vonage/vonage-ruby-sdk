@@ -1,3 +1,7 @@
+# 8.0.0
+
+* Migrated all class names to `Vonage`
+
 # 7.2.0
 
 * Replaced JWT generation with the [`nexmo-jwt` gem](https://github.com/Nexmo/nexmo-jwt-ruby).
