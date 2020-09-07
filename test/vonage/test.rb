@@ -2,7 +2,7 @@
 require 'simplecov'
 
 SimpleCov.start do
-  add_filter 'test/Vonage'
+  add_filter 'test/vonage'
 end
 
 require 'minitest/autorun'

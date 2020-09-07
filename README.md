@@ -1,10 +1,10 @@
-# Vonage Client Library for Ruby
+# Vonage Server SDK for Ruby
 
 [![Gem Version](https://badge.fury.io/rb/vonage.svg)](https://badge.fury.io/rb/vonage) [![Coverage Status](https://github.com/Vonage/vonage-ruby/workflows/CI/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Vonage/vonage-ruby/badge.svg?branch=coveralls)](https://coveralls.io/github/Vonage/vonage-ruby?branch=master)
 
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
 
-This is the Ruby client library for Vonage APIs. To use it you'll
+This is the Ruby Server SDK for Vonage APIs. To use it you'll
 need a Vonage account. Sign up [for free at vonage.com][signup].
 
 * [Requirements](#requirements)
@@ -27,7 +27,7 @@ Vonage Ruby supports MRI/CRuby (2.5 or newer), JRuby (9.2.x), and Truffleruby.
 
 ## Installation
 
-To install the Ruby client library using Rubygems:
+To install the Ruby Server SDK using Rubygems:
 
     gem install vonage
 
