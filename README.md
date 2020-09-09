@@ -1,6 +1,6 @@
 # Vonage Server SDK for Ruby
 
-[![Gem Version](https://badge.fury.io/rb/vonage.svg)](https://badge.fury.io/rb/vonage) [![Coverage Status](https://github.com/Vonage/vonage-ruby-sdk/workflows/CI/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Vonage/vonage-ruby-sdk/badge.svg?branch=coveralls)](https://coveralls.io/github/Vonage/vonage-ruby-sdk?branch=master)
+[![Gem Version](https://badge.fury.io/rb/vonage.svg)](https://badge.fury.io/rb/vonage) [![Coverage Status](https://github.com/Vonage/vonage-ruby-sdk/workflows/CI/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Vonage/vonage-ruby-sdk/badge.svg?branch=master)](https://coveralls.io/github/Vonage/vonage-ruby-sdk?branch=master)
 
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
 
