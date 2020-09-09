@@ -1,6 +1,6 @@
 # Vonage Server SDK for Ruby
 
-[![Gem Version](https://badge.fury.io/rb/vonage.svg)](https://badge.fury.io/rb/vonage) [![Coverage Status](https://github.com/Vonage/vonage-ruby/workflows/CI/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Vonage/vonage-ruby/badge.svg?branch=coveralls)](https://coveralls.io/github/Vonage/vonage-ruby?branch=master)
+[![Gem Version](https://badge.fury.io/rb/vonage.svg)](https://badge.fury.io/rb/vonage) [![Coverage Status](https://github.com/Vonage/vonage-ruby-sdk/workflows/CI/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Vonage/vonage-ruby-sdk/badge.svg?branch=coveralls)](https://coveralls.io/github/Vonage/vonage-ruby-sdk?branch=master)
 
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
 
@@ -33,7 +33,7 @@ To install the Ruby Server SDK using Rubygems:
 
 Alternatively you can clone the repository:
 
-    git clone git@github.com:Vonage/vonage-ruby.git
+    git clone git@github.com:Vonage/vonage-ruby-sdk.git
 
 
 ## Usage
@@ -151,7 +151,7 @@ Note: you'll need to contact support@nexmo.com to enable message signing on your
 
 ## Documentation
 
-Vonage Ruby documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby
+Vonage Ruby documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby-sdk
 
 Vonage Ruby code examples: https://github.com/Nexmo/nexmo-ruby-code-snippets
 
@@ -185,7 +185,7 @@ The following is a list of Vonage APIs and whether the Ruby SDK provides support
 
 ## License
 
-This library is released under the [MIT License][license]
+This library is released under the [Apache 2.0 License][license]
 
 [signup]: https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library
 [license]: LICENSE.txt
