@@ -7,7 +7,7 @@ Gem::Specification.new do |s|
   s.platform = Gem::Platform::RUBY
   s.authors = ['Vonage']
   s.email = ['devrel@vonage.com']
-  s.homepage = 'https://github.com/Vonage/vonage-ruby'
+  s.homepage = 'https://github.com/Vonage/vonage-ruby-sdk'
   s.description = 'Vonage Server SDK for Ruby'
   s.summary = 'This is the Ruby Server SDK for Vonage APIs. To use it you\'ll need a Vonage account. Sign up for free at https://www.vonage.com'
   s.files = Dir.glob('lib/**/*.rb') + %w(LICENSE.txt README.md vonage.gemspec)
@@ -17,10 +17,10 @@ Gem::Specification.new do |s|
   s.add_dependency('sorbet-runtime', '~> 0.5')
   s.require_path = 'lib'
   s.metadata = {
-    'homepage' => 'https://github.com/Vonage/vonage-ruby',
-    'source_code_uri' => 'https://github.com/Vonage/vonage-ruby',
-    'bug_tracker_uri' => 'https://github.com/Vonage/vonage-ruby/issues',
-    'changelog_uri' => 'https://github.com/Vonage/vonage-ruby/blob/master/CHANGES.md',
-    'documentation_uri' => 'https://www.rubydoc.info/github/vonage/vonage-ruby'
+    'homepage' => 'https://github.com/Vonage/vonage-ruby-sdk',
+    'source_code_uri' => 'https://github.com/Vonage/vonage-ruby-sdk',
+    'bug_tracker_uri' => 'https://github.com/Vonage/vonage-ruby-sdk/issues',
+    'changelog_uri' => 'https://github.com/Vonage/vonage-ruby-sdk/blob/master/CHANGES.md',
+    'documentation_uri' => 'https://www.rubydoc.info/github/vonage/vonage-ruby-sdk'
   }
 end
