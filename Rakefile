@@ -10,7 +10,3 @@ Rake::TestTask.new(:test) do |t|
 end
 
 YARD::Rake::YardocTask.new
-
-Coveralls::RakeTask.new
-
-task :test_with_coveralls => [:test, 'coveralls:push']
