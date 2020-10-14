@@ -1,6 +1,5 @@
 require 'rake/testtask'
 require 'yard'
-require 'coveralls/rake/task'
 
 task :default => :test
 
