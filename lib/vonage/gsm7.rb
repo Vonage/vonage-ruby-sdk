@@ -7,7 +7,7 @@ module Vonage
 
     REGEXP = /\A[#{Regexp.escape(CHARACTERS)}]*\z/
 
-    sig {params(string: T.nilable(String)).returns(T.nilable(Integer))}
+    sig { params(string: T.nilable(String)).returns(T.nilable(Integer)) }
     def self.encoded?(string)
       REGEXP =~ string
     end
