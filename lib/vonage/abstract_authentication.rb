@@ -1,4 +1,4 @@
-# typed: ignore
+# typed: true
 
 module Vonage
   class AbstractAuthentication
