@@ -61,7 +61,7 @@ module Vonage
       authentication = self.class.authentication.new(@config)
       authentication.update(params)
 
-      unless type::REQUEST_HAS_BODY || params.empty?
+      unless type.const_get(:REQUEST_HAS_BODY) || params.empty?
         uri.query = Params.encode(params)
       end
 
@@ -77,7 +77,7 @@ module Vonage
 
       authentication.update(message)
 
-      self.class.request_body.update(message, params) if type::REQUEST_HAS_BODY
+      self.class.request_body.update(message, params) if type.const_get(:REQUEST_HAS_BODY)
 
       logger.log_request_info(message)
 
