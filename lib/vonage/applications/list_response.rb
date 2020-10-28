@@ -1,4 +1,4 @@
-# typed: ignore
+# typed: true
 
 class Vonage::Applications::ListResponse < Vonage::Response
   include Enumerable
