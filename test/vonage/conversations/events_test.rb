@@ -29,7 +29,9 @@ class Vonage::Conversations::EventsTest < Vonage::Test
   def test_list_method
     stub_request(:get, events_uri).with(request).to_return(response)
 
-    assert_kind_of Vonage::Response, events.list(conversation_id)
+    response = events.list(conversation_id)
+
+    response.each{|resp| assert_kind_of Vonage::Response, resp }
   end
 
   def test_get_method

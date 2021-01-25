@@ -11,7 +11,7 @@ class Vonage::Voice::DTMFTest < Vonage::Test
   end
 
   def test_send_method
-    params = {digits: '1234'}
+    params = { digits: '1234' }
 
     stub_request(:put, uri).with(request(body: params)).to_return(response)
 

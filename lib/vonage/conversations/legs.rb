@@ -7,12 +7,16 @@ module Vonage
 
     # List legs.
     #
+    # @option params [Boolean] :auto_advance
+    #   Set this to `false` to not auto-advance through all the pages in the record
+    #   and collect all the data. The default is `true`.     
+    #
     # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#listLegs
     #
-    def list
-      request('/beta/legs')
+    def list(params = nil, auto_advance = true)
+      request('/beta/legs', params: params)
     end
 
     # Delete a leg.

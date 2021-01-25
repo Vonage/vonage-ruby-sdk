@@ -40,7 +40,11 @@ module Vonage
     #
     # @option params [Integer] :index
     #   Page index.
-    #
+    # 
+    # @option params [Boolean] :auto_advance
+    #   Set this to `true` to auto-advance through all the pages in the record
+    #   and collect all the data. The default is `false`.
+    # 
     # @param [Hash] params
     #
     # @return [ListResponse]
@@ -85,6 +89,10 @@ module Vonage
     # @option params [Integer] :index
     #   Page index.
     #
+    # @option params [Boolean] :auto_advance
+    #   Set this to `true` to auto-advance through all the pages in the record
+    #   and collect all the data. The default is `false`.
+    #  
     # @param [Hash] params
     #
     # @return [ListResponse]

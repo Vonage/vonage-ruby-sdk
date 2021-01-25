@@ -47,12 +47,16 @@ module Vonage
     #
     # @param [String] conversation_id
     #
+    # @option params [Boolean] :auto_advance
+    #   Set this to `false` to not auto-advance through all the pages in the record
+    #   and collect all the data. The default is `true`.
+    #
     # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#getMembers
     #
-    def list(conversation_id)
-      request('/beta/conversations/' + conversation_id + '/members')
+    def list(conversation_id, params = nil, auto_advance = true)
+      request('/beta/conversations/' + conversation_id + '/members', params: params)
     end
 
     # Retrieve a member.

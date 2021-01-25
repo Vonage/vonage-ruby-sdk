@@ -29,9 +29,11 @@ class Vonage::VoiceTest < Vonage::Test
   def test_list_method
     params = {status: 'completed'}
 
-    stub_request(:get, calls_uri).with(request(query: params)).to_return(response)
+    stub_request(:get, calls_uri).with(request(query: params)).to_return(voice_response)
 
-    assert_kind_of Vonage::Voice::ListResponse, calls.list(params)
+    response = calls.list(params)
+
+    response.each{|resp| assert_kind_of Vonage::Voice::ListResponse, resp }
   end
 
   def test_get_method

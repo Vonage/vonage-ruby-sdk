@@ -19,9 +19,11 @@ class Vonage::HostsTest < Vonage::Test
 
     uri = %r{\Ahttps://#{api_host}/}
 
-    stub_request(:get, uri).with(request).to_return(response)
+    stub_request(:get, uri).with(request).to_return(secrets_response)
 
-    assert_kind_of Vonage::Secrets::ListResponse, secrets.list
+    response = secrets.list
+
+    response.each{|resp| assert_kind_of Vonage::Secrets::ListResponse, resp }
   end
 
   def test_custom_rest_host
