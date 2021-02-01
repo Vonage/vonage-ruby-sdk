@@ -42,7 +42,7 @@ module Vonage
     #   Use this parameter to explicitly control the language, accent and gender used for the Verify request.
     #
     # @option params [Integer] :pin_expiry
-    #   How log the generated verification code is valid for, in seconds.
+    #   How long the generated verification code is valid for, in seconds.
     #   When you specify both **:pin_expiry** and **:next_event_wait** then **:pin_expiry** must be an integer multiple of **:next_event_wait** otherwise **:pin_expiry** is defaulted to equal **:next_event_wait**.
     #   See [changing the event timings](https://developer.nexmo.com/verify/guides/changing-default-timings).
     #
