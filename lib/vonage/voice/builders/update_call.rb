@@ -1,7 +1,7 @@
 # typed: ignore
 # frozen_string_literal: true
 
-module Nexmo
+module Vonage
   class Voice::Builders::UpdateCall < Namespace
     attr_accessor :action, :destination
 

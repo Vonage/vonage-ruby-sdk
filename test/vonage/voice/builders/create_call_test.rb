@@ -1,13 +1,13 @@
 # typed: false
 
-class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
+class Vonage::Voice::Builders::CreateCallTest < Vonage::Test
   def test_with_only_required_params_and_answer_url
     params = {
       to: [{type: 'phone', number: '14843331234'}],
       from: {type: 'phone', number: '14843335555'},
       answer_url: ['https://example.com/answer']
     }
-    builder = Nexmo::Voice::Builders::CreateCall.new(params)
+    builder = Vonage::Voice::Builders::CreateCall.new(params)
 
     assert_equal builder.to, params[:to]
     assert_equal builder.from, params[:from]
@@ -20,7 +20,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       from: {type: 'phone', number: '14843335555'},
       ncco: [{action: 'talk', text: 'test text'}]
     }
-    builder = Nexmo::Voice::Builders::CreateCall.new(params)
+    builder = Vonage::Voice::Builders::CreateCall.new(params)
 
     assert_equal builder.to, params[:to]
     assert_equal builder.from, params[:from]
@@ -33,7 +33,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       answer_url: ['https://example.com/answer']
     }
         
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "key not found: :to", exception.message
   end
@@ -44,7 +44,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       ncco: [{action: 'talk', text: 'test text'}]
     }
         
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "key not found: :from", exception.message
   end
@@ -55,7 +55,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       from: {type: 'phone', number: '14843335555'}
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected either 'answer_url' or 'ncco' parameter to be provided", exception.message
   end
@@ -68,7 +68,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       answer_url: ['https://example.com/answer']
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected either 'ncco' param or 'answer_url' param, not both", exception.message    
   end
@@ -81,7 +81,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       event_url: ['https://example.com/event']
     }
 
-    builder = Nexmo::Voice::Builders::CreateCall.new(params)
+    builder = Vonage::Voice::Builders::CreateCall.new(params)
 
     assert_equal builder.event_url, params[:event_url]
     assert_kind_of Array, builder.event_url
@@ -97,7 +97,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       event_url: 'https://example.com/event'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected 'event_url' parameter to be an Array", exception.message 
   end
@@ -110,7 +110,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       event_url: [{url: 'https://example.com/event'}]
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected value of 'event_url' parameter to be a String", exception.message 
   end
@@ -123,7 +123,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       event_url: ['https://example.com/event', 'https://example.com/event_two']
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected only one String value of 'event_url' parameter", exception.message 
   end
@@ -136,7 +136,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       event_method: 'GET'
     }
 
-    builder = Nexmo::Voice::Builders::CreateCall.new(params)
+    builder = Vonage::Voice::Builders::CreateCall.new(params)
 
     assert_equal builder.event_method, params[:event_method]
     assert_kind_of String, builder.event_method
@@ -150,7 +150,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       event_method: ['GET']
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected value of 'event_method' parameter to be a String", exception.message 
   end
@@ -163,7 +163,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       event_method: 'PUT'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected value of 'event_method' parameter to be either 'GET' or 'POST'", exception.message 
   end
@@ -176,7 +176,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       ringing_timer: 30
     }
 
-    builder = Nexmo::Voice::Builders::CreateCall.new(params)
+    builder = Vonage::Voice::Builders::CreateCall.new(params)
 
     assert_equal builder.ringing_timer, params[:ringing_timer]
     assert_kind_of Integer, builder.ringing_timer
@@ -190,7 +190,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       ringing_timer: 'thirty'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected 'ringing_timer' parameter to be an Integer", exception.message 
   end
@@ -203,7 +203,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       ringing_timer: 0
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected 'ringing_timer' parameter to be between 1 and 120", exception.message 
   end
@@ -216,7 +216,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       ringing_timer: 121
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected 'ringing_timer' parameter to be between 1 and 120", exception.message 
   end
@@ -229,7 +229,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       length_timer: 30
     }
 
-    builder = Nexmo::Voice::Builders::CreateCall.new(params)
+    builder = Vonage::Voice::Builders::CreateCall.new(params)
 
     assert_equal builder.length_timer, params[:length_timer]
     assert_kind_of Integer, builder.length_timer
@@ -243,7 +243,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       length_timer: 'thirty'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected 'length_timer' parameter to be an Integer", exception.message 
   end
@@ -256,7 +256,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       length_timer: 0
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected 'length_timer' parameter to be between 1 and 7200", exception.message 
   end
@@ -269,7 +269,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       length_timer: 7201
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected 'length_timer' parameter to be between 1 and 7200", exception.message 
   end
@@ -282,7 +282,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       machine_detection: 'continue'
     }
 
-    builder = Nexmo::Voice::Builders::CreateCall.new(params)
+    builder = Vonage::Voice::Builders::CreateCall.new(params)
 
     assert_equal builder.machine_detection, params[:machine_detection]
     assert_kind_of String, builder.machine_detection
@@ -296,7 +296,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       machine_detection: ['hangup']
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected value of 'machine_detection' parameter to be a String", exception.message 
   end
@@ -309,7 +309,7 @@ class Nexmo::Voice::Builders::CreateCallTest < Nexmo::Test
       machine_detection: 'transfer'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::CreateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::CreateCall.new(params) }
 
     assert_match "Expected value of 'machine_detection' parameter to be either 'continue' or 'hangup'", exception.message 
   end

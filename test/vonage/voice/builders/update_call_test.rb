@@ -1,12 +1,12 @@
 # typed: false
 
-class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
+class Vonage::Voice::Builders::UpdateCallTest < Vonage::Test
   def test_with_required_params_action_and_destination
     params = {
       action: 'transfer',
       destination: {type: 'ncco', ncco: [{action: 'talk', text: 'test text'}]}
     }
-    builder = Nexmo::Voice::Builders::UpdateCall.new(params)
+    builder = Vonage::Voice::Builders::UpdateCall.new(params)
 
     assert_equal builder.action, params[:action]
     assert_equal builder.destination, params[:destination]
@@ -16,7 +16,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
     params = {
       action: 'hangup'
     }
-    builder = Nexmo::Voice::Builders::UpdateCall.new(params)
+    builder = Vonage::Voice::Builders::UpdateCall.new(params)
 
     assert_equal builder.action, params[:action]
     assert_nil builder.destination
@@ -28,7 +28,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       destination: {type: 'ncco', ncco: [{action: 'talk', text: 'test text'}]}
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expect 'destination' parameter only when the 'action' parameter is 'transfer'", exception.message
   end
@@ -38,7 +38,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       action: ['hangup']
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expect 'action' parameter to be a String", exception.message
   end
@@ -48,7 +48,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       action: 'pause'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expect 'action' parameter to be one of: \"transfer\",\"hangup\",\"mute\",\"unmute\",\"earmuff\",\"unearmuff\"", exception.message
   end
@@ -59,7 +59,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       destination: [{type: 'ncco', ncco: [{action: 'talk', text: 'test text'}]}]
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expect 'destination' parameter to be a Hash", exception.message
   end
@@ -70,7 +70,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       destination: {type: 'ncco', ncco: [{action: 'talk', text: 'test text'}], third_key: 'too many keys'}
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expected 'destination' parameter to only have two keys: 'type' and either 'answer_url' or 'ncco'", exception.message
   end
@@ -81,7 +81,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       destination: {type: 3, ncco: [{action: 'talk', text: 'test text'}]}
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expected a String for the value of 'type'", exception.message
   end
@@ -92,7 +92,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       destination: {type: 'ncco', ncco: {action: 'talk', text: 'test text'}}
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expected 'ncco' parameter to be an Array", exception.message
   end
@@ -103,7 +103,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       destination: {type: 'ncco', url: 'https://example.com/transfer'}
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expected 'url' parameter to be an Array", exception.message
   end
@@ -114,7 +114,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       destination: {type: 'ncco', url: ['https://example.com/transfer', 'second item']}
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expected only one item in 'url' parameter Array", exception.message
   end
@@ -125,7 +125,7 @@ class Nexmo::Voice::Builders::UpdateCallTest < Nexmo::Test
       destination: {type: 'ncco', url: [12345]}
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::UpdateCall.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::UpdateCall.new(params) }
 
     assert_match "Expected item value in 'url' parameter to be a String", exception.message
   end

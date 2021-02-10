@@ -1,8 +1,8 @@
 # typed: false
 
-class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
+class Vonage::Voice::Builders::ListCallsTest < Vonage::Test
   def test_with_no_params
-    builder = Nexmo::Voice::Builders::ListCalls.new
+    builder = Vonage::Voice::Builders::ListCalls.new
 
     assert builder
   end
@@ -18,7 +18,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       conversation_uuid: 'CON-f972836a-550f-45fa-956c-12a2ab5b7d22'
     }
 
-    builder = Nexmo::Voice::Builders::ListCalls.new(params)
+    builder = Vonage::Voice::Builders::ListCalls.new(params)
 
     assert_equal builder.status, params[:status]
     assert_equal builder.date_start, params[:date_start]
@@ -34,7 +34,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       status: 123
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'status' parameter to be a String", exception.message
   end
@@ -44,7 +44,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       status: 'frozen'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'status' parameter to be one of: \"started\",\"ringing\",\"answered\",\"machine\",\"completed\",\"busy\",\"cancelled\",\"failed\",\"rejected\",\"timeout\",\"unanswered\"", exception.message
   end
@@ -54,7 +54,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       date_start: 123
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'date_start' parameter to be a String", exception.message
   end
@@ -64,7 +64,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       date_start: 'May 12 2020 08:35am'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'date_start' parameter to be in ISO8601 format", exception.message
   end
@@ -74,7 +74,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       date_end: 123
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'date_end' parameter to be a String", exception.message
   end
@@ -84,7 +84,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       date_end: 'May 12 2020 08:35am'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'date_end' parameter to be in ISO8601 format", exception.message
   end
@@ -94,7 +94,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       page_size: '12'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'page_size' parameter to be an Integer", exception.message
   end
@@ -104,7 +104,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       record_index: '12'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'record_index' parameter to be an Integer", exception.message
   end
@@ -114,7 +114,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       order: 123
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'order' parameter to be a String", exception.message
   end
@@ -124,7 +124,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       order: 'upwards'
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'order' parameter value to be either 'asc' or 'desc'", exception.message
   end
@@ -134,7 +134,7 @@ class Nexmo::Voice::Builders::ListCallsTest < Nexmo::Test
       conversation_uuid: 123
     }
 
-    exception = assert_raises { Nexmo::Voice::Builders::ListCalls.new(params) }
+    exception = assert_raises { Vonage::Voice::Builders::ListCalls.new(params) }
 
     assert_match "Expect 'conversation_uuid' parameter to be a String", exception.message
   end

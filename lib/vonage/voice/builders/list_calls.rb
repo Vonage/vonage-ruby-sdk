@@ -1,7 +1,7 @@
 # typed: ignore
 # frozen_string_literal: true
 
-module Nexmo
+module Vonage
   class Voice::Builders::ListCalls < Namespace
     attr_accessor :status, :date_start, :date_end, :page_size, :record_index, :order, :conversation_uuid
 
