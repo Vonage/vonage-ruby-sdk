@@ -11,7 +11,10 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu-latest, windows-latest, macos-latest]
-        ruby: [2.5, 2.6, 2.7]
+        ruby: [2.5, 2.6, 2.7, 3.0]
+        exclude:
+          - os: windows-latest
+            ruby: 3.0
     runs-on: ${{ matrix.os }}
     steps:
     - uses: actions/checkout@v2
@@ -22,4 +25,6 @@ jobs:
     - name: Install dependencies
       run: bundle install --without development
     - name: Run tests
-      run: bundle exec rake test_with_coveralls
+      run: bundle exec rake test
+      env:
+        CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}

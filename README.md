@@ -1,11 +1,12 @@
-# Nexmo Client Library for Ruby
+# Vonage Server SDK for Ruby
 
-[![Gem Version](https://badge.fury.io/rb/nexmo.svg)](https://badge.fury.io/rb/nexmo) [![Coverage Status](https://github.com/nexmo/nexmo-ruby/workflows/CI/badge.svg) [![Coverage Status](https://coveralls.io/repos/github/Nexmo/nexmo-ruby/badge.svg?branch=coveralls)](https://coveralls.io/github/Nexmo/nexmo-ruby?branch=master)
+[![Gem Version](https://badge.fury.io/rb/vonage.svg)](https://badge.fury.io/rb/vonage) ![Coverage Status](https://github.com/Vonage/vonage-ruby-sdk/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/Vonage/vonage-ruby-sdk/branch/master/graph/badge.svg)](https://codecov.io/gh/vonage/vonage-ruby-sdk)
+
 
 <img src="https://developer.nexmo.com/assets/images/Vonage_Nexmo.svg" height="48px" alt="Nexmo is now known as Vonage" />
 
-This is the Ruby client library for Nexmo's API. To use it you'll
-need a Nexmo account. Sign up [for free at nexmo.com][signup].
+This is the Ruby Server SDK for Vonage APIs. To use it you'll
+need a Vonage account. Sign up [for free at vonage.com][signup].
 
 * [Requirements](#requirements)
 * [Installation](#installation)
@@ -15,46 +16,48 @@ need a Nexmo account. Sign up [for free at nexmo.com][signup].
     * [JWT authentication](#jwt-authentication)
     * [Webhook signatures](#webhook-signatures)
 * [Documentation](#documentation)
+* [Frequently Asked Questions](#frequently-asked-questions)
+    * [Supported APIs](#supported-apis)
 * [License](#license)
 
 
 ## Requirements
 
-Nexmo Ruby supports MRI/CRuby (2.5 or newer), JRuby (9.2.x), and Truffleruby.
+Vonage Ruby supports MRI/CRuby (2.5 or newer), JRuby (9.2.x), and Truffleruby.
 
 
 ## Installation
 
-To install the Ruby client library using Rubygems:
+To install the Ruby Server SDK using Rubygems:
 
-    gem install nexmo
+    gem install vonage
 
 Alternatively you can clone the repository:
 
-    git clone git@github.com:Nexmo/nexmo-ruby.git
+    git clone git@github.com:Vonage/vonage-ruby-sdk.git
 
 
 ## Usage
 
-Begin by requiring the nexmo library:
+Begin by requiring the Vonage library:
 
 ```ruby
-require 'nexmo'
+require 'vonage'
 ```
 
 Then construct a client object with your key and secret:
 
 ```ruby
-client = Nexmo::Client.new(api_key: 'YOUR-API-KEY', api_secret: 'YOUR-API-SECRET')
+client = Vonage::Client.new(api_key: 'YOUR-API-KEY', api_secret: 'YOUR-API-SECRET')
 ```
 
-You can now use the client object to call Nexmo APIs. For example, to send an SMS:
+You can now use the client object to call Vonage APIs. For example, to send an SMS:
 
 ```ruby
 client.sms.send(from: 'Ruby', to: '447700900000', text: 'Hello world')
 ```
 
-For production you can specify the `NEXMO_API_KEY` and `NEXMO_API_SECRET`
+For production you can specify the `VONAGE_API_KEY` and `VONAGE_API_SECRET`
 environment variables instead of specifying the key and secret explicitly,
 keeping your credentials out of source control.
 
@@ -68,7 +71,7 @@ require 'logger'
 
 logger = Logger.new(STDOUT)
 
-client = Nexmo::Client.new(logger: logger)
+client = Vonage::Client.new(logger: logger)
 ```
 
 By default the library sets the logger to `Rails.logger` if it is defined.
@@ -82,7 +85,7 @@ To override the default hosts that the SDK uses for HTTP requests, you need to
 specify the `api_host`, `rest_host` or both in the client configuration. For example:
 
 ```ruby
-client = Nexmo::Client.new(
+client = Vonage::Client.new(
   api_host: 'api-sg-1.nexmo.com',
   rest_host: 'rest-sg-1.nexmo.com'
 )
@@ -97,7 +100,7 @@ To call newer endpoints that support JWT authentication such as the Voice API yo
 also need to specify the `application_id` and `private_key` options. For example:
 
 ```ruby
-client = Nexmo::Client.new(application_id: application_id, private_key: private_key)
+client = Vonage::Client.new(application_id: application_id, private_key: private_key)
 ```
 
 Both arguments should have string values corresponding to the `id` and `private_key`
@@ -106,7 +109,7 @@ response. These credentials can be stored in a datastore, in environment variabl
 on disk outside of source control, or in some kind of key management infrastructure.
 
 By default the library generates a short lived JWT per request. To generate a long lived
-JWT for multiple requests or to specify JWT claims directly use `Nexmo::JWT.generate` and
+JWT for multiple requests or to specify JWT claims directly use `Vonage::JWT.generate` and
 the token option. For example:
 
 ```ruby
@@ -117,12 +120,12 @@ claims = {
   ttl: 800
 }
 
-token = Nexmo::JWT.generate(claims)
+token = Vonage::JWT.generate(claims)
 
-client = Nexmo::Client.new(token: token)
+client = Vonage::Client.new(token: token)
 ````
 
-Documentation for the Nexmo Ruby JWT generator gem can be found at
+Documentation for the Vonage Ruby JWT generator gem can be found at
 [https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby](https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby).
 The documentation outlines all the possible parameters you can use to customize and build a token with.
 
@@ -131,7 +134,7 @@ The documentation outlines all the possible parameters you can use to customize 
 To check webhook signatures you'll also need to specify the `signature_secret` option. For example:
 
 ```ruby
-client = Nexmo::Client.new
+client = Vonage::Client.new
 client.config.signature_secret = 'secret'
 client.config.signature_method = 'sha512'
 
@@ -142,23 +145,48 @@ else
 end
 ```
 
-Alternatively you can set the `NEXMO_SIGNATURE_SECRET` environment variable.
+Alternatively you can set the `VONAGE_SIGNATURE_SECRET` environment variable.
 
 Note: you'll need to contact support@nexmo.com to enable message signing on your account.
 
 
 ## Documentation
 
-Nexmo Ruby documentation: https://www.rubydoc.info/github/nexmo/nexmo-ruby
+Vonage Ruby documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby-sdk
 
-Nexmo Ruby code examples: https://github.com/Nexmo/nexmo-ruby-code-snippets
+Vonage Ruby code examples: https://github.com/Nexmo/nexmo-ruby-code-snippets
 
-Nexmo API reference: https://developer.nexmo.com/api
+Vonage APIs API reference: https://developer.nexmo.com/api
 
+## Frequently Asked Questions
+
+## Supported APIs
+
+The following is a list of Vonage APIs and whether the Ruby SDK provides support for them:
+
+| API   | API Release Status |  Supported?
+|----------|:---------:|:-------------:|
+| Account API | General Availability |✅|
+| Alerts API | General Availability |✅|
+| Application API | General Availability |✅|
+| Audit API | Beta |❌|
+| Conversation API | Beta |❌|
+| Dispatch API | Beta |❌|
+| External Accounts API | Beta |❌|
+| Media API | Beta | ❌|
+| Messages API | Beta |❌|
+| Number Insight API | General Availability |✅|
+| Number Management API | General Availability |✅|
+| Pricing API | General Availability |✅|
+| Redact API | Developer Preview |✅|
+| Reports API | Beta |❌|
+| SMS API | General Availability |✅|
+| Verify API | General Availability |✅|
+| Voice API | General Availability |✅|
 
 ## License
 
-This library is released under the [MIT License][license]
+This library is released under the [Apache 2.0 License][license]
 
 [signup]: https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library
 [license]: LICENSE.txt
