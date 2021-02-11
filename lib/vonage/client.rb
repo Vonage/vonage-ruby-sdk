@@ -68,6 +68,11 @@ module Vonage
       @messages ||= T.let(Messages.new(config), T.nilable(Vonage::Messages))
     end
 
+    sig { returns(T.untyped) }
+    def ncco
+      @ncco ||= T.let(Vonage::Voice::Builders::Ncco, T.nilable(T.untyped))
+    end
+
     # @return [NumberInsight]
     #
     sig { returns(T.nilable(Vonage::NumberInsight)) }

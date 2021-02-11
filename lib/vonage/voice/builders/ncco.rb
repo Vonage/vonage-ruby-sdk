@@ -1,6 +1,6 @@
-module Vonage
+module Vonage  
   class Voice::Builders::Connect
-    attr_accessor :endpoint, :from, :eventType, :timeout, :limit, :machineDetection, :eventUrl, :eventMethod, :ringbackTone, :ncco
+    attr_accessor :endpoint, :from, :eventType, :timeout, :limit, :machineDetection, :eventUrl, :eventMethod, :ringbackTone
 
     def initialize(**attributes)
       @endpoint = attributes.fetch(:endpoint)
@@ -12,8 +12,10 @@ module Vonage
       @eventUrl = attributes.fetch(:event_url, nil)
       @eventMethod = attributes.fetch(:event_method, nil)
       @ringbackTone = attributes.fetch(:ringback_tone, nil)
+    end
 
-      @ncco = create_connect!(self)
+    def action
+      create_connect!(self)
     end
 
     def create_connect!(builder)
@@ -130,8 +132,10 @@ module Vonage
       talk: Vonage::Voice::Builders::Talk
     }
 
-    def self.for(action, attributes)
-      ACTIONS[action].new(**attributes)
+    ACTIONS.keys.each do |method|
+      self.class.send :define_method, method do |attributes|
+        ACTIONS[method].new(**attributes).action
+      end
     end
   end
 end
