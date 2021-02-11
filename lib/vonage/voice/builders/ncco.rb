@@ -84,6 +84,8 @@ module Vonage
       }
 
       hash.merge!(headers: endpoint_attrs[:headers]) if endpoint_attrs[:headers]
+
+      hash
     end
 
     def sip_endpoint(endpoint_attrs)
@@ -93,6 +95,8 @@ module Vonage
       }
 
       hash.merge!(headers: endpoint_attrs[:headers]) if endpoint_attrs[:headers]
+
+      hash
     end
 
     def vbc_endpoint(endpoint_attrs)
@@ -132,10 +136,14 @@ module Vonage
       talk: Vonage::Voice::Builders::Talk
     }
 
-    ACTIONS.keys.each do |method|
+    ACTIONS.keys.each do |method|      
       self.class.send :define_method, method do |attributes|
         ACTIONS[method].new(**attributes).action
       end
+    end
+
+    def self.method_missing(method)
+      raise ClientError.new("NCCO action must be one of the valid options. Please refer to https://developer.nexmo.com/voice/voice-api/ncco-reference#ncco-actions for a complete list.")
     end
   end
 end
