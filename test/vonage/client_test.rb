@@ -42,10 +42,6 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::Messages, client.messages
   end
 
-  def test_ncco_method
-    assert client.ncco
-  end
-
   def test_number_insight_method
     assert_kind_of Vonage::NumberInsight, client.number_insight
   end
