@@ -1,3 +1,6 @@
+# typed: true
+# frozen_string_literal: true
+
 module Vonage
   class Voice::Actions::Notify
     attr_accessor :payload, :eventUrl, :eventMethod

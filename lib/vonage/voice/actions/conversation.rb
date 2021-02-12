@@ -1,3 +1,6 @@
+# typed: true
+# frozen_string_literal: true
+ 
  module Vonage 
   class Voice::Actions::Conversation
     attr_accessor :name, :musicOnHoldUrl, :startOnEnter, :endOnExit, :record, :canSpeak, :canHear, :mute

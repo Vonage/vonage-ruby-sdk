@@ -1,3 +1,6 @@
+# typed: true
+# frozen_string_literal: true
+
 module Vonage  
   class Voice::Actions::Connect
     attr_accessor :endpoint, :from, :eventType, :timeout, :limit, :machineDetection, :eventUrl, :eventMethod, :ringbackTone

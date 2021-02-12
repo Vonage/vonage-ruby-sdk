@@ -1,3 +1,6 @@
+# typed: true
+# frozen_string_literal: true
+
 module Vonage
   class Voice::Actions::Input
     attr_accessor :type, :dtmf, :speech, :eventUrl, :eventMethod

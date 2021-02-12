@@ -1,3 +1,6 @@
+# typed: true
+# frozen_string_literal: true
+
 module Vonage
   class Voice::Actions::Record
     attr_accessor :format, :split, :channels, :endOnSilence, :endOnKey, :timeOut, :beepStart, :eventUrl, :eventMethod

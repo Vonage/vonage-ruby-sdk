@@ -1,3 +1,6 @@
+# typed: true
+# frozen_string_literal: true
+
 module Vonage
   class Voice::Actions::Stream
     attr_accessor :streamUrl, :level, :bargeIn, :loop

@@ -1,3 +1,6 @@
+# typed: true
+# frozen_string_literal: true
+
 module Vonage
   class Voice::Actions::Talk
     attr_accessor :text, :bargeIn, :loop, :level, :language, :style
