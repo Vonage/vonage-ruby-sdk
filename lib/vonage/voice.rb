@@ -55,7 +55,7 @@ module Vonage
     # @see https://developer.nexmo.com/api/voice#createCall
     #
     def create(params)
-      request('/v1/calls', params: Vonage::Voice::Builders::CreateCall.new(params), type: Post)
+      request('/v1/calls', params: params, type: Post)
     end
 
     # Get details of your calls.
@@ -94,7 +94,7 @@ module Vonage
     # @see https://developer.nexmo.com/api/voice#getCalls
     #
     def list(params = nil)
-      request('/v1/calls', params: Vonage::Voice::Builders::ListCalls.new(params), response_class: ListResponse)
+      request('/v1/calls', params: params, response_class: ListResponse)
     end
 
     # Get detail of a specific call.
@@ -130,7 +130,7 @@ module Vonage
     # @see https://developer.nexmo.com/api/voice#updateCall
     #
     def update(id, params)
-      request('/v1/calls/' + id, params: Vonage::Voice::Builders::UpdateCall.new(params), type: Put)
+      request('/v1/calls/' + id, params: params, type: Put)
     end
 
     # Hangup an in progress call.
