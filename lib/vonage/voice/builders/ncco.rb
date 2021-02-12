@@ -133,9 +133,9 @@ module Vonage
         }
       ]
 
-      ncco[0].merge!(musicOnHoldUrl: builder.musicOnHoldUrl) if builder.musicOnHoldUrl
-      ncco[0].merge!(startOnEnter: builder.startOnEnter) if builder.startOnEnter
-      ncco[0].merge!(endOnExit: builder.endOnExit) if builder.endOnExit
+      ncco[0].merge!(musicOnHoldUrl: builder.musicOnHoldUrl) if (builder.musicOnHoldUrl || builder.musicOnHoldUrl == false)
+      ncco[0].merge!(startOnEnter: builder.startOnEnter) if (builder.startOnEnter || builder.startOnEnter == false)
+      ncco[0].merge!(endOnExit: builder.endOnExit) if (builder.endOnExit || builder.endOnExit == false)
       ncco[0].merge!(record: builder.record) if builder.record
       ncco[0].merge!(canSpeak: builder.canSpeak) if builder.canSpeak
       ncco[0].merge!(canHear: builder.canHear) if builder.canHear
@@ -163,7 +163,8 @@ module Vonage
     def create_input!(builder)
       ncco = [
         {
-          action: 'input'
+          action: 'input',
+          type: builder.type
         }
       ]
 
@@ -181,15 +182,15 @@ module Vonage
 
     def initialize(**attributes)
       @payload = attributes.fetch(:payload)
-      @eventUrl = attributes.fetch(:event_url)
-      @eventMethod = attributes.fetch(:event_method, nil)
+      @eventUrl = attributes.fetch(:eventUrl)
+      @eventMethod = attributes.fetch(:eventMethod, nil)
     end
 
     def action
-      create_connect!(self)
+      create_notify!(self)
     end
 
-    def create_connect!(builder)
+    def create_notify!(builder)
       ncco = [
         {
           action: 'notify',
@@ -267,7 +268,7 @@ module Vonage
       ]
 
       ncco[0].merge!(level: builder.level) if builder.level
-      ncco[0].merge!(bargeIn: builder.bargeIn) if builder.bargeIn
+      ncco[0].merge!(bargeIn: builder.bargeIn) if (builder.bargeIn || builder.bargeIn == false)
       ncco[0].merge!(loop: builder.loop) if builder.loop
 
       ncco
@@ -298,7 +299,7 @@ module Vonage
         }
       ]
 
-      ncco[0].merge!(bargeIn: builder.bargeIn) if builder.bargeIn
+      ncco[0].merge!(bargeIn: builder.bargeIn) if (builder.bargeIn || builder.bargeIn == false)
       ncco[0].merge!(loop: builder.loop) if builder.loop
       ncco[0].merge!(level: builder.level) if builder.level
       ncco[0].merge!(language: builder.language) if builder.language
