@@ -75,7 +75,7 @@ module Vonage
     end
 
     def verify_limit
-      raise ClientError.new("Invalid 'timeout' value, must be between 0 and 7200 seconds") unless self.limit.to_i >= 0 && self.limit.to_i <= 7200
+      raise ClientError.new("Invalid 'limit' value, must be between 0 and 7200 seconds") unless self.limit.to_i >= 0 && self.limit.to_i <= 7200
     end
 
     def verify_machine_detection
@@ -85,7 +85,7 @@ module Vonage
     def verify_event_url
       uri = URI.parse(self.eventUrl)
 
-      raise ClientError.new("Invalid 'eventUrl' value, must be a valid URI") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+      raise ClientError.new("Invalid 'eventUrl' value, must be a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
 
       self.eventUrl
     end
@@ -99,7 +99,7 @@ module Vonage
     def verify_ringback_tone
       uri = URI.parse(self.ringbackTone)
 
-      raise ClientError.new("Invalid 'ringbackTone' value, must be a valid URI") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+      raise ClientError.new("Invalid 'ringbackTone' value, must be a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
 
       self.ringbackTone
     end
