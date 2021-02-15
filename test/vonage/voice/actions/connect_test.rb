@@ -10,15 +10,15 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
   end
 
   def test_create_endpoint_with_phone
-    expected = { type: 'phone', number: '123456789' }
-    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '123456789' })
+    expected = { type: 'phone', number: '12129999999' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12129999999' })
 
     assert_equal expected, connect.create_endpoint(connect)
   end
 
   def test_create_endpoint_with_phone_and_optional_param
-    expected = { type: 'phone', number: '123456789', dtmfAnswer: '2p02p' }
-    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '123456789', dtmfAnswer: '2p02p' })
+    expected = { type: 'phone', number: '12129999999', dtmfAnswer: '2p02p' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12129999999', dtmfAnswer: '2p02p' })
 
     assert_equal expected, connect.create_endpoint(connect)
   end

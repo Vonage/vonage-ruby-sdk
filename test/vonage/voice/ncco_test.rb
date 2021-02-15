@@ -6,15 +6,15 @@ class Vonage::Voice::NccoTest < Vonage::Test
   end
 
   def test_ncco_with_valid_action
-    action = ncco.connect(endpoint: { type: 'phone', number: '4472223333' })
+    action = ncco.connect(endpoint: { type: 'phone', number: '12129999999' })
 
-    assert_equal action, [{:action=>"connect", :endpoint=>[{:type=>"phone", :number=>"4472223333"}]}]
+    assert_equal action, [{:action=>"connect", :endpoint=>[{:type=>"phone", :number=>"12129999999"}]}]
   end
 
   def test_ncco_with_valid_action_and_optional_parameters
-    action = ncco.connect(endpoint: { type: 'phone', number: '4472223333' }, from: '12129992222')
+    action = ncco.connect(endpoint: { type: 'phone', number: '12129999999' }, from: '12129992222')
 
-    assert_equal action, [{:action=>"connect", :endpoint=>[{:type=>"phone", :number=>"4472223333"}], :from=>'12129992222'}]
+    assert_equal action, [{:action=>"connect", :endpoint=>[{:type=>"phone", :number=>"12129999999"}], :from=>'12129992222'}]
   end
 
   def test_ncco_with_invalid_action
