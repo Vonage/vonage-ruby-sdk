@@ -51,7 +51,7 @@
     def verify_music_on_hold_url
       uri = URI.parse(self.musicOnHoldUrl)
 
-      raise ClientError.new("Invalid 'musicOnHoldUrl' value, must be a valid URI") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+      raise ClientError.new("Invalid 'musicOnHoldUrl' value, must be a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
 
       self.musicOnHoldUrl
     end
@@ -61,7 +61,7 @@
     end
 
     def verify_end_on_exit
-      raise ClientError.new("Expected 'endOnExit' value to a Boolean") unless self.endOnExit == true || self.endOnExit == false
+      raise ClientError.new("Expected 'endOnExit' value to be a Boolean") unless self.endOnExit == true || self.endOnExit == false
     end
 
     def verify_record
@@ -69,11 +69,11 @@
     end
 
     def verify_can_speak
-      raise ClientError.new("Expected 'canSpeak' value to be an Array") unless self.canSpeak.is_a?(Array)
+      raise ClientError.new("Expected 'canSpeak' value to be an Array of leg UUIDs") unless self.canSpeak.is_a?(Array)
     end
 
     def verify_can_hear
-      raise ClientError.new("Expected 'canHear' value to be an Array") unless self.canHear.is_a?(Array)
+      raise ClientError.new("Expected 'canHear' value to be an Array of leg UUIDs") unless self.canHear.is_a?(Array)
     end
 
     def verify_mute
