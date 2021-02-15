@@ -21,6 +21,8 @@ module Vonage
     end
 
     def after_initialize!
+      verify_endpoint
+
       if self.from
         verify_from
       end
@@ -47,6 +49,20 @@ module Vonage
 
       if self.ringbackTone
         verify_ringback_tone
+      end
+    end
+
+    def verify_endpoint
+      case self.endpoint[:type]
+      when 'phone'
+        raise ClientError.new("Expected 'number' value to be in E.164 format") unless Phonelib.parse(endpoint[:number].to_i).valid?
+      when 'app'
+        raise ClientError.new("'user' must be defined") unless endpoint[:user]
+      when 'websocket'
+        raise ClientError.new("Expected 'uri' value to be a valid URI") unless URI.parse(endpoint[:uri]).kind_of?(URI::Generic)
+        raise ClientError.new("Expected 'content-type' parameter to be either 'audio/116;rate=16000' or 'audio/116;rate=8000") unless endpoint[:'content-type'] == 'audio/116;rate=16000' || endpoint[:'content-type'] == 'audio/116;rate=8000'
+      when 'sip'
+        raise ClientError.new("Expected 'uri' value to be a valid URI") unless URI.parse(endpoint[:uri]).kind_of?(URI::Generic)
       end
     end
 
