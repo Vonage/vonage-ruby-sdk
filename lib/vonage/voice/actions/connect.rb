@@ -1,5 +1,6 @@
 # typed: true
 # frozen_string_literal: true
+require 'phonelib'
 
 module Vonage  
   class Voice::Actions::Connect
@@ -8,13 +9,83 @@ module Vonage
     def initialize(**attributes)
       @endpoint = attributes.fetch(:endpoint)
       @from = attributes.fetch(:from, nil)
-      @eventType = attributes.fetch(:event_type, nil)
+      @eventType = attributes.fetch(:eventType, nil)
       @timeout = attributes.fetch(:timeout, nil)
       @limit = attributes.fetch(:limit, nil)
-      @machineDetection = attributes.fetch(:machine_detection, nil)
-      @eventUrl = attributes.fetch(:event_url, nil)
-      @eventMethod = attributes.fetch(:event_method, nil)
-      @ringbackTone = attributes.fetch(:ringback_tone, nil)
+      @machineDetection = attributes.fetch(:machineDetection, nil)
+      @eventUrl = attributes.fetch(:eventUrl, nil)
+      @eventMethod = attributes.fetch(:eventMethod, nil)
+      @ringbackTone = attributes.fetch(:ringbackTone, nil)
+
+      after_initialize!
+    end
+
+    def after_initialize!
+      if self.from
+        verify_from
+      end
+
+      if self.eventType
+        verify_event_type
+      end
+
+      if self.limit
+        verify_limit
+      end
+
+      if self.machineDetection
+        verify_machine_detection
+      end
+
+      if self.eventUrl
+        verify_event_url
+      end
+
+      if self.eventMethod
+        verify_event_method
+      end
+
+      if self.ringbackTone
+        verify_ringback_tone
+      end
+    end
+
+    def verify_from
+      raise ClientError.new("Invalid 'from' value, must be in E.164 format") unless Phonelib.parse(self.from.to_i).valid?
+    end
+
+    def verify_event_type
+      raise ClientError.new("Invalid 'eventType' value, must be 'synchronous' if defined") unless self.eventType == 'synchronous'
+    end
+
+    def verify_limit
+      raise ClientError.new("Invalid 'timeout' value, must be between 0 and 7200 seconds") unless self.limit.to_i >= 0 && self.limit.to_i <= 7200
+    end
+
+    def verify_machine_detection
+      raise ClientError.new("Invalid 'machineDetection' value, must be either: 'continue' or 'hangup' if defined") unless self.machineDetection == 'continue' || self.machineDetection == 'hangup'
+    end
+
+    def verify_event_url
+      uri = URI.parse(self.eventUrl)
+
+      raise ClientError.new("Invalid 'eventUrl' value, must be a valid URI") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+
+      self.eventUrl
+    end
+
+    def verify_event_method
+      valid_methods = ['GET', 'POST']
+
+      raise ClientError.new("Invalid 'eventMethod' value. must be either: 'GET' or 'POST'") unless valid_methods.include?(self.eventMethod.upcase)
+    end
+
+    def verify_ringback_tone
+      uri = URI.parse(self.ringbackTone)
+
+      raise ClientError.new("Invalid 'ringbackTone' value, must be a valid URI") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+
+      self.ringbackTone
     end
 
     def action
@@ -56,7 +127,7 @@ module Vonage
       when 'vbc'
         vbc_endpoint(builder.endpoint)
       else
-        raise ArgumentError, "Invalid value for 'endpoint', please refer to the Vonage API Developer Portal https://developer.nexmo.com/voice/voice-api/ncco-reference#endpoint-types-and-values for a list of possible values"
+        raise ClientError.new("Invalid value for 'endpoint', please refer to the Vonage API Developer Portal https://developer.nexmo.com/voice/voice-api/ncco-reference#endpoint-types-and-values for a list of possible values")
       end
     end
 
