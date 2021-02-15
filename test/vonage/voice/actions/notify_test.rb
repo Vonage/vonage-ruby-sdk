@@ -22,4 +22,22 @@ class Vonage::Voice::Actions::NotifyTest < Vonage::Test
 
     assert_equal expected, notify.create_notify!(notify)
   end
+
+  def test_notify_with_invalid_event_url_invalid_type
+    exception = assert_raises { Vonage::Voice::Actions::Notify.new(payload: { foo: 'bar' }, eventUrl: 'https://example.com') }
+
+    assert_match "Expected 'eventUrl' value to be an Array with a single string", exception.message
+  end
+
+  def test_notify_with_invalid_event_url
+    exception = assert_raises { Vonage::Voice::Actions::Notify.new(payload: { foo: 'bar' }, eventUrl: ['invalid']) }
+
+    assert_match "Invalid 'eventUrl' value, must be a valid URL", exception.message
+  end
+
+  def test_notify_with_invalid_event_method
+    exception = assert_raises { Vonage::Voice::Actions::Notify.new(payload: { foo: 'bar' }, eventUrl: ['https://example.com'], eventMethod: 'invalid') }
+
+    assert_match "Invalid 'eventMethod' value. must be either: 'GET' or 'POST'", exception.message
+  end
 end
