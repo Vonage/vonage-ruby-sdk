@@ -34,7 +34,22 @@ class Vonage::ConversationsTest < Vonage::Test
 
     stub_request(:get, conversations_uri).with(request(query: params)).to_return(response)
 
-    assert_kind_of Vonage::Response, conversations.list(params)
+    response = conversations.list(params)
+
+    response.each{|resp| assert_kind_of Vonage::Response, resp }
+  end
+
+  def test_list_pagination
+    stub_request(:get, conversations_uri).with(request(query: { page_size: 1 })).to_return(
+      { headers: response_headers, body: '{"page_size": 1, "record_index": 0, "count": 2, "_embedded": { "conversations": [{"uuid": "dummy-test-id-123"}] } }' }
+    )
+
+    stub_request(:get, conversations_uri).with(request(query: { page_size: 1, record_index: 1 })).to_return(
+      { headers: response_headers, body: '{"page_size": 1, "record_index": 1, "count": 2, "_embedded": { "conversations": [{"uuid": "dummy-test-id-456"}] } }' }
+    )
+    response = conversations.list(page_size: 1)
+
+    assert_equal(2, response._embedded.conversations.size)
   end
 
   def test_get_method

@@ -9,6 +9,7 @@ module Vonage
     end
 
     attr_reader :http_response
+    attr_reader :entity
 
     def respond_to_missing?(name, include_private = false)
       return super if @entity.nil?

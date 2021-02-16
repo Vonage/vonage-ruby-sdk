@@ -60,14 +60,21 @@ module Vonage
     # @option params ['asc', 'desc'] :order
     #   Return the records in ascending or descending order.
     #
+    # @option params [Boolean] :auto_advance
+    #   Set this to `false` to not auto-advance through all the pages in the record
+    #   and collect all the data. The default is `true`.
     # @param [Hash, nil] params
-    #
+    #  
     # @return [Response]
     #
     # @see https://developer.nexmo.com/api/conversation#replaceConversation
     #
-    sig { params(params: T.nilable(T::Hash[Symbol, T.untyped])).returns(Vonage::Response) }
-    def list(params = nil)
+    sig { params(params: T.nilable(T::Hash[Symbol, T.untyped]), auto_advance: T::Boolean).returns(Vonage::Response) }
+    def list(params = nil, auto_advance = true)
+      if params && !params.key?(:auto_advance)
+        params.merge!(auto_advance: true)
+      end
+      
       request('/beta/conversations', params: params)
     end
 

@@ -36,8 +36,6 @@ module Vonage
 
     attr_reader :attributes
 
-    protected :attributes
-
     def each_pair(&block)
       return to_enum(:each_pair) unless block
 

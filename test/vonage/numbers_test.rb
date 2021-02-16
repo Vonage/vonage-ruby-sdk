@@ -11,17 +11,21 @@ class Vonage::NumbersTest < Vonage::Test
 
     params = {size: 25, pattern: '33'}
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(numbers_response)
 
-    assert_kind_of Vonage::Numbers::ListResponse, numbers.list(params)
+    response = numbers.list(params)
+
+    response.each{|resp| assert_kind_of Vonage::Numbers::ListResponse, resp }
   end
 
   def test_list_method_without_args
     uri = 'https://rest.nexmo.com/account/numbers'
 
-    stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
+    stub_request(:get, uri).with(query: api_key_and_secret).to_return(numbers_response)
 
-    assert_kind_of Vonage::Numbers::ListResponse, numbers.list
+    response = numbers.list
+
+    response.each{|resp| assert_kind_of Vonage::Numbers::ListResponse, resp }
   end
 
   def test_search_method
