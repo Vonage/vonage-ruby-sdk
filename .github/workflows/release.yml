@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: Add Changelog
-      uses: nexmo/github-actions/nexmo-changelog@master
+      uses: nexmo/github-actions/nexmo-changelog@main
       env:
         CHANGELOG_AUTH_TOKEN: ${{ secrets.CHANGELOG_AUTH_TOKEN }}
         CHANGELOG_CATEGORY: Server SDK
