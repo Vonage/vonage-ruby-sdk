@@ -15,6 +15,7 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
     * [Overriding the default hosts](#overriding-the-default-hosts)
     * [JWT authentication](#jwt-authentication)
     * [Webhook signatures](#webhook-signatures)
+    * [Pagination](#pagination)
 * [Documentation](#documentation)
 * [Frequently Asked Questions](#frequently-asked-questions)
     * [Supported APIs](#supported-apis)
@@ -149,6 +150,22 @@ Alternatively you can set the `VONAGE_SIGNATURE_SECRET` environment variable.
 
 Note: you'll need to contact support@nexmo.com to enable message signing on your account.
 
+## Pagination
+
+Vonage APIs paginate list requests. This means that if a collection is requested that is larger than the API default, the API will return the first page of items in the collection. The Ruby SDK provides an `auto_advance` parameter that will traverse through the pages and return all the results in one response object.
+
+The `auto_advance` parameter is set to a default of `true` for the following APIs:
+
+* [Account API](https://developer.nexmo.com/api/developer/account)
+* [Application API](https://developer.nexmo.com/api/application.v2)
+* [Conversation API](https://developer.nexmo.com/api/conversation)
+* [Voice API](https://developer.nexmo.com/api/voice)
+
+To modify the `auto_advance` behavior you can specify it in your method:
+
+```ruby
+client.applications.list(auto_advance: false)
+```
 
 ## Documentation
 

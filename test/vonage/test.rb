@@ -94,6 +94,34 @@ module Vonage
       {headers: headers, body: body, query: query}.compact
     end
 
+    def voice_response
+      {
+        body: '{"_embedded": {"calls":[]}}', 
+        headers: response_headers
+      }
+    end
+
+    def applications_response
+      {
+        body: '{"_embedded": {"applications":[]}}', 
+        headers: response_headers
+      }
+    end
+
+    def secrets_response
+      {
+        body: '{"_embedded": {"secrets":[]}}', 
+        headers: response_headers
+      }
+    end
+
+    def numbers_response
+      {
+        body: '{"numbers":[]}', 
+        headers: response_headers
+      }
+    end
+
     def response
       {body: '{"key":"value"}', headers: response_headers}
     end

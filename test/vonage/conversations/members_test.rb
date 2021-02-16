@@ -37,7 +37,9 @@ class Vonage::Conversations::MembersTest < Vonage::Test
   def test_list_method
     stub_request(:get, members_uri).with(request).to_return(response)
 
-    assert_kind_of Vonage::Response, members.list(conversation_id)
+    response = members.list(conversation_id)
+
+    response.each{|resp| assert_kind_of Vonage::Response, resp }
   end
 
   def test_get_method

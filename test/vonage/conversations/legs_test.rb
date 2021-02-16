@@ -21,7 +21,9 @@ class Vonage::Conversations::LegsTest < Vonage::Test
   def test_list_method
     stub_request(:get, legs_uri).with(request).to_return(response)
 
-    assert_kind_of Vonage::Response, legs.list
+    response = legs.list
+
+    response.each{|resp| assert_kind_of Vonage::Response, resp }
   end
 
   def test_delete_method

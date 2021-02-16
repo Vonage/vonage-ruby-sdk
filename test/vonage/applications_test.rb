@@ -33,9 +33,24 @@ class Vonage::ApplicationsTest < Vonage::Test
   def test_list_method
     params = {page_size: 20}
 
-    stub_request(:get, applications_uri).with(request(query: params, headers: headers)).to_return(response)
+    stub_request(:get, applications_uri).with(request(query: params, headers: headers)).to_return(applications_response)
 
-    assert_kind_of Vonage::Applications::ListResponse, applications.list(params)
+    response = applications.list(params)
+
+    response.each{|resp| assert_kind_of Vonage::Applications::ListResponse, resp }
+  end
+
+  def test_list_pagination
+    stub_request(:get, applications_uri).with(request(query: { page_size: 1 }, headers: headers)).to_return(
+      { headers: response_headers, body: '{"page_size": 1, "page": 1, "total_items": 2, "total_pages": 2, "_embedded": { "applications": [{"id": "dummy-test-id-123"}] } }' }
+    )
+
+    stub_request(:get, applications_uri).with(request(query: { page_size: 1, page: 2 }, headers: headers)).to_return(
+      { headers: response_headers, body: '{"page_size": 1, "page": 2, "total_items": 2, "total_pages": 2, "_embedded": { "applications": [{"id": "dummy-test-id-456"}] } }' }
+    )
+    response = applications.list(page_size: 1)
+
+    assert_equal(2, response._embedded.applications.size)
   end
 
   def test_get_method
