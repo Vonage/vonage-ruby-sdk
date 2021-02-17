@@ -41,6 +41,19 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
     assert_match "Expected 'level' value to be a number between -1 and 1", exception.message 
   end
 
+  def test_talk_with_invalid_language
+    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', language: '1234' }) }
+
+    assert_match "Expected 'language' value to be in valid BCP-47 format", exception.message 
+  end
+
+  def test_create_talk_with_valid_language
+    expected = [{ action: 'talk', text: 'Sample Text', language: 'en-US' }]
+    talk = Vonage::Voice::Actions::Talk.new(text: 'Sample Text', language: 'en-US')
+
+    assert_equal expected, talk.create_talk!(talk)
+  end
+
   def test_talk_with_invalid_style_value
     exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', style: 'baritone' }) }
 
