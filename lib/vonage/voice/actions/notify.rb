@@ -5,7 +5,7 @@ module Vonage
   class Voice::Actions::Notify
     attr_accessor :payload, :eventUrl, :eventMethod
 
-    def initialize(**attributes)
+    def initialize(attributes = {})
       @payload = attributes.fetch(:payload)
       @eventUrl = attributes.fetch(:eventUrl)
       @eventMethod = attributes.fetch(:eventMethod, nil)

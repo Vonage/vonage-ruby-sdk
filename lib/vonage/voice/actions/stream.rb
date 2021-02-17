@@ -5,7 +5,7 @@ module Vonage
   class Voice::Actions::Stream
     attr_accessor :streamUrl, :level, :bargeIn, :loop
 
-    def initialize(**attributes)
+    def initialize(attributes = {})
       @streamUrl = attributes.fetch(:streamUrl)
       @level = attributes.fetch(:level, nil)
       @bargeIn = attributes.fetch(:bargeIn, nil)

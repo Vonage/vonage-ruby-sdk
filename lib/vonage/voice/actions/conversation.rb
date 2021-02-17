@@ -5,7 +5,7 @@
   class Voice::Actions::Conversation
     attr_accessor :name, :musicOnHoldUrl, :startOnEnter, :endOnExit, :record, :canSpeak, :canHear, :mute
 
-    def initialize(**attributes)
+    def initialize(attributes = {})
       @name = attributes.fetch(:name)
       @musicOnHoldUrl = attributes.fetch(:musicOnHoldUrl, nil)
       @startOnEnter = attributes.fetch(:startOnEnter, nil)

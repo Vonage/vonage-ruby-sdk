@@ -6,7 +6,7 @@ module Vonage
   class Voice::Actions::Connect
     attr_accessor :endpoint, :from, :eventType, :timeout, :limit, :machineDetection, :eventUrl, :eventMethod, :ringbackTone
 
-    def initialize(**attributes)
+    def initialize(attributes = {})
       @endpoint = attributes.fetch(:endpoint)
       @from = attributes.fetch(:from, nil)
       @eventType = attributes.fetch(:eventType, nil)

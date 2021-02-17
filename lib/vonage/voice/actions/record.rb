@@ -5,7 +5,7 @@ module Vonage
   class Voice::Actions::Record
     attr_accessor :format, :split, :channels, :endOnSilence, :endOnKey, :timeOut, :beepStart, :eventUrl, :eventMethod
 
-    def initialize(**attributes)
+    def initialize(attributes = {})
       @format = attributes.fetch(:format, nil)
       @split = attributes.fetch(:split, nil)
       @channels = attributes.fetch(:channels, nil)
