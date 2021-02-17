@@ -29,10 +29,6 @@ module Vonage
         verify_level
       end
 
-      if self.language
-        verify_language
-      end
-
       if self.style
         verify_style
       end
