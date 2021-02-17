@@ -16,6 +16,7 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
     * [JWT authentication](#jwt-authentication)
     * [Webhook signatures](#webhook-signatures)
     * [Pagination](#pagination)
+    * [NCCO Builder](#ncco-builder)
 * [Documentation](#documentation)
 * [Frequently Asked Questions](#frequently-asked-questions)
     * [Supported APIs](#supported-apis)
@@ -165,6 +166,32 @@ To modify the `auto_advance` behavior you can specify it in your method:
 
 ```ruby
 client.applications.list(auto_advance: false)
+```
+
+## NCCO Builder
+
+The Vonage Voice API accepts instructions via JSON objects called NCCOs. Each NCCO can be made up multiple actions that are executed in the order they are written. The Vonage API Developer Portal contains an [NCCO Reference](https://developer.vonage.com/voice/voice-api/ncco-reference) with instructions and information on all the parameters possible.
+
+The SDK includes an NCCO builder that you can use to build NCCOs for your Voice API methods.
+
+For example, to build `talk` and `input` NCCO actions and then combine them into a single NCCO you would do the following:
+
+```ruby
+talk = Vonage::Voice::Ncco.talk(text: 'Hello World!')
+input = Vonage::Voice::Ncco.input(type: ['dtmf'], dtmf: { bargeIn: true })
+ncco = Vonage::Voice::Ncco.build(talk, input)
+
+# => [{:action=>"talk", :text=>"Hello World!"}, {:action=>"input", :type=>["dtmf"], :dtmf=>{:bargeIn=>true}}]
+```
+
+Once you have the constructed NCCO you can then use it in a Voice API request:
+
+```ruby
+response = client.voice.create({
+  to: [{type: 'phone', number: '14843331234'}],
+  from: {type: 'phone', number: '14843335555'},
+  ncco: ncco
+})
 ```
 
 ## Documentation
