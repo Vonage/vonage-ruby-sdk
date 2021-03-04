@@ -12,5 +12,4 @@ gem 'timecop'
 gem 'sorbet', :group => :development
 gem 'sorbet-runtime'
 gem 'phonelib'
-gem 'i18n', '~> 1.8'
 gem 'codecov', :require => false, :group => :test

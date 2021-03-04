@@ -1,7 +1,5 @@
 # typed: true
 # frozen_string_literal: true
-require 'i18n'
-
 module Vonage
   class Voice::Actions::Talk
     attr_accessor :text, :bargeIn, :loop, :level, :language, :style
@@ -30,10 +28,6 @@ module Vonage
         verify_level
       end
 
-      if self.language
-        verify_language
-      end
-
       if self.style
         verify_style
       end
@@ -49,10 +43,6 @@ module Vonage
 
     def verify_level
       raise ClientError.new("Expected 'level' value to be a number between -1 and 1") unless self.level.between?(-1, 1)
-    end
-
-    def verify_language
-      raise ClientError.new("Expected 'language' value to be in valid BCP-47 format") unless !!I18n::Locale::Tag::Rfc4646.tag(self.language)
     end
 
     def verify_style
