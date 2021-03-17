@@ -9,7 +9,7 @@
 #
 # nexmo-jwt-0.1.1
 
-module Nexmo
+module Vonage
 end
 class Nexmo::JWT
   def generate; end

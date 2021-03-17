@@ -11,4 +11,5 @@ gem 'json', '~> 2'
 gem 'timecop'
 gem 'sorbet', :group => :development
 gem 'sorbet-runtime'
+gem 'phonelib'
 gem 'codecov', :require => false, :group => :test

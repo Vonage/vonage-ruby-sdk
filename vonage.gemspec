@@ -16,6 +16,7 @@ Gem::Specification.new do |s|
   s.add_dependency('zeitwerk', '~> 2', '>= 2.2')
   s.add_dependency('sorbet-runtime', '~> 0.5')
   s.add_runtime_dependency('rexml')
+  s.add_runtime_dependency('phonelib')
   s.require_path = 'lib'
   s.metadata = {
     'homepage' => 'https://github.com/Vonage/vonage-ruby-sdk',
