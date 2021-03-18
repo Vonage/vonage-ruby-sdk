@@ -1,3 +1,7 @@
+# 7.4.0
+
+* Added new NCCO builder functionality for constructing Voice API actions
+
 # 7.2.0
 
 * Replaced JWT generation with the [`nexmo-jwt` gem](https://github.com/Nexmo/nexmo-jwt-ruby).
