@@ -105,7 +105,7 @@ module Vonage
       response = request('/sms/json', params: hyphenate(params), type: Post)
 
       unless response.messages.first.status == '0'
-        raise Error, response.messages.first[:error_text]
+        raise Error.new(message: response.messages.first[:error_text])
       end
 
       response

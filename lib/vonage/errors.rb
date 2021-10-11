@@ -33,7 +33,7 @@ module Vonage
         end
       end
 
-      exception_class.new(message)
+      exception_class == Error ? exception_class.new(message: message) : exception_class.new(message)
     end
 
     sig { params(hash: T::Hash[String, T.untyped]).returns(T::Boolean) }
