@@ -9,11 +9,6 @@ module Vonage
       @config = config
 
       @host = self.class.host == :api_host ? @config.api_host : @config.rest_host
-
-      @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
-      @http.use_ssl = true
-
-      @config.http.set(@http) unless @config.http.nil?
     end
 
     def self.host
@@ -87,7 +82,11 @@ module Vonage
     def make_request!(request, &block)
       logger.log_request_info(request)
 
-      response = @http.request(request, &block)
+      http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
+
+      http.use_ssl = true
+
+      response = http.request(request, &block)
 
       logger.log_response_info(response, @host)
 
