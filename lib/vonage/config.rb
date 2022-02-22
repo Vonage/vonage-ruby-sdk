@@ -200,7 +200,7 @@ module Vonage
 
     protected
 
-    sig { params(name: Symbol, value: T.nilable(T.untyped)).void }
+    sig { params(name: Symbol, value: T.untyped).void }
     def write_attribute(name, value)
       public_send(:"#{name}=", value)
     end
