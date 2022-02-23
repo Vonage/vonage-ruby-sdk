@@ -1,3 +1,7 @@
+# 7.4.1
+
+* Bug fix: updated `sorbet` signature to fix issue with `T.nilable(T.untyped)`. See issue [#200](https://github.com/Vonage/vonage-ruby-sdk/issues/200) and PR [#199](https://github.com/Vonage/vonage-ruby-sdk/pull/199). Thanks to [@KaanOzkan](https://github.com/KaanOzkan) and [@vinistock](https://github.com/vinistock)
+
 # 7.4.0
 
 * Added new NCCO builder functionality for constructing Voice API actions
