@@ -25,7 +25,7 @@ module Vonage
     def basic(params)
       response = request('/ni/basic/json', params: params)
 
-      raise Error, response[:status_message] unless response.status.zero?
+      raise ResponseError.new(response[:status_message], response: response) unless response.status.zero?
 
       response
     end
@@ -57,7 +57,7 @@ module Vonage
     def standard(params)
       response = request('/ni/standard/json', params: params)
 
-      raise Error, response[:status_message] unless response.status.zero?
+      raise ResponseError.new(response[:status_message], response: response) unless response.status.zero?
 
       response
     end
@@ -93,7 +93,7 @@ module Vonage
     def advanced(params)
       response = request('/ni/advanced/json', params: params)
 
-      raise Error, response[:status_message] unless response.status.zero?
+      raise ResponseError.new(response[:status_message], response: response) unless response.status.zero?
 
       response
     end
@@ -132,7 +132,7 @@ module Vonage
     def advanced_async(params)
       response = request('/ni/advanced/async/json', params: params)
 
-      raise Error, response[:status_message] unless response.status.zero?
+      raise ResponseError.new(response[:status_message], response: response) unless response.status.zero?
 
       response
     end
