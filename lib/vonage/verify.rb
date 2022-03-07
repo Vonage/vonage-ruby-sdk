@@ -64,7 +64,7 @@ module Vonage
     def request(params, uri = '/verify/json')
       response = http_request(uri, params: params, type: Post)
 
-      raise Error, response[:error_text] if error?(response)
+      raise ResponseError.new(response[:error_text], response: response) if error?(response)
 
       response
     end
@@ -97,7 +97,7 @@ module Vonage
     def check(params)
       response = http_request('/verify/check/json', params: params, type: Post)
 
-      raise Error, response[:error_text] if error?(response)
+      raise ResponseError.new(response[:error_text], response: response) if error?(response)
 
       response
     end
@@ -124,7 +124,7 @@ module Vonage
     def search(params)
       response = http_request('/verify/search/json', params: params)
 
-      raise Error, response[:error_text] if error?(response)
+      raise ResponseError.new(response[:error_text], response: response) if error?(response)
 
       response
     end
@@ -151,7 +151,7 @@ module Vonage
     def control(params)
       response = http_request('/verify/control/json', params: params, type: Post)
 
-      raise Error, response[:error_text] if error?(response)
+      raise ResponseError.new(response[:error_text], response: response) if error?(response)
 
       response
     end
@@ -238,7 +238,7 @@ module Vonage
     def psd2(params, uri = '/verify/psd2/json')
       response = http_request(uri, params: params, type: Post)
 
-      raise Error, response[:error_text] if error?(response)
+      raise ResponseError.new(response[:error_text], response: response) if error?(response)
 
       response
     end
