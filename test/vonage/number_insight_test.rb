@@ -35,9 +35,12 @@ class Vonage::NumberInsightTest < Vonage::Test
 
     assert_kind_of Vonage::Response, number_insight.basic(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       number_insight.basic(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_standard_method
@@ -47,9 +50,12 @@ class Vonage::NumberInsightTest < Vonage::Test
 
     assert_kind_of Vonage::Response, number_insight.standard(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       number_insight.standard(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_advanced_method
@@ -59,9 +65,12 @@ class Vonage::NumberInsightTest < Vonage::Test
 
     assert_kind_of Vonage::Response, number_insight.advanced(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       number_insight.advanced(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_advanced_async_method
@@ -71,8 +80,11 @@ class Vonage::NumberInsightTest < Vonage::Test
 
     assert_kind_of Vonage::Response, number_insight.advanced_async(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       number_insight.advanced_async(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 end
