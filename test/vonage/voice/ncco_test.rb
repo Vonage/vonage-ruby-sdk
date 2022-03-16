@@ -22,4 +22,11 @@ class Vonage::Voice::NccoTest < Vonage::Test
     
     assert_match "NCCO action must be one of the valid options. Please refer to https://developer.nexmo.com/voice/voice-api/ncco-reference#ncco-actions for a complete list.", exception.message
   end
+
+  Vonage::Voice::Ncco::ACTIONS.keys.each do |method_name|
+    define_method "test_ncco_#{method_name}_defined_class_method" do
+      assert_respond_to ncco, method_name
+      refute_respond_to ncco.class, method_name
+    end
+  end
 end
