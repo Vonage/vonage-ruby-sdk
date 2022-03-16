@@ -13,11 +13,9 @@ module Vonage
       talk: Vonage::Voice::Actions::Talk
     }
 
-    class << self
-      ACTIONS.keys.each do |method|
-        define_method method do |attributes|
-          ACTIONS[method].new(**attributes).action
-        end
+    ACTIONS.keys.each do |method|      
+      self.class.send :define_method, method do |attributes|
+        ACTIONS[method].new(**attributes).action
       end
     end
 
