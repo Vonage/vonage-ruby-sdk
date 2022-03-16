@@ -33,9 +33,12 @@ class Vonage::VerifyTest < Vonage::Test
 
     assert_kind_of Vonage::Response, verify.request(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       verify.request(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_check_method
@@ -47,9 +50,12 @@ class Vonage::VerifyTest < Vonage::Test
 
     assert_kind_of Vonage::Response, verify.check(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       verify.check(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_search_method
@@ -61,9 +67,12 @@ class Vonage::VerifyTest < Vonage::Test
 
     assert_kind_of Vonage::Response, verify.search(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       verify.search(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_control_method
@@ -75,9 +84,12 @@ class Vonage::VerifyTest < Vonage::Test
 
     assert_kind_of Vonage::Response, verify.control(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       verify.control(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_cancel_method
@@ -89,9 +101,12 @@ class Vonage::VerifyTest < Vonage::Test
 
     assert_kind_of Vonage::Response, verify.cancel(request_id)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       verify.cancel(request_id)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_trigger_next_event_method
@@ -103,9 +118,12 @@ class Vonage::VerifyTest < Vonage::Test
 
     assert_kind_of Vonage::Response, verify.trigger_next_event(request_id)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       verify.trigger_next_event(request_id)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_psd2_method
@@ -117,8 +135,11 @@ class Vonage::VerifyTest < Vonage::Test
 
     assert_kind_of Vonage::Response, verify.psd2(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       verify.psd2(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 end

@@ -1,3 +1,10 @@
+# 7.5.0
+
+* Adds a `ServiceError` exception class, which provides access to a `Response` object for improved error context in certain situations. See issue [#197](https://github.com/Vonage/vonage-ruby-sdk/issues/197) and PR [#208](https://github.com/Vonage/vonage-ruby-sdk/pull/208)
+* Fixes issue with `Vonage::Voice::Ncco` class. See issue [#205](https://github.com/Vonage/vonage-ruby-sdk/issues/205) and PR [#206](https://github.com/Vonage/vonage-ruby-sdk/pull/206).
+
+Merci beaucoup/ thanks a lot to [@cyb-](https://github.com/KaanOzkan) for work on these additions and fixes.
+
 # 7.4.1
 
 * Bug fix: updated `sorbet` signature to fix issue with `T.nilable(T.untyped)`. See issue [#200](https://github.com/Vonage/vonage-ruby-sdk/issues/200) and PR [#199](https://github.com/Vonage/vonage-ruby-sdk/pull/199). Thanks to [@KaanOzkan](https://github.com/KaanOzkan) and [@vinistock](https://github.com/vinistock)
