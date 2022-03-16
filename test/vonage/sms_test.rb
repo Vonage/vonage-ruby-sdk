@@ -31,9 +31,12 @@ class Vonage::SMSTest < Vonage::Test
 
     assert_kind_of Vonage::Response, sms.send(params)
 
-    assert_raises Vonage::Error do
+    error = assert_raises Vonage::ServiceError do
       sms.send(params)
     end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
   end
 
   def test_mapping_underscored_keys_to_hyphenated_string_keys
