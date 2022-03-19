@@ -3,7 +3,7 @@
 * Adds a `ServiceError` exception class, which provides access to a `Response` object for improved error context in certain situations. See issue [#197](https://github.com/Vonage/vonage-ruby-sdk/issues/197) and PR [#208](https://github.com/Vonage/vonage-ruby-sdk/pull/208)
 * Fixes issue with `Vonage::Voice::Ncco` class. See issue [#205](https://github.com/Vonage/vonage-ruby-sdk/issues/205) and PR [#206](https://github.com/Vonage/vonage-ruby-sdk/pull/206).
 
-Merci beaucoup/ thanks a lot to [@cyb-](https://github.com/KaanOzkan) for work on these additions and fixes.
+Merci beaucoup/ thanks a lot to [@cyb-](https://github.com/cyb-) for work on these additions and fixes.
 
 # 7.4.1
 
