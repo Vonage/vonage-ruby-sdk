@@ -71,6 +71,7 @@ module Vonage
 
       # set headers
       request['User-Agent'] = UserAgent.string(@config.app_name, @config.app_version)
+      request['Accept'] = 'application/json'
       self.class.request_headers.each do |key, value|
         request[key] = value
       end
