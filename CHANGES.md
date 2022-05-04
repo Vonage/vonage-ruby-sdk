@@ -1,3 +1,7 @@
+# 7.5.1
+
+* Adds an `Accept` header to all requests with a value of `application/json`. Addresses the underlying cause of issue [#216](https://github.com/Vonage/vonage-ruby-sdk/issues/216).
+
 # 7.5.0
 
 * Adds a `ServiceError` exception class, which provides access to a `Response` object for improved error context in certain situations. See issue [#197](https://github.com/Vonage/vonage-ruby-sdk/issues/197) and PR [#208](https://github.com/Vonage/vonage-ruby-sdk/pull/208)
