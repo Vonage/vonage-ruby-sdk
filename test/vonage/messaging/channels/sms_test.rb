@@ -13,6 +13,7 @@ class Vonage::Messaging::Channels::SMSTest < Vonage::Test
     sms = Vonage::Messaging::Channels::SMS.new(type: 'text', message: 'Hello world!')
 
     assert_equal 'text', sms.data[:message_type]
+    assert_includes sms.data, :text
   end
 
   def test_with_invalid_type_specified
