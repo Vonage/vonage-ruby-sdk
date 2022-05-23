@@ -38,7 +38,7 @@ module Vonage
     end
 
     def verify_message
-      case self.type
+      case type
       when 'text'
         raise Vonage::ClientError.new(":message must be a String") unless message.is_a? String
       when 'image'
