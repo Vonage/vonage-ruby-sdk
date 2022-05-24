@@ -2,7 +2,7 @@
 
 
 class Vonage::Messaging::Channels::ViberTest < Vonage::Test
-  def test_mms_initialize
+  def test_viber_initialize
     viber = Vonage::Messaging::Channels::Viber.new(type: 'text', message: 'Hello world!')
 
     assert_kind_of Vonage::Messaging::Channels::Viber, viber
