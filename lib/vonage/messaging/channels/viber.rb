@@ -34,7 +34,7 @@ module Vonage
     end
 
     def verify_type
-      raise ClientError.new("Invalid message type") unless MESSAGE_TYPES.include?(type)
+      raise Vonage::ClientError.new("Invalid message type") unless MESSAGE_TYPES.include?(type)
     end
 
     def verify_message
@@ -42,8 +42,8 @@ module Vonage
       when 'text'
         raise Vonage::ClientError.new(":message must be a String") unless message.is_a? String
       when 'image'
-        raise ClientError.new(":message must be a Hash") unless message.is_a? Hash
-        raise ClientError.new(":url is required in :message") unless message[:url]
+        raise Vonage::ClientError.new(":message must be a Hash") unless message.is_a? Hash
+        raise Vonage::ClientError.new(":url is required in :message") unless message[:url]
       end
     end
   end
