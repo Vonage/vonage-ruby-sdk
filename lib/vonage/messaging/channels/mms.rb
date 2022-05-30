@@ -1,7 +1,7 @@
 # typed: true
 
 module Vonage
-  class Messaging::Channels::MMS
+  class Messaging::Channels::MMS < Messaging::Message
     MESSAGE_TYPES = ['image', 'vcard', 'audio', 'video']
 
     attr_reader :data
@@ -17,20 +17,9 @@ module Vonage
 
     private
 
-    attr_accessor :type, :message, :opts
-    attr_writer :data
-
-    def after_initialize!
-      verify_type
-      verify_message
-      build
-    end
-
     def build
       data[:channel] = 'mms'
-      data[:message_type] = type
-      data[type.to_sym] = message
-      data.merge!(opts)
+      super
     end
 
     def verify_type

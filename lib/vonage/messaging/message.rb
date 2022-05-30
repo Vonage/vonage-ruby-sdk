@@ -21,5 +21,22 @@ module Vonage
     def self.method_missing(method)
       raise ClientError.new("Messaging channel must be one of the valid options.")
     end
+
+    private
+
+    attr_accessor :type, :message, :opts
+    attr_writer :data
+
+    def after_initialize!
+      verify_type
+      verify_message
+      build
+    end
+
+    def build
+      data[:message_type] = type
+      data[type.to_sym] = message
+      data.merge!(opts)
+    end
   end
 end

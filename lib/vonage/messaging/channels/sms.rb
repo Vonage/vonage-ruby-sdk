@@ -1,7 +1,7 @@
 # typed: true
 
 module Vonage
-  class Messaging::Channels::SMS
+  class Messaging::Channels::SMS < Messaging::Message
     attr_reader :data
 
     def initialize(attributes = {})
@@ -15,20 +15,9 @@ module Vonage
 
     private
 
-    attr_accessor :type, :message, :opts
-    attr_writer :data
-
-    def after_initialize!
-      verify_type
-      verify_message
-      build
-    end
-
     def build
       data[:channel] = 'sms'
-      data[:message_type] = type
-      data[type.to_sym] = message
-      data.merge!(opts)
+      super
     end
 
     def verify_type
