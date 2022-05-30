@@ -194,6 +194,32 @@ response = client.voice.create({
 })
 ```
 
+## Messages API
+
+The [Vonage Messages API](https://developer.vonage.com/messages/overview) allows you to send messages over a number of different channels, and various message types within each channel. See the Vonage Developer Documentation for a [complete API reference](https://developer.vonage.com/api/messages-olympus) listing all the channel and message type combinations.
+
+The Ruby SDK allows you to construct message data for specific messaging channels. Other than SMS (which has only one type -- text), you need to pass the message `:type` as well as the `:message` itself as arguments to the appropriate messages method, along with any optional properties if needed.
+
+```ruby
+# creating an SMS message
+message = Vonage::Messaging::Message.sms(message: 'Hello world!')
+
+# creating a WhatsApp Text message
+message = Vonage::Messaging::Message.whatsapp(type: 'text', message: 'Hello world!')
+
+# creating a WhatsApp Image message
+message = Vonage::Messaging::Message.whatsapp(type: 'image', message: { url: 'https://example.com/image.jpg' })
+
+# creating an MMS audio message with optional properties
+message = Vonage::Messaging::Message.mms(type: 'audio', message: { url: 'https://example.com/audio.mp3' }, opts: {client_ref: "abc123"})
+```
+
+Once the message data is created, you can then send the message.
+
+```ruby
+response = client.messaging.send(to: "447700900000", from: "447700900001", **message)
+```
+
 ## Documentation
 
 Vonage Ruby documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby-sdk
