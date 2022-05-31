@@ -98,7 +98,7 @@ By default the hosts are set to `api.nexmo.com` and `rest.nexmo.com`, respective
 
 ## JWT authentication
 
-To call newer endpoints that support JWT authentication such as the Voice API you'll
+To call newer endpoints that support JWT authentication such as the Voice API and Messages API you'll
 also need to specify the `application_id` and `private_key` options. For example:
 
 ```ruby
