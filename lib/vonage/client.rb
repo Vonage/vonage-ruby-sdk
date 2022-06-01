@@ -68,6 +68,13 @@ module Vonage
       @messages ||= T.let(Messages.new(config), T.nilable(Vonage::Messages))
     end
 
+    # @return [Messaging]
+    #
+    sig { returns(T.nilable(Vonage::Messaging)) }
+    def messaging
+      @messaging ||= T.let(Messaging.new(config), T.nilable(Vonage::Messaging))
+    end
+
     # @return [NumberInsight]
     #
     sig { returns(T.nilable(Vonage::NumberInsight)) }

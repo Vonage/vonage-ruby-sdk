@@ -13,6 +13,7 @@ module Vonage
     'json' => 'JSON',
     'jwt' => 'JWT',
     'sms' => 'SMS',
+    'mms' => 'MMS',
     'tfa' => 'TFA',
     'version' => 'VERSION',
   })
