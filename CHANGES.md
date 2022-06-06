@@ -1,3 +1,7 @@
+# 7.6.0
+
+* Implements the [Vonage Messages API](https://developer.vonage.com/messages/overview) functionality in the SDK. See PR [#221](https://github.com/Vonage/vonage-ruby-sdk/pull/221).
+
 # 7.5.1
 
 * Adds an `Accept` header to all requests with a value of `application/json`. Addresses the underlying cause of issue [#216](https://github.com/Vonage/vonage-ruby-sdk/issues/216).
