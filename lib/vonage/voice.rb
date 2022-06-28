@@ -55,6 +55,14 @@ module Vonage
     # @see https://developer.nexmo.com/api/voice#createCall
     #
     def create(params)
+      if params.key?(:from) && params[:random_from_number] == true
+        raise ClientError.new("`from` should not be set if `random_from_number` is `true`")
+      end
+
+      if params && !params.key?(:from)
+        params.merge!(random_from_number: true)
+      end
+
       request('/v1/calls', params: params, type: Post)
     end
 
@@ -101,7 +109,7 @@ module Vonage
       if params && !params.key?(:auto_advance)
         params.merge!(auto_advance: true)
       end
-      
+
       request('/v1/calls', params: params, response_class: ListResponse)
     end
 
