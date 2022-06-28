@@ -19,8 +19,14 @@ module Vonage
     # @option params [required, Array<Hash>] :to
     #   Connect to a Phone (PSTN) number, SIP Endpoint, Websocket, or VBC extension.
     #
-    # @option params [required, Hash] :from
-    #   Connect to a Phone (PSTN) number.
+    # @option params [Hash] :from
+    #   Connect to a Phone (PSTN) number. Should not be set if **:random_from_number** is **true**
+    #   If not set, then **:random_from_number** will automatically be set to **true**
+    #
+    # @option params [Boolean] :random_from_number
+    #   Set to **true** to use random phone number as **from**. The number will be selected from the list
+    #   of the numbers assigned to the current application.
+    #   **random_from_number: true** cannot be used together with **:from**.
     #
     # @option params [Array<String>] :ncco
     #   The Vonage Call Control Object to use for this call.
