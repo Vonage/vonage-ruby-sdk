@@ -19,8 +19,14 @@ module Vonage
     # @option params [required, Array<Hash>] :to
     #   Connect to a Phone (PSTN) number, SIP Endpoint, Websocket, or VBC extension.
     #
-    # @option params [required, Hash] :from
-    #   Connect to a Phone (PSTN) number.
+    # @option params [Hash] :from
+    #   Connect to a Phone (PSTN) number. Should not be set if **:random_from_number** is **true**
+    #   If not set, then **:random_from_number** will automatically be set to **true**
+    #
+    # @option params [Boolean] :random_from_number
+    #   Set to **true** to use random phone number as **from**. The number will be selected from the list
+    #   of the numbers assigned to the current application.
+    #   **random_from_number: true** cannot be used together with **:from**.
     #
     # @option params [Array<String>] :ncco
     #   The Vonage Call Control Object to use for this call.
@@ -55,6 +61,14 @@ module Vonage
     # @see https://developer.nexmo.com/api/voice#createCall
     #
     def create(params)
+      if params.key?(:from) && params[:random_from_number] == true
+        raise ClientError.new("`from` should not be set if `random_from_number` is `true`")
+      end
+
+      if params && !params.key?(:from)
+        params.merge!(random_from_number: true)
+      end
+
       request('/v1/calls', params: params, type: Post)
     end
 
@@ -101,7 +115,7 @@ module Vonage
       if params && !params.key?(:auto_advance)
         params.merge!(auto_advance: true)
       end
-      
+
       request('/v1/calls', params: params, response_class: ListResponse)
     end
 

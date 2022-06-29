@@ -26,6 +26,39 @@ class Vonage::VoiceTest < Vonage::Test
     assert_kind_of Vonage::Response, calls.create(params)
   end
 
+  def test_create_method_raises_error_if_from_set_and_random_from_number_true
+    params = {
+      to: [{type: 'phone', number: '14843331234'}],
+      from: {type: 'phone', number: '14843335555'},
+      random_from_number: true,
+      answer_url: ['https://example.com/answer']
+    }
+
+    exception = assert_raises {
+      calls.create(params)
+    }
+
+    assert_instance_of Vonage::ClientError, exception
+    assert_match "`from` should not be set if `random_from_number` is `true`", exception.message
+  end
+
+  def test_create_method_sets_random_from_number_to_true_if_from_not_set
+    input_params = {
+      to: [{type: 'phone', number: '14843331234'}],
+      answer_url: ['https://example.com/answer']
+    }
+
+    request_params = {
+      to: [{type: 'phone', number: '14843331234'}],
+      random_from_number: true,
+      answer_url: ['https://example.com/answer']
+    }
+
+    stub_request(:post, calls_uri).with(request(body: request_params)).to_return(response)
+
+    assert_kind_of Vonage::Response, calls.create(input_params)
+  end
+
   def test_list_method
     params = {status: 'completed'}
 
