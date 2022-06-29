@@ -1,3 +1,7 @@
+# 7.7.0
+
+* Improves support for the `Voice#create` method to use a random number from a pool. See PR [#225](https://github.com/Vonage/vonage-ruby-sdk/pull/225).
+
 # 7.6.0
 
 * Implements the [Vonage Messages API](https://developer.vonage.com/messages/overview) functionality in the SDK. See PR [#221](https://github.com/Vonage/vonage-ruby-sdk/pull/221).
