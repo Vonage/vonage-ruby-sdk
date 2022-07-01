@@ -1,3 +1,7 @@
+# 7.7.1
+
+* Adds support for `PATCH` requests to be passed to the `JSON::update` method See PR [#230](https://github.com/Vonage/vonage-ruby-sdk/pull/230).
+
 # 7.7.0
 
 * Improves support for the `Voice#create` method to use a random number from a pool. See PR [#225](https://github.com/Vonage/vonage-ruby-sdk/pull/225).
