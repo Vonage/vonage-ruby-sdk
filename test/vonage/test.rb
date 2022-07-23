@@ -96,28 +96,204 @@ module Vonage
 
     def voice_response
       {
-        body: '{"_embedded": {"calls":[]}}', 
+        body: '{"_embedded": {"calls":[]}}',
         headers: response_headers
       }
     end
 
     def applications_response
       {
-        body: '{"_embedded": {"applications":[]}}', 
+        body: '{"_embedded": {"applications":[]}}',
         headers: response_headers
       }
     end
 
     def secrets_response
       {
-        body: '{"_embedded": {"secrets":[]}}', 
+        body: '{"_embedded": {"secrets":[]}}',
         headers: response_headers
       }
     end
 
     def numbers_response
       {
-        body: '{"numbers":[]}', 
+        body: '{"numbers":[]}',
+        headers: response_headers
+      }
+    end
+
+    def numbers_response_paginated_page_1
+      {
+        body: '{
+                 "count": 14,
+                 "numbers":[
+                   {
+                    "country": "GB",
+                    "msisdn": "447700900000",
+                    "type": "mobile-lvn",
+                    "cost": "1.25",
+                    "features": [
+                      "VOICE",
+                      "SMS",
+                      "MMS"
+                    ]
+                    },
+                    {
+                     "country": "GB",
+                     "msisdn": "447700900001",
+                     "type": "mobile-lvn",
+                     "cost": "1.25",
+                     "features": [
+                       "VOICE",
+                       "SMS",
+                       "MMS"
+                     ]
+                    },
+                    {
+                     "country": "GB",
+                     "msisdn": "447700900002",
+                     "type": "mobile-lvn",
+                     "cost": "1.25",
+                     "features": [
+                       "VOICE",
+                       "SMS",
+                       "MMS"
+                      ]
+                     },
+                     {
+                      "country": "GB",
+                      "msisdn": "447700900003",
+                      "type": "mobile-lvn",
+                      "cost": "1.25",
+                      "features": [
+                        "VOICE",
+                        "SMS",
+                        "MMS"
+                      ]
+                     },
+                     {
+                      "country": "GB",
+                      "msisdn": "447700900004",
+                      "type": "mobile-lvn",
+                      "cost": "1.25",
+                      "features": [
+                        "VOICE",
+                        "SMS",
+                        "MMS"
+                       ]
+                     },
+                     {
+                      "country": "GB",
+                      "msisdn": "447700900005",
+                      "type": "mobile-lvn",
+                      "cost": "1.25",
+                      "features": [
+                        "VOICE",
+                        "SMS",
+                        "MMS"
+                      ]
+                      },
+                      {
+                       "country": "GB",
+                       "msisdn": "447700900006",
+                       "type": "mobile-lvn",
+                       "cost": "1.25",
+                       "features": [
+                         "VOICE",
+                         "SMS",
+                         "MMS"
+                       ]
+                      },
+                      {
+                       "country": "GB",
+                       "msisdn": "447700900007",
+                       "type": "mobile-lvn",
+                       "cost": "1.25",
+                       "features": [
+                         "VOICE",
+                         "SMS",
+                         "MMS"
+                        ]
+                       },
+                       {
+                        "country": "GB",
+                        "msisdn": "447700900008",
+                        "type": "mobile-lvn",
+                        "cost": "1.25",
+                        "features": [
+                          "VOICE",
+                          "SMS",
+                          "MMS"
+                        ]
+                       },
+                       {
+                        "country": "GB",
+                        "msisdn": "447700900009",
+                        "type": "mobile-lvn",
+                        "cost": "1.25",
+                        "features": [
+                          "VOICE",
+                          "SMS",
+                          "MMS"
+                         ]
+                       }
+                      ]
+                    }',
+        headers: response_headers
+      }
+    end
+
+    def numbers_response_paginated_page_2
+      {
+        body: '{
+                 "count": 14,
+                 "numbers":[
+                      {
+                       "country": "GB",
+                       "msisdn": "447700900010",
+                       "type": "mobile-lvn",
+                       "cost": "1.25",
+                       "features": [
+                         "VOICE",
+                         "SMS",
+                         "MMS"
+                       ]
+                      },
+                      {
+                       "country": "GB",
+                       "msisdn": "447700900011",
+                       "type": "mobile-lvn",
+                       "cost": "1.25",
+                       "features": [
+                         "VOICE",
+                         "SMS",
+                         "MMS"
+                        ]
+                       },
+                       {
+                        "country": "GB",
+                        "msisdn": "447700900012",
+                        "type": "mobile-lvn",
+                        "cost": "1.25",
+                        "features": [
+                          "VOICE",
+                          "SMS",
+                          "MMS"
+                        ]
+                       },
+                       {
+                        "country": "GB",
+                        "msisdn": "447700900013",
+                        "type": "mobile-lvn",
+                        "cost": "1.25",
+                        "features": [
+                          "VOICE",
+                          "SMS",
+                          "MMS"
+                         ]
+                       }
+                      ]
+                    }',
         headers: response_headers
       }
     end
