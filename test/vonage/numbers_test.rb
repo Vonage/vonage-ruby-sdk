@@ -45,7 +45,7 @@ class Vonage::NumbersTest < Vonage::Test
 
     stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(numbers_response_paginated_page_1)
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret, index: 2)).to_return(numbers_response_paginated_page_2)
+    stub_request(:get, uri).with(query: params.merge(api_key_and_secret.merge(index: 2))).to_return(numbers_response_paginated_page_2)
 
     response = numbers.search(params.merge(auto_advance: true))
 
@@ -58,7 +58,7 @@ class Vonage::NumbersTest < Vonage::Test
 
     params = {country: country}
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret, index: 2)).to_return(numbers_response_paginated_page_2)
+    stub_request(:get, uri).with(query: params.merge(api_key_and_secret.merge(index: 2))).to_return(numbers_response_paginated_page_2)
 
     response = numbers.search(params.merge(auto_advance: true, index: 2))
 
