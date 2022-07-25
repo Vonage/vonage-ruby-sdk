@@ -38,6 +38,34 @@ class Vonage::NumbersTest < Vonage::Test
     assert_kind_of Vonage::Numbers::ListResponse, numbers.search(params)
   end
 
+  def test_search_method_with_auto_advance
+    uri = 'https://rest.nexmo.com/number/search'
+
+    params = {country: country}
+
+    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(numbers_response_paginated_page_1)
+
+    stub_request(:get, uri).with(query: params.merge(api_key_and_secret.merge(index: 2))).to_return(numbers_response_paginated_page_2)
+
+    response = numbers.search(params.merge(auto_advance: true))
+
+    assert_kind_of Vonage::Numbers::ListResponse, response
+    assert_equal 14, response.numbers.length
+  end
+
+  def test_search_method_with_auto_advance_with_index_offset_by_one_page
+    uri = 'https://rest.nexmo.com/number/search'
+
+    params = {country: country}
+
+    stub_request(:get, uri).with(query: params.merge(api_key_and_secret.merge(index: 2))).to_return(numbers_response_paginated_page_2)
+
+    response = numbers.search(params.merge(auto_advance: true, index: 2))
+
+    assert_kind_of Vonage::Numbers::ListResponse, response
+    assert_equal 4, response.numbers.length
+  end
+
   def test_buy_method
     uri = 'https://rest.nexmo.com/number/buy'
 

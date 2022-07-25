@@ -109,7 +109,7 @@ module Vonage
       response = make_request!(request, &block)
 
       if auto_advance
-        iterable_request(path, response: response, response_class: response_class, &block)
+        iterable_request(path, response: response, response_class: response_class, params: params, &block)
       else
         return if block
 
@@ -117,7 +117,7 @@ module Vonage
       end
     end
 
-    def iterable_request(path, response: nil, response_class: nil, &block)
+    def iterable_request(path, response: nil, response_class: nil, params: {}, &block)
       json_response = ::JSON.parse(response.body)
       response = parse(response, response_class)
       remainder = remaining_count(json_response)
