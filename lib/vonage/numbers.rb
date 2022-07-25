@@ -40,11 +40,11 @@ module Vonage
     #
     # @option params [Integer] :index
     #   Page index.
-    # 
+    #
     # @option params [Boolean] :auto_advance
     #   Set this to `true` to auto-advance through all the pages in the record
     #   and collect all the data. The default is `false`.
-    # 
+    #
     # @param [Hash] params
     #
     # @return [ListResponse]
@@ -92,7 +92,7 @@ module Vonage
     # @option params [Boolean] :auto_advance
     #   Set this to `true` to auto-advance through all the pages in the record
     #   and collect all the data. The default is `false`.
-    #  
+    #
     # @param [Hash] params
     #
     # @return [ListResponse]
@@ -199,6 +199,30 @@ module Vonage
     #
     def update(params)
       request('/number/update', params: camelcase(params), type: Post, response_class: Response)
+    end
+
+    private
+
+    # A specific implementation of iterable_request for Numbers, because the Numbers API
+    # handles pagination differently to other Vonage APIs
+    def iterable_request(path, response: nil, response_class: nil, params: {}, &block)
+      response = parse(response, response_class)
+      params[:index] = 1 unless params.has_key?(:index)
+      size = params.fetch(:size, 10)
+      count_from_index = response[:count] - ((params[:index] - 1) * size)
+
+      while count_from_index > response.numbers.size
+        params[:index] += 1
+        request = build_request(path: path, type: Get, params: params)
+
+        # Make request...
+        paginated_response = make_request!(request)
+        next_response = parse(paginated_response, response_class)
+
+        response.numbers.push(*next_response.numbers)
+      end
+
+      response
     end
   end
 end
