@@ -1,3 +1,9 @@
+# 7.7.2
+
+* Fixes bug with auto-pagination for Numbers. See PR [#236](https://github.com/Vonage/vonage-ruby-sdk/pull/236).
+
+* Adds support for `PATCH` requests to be passed to the `Logger#log_request_info` method. See PR [#237](https://github.com/Vonage/vonage-ruby-sdk/pull/237).
+
 # 7.7.1
 
 * Adds support for `PATCH` requests to be passed to the `JSON::update` method See PR [#230](https://github.com/Vonage/vonage-ruby-sdk/pull/230).
