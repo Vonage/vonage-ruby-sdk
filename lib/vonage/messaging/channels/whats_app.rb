@@ -34,7 +34,6 @@ module Vonage
         raise Vonage::ClientError.new(":message must be a Hash") unless message.is_a? Hash
         raise Vonage::ClientError.new(":name is required in :template") unless message[:name]
         raise Vonage::ClientError.new(":whatsapp is required in :opts") unless opts[:whatsapp]
-        raise Vonage::ClientError.new(":policy is required in :whatsapp") unless opts[:whatsapp][:policy]
         raise Vonage::ClientError.new(":locale is required in :whatsapp") unless opts[:whatsapp][:locale]
       when 'custom'
         raise Vonage::ClientError.new(":message must be a Hash") unless message.is_a? Hash
