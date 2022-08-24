@@ -34,7 +34,7 @@ class Vonage::VerifyTest < Vonage::Test
   def error_response_blacklist_with_request_id
     {
       headers: response_headers,
-      body: '{"request_id":"","status":"7","error_text":"The number you are trying to verify is blacklisted for verification"}'
+      body: '{"request_id":"8g88g88eg8g8gg9g90","status":"7","error_text":"The number you are trying to verify is blacklisted for verification"}'
     }
   end
 
