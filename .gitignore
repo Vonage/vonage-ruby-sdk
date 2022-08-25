@@ -3,3 +3,6 @@ Gemfile.lock
 coverage
 doc
 sorbet/rbi/hidden-definitions/errors.txt
+*.gem
+/pkg/
+.rake_tasks~
