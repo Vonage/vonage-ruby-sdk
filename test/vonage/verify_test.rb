@@ -24,24 +24,24 @@ class Vonage::VerifyTest < Vonage::Test
     }
   end
 
-  def error_response_blacklist_with_network
+  def error_response_blocklist_with_network
     {
       headers: response_headers,
-      body: '{"status":"7","error_text":"The number you are trying to verify is blacklisted for verification","network":"25503"}'
+      body: '{"status":"7","error_text":"The number you are trying to verify is blocklisted for verification","network":"25503"}'
     }
   end
 
-  def error_response_blacklist_with_request_id
+  def error_response_blocklist_with_request_id
     {
       headers: response_headers,
-      body: '{"request_id":"8g88g88eg8g8gg9g90","status":"7","error_text":"The number you are trying to verify is blacklisted for verification"}'
+      body: '{"request_id":"8g88g88eg8g8gg9g90","status":"7","error_text":"The number you are trying to verify is blocklisted for verification"}'
     }
   end
 
-  def error_response_blacklist_with_network_and_request_id
+  def error_response_blocklist_with_network_and_request_id
     {
       headers: response_headers,
-      body: '{"request_id":"8g88g88eg8g8gg9g90","status":"7","error_text":"The number you are trying to verify is blacklisted for verification","network":"25503"}'
+      body: '{"request_id":"8g88g88eg8g8gg9g90","status":"7","error_text":"The number you are trying to verify is blocklisted for verification","network":"25503"}'
     }
   end
 
@@ -53,6 +53,51 @@ class Vonage::VerifyTest < Vonage::Test
     stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, verify.request(params)
+
+    error = assert_raises Vonage::ServiceError do
+      verify.request(params)
+    end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
+  end
+
+  def test_blocklist_error_for_verify_with_network
+    uri = 'https://api.nexmo.com/verify/json'
+
+    params = {number: msisdn, brand: 'ExampleApp'}
+
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_network)
+
+    error = assert_raises Vonage::ServiceError do
+      verify.request(params)
+    end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
+  end
+
+  def test_blocklist_error_for_verify_with_request_id
+    uri = 'https://api.nexmo.com/verify/json'
+
+    params = {number: msisdn, brand: 'ExampleApp'}
+
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_request_id)
+
+    error = assert_raises Vonage::ServiceError do
+      verify.request(params)
+    end
+
+    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::Response, error.response
+  end
+
+  def test_blocklist_error_for_verify_with_network_and_request_id
+    uri = 'https://api.nexmo.com/verify/json'
+
+    params = {number: msisdn, brand: 'ExampleApp'}
+
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_network_and_request_id)
 
     error = assert_raises Vonage::ServiceError do
       verify.request(params)
@@ -164,45 +209,45 @@ class Vonage::VerifyTest < Vonage::Test
     assert_kind_of Vonage::Response, error.response
   end
 
-  def test_blacklist_error_with_network
-    uri = 'https://api.nexmo.com/verify/json'
+  def test_blocklist_error_for_psd2_with_network
+    uri = 'https://api.nexmo.com/verify/psd2/json'
 
-    params = {number: msisdn, brand: 'ExampleApp'}
+    params = {number: msisdn, payee: 'ExampleApp', amount: 48.00}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blacklist_with_network)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_network)
 
     error = assert_raises Vonage::ServiceError do
-      verify.request(params)
+      verify.psd2(params)
     end
 
     assert_kind_of Vonage::Error, error
     assert_kind_of Vonage::Response, error.response
   end
 
-  def test_blacklist_error_with_request_id
-    uri = 'https://api.nexmo.com/verify/json'
+  def test_blocklist_error_for_psd2_with_request_id
+    uri = 'https://api.nexmo.com/verify/psd2/json'
 
-    params = {number: msisdn, brand: 'ExampleApp'}
+    params = {number: msisdn, payee: 'ExampleApp', amount: 48.00}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blacklist_with_request_id)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_request_id)
 
     error = assert_raises Vonage::ServiceError do
-      verify.request(params)
+      verify.psd2(params)
     end
 
     assert_kind_of Vonage::Error, error
     assert_kind_of Vonage::Response, error.response
   end
 
-  def test_blacklist_error_with_network_and_request_id
-    uri = 'https://api.nexmo.com/verify/json'
+  def test_blocklist_error_for_psd2_with_network_and_request_id
+    uri = 'https://api.nexmo.com/verify/psd2/json'
 
-    params = {number: msisdn, brand: 'ExampleApp'}
+    params = {number: msisdn, payee: 'ExampleApp', amount: 48.00}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blacklist_with_network_and_request_id)
+    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_network_and_request_id)
 
     error = assert_raises Vonage::ServiceError do
-      verify.request(params)
+      verify.psd2(params)
     end
 
     assert_kind_of Vonage::Error, error
