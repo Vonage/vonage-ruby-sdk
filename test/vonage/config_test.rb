@@ -61,4 +61,12 @@ class Vonage::ConfigTest < Vonage::Test
 
     assert_includes exception.message, 'No signature_secret provided.'
   end
+
+  def test_custom_token_can_be_set_and_returned
+    token = Vonage::JWT.generate(application_id: application_id, private_key: private_key, nbf: 1483315200, ttl: 800)
+
+    config = Vonage::Config.new.merge(token: token)
+
+    assert_equal token, config.token
+  end
 end
