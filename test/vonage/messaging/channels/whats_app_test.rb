@@ -95,15 +95,6 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
     assert_match ":whatsapp is required in :opts", exception.message
   end
 
-  def test_template_message_without_whatsapp_object_policy
-    exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'template', message: { name: 'verify'}, opts: { whatsapp: { locale: 'en-GB'} })
-    }
-
-    assert_instance_of Vonage::ClientError, exception
-    assert_match ":policy is required in :whatsapp", exception.message
-  end
-
   def test_template_message_without_whatsapp_object_locale
     exception = assert_raises {
       whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'template', message: { name: 'verify'}, opts: { whatsapp: { policy: 'deterministic'} })

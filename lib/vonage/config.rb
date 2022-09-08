@@ -191,7 +191,7 @@ module Vonage
     #
     sig { returns(T.nilable(String)) }
     def token
-      @token = T.let(nil, T.nilable(String))
+      @token = T.let(@token, T.nilable(String))
       @token || JWT.generate({application_id: application_id}, T.must(private_key))
     end
 
