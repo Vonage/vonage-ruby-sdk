@@ -1,3 +1,10 @@
+# 7.8.0
+
+* Adds Voice NCCO Pay action. See PR [244](https://github.com/Vonage/vonage-ruby-sdk/pull/244)
+* Fixes issue with `Client` instantiation using custom token. See PR [245](https://github.com/Vonage/vonage-ruby-sdk/pull/245)
+* Adds tests for Verify API blocklist response. See PR [241](https://github.com/Vonage/vonage-ruby-sdk/pull/241) and [246](https://github.com/Vonage/vonage-ruby-sdk/pull/246)
+* Update Messages API Template message class to remove `policy` as a required argument. See PR [242](https://github.com/Vonage/vonage-ruby-sdk/pull/242)
+
 # 7.7.2
 
 * Fixes bug with auto-pagination for Numbers. See PR [#236](https://github.com/Vonage/vonage-ruby-sdk/pull/236).
