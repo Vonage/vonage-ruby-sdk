@@ -94,6 +94,17 @@ module Vonage
       {headers: headers, body: body, query: query}.compact
     end
 
+    def video_session_id
+      '1_MX4xMjM0NTZ-fk1vbiBNYXIgMTcgMDA6NDE6MzEgUERUIDIwMTR-MC42ODM3ODk1MzQ0OTQyODA4fg'
+    end
+
+    def video_list_response
+      {
+        body: '{"items":[]}',
+        headers: response_headers
+      }
+    end
+
     def voice_response
       {
         body: '{"_embedded": {"calls":[]}}',

@@ -21,7 +21,13 @@ module Vonage
         'voice_callback_value',
         'voice_status_callback',
         'messages_callback_value',
-        'messages_callback_type'
+        'messages_callback_type',
+        'add_stream',
+        'has_audio',
+        'has_video',
+        'remove_stream',
+        'screenshare_type',
+        'archive_mode'
       ]
       hash.transform_keys do |k|
         if exceptions.include?(k.to_s)

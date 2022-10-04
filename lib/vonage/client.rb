@@ -131,6 +131,13 @@ module Vonage
       @verify ||= T.let(Verify.new(config), T.nilable(Vonage::Verify))
     end
 
+    # @return [Video]
+    #
+    sig { returns(T.nilable(Vonage::Video)) }
+    def video
+      @video ||= T.let(Video.new(config), T.nilable(Vonage::Video))
+    end
+
     # @return [Voice]
     #
     sig { returns(T.nilable(Vonage::Voice)) }
