@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 require 'securerandom'
 require 'openssl'
-require 'nexmo-jwt'
+require 'vonage-jwt'
 
 module Vonage
   class JWT
@@ -15,7 +15,7 @@ module Vonage
     # attribute on the client object.
     #
     # Documentation for the Vonage Ruby JWT generator gem can be found at
-    # https://www.rubydoc.info/github/Nexmo/nexmo-jwt-ruby
+    # https://www.rubydoc.info/github/Vonage/vonage-jwt-ruby
     #
     # @example
     #   claims = {
@@ -37,7 +37,7 @@ module Vonage
       raise "Expecting 'private_key' in either the payload or as a separate parameter" if !payload[:private_key] && !private_key
 
       payload[:private_key] = private_key if private_key && !payload[:private_key]
-      @token = Nexmo::JWTBuilder.new(payload).jwt.generate
+      @token = Vonage::JWTBuilder.new(payload).jwt.generate
     end
   end
 end
