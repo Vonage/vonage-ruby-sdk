@@ -10,6 +10,10 @@ class Vonage::VideoTest < Vonage::Test
     'https://video.api.vonage.com'
   end
 
+  def decode_jwt_payload(token)
+    JWT.decode(token, private_key, false, {algorithm: 'RS256'}).first
+  end
+
   def test_create_method
     stub_request(:post, video_uri + '/session/create').with(headers: headers).to_return(response)
 
@@ -51,6 +55,26 @@ class Vonage::VideoTest < Vonage::Test
     params.keys.each do |key|
       assert_equal params[key], response.send(key)
     end
+  end
+
+
+  def test_generate_client_token
+    token = video.generate_client_token(session_id: 'abc123')
+    decoded_token_payload = decode_jwt_payload(token)
+
+    assert_equal 'abc123', decoded_token_payload['session_id']
+  end
+
+  def test_generate_client_token_with_custom_options
+    expire_time = Time.now.to_i + 500
+    token = video.generate_client_token(session_id: 'abc123', role: 'moderator', initial_layout_class_list: ['foo', 'bar'], data: 'test', expire_time: expire_time)
+    decoded_token_payload = decode_jwt_payload(token)
+    
+    assert_equal 'abc123', decoded_token_payload['session_id']
+    assert_equal 'moderator', decoded_token_payload['role']
+    assert_equal 'foo bar', decoded_token_payload['initial_layout_class_list']
+    assert_equal 'test', decoded_token_payload['data']
+    assert_equal expire_time, decoded_token_payload['exp']
   end
 
   def test_streams_method
