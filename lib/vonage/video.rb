@@ -40,10 +40,10 @@ module Vonage
     end
 
     def generate_client_token(session_id:, application_id: @config.application_id, private_key: @config.private_key, scope: 'session.connect', role: 'publisher', **params)
-      claims = {session_id: session_id, scope: scope, role: role}
+      claims = {session_id: session_id, application_id: application_id, scope: scope, role: role}
       claims[:data] = params[:data] if params[:data]
       claims[:initial_layout_class_list] = params[:initial_layout_class_list].join(' ') if params[:initial_layout_class_list]
-      claims[:expire_time] = params[:expire_time].to_i if params[:expire_time]
+      claims[:exp] = params[:expire_time].to_i if params[:expire_time]
 
       JWT.generate(claims, private_key)
     end
