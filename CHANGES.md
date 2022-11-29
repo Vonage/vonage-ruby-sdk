@@ -1,3 +1,7 @@
+# 7.8.1
+
+* Changes JWT library dependency from `nexmo-jwt-ruby` to `conage-jwt-ruby`. See PR [#251](https://github.com/Vonage/vonage-ruby-sdk/pull/251)
+
 # 7.8.0
 
 * Adds Voice NCCO Pay action. See PR [244](https://github.com/Vonage/vonage-ruby-sdk/pull/244)
