@@ -1,6 +1,6 @@
 # typed: true
 # frozen_string_literal: true
-require 'pry'
+
 module Vonage
   class Video < Namespace
     include Keys
