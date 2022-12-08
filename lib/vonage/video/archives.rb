@@ -67,6 +67,8 @@ module Vonage
     #
     # @param [optional, String] :streamMode
     #
+    # @param [optional, String] :multiArchiveTag
+    #
     # @param [optional, Hash] :layout
     #
     # @option layout [optional, String] :type
