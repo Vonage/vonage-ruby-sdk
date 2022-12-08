@@ -53,13 +53,13 @@ module Vonage
       response.class.new(entity, response.http_response)
     end
 
-    def generate_client_token(session_id:, application_id: @config.application_id, private_key: @config.private_key, scope: 'session.connect', role: 'publisher', **params)
-      claims = {session_id: session_id, application_id: application_id, scope: scope, role: role}
+    def generate_client_token(session_id:, scope: 'session.connect', role: 'publisher', **params)
+      claims = {session_id: session_id, application_id: @config.application_id, scope: scope, role: role}
       claims[:data] = params[:data] if params[:data]
       claims[:initial_layout_class_list] = params[:initial_layout_class_list].join(' ') if params[:initial_layout_class_list]
       claims[:exp] = params[:expire_time].to_i if params[:expire_time]
 
-      JWT.generate(claims, private_key)
+      JWT.generate(claims, @config.private_key)
     end
 
     # @return [Streams]
