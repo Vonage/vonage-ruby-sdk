@@ -1,6 +1,6 @@
 # typed: true
 # frozen_string_literal: true
-
+require 'pry'
 module Vonage
   class Video < Namespace
     include Keys
@@ -15,14 +15,14 @@ module Vonage
     #   session = client.video.create_session({
     #     archive_mode: 'always',
     #     location: '10.1.200.30',
-    #     p2p_preference: 'disabled'
+    #     media_mode: 'routed'
     #   })
     #
-    # @params [optional, String] :archive_mode
+    # @params [optional, String] :archive_mode (either 'always' or 'manual')
     #
     # @param [optional, String] :location
     #
-    # @params [optional, String] :p2p_preference
+    # @params [optional, String] :media_mode (either 'routed' or 'relayed')
     #
     # @return [Response]
     #
@@ -30,13 +30,27 @@ module Vonage
     #
     def create_session(**params)
       request_params = params.clone
-      p2p_preference = request_params.delete(:p2p_preference)
-      request_params['p2p.preference'] = p2p_preference if p2p_preference
+      request_params[:archive_mode] ||= 'manual' 
+      media_mode = request_params.delete(:media_mode) || 'routed'
+
+      if media_mode == 'relayed' && request_params[:archive_mode] == 'manual'
+        request_params['p2p.preference'] = 'enabled'
+      else
+        request_params['p2p.preference'] = 'disabled'
+      end
 
       response = request('/session/create', params: camelcase(request_params), type: Post)
 
-      params.keys.each {|key| response.entity[key] = params[key]}
-      response
+      public_response_data = {
+        session_id: response.entity[:session_id],
+        archive_mode: request_params[:archive_mode],
+        media_mode: media_mode,
+        location: request_params[:location]
+      }
+
+      entity = Entity.new(public_response_data)
+
+      response.class.new(entity, response.http_response)
     end
 
     def generate_client_token(session_id:, application_id: @config.application_id, private_key: @config.private_key, scope: 'session.connect', role: 'publisher', **params)

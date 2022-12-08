@@ -24,7 +24,40 @@ class Vonage::VideoTest < Vonage::Test
     params = {
       archive_mode: 'always',
       location: '10.1.200.30',
-      p2p_preference: 'disabled'
+      media_mode: 'routed'
+    }
+    request_params = {
+      'archiveMode' => 'always',
+      'location' => '10.1.200.30',
+      'p2p.preference' => 'disabled'
+    }
+
+    stub_request(:post, video_uri + '/session/create').with(headers: headers, body: request_params).to_return(response)
+
+    assert_kind_of Vonage::Response, video.create_session(**params)
+  end
+
+  def test_create_method_with_media_mode_relayed
+    params = {
+      location: '10.1.200.30',
+      media_mode: 'relayed'
+    }
+    request_params = {
+      'archiveMode' => 'manual',
+      'location' => '10.1.200.30',
+      'p2p.preference' => 'enabled'
+    }
+
+    stub_request(:post, video_uri + '/session/create').with(headers: headers, body: request_params).to_return(response)
+
+    assert_kind_of Vonage::Response, video.create_session(**params)
+  end
+
+  def test_create_method_with_media_mode_relayed_but_archive_mode_always
+    params = {
+      archive_mode: 'always',
+      location: '10.1.200.30',
+      media_mode: 'relayed'
     }
     request_params = {
       'archiveMode' => 'always',
@@ -41,7 +74,7 @@ class Vonage::VideoTest < Vonage::Test
     params = {
       archive_mode: 'always',
       location: '10.1.200.30',
-      p2p_preference: 'disabled'
+      media_mode: 'routed'
     }
     request_params = {
       'archiveMode' => 'always',
