@@ -1,3 +1,7 @@
+# 8.0.0.beta
+
+* Adds video funtionality to the library. See PR [#249](https://github.com/Vonage/vonage-ruby-sdk/pull/249)
+
 # 7.8.1
 
 * Changes JWT library dependency from `nexmo-jwt-ruby` to `conage-jwt-ruby`. See PR [#251](https://github.com/Vonage/vonage-ruby-sdk/pull/251)
