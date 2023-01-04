@@ -32,7 +32,7 @@ module Vonage
 
       signature = params.delete('sig')
 
-      ::JWT::SecurityUtils.secure_compare(signature, digest(params, signature_method))
+      ::JWT::Algos::Hmac::SecurityUtils.secure_compare(signature, digest(params, signature_method))
     end
 
     private

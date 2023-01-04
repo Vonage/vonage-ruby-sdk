@@ -1,3 +1,9 @@
+# 7.8.2
+
+* Updates the GSM::CHARACTERS constant to remove `ç` and instead add `Ç`. Fixes [#256](https://github.com/Vonage/vonage-ruby-sdk/issues/255)
+* Updates code comments for `SMS#send` method to remove properties for unsupported message types `vCal`, `vCard`, and `wappush`
+* Updates namespacing for referencing `SecurityUtils#secure_compare` method due to change in `ruby-jwt ` gem dependency. 
+
 # 7.8.1
 
 * Changes JWT library dependency from `nexmo-jwt-ruby` to `conage-jwt-ruby`. See PR [#251](https://github.com/Vonage/vonage-ruby-sdk/pull/251)
