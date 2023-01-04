@@ -47,14 +47,6 @@ module Vonage
     # @option params [String] :type
     #   The format of the message body.
     #
-    # @option params [String] :vcard
-    #   A business card in [vCard format](https://en.wikipedia.org/wiki/VCard).
-    #   Depends on **:type** option having the value `vcard`.
-    #
-    # @option params [String] :vcal
-    #   A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal).
-    #   Depends on **:type** option having the value `vcal`.
-    #
     # @option params [String] :body
     #   Hex encoded binary data.
     #   Depends on **:type** option having the value `binary`.
@@ -66,18 +58,6 @@ module Vonage
     # @option params [Integer] :protocol_id
     #   The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use.
     #   Ensure that the value is aligned with **:udh**.
-    #
-    # @option params [String] :title
-    #   The title for a wappush SMS.
-    #   Depends on **:type** option having the value `wappush`.
-    #
-    # @option params [String] :url
-    #   The URL of your website.
-    #   Depends on **:type** option having the value `wappush`.
-    #
-    # @option params [String] :validity
-    #   The availability for an SMS in milliseconds.
-    #   Depends on **:type** option having the value `wappush`.
     #
     # @option params [String] :client_ref
     #   You can optionally include your own reference of up to 40 characters.
