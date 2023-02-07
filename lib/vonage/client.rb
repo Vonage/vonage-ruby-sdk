@@ -61,6 +61,13 @@ module Vonage
       @files ||= T.let(Files.new(config), T.nilable(Vonage::Files))
     end
 
+    # @return [Meetings]
+    #
+    sig { returns(T.nilable(Vonage::Meetings)) }
+    def meetings
+      @meetings ||= T.let(Meetings.new(config), T.nilable(Vonage::Meetings))
+    end
+
     # @return [Messages]
     #
     sig { returns(T.nilable(Vonage::Messages)) }
