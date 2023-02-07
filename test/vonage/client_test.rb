@@ -38,6 +38,10 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::Files, client.files
   end
 
+  def test_meetings_method
+    assert_kind_of Vonage::Meetings, client.meetings
+  end
+
   def test_messages_method
     assert_kind_of Vonage::Messages, client.messages
   end
