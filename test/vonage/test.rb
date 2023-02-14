@@ -337,6 +337,10 @@ module Vonage
       'CALL-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     end
 
+    def video_id
+      'VIDEO-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+    end
+
     def user_id
       'USR-xxxxxx'
     end
