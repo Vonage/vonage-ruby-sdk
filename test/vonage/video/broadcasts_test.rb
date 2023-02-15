@@ -46,7 +46,7 @@ class Vonage::Video::BroadcastsTest < Vonage::Test
   end
 
   def test_start_method
-    request_params = {session_id: video_session_id}
+    request_params = {sessionId: video_session_id}
 
     stub_request(:post, broadcasts_uri).with(body: request_params).to_return(response)
 
@@ -55,7 +55,7 @@ class Vonage::Video::BroadcastsTest < Vonage::Test
 
   def test_start_method_with_optional_params
     request_params = {
-      session_id: video_session_id,
+      sessionId: video_session_id,
       resolution: '640x480',
       streamMode: 'auto'
     }
@@ -65,7 +65,7 @@ class Vonage::Video::BroadcastsTest < Vonage::Test
     assert_kind_of Vonage::Response, broadcasts.start(
       session_id: video_session_id,
       resolution: '640x480',
-      streamMode: 'auto'
+      stream_mode: 'auto'
     )
   end
 
@@ -109,6 +109,8 @@ class Vonage::Video::BroadcastsTest < Vonage::Test
   end
 
   def test_add_stream_method_without_broadcast_id
+    stream_id = 'c2854e26-648g-568b-cf98-f11gd421c93c'
+
     assert_raises(ArgumentError) { broadcasts.add_stream(stream_id: stream_id) }
   end
 
@@ -120,12 +122,14 @@ class Vonage::Video::BroadcastsTest < Vonage::Test
     stream_id = 'c2854e26-648g-568b-cf98-f11gd421c93c'
     request_params = {removeStream: stream_id}
 
-    stub_request(:patch, broadcast_uri + '/streams')).with(body: request_params).to_return(response)
+    stub_request(:patch, broadcast_uri + '/streams').with(body: request_params).to_return(response)
 
-    assert_kind_of Vonage::Response, archives.remove_stream(broadcast_id: video_id, stream_id: stream_id)
+    assert_kind_of Vonage::Response, broadcasts.remove_stream(broadcast_id: video_id, stream_id: stream_id)
   end
 
   def test_remove_stream_method_without_broadcast_id
+    stream_id = 'c2854e26-648g-568b-cf98-f11gd421c93c'
+
     assert_raises(ArgumentError) { broadcasts.remove_stream(stream_id: stream_id) }
   end
 

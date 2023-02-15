@@ -27,6 +27,8 @@ module Vonage
         'has_video',
         'remove_stream',
         'screenshare_type',
+        'session_id',
+        'stream_mode',
         'archive_mode'
       ]
       hash.transform_keys do |k|
