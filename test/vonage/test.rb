@@ -341,6 +341,10 @@ module Vonage
       'VIDEO-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     end
 
+    def video_connection_id
+      'VIDEO-CONNECT-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
+    end
+
     def user_id
       'USR-xxxxxx'
     end
