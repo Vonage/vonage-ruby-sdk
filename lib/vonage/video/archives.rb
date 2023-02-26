@@ -13,8 +13,6 @@ module Vonage
 
     # Get a list of archives for a specified Vonage application.
     #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
-    #
     # @param [optional, Integer] :offset
     #
     # @param [optional, Integer] :count
@@ -27,15 +25,11 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def list(application_id: @config.application_id, **params)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/archive', params: params, response_class: Video::ListResponse)
+    def list(**params)
+      request('/v2/project/' + @config.application_id + '/archive', params: params, response_class: ListResponse)
     end
 
     # Return information for specified archive.
-    #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
     #
     # @param [required, String] archive_id
     #
@@ -43,15 +37,11 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def info(application_id: @config.application_id, archive_id:)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/archive/' + archive_id)
+    def info(archive_id:)
+      request('/v2/project/' + @config.application_id + '/archive/' + archive_id)
     end
 
     # Create a new archive.
-    #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
     #
     # @param [required, String] :session_id
     #
@@ -81,52 +71,39 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def start(application_id: @config.application_id, **params)
-      # TODO: raise error if application_id is nil
-      # TODO: raise error if session_id is nil
-
-      request('/v2/project/' + application_id + '/archive', params: params, type: Post)
+    def start(session_id:, **params)
+      request('/v2/project/' + @config.application_id + '/archive', params: camelcase(params.merge(session_id: session_id)), type: Post)
     end
 
     # Stop recording a specified archive.
     #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
-    #
     # @param [required, String] archive_id
     #
     # @return [Response]
     #
     # @see TODO: add docs link
     #
-    def stop(application_id: @config.application_id, archive_id:)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/archive/' + archive_id + '/stop', type: Post)
+    def stop(archive_id:)
+      request('/v2/project/' + @config.application_id + '/archive/' + archive_id + '/stop', type: Post)
     end
 
     # Delete a specified archive.
     #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
-    #
     # @param [required, String] archive_id
     #
     # @return [Response]
     #
     # @see TODO: add docs link
     #
-    def delete(application_id: @config.application_id, archive_id:)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/archive/' + archive_id, type: Delete)
+    def delete(archive_id:)
+      request('/v2/project/' + @config.application_id + '/archive/' + archive_id, type: Delete)
     end
 
     # Add a stream to a composed archive that was started with the streamMode set to "manual".
     #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
-    #
     # @param [required, String] archive_id
     #
-    # @param [required, String] add_stream The ID of the stream to be added
+    # @param [required, String] stream_id The ID of the stream to be added
     #
     # @param [optional, Boolean] has_audio
     #
@@ -136,35 +113,25 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def add_stream(application_id: @config.application_id, archive_id:, **params)
-      # TODO: raise error if application_id is nil
-      # TODO: raise error if add_stream is nil
-
-      request('/v2/project/' + application_id + '/archive/' + archive_id + '/streams', params: camelcase(params), type: Patch)
+    def add_stream(archive_id:, stream_id:, **params)
+      request('/v2/project/' + @config.application_id + '/archive/' + archive_id + '/streams', params: camelcase(params.merge(addStream: stream_id)), type: Patch)
     end
 
     # Remove a stream from a composed archive that was started with the streamMode set to "manual".
     #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
-    #
     # @param [required, String] archive_id
     #
-    # @param [required, String] remove_stream The ID of the stream to be removed
+    # @param [required, String] stream_id The ID of the stream to be removed
     #
     # @return [Response]
     #
     # @see TODO: add docs link
     #
-    def remove_stream(application_id: @config.application_id, archive_id:, **params)
-      # TODO: raise error if application_id is nil
-      # TODO: raise error if remove_stream is nil
-
-      request('/v2/project/' + application_id + '/archive/' + archive_id + '/streams', params: camelcase(params), type: Patch)
+    def remove_stream(archive_id:, stream_id:)
+      request('/v2/project/' + @config.application_id + '/archive/' + archive_id + '/streams', params: {removeStream: stream_id}, type: Patch)
     end
 
     # Change the layout of a composed archive while it is being recorded.
-    #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
     #
     # @param [required, String] archive_id
     #
@@ -178,10 +145,8 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def change_layout(application_id: @config.application_id, archive_id:, **params)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/archive/' + archive_id + '/layout', params: camelcase(params), type: Put)
+    def change_layout(archive_id:, **params)
+      request('/v2/project/' + @config.application_id + '/archive/' + archive_id + '/layout', params: camelcase(params), type: Put)
     end
   end
 end
