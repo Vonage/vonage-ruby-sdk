@@ -2,7 +2,7 @@
 
 module Vonage
   class Messaging::Channels::WhatsApp < Messaging::Message
-    MESSAGE_TYPES = ['text', 'image', 'audio', 'video', 'file', 'template', 'custom']
+    MESSAGE_TYPES = ['text', 'image', 'audio', 'video', 'file', 'template', 'sticker', 'custom']
 
     attr_reader :data
 
@@ -35,6 +35,8 @@ module Vonage
         raise Vonage::ClientError.new(":name is required in :template") unless message[:name]
         raise Vonage::ClientError.new(":whatsapp is required in :opts") unless opts[:whatsapp]
         raise Vonage::ClientError.new(":locale is required in :whatsapp") unless opts[:whatsapp][:locale]
+      when 'sticker'
+        raise Vonage::ClientError.new(":message must contain either :id or :url") unless message.has_key?(:id) ^ message.has_key?(:url)
       when 'custom'
         raise Vonage::ClientError.new(":message must be a Hash") unless message.is_a? Hash
       else
