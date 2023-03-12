@@ -21,10 +21,8 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def force_disconnect(application_id: @config.application_id, session_id:, connection_id:)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/session/' + session_id + '/connection/' + connection_id, type: Delete)
+    def force_disconnect(session_id:, connection_id:)
+      request('/v2/project/' + @config.application_id + '/session/' + session_id + '/connection/' + connection_id, type: Delete)
     end
 
     # Force mute a specific publisher stream in a session.
@@ -39,11 +37,8 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def mute_single_stream(application_id: @config.application_id, session_id:, stream_id:)
-      application_id ||= @config.application_id
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/session/' + session_id + '/stream/' + stream_id + '/mute', type: Post)
+    def mute_single_stream(session_id:, stream_id:)
+      request('/v2/project/' + @config.application_id + '/session/' + session_id + '/stream/' + stream_id + '/mute', type: Post)
     end
 
     # Force mute all publisher stream for a specific session.
@@ -54,20 +49,16 @@ module Vonage
     #
     # @param [required, String] :active
     #
-    # @param [required, Array<String>] :excludedStreamIds 
+    # @param [required, Array<String>] :excludedStreamIds
     #
     # @return [Response]
     #
     # @see TODO: add docs link
     #
-    def mute_multiple_streams(application_id: @config.application_id, session_id:, **params)
-      # TODO: raise error if application_id is nil
-      # TODO: camelcase params
-      
-      request('/v2/project/' + application_id + '/session/' + session_id + '/mute', params: params, type: Post)
+    def mute_multiple_streams(session_id:, **params)
+      request('/v2/project/' + @config.application_id + '/session/' + session_id + '/mute', params: params, type: Post)
     end
 
     # TODO: add disable_force_mute ??
   end
 end
-  
