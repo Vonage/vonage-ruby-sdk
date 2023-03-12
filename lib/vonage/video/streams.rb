@@ -22,10 +22,8 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def list(application_id: @config.application_id, session_id:)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/session/' + session_id + '/stream', response_class: Video::ListResponse)
+    def list(session_id:)
+      request('/v2/project/' + @config.application_id + '/session/' + session_id + '/stream', response_class: ListResponse)
     end
 
     # Get information about a specified stream.
@@ -40,10 +38,8 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def info(application_id: @config.application_id, session_id:, stream_id:)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/session/' + session_id + '/stream/' + stream_id)
+    def info(session_id:, stream_id:)
+      request('/v2/project/' + @config.application_id + '/session/' + session_id + '/stream/' + stream_id)
     end
 
     # Change the layout for a list of specified streams.
@@ -62,15 +58,13 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def change_layout(application_id: @config.application_id, session_id:, **params)
-      # TODO: raise error if application_id is nil
+    def change_layout(session_id:, **params)
       # TODO camelcase layout_class_list
       # if params[:items]
       #   params[:items] = params[:items].map {|item| camelcase(item)}
       # end
 
-      request('/v2/project/' + application_id + '/session/' + session_id + '/stream', params: params, type: Put)
+      request('/v2/project/' + @config.application_id + '/session/' + session_id + '/stream', params: params, type: Put)
     end
   end
 end
-  
