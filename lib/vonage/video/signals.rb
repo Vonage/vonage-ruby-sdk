@@ -25,10 +25,8 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def send_to_one(application_id: @config.application_id, session_id:, connection_id:, **params)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/session/' + session_id + '/connection/' + connection_id + '/signal', params: params, type: Post)
+    def send_to_one(session_id:, connection_id:, **params)
+      request('/v2/project/' + @config.application_id + '/session/' + session_id + '/connection/' + connection_id + '/signal', params: params, type: Post)
     end
 
     # Send a signal to all participants in an active Vonage Video session.
@@ -45,11 +43,8 @@ module Vonage
     #
     # @see TODO: add docs link
     #
-    def send_to_all(application_id: @config.application_id, session_id:, **params)
-      # TODO: raise error if application_id is nil
-
-      request('/v2/project/' + application_id + '/session/' + session_id + '/signal', params: params, type: Post)
+    def send_to_all(session_id:, **params)
+      request('/v2/project/' + @config.application_id + '/session/' + session_id + '/signal', params: params, type: Post)
     end
   end
 end
-  

@@ -12,20 +12,16 @@ class Vonage::Video::SignalsTest < Vonage::Test
 
   def test_send_to_one_method
     connection_id = '1234567890abcdef1234567890abcdef1234567890'
-    params = {application_id: application_id, session_id: video_session_id, connection_id: connection_id, type: 'chat', data: 'Hello'}
     request_params = {type: 'chat', data: 'Hello'}
-
     stub_request(:post, uri + '/connection/' + connection_id + '/signal').with(body: request_params).to_return(response)
 
-    assert_kind_of Vonage::Response, signals.send_to_one(**params)
+    assert_kind_of Vonage::Response, signals.send_to_one(session_id: video_session_id, connection_id: connection_id, type: 'chat', data: 'Hello')
   end
 
   def test_send_to_all_method
-    params = {application_id: application_id, session_id: video_session_id, type: 'chat', data: 'Hello'}
     request_params = {type: 'chat', data: 'Hello'}
-
     stub_request(:post, uri + '/signal').with(body: request_params).to_return(response)
 
-    assert_kind_of Vonage::Response, signals.send_to_all(**params)
+    assert_kind_of Vonage::Response, signals.send_to_all(session_id: video_session_id, type: 'chat', data: 'Hello')
   end
 end
