@@ -11,11 +11,11 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/verify.v2#newRequest
     #
-    def start_verfication(workflow:, **opts)
+    def start_verfication(brand:, workflow:, **opts)
       raise ArgumentError, ':workflow must be an Array' unless workflow.is_a?(Array)
       raise ArgumentError, ':workflow must not be empty' if workflow.empty?
 
-      request('/v2/verify/', params: opts.merge(workflow: workflow), type: Post)
+      request('/v2/verify/', params: opts.merge(brand: brand, workflow: workflow), type: Post)
     end
 
     # Check a supplied code against a request to see if it is valid.
