@@ -33,58 +33,58 @@ class Vonage::Verify2Test < Vonage::Test
     'Example Brand'
   end
 
-  def test_start_verfication_method
+  def test_start_verification_method
     workflow = [{channel: 'sms', to: to_number}]
 
     stub_request(:post, uri).with(body: {brand: brand, workflow: workflow}).to_return(response)
 
-    assert_kind_of Vonage::Response, verify2.start_verfication(brand: brand, workflow: workflow)
+    assert_kind_of Vonage::Response, verify2.start_verification(brand: brand, workflow: workflow)
   end
 
-  def test_start_verfication_method_with_opts
+  def test_start_verification_method_with_opts
     workflow = [{channel: 'sms', to: to_number}]
     opts = {locale: 'en-gb', channel_timeout: 200, client_ref: 'test-reference', code_length: 8}
     params = {brand: brand, workflow: workflow}.merge(opts)
 
     stub_request(:post, uri).with(body: params).to_return(response)
 
-    assert_kind_of Vonage::Response, verify2.start_verfication(brand: brand, workflow: workflow, **opts)
+    assert_kind_of Vonage::Response, verify2.start_verification(brand: brand, workflow: workflow, **opts)
   end
 
-  def test_start_verfication_method_without_brand
+  def test_start_verification_method_without_brand
     workflow = [{channel: 'sms', to: to_number}]
 
     assert_raises ArgumentError do
-      verify2.start_verfication(workflow: workflow)
+      verify2.start_verification(workflow: workflow)
     end
   end
 
-  def test_start_verfication_method_without_workflow
+  def test_start_verification_method_without_workflow
     assert_raises ArgumentError do
-      verify2.start_verfication(brand: brand)
+      verify2.start_verification(brand: brand)
     end
   end
 
-  def test_start_verfication_method_with_workflow_that_isnt_array
+  def test_start_verification_method_with_workflow_that_isnt_array
     workflow = {channel: 'sms', to: to_number}
 
     assert_raises ArgumentError do
-      verify2.start_verfication(brand: brand, workflow: workflow)
+      verify2.start_verification(brand: brand, workflow: workflow)
     end
   end
 
-  def test_start_verfication_method_with_empty_workflow
+  def test_start_verification_method_with_empty_workflow
     assert_raises ArgumentError do
-      verify2.start_verfication(brand: brand, workflow: [])
+      verify2.start_verification(brand: brand, workflow: [])
     end
   end
 
-  def test_start_verfication_method_with_multiple_workflows
+  def test_start_verification_method_with_multiple_workflows
     workflow = [{channel: 'sms', to: to_number}, {channel: 'voice', to: to_number}]
 
     stub_request(:post, uri).with(body: {brand: brand, workflow: workflow}).to_return(response)
 
-    assert_kind_of Vonage::Response, verify2.start_verfication(brand: brand,workflow: workflow)
+    assert_kind_of Vonage::Response, verify2.start_verification(brand: brand,workflow: workflow)
   end
 
   def test_check_code_method
