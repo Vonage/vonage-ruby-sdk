@@ -78,6 +78,10 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::Verify, client.verify
   end
 
+  def test_verify2_method
+    assert_kind_of Vonage::Verify2, client.verify2
+  end
+
   def test_raises_client_error_for_4xx_responses
     client = Vonage::Client.new(api_key: api_key, api_secret: api_secret)
 
