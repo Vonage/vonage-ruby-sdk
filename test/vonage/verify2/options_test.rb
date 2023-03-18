@@ -1,8 +1,8 @@
 # typed: false
 
-class Vonage::Verify2::OptionsTest < Vonage::Test
+class Vonage::Verify2::StartVerificationOptionsTest < Vonage::Test
   def options
-    Vonage::Verify2::Options.new
+    Vonage::Verify2::StartVerificationOptions.new
   end
 
   def test_locale_getter_method
@@ -72,7 +72,7 @@ class Vonage::Verify2::OptionsTest < Vonage::Test
   end
 
   def test_to_h_method
-    opts_hash = Vonage::Verify2::Options.new(
+    opts_hash = Vonage::Verify2::StartVerificationOptions.new(
       locale: 'en-gb',
       channel_timeout: 90,
       client_ref: 'foo',
