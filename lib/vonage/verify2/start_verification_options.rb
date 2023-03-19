@@ -24,7 +24,7 @@ module Vonage
 
     def locale=(locale)
       unless VALID_LOCALES.include?(locale)
-        raise ArgumentError, "Invalid :locale. Please choose from the following #{VALID_LOCALES}"
+        raise ArgumentError, "Invalid 'locale' #{locale}. Please choose from the following #{VALID_LOCALES}"
       end
 
       @locale = locale
@@ -32,7 +32,7 @@ module Vonage
 
     def channel_timeout=(channel_timeout)
       unless channel_timeout.between?(MIN_CHANNEL_TIMEOUT, MAX_CHANNEL_TIMEOUT)
-        raise ArgumentError, "Invalid :channel_timeout #{channel_timeout}. Must be between #{MIN_CHANNEL_TIMEOUT} and #{MAX_CHANNEL_TIMEOUT} (inclusive)"
+        raise ArgumentError, "Invalid 'channel_timeout' #{channel_timeout}. Must be between #{MIN_CHANNEL_TIMEOUT} and #{MAX_CHANNEL_TIMEOUT} (inclusive)"
       end
 
       @channel_timeout = channel_timeout
@@ -44,7 +44,7 @@ module Vonage
 
     def code_length=(code_length)
       unless code_length.between?(MIN_CODE_LENGTH, MAX_CODE_LENGTH)
-        raise ArgumentError, "Invalid :code_length #{code_length}. Must be between #{MIN_CODE_LENGTH} and #{MAX_CODE_LENGTH} (inclusive)"
+        raise ArgumentError, "Invalid 'code_length' #{code_length}. Must be between #{MIN_CODE_LENGTH} and #{MAX_CODE_LENGTH} (inclusive)"
       end
 
       @code_length = code_length
