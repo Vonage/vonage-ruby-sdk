@@ -3,7 +3,7 @@
 require 'phonelib'
 
 module Vonage
-  class Verify2::Workflows::SMS
+  class Verify2::Channels::SMS
     APP_HASH_LENGTH = 11
 
     attr_reader :channel, :to, :app_hash

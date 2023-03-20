@@ -3,12 +3,12 @@
 require 'phonelib'
 
 module Vonage
-  class Verify2::Workflows::Voice
+  class Verify2::Channels::WhatsAppInteractive
 
     attr_reader :channel, :to
 
     def initialize(to:)
-      self.channel = 'voice'
+      self.channel = 'whatsapp_interactive'
       self.to = to
     end
 

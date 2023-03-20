@@ -3,7 +3,7 @@
 require 'phonelib'
 
 module Vonage
-  class Verify2::Workflows::Email
+  class Verify2::Channels::Email
 
     attr_reader :channel, :to, :from
 

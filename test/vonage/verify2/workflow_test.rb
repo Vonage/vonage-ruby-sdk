@@ -8,7 +8,7 @@ class Vonage::Verify2::WorkflowTest < Vonage::Test
   def test_workflow_with_valid_channel
     channel = workflow.sms(to: e164_compliant_number)
 
-    assert_instance_of Vonage::Verify2::Workflows::SMS, channel
+    assert_instance_of Vonage::Verify2::Channels::SMS, channel
     assert_equal 'sms', channel.channel
     assert_equal({channel: 'sms', to: e164_compliant_number}, channel.to_h)
   end
@@ -16,7 +16,7 @@ class Vonage::Verify2::WorkflowTest < Vonage::Test
   def test_workflow_with_valid_channel_and_optional_parameters
     channel = workflow.whatsapp(to: e164_compliant_number, from: e164_compliant_number)
 
-    assert_instance_of Vonage::Verify2::Workflows::WhatsApp, channel
+    assert_instance_of Vonage::Verify2::Channels::WhatsApp, channel
     assert_equal 'whatsapp', channel.channel
     assert_equal({channel: 'whatsapp', to: e164_compliant_number, from: e164_compliant_number}, channel.to_h)
   end

@@ -4,12 +4,12 @@
 module Vonage
   class Verify2::Workflow
     CHANNELS = {
-      sms: Verify2::Workflows::SMS,
-      whatsapp: Verify2::Workflows::WhatsApp,
-      whatsapp_interactive: Verify2::Workflows::WhatsAppInteractive,
-      voice: Verify2::Workflows::Voice,
-      email: Verify2::Workflows::Email,
-      silent_auth: Verify2::Workflows::SilentAuth
+      sms: Verify2::Channels::SMS,
+      whatsapp: Verify2::Channels::WhatsApp,
+      whatsapp_interactive: Verify2::Channels::WhatsAppInteractive,
+      voice: Verify2::Channels::Voice,
+      email: Verify2::Channels::Email,
+      silent_auth: Verify2::Channels::SilentAuth
     }
 
     CHANNELS.keys.each do |method|

@@ -17,7 +17,7 @@ class Vonage::Verify2::WorkflowTest < Vonage::Test
     end
 
     assert_instance_of Vonage::Verify2::Workflow, workflow
-    assert_instance_of Vonage::Verify2::Workflows::SMS, workflow.list.first
+    assert_instance_of Vonage::Verify2::Channels::SMS, workflow.list.first
     assert_equal({channel: 'sms', to: e164_compliant_number}, workflow.list.first.to_h)
   end
 
@@ -28,8 +28,8 @@ class Vonage::Verify2::WorkflowTest < Vonage::Test
     end
 
     assert_instance_of Vonage::Verify2::Workflow, workflow
-    assert_instance_of Vonage::Verify2::Workflows::SMS, workflow.list.first
-    assert_instance_of Vonage::Verify2::Workflows::WhatsApp, workflow.list.last
+    assert_instance_of Vonage::Verify2::Channels::SMS, workflow.list.first
+    assert_instance_of Vonage::Verify2::Channels::WhatsApp, workflow.list.last
     assert_equal({channel: 'whatsapp', to: e164_compliant_number}, workflow.list.last.to_h)
   end
 end
