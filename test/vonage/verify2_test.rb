@@ -106,4 +106,33 @@ class Vonage::Verify2Test < Vonage::Test
       verify2.check_code(request_id: request_id)
     end
   end
+
+  def test_start_verification_options_method
+    assert_instance_of Vonage::Verify2::StartVerificationOptions, verify2.start_verification_options
+  end
+
+  def test_start_verification_options_method_with_opts
+    opts = {
+      locale: 'en-gb',
+      channel_timeout: 300,
+      client_ref: 'foo',
+      code_length: 6
+    }
+
+    verification_opts = verify2.start_verification_options(**opts)
+
+    assert_instance_of Vonage::Verify2::StartVerificationOptions, verification_opts
+    assert_equal opts[:locale], verification_opts.locale
+    assert_equal opts[:channel_timeout], verification_opts.channel_timeout
+    assert_equal opts[:client_ref], verification_opts.client_ref
+    assert_equal opts[:code_length], verification_opts.code_length
+  end
+
+  def test_workflow_method
+    assert_instance_of Vonage::Verify2::Workflow, verify2.workflow
+  end
+
+  def test_workflow_builder_method
+    assert_equal Vonage::Verify2::WorkflowBuilder, verify2.workflow_builder
+  end
 end
