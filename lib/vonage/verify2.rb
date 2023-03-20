@@ -25,5 +25,20 @@ module Vonage
     def check_code(request_id:, code:)
       request('/v2/verify/' + request_id, params: {code: code}, type: Post)
     end
+
+    # Instantiate a new Vonage::Verify2::StartVerificationOptions object
+    def start_verification_options(**opts)
+      StartVerificationOptions.new(**opts)
+    end
+
+    # Instantiate a new Vonage::Verify2::Workflow object
+    def workflow
+      Workflow.new
+    end
+
+    # Returns the Vonage::Verify2::WorkflowBuilder class
+    def workflow_builder
+      WorkflowBuilder.itself
+    end
   end
 end
