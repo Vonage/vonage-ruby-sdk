@@ -9,6 +9,24 @@ module Vonage
 
     # Request a verification be sent to a user.
     #
+    # @example
+    #   verification_request = verify.start_verification(
+    #     brand: 'Acme',
+    #     workflow: [{channel: 'sms', to: '447000000000'}],
+    #     code_length: 6
+    #   )
+    #
+    # @param [required, String] :brand The brand that is sending the verification request
+    #
+    # @param [required, Array<Hash>] :workflow An array of hashes for channels in the workflow
+    #
+    # @param [optional, Hash] opts the options for the verification request.
+    #   @option opts [Integer] :code_length The length of the one-time code provided to the end-user
+    #   @option opts [String] :locale The language to use for the verification message (where applicable)
+    #   @option opts [Integer] :channel_timeout Wait time in seconds before trying the next channel in the workflow
+    #   @option opts [String] :client_ref Reference to be included in callbacks
+    #
+    # @return Vomage::Response
     # @see https://developer.vonage.com/en/api/verify.v2#newRequest
     #
     def start_verification(brand:, workflow:, **opts)
@@ -20,6 +38,13 @@ module Vonage
 
     # Check a supplied code against a request to see if it is valid.
     #
+    # @example
+    #   code_check = verify.check_code(request_id: '7e8c5965-0a3f-44df-8a14-f1486209d8a2', code: '1234')
+    #
+    # @param [required, String] :request_id The request_id of the verification request being checked
+    #
+    # @param [required, String] :code The code supplied to the end-user by the verification request
+    #
     # @see https://developer.vonage.com/en/api/verify.v2#checkCode
     #
     def check_code(request_id:, code:)
@@ -27,6 +52,13 @@ module Vonage
     end
 
     # Instantiate a new Vonage::Verify2::StartVerificationOptions object
+    #
+    # @param [optional, Hash] opts the options for the verification request.
+    #   @option opts [Integer] :code_length The length of the one-time code provided to the end-user
+    #   @option opts [String] :locale The language to use for the verification message (where applicable)
+    #   @option opts [Integer] :channel_timeout Wait time in seconds before trying the next channel in the workflow
+    #   @option opts [String] :client_ref Reference to be included in callbacks
+    #
     def start_verification_options(**opts)
       StartVerificationOptions.new(**opts)
     end
@@ -36,7 +68,7 @@ module Vonage
       Workflow.new
     end
 
-    # Returns the Vonage::Verify2::WorkflowBuilder class
+    # Return the Vonage::Verify2::WorkflowBuilder class
     def workflow_builder
       WorkflowBuilder.itself
     end
