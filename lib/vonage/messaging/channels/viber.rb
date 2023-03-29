@@ -2,7 +2,7 @@
 
 module Vonage
   class Messaging::Channels::Viber  < Messaging::Message
-    MESSAGE_TYPES = ['text', 'image']
+    MESSAGE_TYPES = ['text', 'image', 'video', 'file']
 
     attr_reader :data
 
@@ -31,6 +31,13 @@ module Vonage
       when 'text'
         raise Vonage::ClientError.new(":message must be a String") unless message.is_a? String
       when 'image'
+        raise Vonage::ClientError.new(":message must be a Hash") unless message.is_a? Hash
+        raise Vonage::ClientError.new(":url is required in :message") unless message[:url]
+      when 'video'
+        raise Vonage::ClientError.new(":message must be a Hash") unless message.is_a? Hash
+        raise Vonage::ClientError.new(":url is required in :message") unless message[:url]
+        raise Vonage::ClientError.new(":thumb_url is required in :message") unless message[:thumb_url]
+      when 'file'
         raise Vonage::ClientError.new(":message must be a Hash") unless message.is_a? Hash
         raise Vonage::ClientError.new(":url is required in :message") unless message[:url]
       end
