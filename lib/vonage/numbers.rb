@@ -5,6 +5,8 @@ module Vonage
   class Numbers < Namespace
     include Keys
 
+    self.authentication = Basic
+
     self.host = :rest_host
 
     # Retrieve all the inbound numbers associated with your Vonage account.
@@ -52,7 +54,7 @@ module Vonage
     # @see https://developer.nexmo.com/api/developer/numbers#getOwnedNumbers
     #
     def list(params = nil)
-      request('/account/numbers', params: params, response_class: ListResponse)
+      request("/account/numbers", params: params, response_class: ListResponse)
     end
 
     # Retrieve inbound numbers that are available for the specified country.
@@ -100,7 +102,7 @@ module Vonage
     # @see https://developer.nexmo.com/api/developer/numbers#getAvailableNumbers
     #
     def search(params)
-      request('/number/search', params: params, response_class: ListResponse)
+      request("/number/search", params: params, response_class: ListResponse)
     end
 
     # Request to purchase a specific inbound number.
@@ -125,7 +127,12 @@ module Vonage
     # @see https://developer.nexmo.com/api/developer/numbers#buyANumber
     #
     def buy(params)
-      request('/number/buy', params: params, type: Post, response_class: Response)
+      request(
+        "/number/buy",
+        params: params,
+        type: Post,
+        response_class: Response
+      )
     end
 
     # Cancel your subscription for a specific inbound number.
@@ -150,7 +157,12 @@ module Vonage
     # @see https://developer.nexmo.com/api/developer/numbers#cancelANumber
     #
     def cancel(params)
-      request('/number/cancel', params: params, type: Post, response_class: Response)
+      request(
+        "/number/cancel",
+        params: params,
+        type: Post,
+        response_class: Response
+      )
     end
 
     # Change the behaviour of a number that you own.
@@ -198,14 +210,25 @@ module Vonage
     # @see https://developer.nexmo.com/api/developer/numbers#updateANumber
     #
     def update(params)
-      request('/number/update', params: camelcase(params), type: Post, response_class: Response)
+      request(
+        "/number/update",
+        params: camelcase(params),
+        type: Post,
+        response_class: Response
+      )
     end
 
     private
 
     # A specific implementation of iterable_request for Numbers, because the Numbers API
     # handles pagination differently to other Vonage APIs
-    def iterable_request(path, response: nil, response_class: nil, params: {}, &block)
+    def iterable_request(
+      path,
+      response: nil,
+      response_class: nil,
+      params: {},
+      &block
+    )
       response = parse(response, response_class)
       params[:index] = 1 unless params.has_key?(:index)
       size = params.fetch(:size, 10)
