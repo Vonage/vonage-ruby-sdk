@@ -1,8 +1,13 @@
+# 7.9.0
+
+* Updates the Messages API implementation to ass support for `video` and `file` messages types to the Viber channel, and `sticker` messages in the WhatsApp channel. [#260](https://github.com/Vonage/vonage-ruby-sdk/pull/260)
+* Updates the Numbers API implementation to use Basic authentication. [#262](https://github.com/Vonage/vonage-ruby-sdk/pull/262)
+
 # 7.8.2
 
 * Updates the GSM::CHARACTERS constant to remove `ç` and instead add `Ç`. Fixes [#256](https://github.com/Vonage/vonage-ruby-sdk/issues/255)
 * Updates code comments for `SMS#send` method to remove properties for unsupported message types `vCal`, `vCard`, and `wappush`
-* Updates namespacing for referencing `SecurityUtils#secure_compare` method due to change in `ruby-jwt ` gem dependency. 
+* Updates namespacing for referencing `SecurityUtils#secure_compare` method due to change in `ruby-jwt ` gem dependency.
 
 # 7.8.1
 

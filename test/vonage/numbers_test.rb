@@ -1,5 +1,5 @@
 # typed: false
-require_relative './test'
+require_relative "./test"
 
 class Vonage::NumbersTest < Vonage::Test
   def numbers
@@ -7,45 +7,49 @@ class Vonage::NumbersTest < Vonage::Test
   end
 
   def test_list_method
-    uri = 'https://rest.nexmo.com/account/numbers'
+    uri = "https://rest.nexmo.com/account/numbers"
 
-    params = {size: 25, pattern: '33'}
+    params = { size: 25, pattern: "33" }
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(numbers_response)
+    stub_request(:get, uri).with(query: params).to_return(numbers_response)
 
     response = numbers.list(params)
 
-    response.each{|resp| assert_kind_of Vonage::Numbers::ListResponse, resp }
+    response.each { |resp| assert_kind_of Vonage::Numbers::ListResponse, resp }
   end
 
   def test_list_method_without_args
-    uri = 'https://rest.nexmo.com/account/numbers'
+    uri = "https://rest.nexmo.com/account/numbers"
 
-    stub_request(:get, uri).with(query: api_key_and_secret).to_return(numbers_response)
+    stub_request(:get, uri).to_return(numbers_response)
 
     response = numbers.list
 
-    response.each{|resp| assert_kind_of Vonage::Numbers::ListResponse, resp }
+    response.each { |resp| assert_kind_of Vonage::Numbers::ListResponse, resp }
   end
 
   def test_search_method
-    uri = 'https://rest.nexmo.com/number/search'
+    uri = "https://rest.nexmo.com/number/search"
 
-    params = {size: 25, country: country}
+    params = { size: 25, country: country }
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:get, uri).with(query: params).to_return(response)
 
     assert_kind_of Vonage::Numbers::ListResponse, numbers.search(params)
   end
 
   def test_search_method_with_auto_advance
-    uri = 'https://rest.nexmo.com/number/search'
+    uri = "https://rest.nexmo.com/number/search"
 
-    params = {country: country}
+    params = { country: country }
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(numbers_response_paginated_page_1)
+    stub_request(:get, uri).with(query: params).to_return(
+      numbers_response_paginated_page_1
+    )
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret.merge(index: 2))).to_return(numbers_response_paginated_page_2)
+    stub_request(:get, uri).with(query: params.merge(index: 2)).to_return(
+      numbers_response_paginated_page_2
+    )
 
     response = numbers.search(params.merge(auto_advance: true))
 
@@ -54,11 +58,13 @@ class Vonage::NumbersTest < Vonage::Test
   end
 
   def test_search_method_with_auto_advance_with_index_offset_by_one_page
-    uri = 'https://rest.nexmo.com/number/search'
+    uri = "https://rest.nexmo.com/number/search"
 
-    params = {country: country}
+    params = { country: country }
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret.merge(index: 2))).to_return(numbers_response_paginated_page_2)
+    stub_request(:get, uri).with(query: params.merge(index: 2)).to_return(
+      numbers_response_paginated_page_2
+    )
 
     response = numbers.search(params.merge(auto_advance: true, index: 2))
 
@@ -67,34 +73,49 @@ class Vonage::NumbersTest < Vonage::Test
   end
 
   def test_buy_method
-    uri = 'https://rest.nexmo.com/number/buy'
+    uri = "https://rest.nexmo.com/number/buy"
 
-    params = {country: country, msisdn: msisdn}
+    params = { country: country, msisdn: msisdn }
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params).to_return(
+      response
+    )
 
     assert_kind_of Vonage::Numbers::Response, numbers.buy(params)
   end
 
   def test_cancel_method
-    uri = 'https://rest.nexmo.com/number/cancel'
+    uri = "https://rest.nexmo.com/number/cancel"
 
-    params = {country: country, msisdn: msisdn}
+    params = { country: country, msisdn: msisdn }
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params).to_return(
+      response
+    )
 
     assert_kind_of Vonage::Numbers::Response, numbers.cancel(params)
   end
 
   def test_update_method
-    uri = 'https://rest.nexmo.com/number/update'
+    uri = "https://rest.nexmo.com/number/update"
 
-    mo_http_url = 'https://example.com/callback'
+    mo_http_url = "https://example.com/callback"
 
-    params = {'country' => country, 'msisdn' => msisdn, 'moHttpUrl' => mo_http_url}
+    params = {
+      "country" => country,
+      "msisdn" => msisdn,
+      "moHttpUrl" => mo_http_url
+    }
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(headers: headers, body: params).to_return(
+      response
+    )
 
-    assert_kind_of Vonage::Numbers::Response, numbers.update(country: country, msisdn: msisdn, mo_http_url: mo_http_url)
+    assert_kind_of Vonage::Numbers::Response,
+                   numbers.update(
+                     country: country,
+                     msisdn: msisdn,
+                     mo_http_url: mo_http_url
+                   )
   end
 end
