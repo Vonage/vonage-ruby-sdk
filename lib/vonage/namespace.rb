@@ -8,7 +8,8 @@ module Vonage
     def initialize(config)
       @config = config
 
-      @host = self.class.host == :api_host ? @config.api_host : @config.rest_host
+      # @host = self.class.host == :api_host ? @config.api_host : @config.rest_host
+      @host = set_host
 
       @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
       @http.use_ssl = true
@@ -21,7 +22,7 @@ module Vonage
     end
 
     def self.host=(host)
-      raise ArgumentError unless host == :rest_host
+      raise ArgumentError unless %i[rest_host vonage_host].include?(host)
 
       @host = host
     end
@@ -216,6 +217,19 @@ module Vonage
 
     def logger
       @config.logger
+    end
+
+    private
+
+    def set_host
+      case self.class.host
+      when :rest_host
+        @config.rest_host
+      when :vonage_host
+        @config.vonage_host
+      else
+        @config.api_host
+      end
     end
   end
 

@@ -7,8 +7,13 @@ module Vonage
 
     self.authentication = BearerToken
 
-    self.request_body = JSON
+    self.host = :vonage_host
 
+    def list(**params)
+      path = "/v0.1/bulk/lists"
+      path += "?#{Params.encode(params)}" unless params.empty?
 
+      request(path, response_class: ListResponse)
+    end
   end
 end
