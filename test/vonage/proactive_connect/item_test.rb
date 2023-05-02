@@ -58,24 +58,20 @@ class Vonage::ProactiveConnect::ItemTest < Vonage::Test
   end
 
   def test_find_method
-    skip
     stub_request(:get, item_uri + "/#{item_id}").to_return(response)
 
     assert_kind_of Vonage::Response, item.find(list_id: list_id, item_id: item_id)
   end
 
   def test_find_method_without_list_id
-    skip
     assert_raises(ArgumentError) { item.find(item_id: item_id) }
   end
 
   def test_find_method_without_item_id
-    skip
     assert_raises(ArgumentError) { item.find(list_id: list_id) }
   end
 
   def test_update_method
-    skip
     stub_request(:put, item_uri + "/#{item_id}").with(
       request(
         body: {
@@ -98,51 +94,44 @@ class Vonage::ProactiveConnect::ItemTest < Vonage::Test
   end
 
   def test_update_method_without_list_id
-    skip
     data =  {
       first_name: "Adrianna",
       last_name: "Campbell",
       phone: "15550067384"
     }
 
-    assert_raises(ArgumentError) { item.find(item_id: item_id, data: data) }
+    assert_raises(ArgumentError) { item.update(item_id: item_id, data: data) }
   end
 
   def test_update_method_without_item_id
-    skip
     data =  {
       first_name: "Adrianna",
       last_name: "Campbell",
       phone: "15550067384"
     }
 
-    assert_raises(ArgumentError) { item.find(list_id: list_id, data: data) }
+    assert_raises(ArgumentError) { item.update(list_id: list_id, data: data) }
   end
 
   def test_update_method_without_data
-    skip
-    assert_raises(ArgumentError) { item.find(list_id: list_id, item_id: item_id) }
+    assert_raises(ArgumentError) { item.update(list_id: list_id, item_id: item_id) }
   end
 
   def test_update_method_with_incorrect_data_type
-    skip
-    assert_raises(ArgumentError) { item.find(list_id: list_id, item_id: item_id, data: "foo") }
+    assert_raises(ArgumentError) { item.update(list_id: list_id, item_id: item_id, data: "foo") }
   end
 
   def test_delete_method
-    skip
     stub_request(:delete, item_uri + "/#{item_id}").to_return(response)
 
     assert_kind_of Vonage::Response, item.delete(list_id: list_id, item_id: item_id)
   end
 
   def test_delete_method_without_list_id
-    skip
     assert_raises(ArgumentError) { item.delete(item_id: item_id) }
   end
 
   def test_delete_method_without_item_id
-    skip
     assert_raises(ArgumentError) { item.delete(list_id: list_id) }
   end
 end
