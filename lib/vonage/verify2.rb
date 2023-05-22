@@ -22,6 +22,7 @@ module Vonage
     #
     # @param [optional, Hash] opts the options for the verification request.
     #   @option opts [Integer] :code_length The length of the one-time code provided to the end-user
+    #   @option opts [String] :code An optional alphanumeric custom code to use instead of an auto-generated code
     #   @option opts [String] :locale The language to use for the verification message (where applicable)
     #   @option opts [Integer] :channel_timeout Wait time in seconds before trying the next channel in the workflow
     #   @option opts [String] :client_ref Reference to be included in callbacks
@@ -68,6 +69,7 @@ module Vonage
     #
     # @param [optional, Hash] opts the options for the verification request.
     #   @option opts [Integer] :code_length The length of the one-time code provided to the end-user
+    #   @option opts [String] :code An optional alphanumeric custom code to use instead of an auto-generated code
     #   @option opts [String] :locale The language to use for the verification message (where applicable)
     #   @option opts [Integer] :channel_timeout Wait time in seconds before trying the next channel in the workflow
     #   @option opts [String] :client_ref Reference to be included in callbacks

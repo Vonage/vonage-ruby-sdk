@@ -3,7 +3,7 @@
 
 module Vonage
   class Verify2::StartVerificationOptions
-    VALID_OPTS = [:locale, :channel_timeout, :client_ref, :code_length].freeze
+    VALID_OPTS = [:locale, :channel_timeout, :client_ref, :code_length, :code].freeze
 
     VALID_LOCALES = [
       'en-us', 'en-gb', 'es-es', 'es-mx', 'es-us', 'it-it', 'fr-fr',
@@ -48,6 +48,10 @@ module Vonage
       end
 
       @code_length = code_length
+    end
+
+    def code=(code)
+      @code = code
     end
 
     def to_h
