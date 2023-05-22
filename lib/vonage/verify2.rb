@@ -26,6 +26,7 @@ module Vonage
     #   @option opts [String] :locale The language to use for the verification message (where applicable)
     #   @option opts [Integer] :channel_timeout Wait time in seconds before trying the next channel in the workflow
     #   @option opts [String] :client_ref Reference to be included in callbacks
+    #   @option opts [Boolean] When set to `false` will bypass a network block for a single Verify V2 request
     #
     # @return Vomage::Response
     # @see https://developer.vonage.com/en/api/verify.v2#newRequest
@@ -73,6 +74,7 @@ module Vonage
     #   @option opts [String] :locale The language to use for the verification message (where applicable)
     #   @option opts [Integer] :channel_timeout Wait time in seconds before trying the next channel in the workflow
     #   @option opts [String] :client_ref Reference to be included in callbacks
+    #   @option opts [Boolean] When set to `false` will bypass a network block for a single Verify V2 request
     #
     def start_verification_options(**opts)
       StartVerificationOptions.new(**opts)

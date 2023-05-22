@@ -3,7 +3,7 @@
 
 module Vonage
   class Verify2::StartVerificationOptions
-    VALID_OPTS = [:locale, :channel_timeout, :client_ref, :code_length, :code].freeze
+    VALID_OPTS = [:locale, :channel_timeout, :client_ref, :code_length, :code, :fraud_check].freeze
 
     VALID_LOCALES = [
       'en-us', 'en-gb', 'es-es', 'es-mx', 'es-us', 'it-it', 'fr-fr',
@@ -52,6 +52,12 @@ module Vonage
 
     def code=(code)
       @code = code
+    end
+
+    def fraud_check=(fraud_check)
+      raise ArgumentError, "Invalid 'fraud_check' #{fraud_check}. Must be `true` or `false`" unless [true, false].include? fraud_check
+
+      @fraud_check = fraud_check
     end
 
     def to_h
