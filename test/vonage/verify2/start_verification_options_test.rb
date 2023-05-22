@@ -71,6 +71,17 @@ class Vonage::Verify2::StartVerificationOptionsTest < Vonage::Test
     end
   end
 
+  def test_code_getter_method
+    assert_nil options.code
+  end
+
+  def test_code_setter_method
+    opts = options
+    opts.code = 'abc123'
+
+    assert_equal 'abc123', opts.instance_variable_get(:@code)
+  end
+
   def test_to_h_method
     opts_hash = Vonage::Verify2::StartVerificationOptions.new(
       locale: 'en-gb',
