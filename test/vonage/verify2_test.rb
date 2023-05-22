@@ -25,6 +25,10 @@ class Vonage::Verify2Test < Vonage::Test
     uri + request_id
   end
 
+  def cancel_request_uri
+    uri + request_id
+  end
+
   def to_number
     '447700900000'
   end
@@ -126,6 +130,18 @@ class Vonage::Verify2Test < Vonage::Test
     assert_equal opts[:channel_timeout], verification_opts.channel_timeout
     assert_equal opts[:client_ref], verification_opts.client_ref
     assert_equal opts[:code_length], verification_opts.code_length
+  end
+
+  def test_cancel_verification_request_method
+    stub_request(:delete, cancel_request_uri).to_return(status: 204, headers: {})
+
+    assert_kind_of Vonage::Response, verify2.cancel_verification_request(request_id: request_id)
+  end
+
+  def test_cancel_verification_request_method_without_request_id
+    assert_raises ArgumentError do
+      verify2.cancel_verification_request
+    end
   end
 
   def test_workflow_method
