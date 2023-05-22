@@ -55,7 +55,7 @@ module Vonage
     end
 
     def fraud_check=(fraud_check)
-      raise ArgumentError, "Invalid 'fraud_check' #{fraud_check}. Must be `true` or `false`" unless [true, false].include? fraud_check
+      raise ArgumentError, "Invalid 'fraud_check' #{fraud_check}. Must be `false`" unless fraud_check == false
 
       @fraud_check = fraud_check
     end

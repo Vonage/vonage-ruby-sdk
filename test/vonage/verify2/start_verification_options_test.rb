@@ -96,7 +96,7 @@ class Vonage::Verify2::StartVerificationOptionsTest < Vonage::Test
   def test_fraud_check_setter_method_with_invalid_arg
     opts = options
     assert_raises ArgumentError do
-      opts.fraud_check = 'no'
+      opts.fraud_check = true
     end
   end
 
