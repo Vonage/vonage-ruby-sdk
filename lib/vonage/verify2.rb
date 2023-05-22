@@ -51,6 +51,19 @@ module Vonage
       request('/v2/verify/' + request_id, params: {code: code}, type: Post)
     end
 
+    # Cancel a verifiction. If a verification request is still active, calling this method aborts the workflow.
+    #
+    # @example
+    #   verify.cancel_verification_request(request_id: '7e8c5965-0a3f-44df-8a14-f1486209d8a2')
+    #
+    # @param [required, String] :request_id The request_id of the verification request to be cancelled
+    #
+    # @see https://developer.vonage.com/en/api/verify.v2#cancelRequest
+    #
+    def cancel_verification_request(request_id:)
+      request('/v2/verify/' + request_id, type: Delete)
+    end
+
     # Instantiate a new Vonage::Verify2::StartVerificationOptions object
     #
     # @param [optional, Hash] opts the options for the verification request.
