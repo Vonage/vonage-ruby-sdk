@@ -82,6 +82,24 @@ class Vonage::Verify2::StartVerificationOptionsTest < Vonage::Test
     assert_equal 'abc123', opts.instance_variable_get(:@code)
   end
 
+  def test_fraud_check_getter_method
+    assert_nil options.fraud_check
+  end
+
+  def test_fraud_check_setter_method
+    opts = options
+    opts.fraud_check = false
+
+    assert_equal false, opts.instance_variable_get(:@fraud_check)
+  end
+
+  def test_fraud_check_setter_method_with_invalid_arg
+    opts = options
+    assert_raises ArgumentError do
+      opts.fraud_check = 'no'
+    end
+  end
+
   def test_to_h_method
     opts_hash = Vonage::Verify2::StartVerificationOptions.new(
       locale: 'en-gb',

@@ -121,7 +121,8 @@ class Vonage::Verify2Test < Vonage::Test
       channel_timeout: 300,
       client_ref: 'foo',
       code_length: 6,
-      code: 'abc123'
+      code: 'abc123',
+      fraud_check: false
     }
 
     verification_opts = verify2.start_verification_options(**opts)
@@ -132,6 +133,7 @@ class Vonage::Verify2Test < Vonage::Test
     assert_equal opts[:client_ref], verification_opts.client_ref
     assert_equal opts[:code_length], verification_opts.code_length
     assert_equal opts[:code], verification_opts.code
+    assert_equal opts[:fraud_check], verification_opts.fraud_check
   end
 
   def test_cancel_verification_request_method
