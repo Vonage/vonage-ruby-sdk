@@ -315,6 +315,17 @@ workflow_list = workflow.hashified_list
 verification_request = verify.start_verification(brand: 'Acme', workflow: workflow_list)
 ```
 
+### Cancelling a request
+
+You can cancel in in-progress verification request
+
+```ruby
+# Get the `request_id` from the Vonage#Response object returned by the `start_verification` method call
+request_id = verification_request.request_id
+
+verify.cancel_verification_request(request_id: request_id)
+```
+
 ### Checking a code
 
 ```ruby
