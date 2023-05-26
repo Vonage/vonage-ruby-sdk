@@ -351,7 +351,7 @@ end
 
 Vonage Ruby documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby-sdk
 
-Vonage Ruby code examples: https://github.com/Nexmo/nexmo-ruby-code-snippets
+Vonage Ruby code examples: https://github.com/Vonage/vonage-ruby-code-snippets
 
 Vonage APIs API reference: https://developer.nexmo.com/api
 
