@@ -131,6 +131,13 @@ module Vonage
       @verify ||= T.let(Verify.new(config), T.nilable(Vonage::Verify))
     end
 
+    # @return [Verify2]
+    #
+    sig { returns(T.nilable(Vonage::Verify2)) }
+    def verify2
+      @verify2 ||= T.let(Verify2.new(config), T.nilable(Vonage::Verify2))
+    end
+
     # @return [Voice]
     #
     sig { returns(T.nilable(Vonage::Voice)) }

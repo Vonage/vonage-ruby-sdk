@@ -202,7 +202,7 @@ module Vonage
       when Net::HTTPNoContent
         response_class.new(nil, response)
       when Net::HTTPSuccess
-        if response['Content-Type'].split(';').first == 'application/json'
+        if response['Content-Type'] && response['Content-Type'].split(';').first == 'application/json'
           entity = ::JSON.parse(response.body, object_class: Vonage::Entity)
 
           response_class.new(entity, response)
