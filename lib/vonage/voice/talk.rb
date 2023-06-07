@@ -23,7 +23,7 @@ module Vonage
     #   Set to `true` to use the premium version of the specified style if available, otherwise the standard version will be used.
     #
     # @option params [String] :voice_name
-    #   The voice & language to use. [DEPRECATED]
+    #   The voice & language to use. [DEPRECATED: use `language` and `style` instead].
     #
     # @option params [Integer] :loop
     #   The number of times to repeat the text the file, 0 for infinite.
