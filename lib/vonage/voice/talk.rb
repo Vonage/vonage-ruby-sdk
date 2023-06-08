@@ -12,8 +12,18 @@ module Vonage
     # @option params [required, String] :text
     #   The text to read.
     #
+    # @option params [String] :language
+    #   The language to use. See {https://developer.vonage.com/en/api/voice#startTalk-req-body} for a list of valid language codes.
+    #
+    # @option params [Integer] :style
+    #   The vocal style, as identified by an assigned integer.
+    #     See {https://developer.vonage.com/en/voice/voice-api/concepts/text-to-speech#supported-languages} for a list of available styles.
+    #
+    # @option params [Boolean] :premium
+    #   Set to `true` to use the premium version of the specified style if available, otherwise the standard version will be used.
+    #
     # @option params [String] :voice_name
-    #   The voice & language to use.
+    #   The voice & language to use. [DEPRECATED: use `language` and `style` instead].
     #
     # @option params [Integer] :loop
     #   The number of times to repeat the text the file, 0 for infinite.
