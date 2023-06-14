@@ -70,6 +70,10 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::SMS, client.sms
   end
 
+  def test_subaccounts_method
+    assert_kind_of Vonage::Subaccounts, client.subaccounts
+  end
+
   def test_tfa_method
     assert_kind_of Vonage::TFA, client.tfa
   end
