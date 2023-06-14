@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module Vonage
-  class Account < Namespace
+  class Subaccounts < Namespace
 
     self.host = :rest_host
 
