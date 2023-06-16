@@ -1,3 +1,7 @@
+# 7.11.0
+
+* Updates Voice API functionality. [#270](https://github.com/Vonage/vonage-ruby-sdk/pull/270)
+
 # 7.10.0
 
 * Adds Verify2. [#261](https://github.com/Vonage/vonage-ruby-sdk/pull/261)

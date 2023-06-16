@@ -2,9 +2,9 @@
 # frozen_string_literal: true
 require 'phonelib'
 
-module Vonage  
+module Vonage
   class Voice::Actions::Connect
-    attr_accessor :endpoint, :from, :eventType, :timeout, :limit, :machineDetection, :eventUrl, :eventMethod, :ringbackTone
+    attr_accessor :endpoint, :from, :eventType, :timeout, :limit, :machineDetection, :advanced_machine_detection, :eventUrl, :eventMethod, :ringbackTone
 
     def initialize(attributes = {})
       @endpoint = attributes.fetch(:endpoint)
@@ -13,6 +13,7 @@ module Vonage
       @timeout = attributes.fetch(:timeout, nil)
       @limit = attributes.fetch(:limit, nil)
       @machineDetection = attributes.fetch(:machineDetection, nil)
+      @advanced_machine_detection = attributes.fetch(:advanced_machine_detection, nil)
       @eventUrl = attributes.fetch(:eventUrl, nil)
       @eventMethod = attributes.fetch(:eventMethod, nil)
       @ringbackTone = attributes.fetch(:ringbackTone, nil)
@@ -37,6 +38,10 @@ module Vonage
 
       if self.machineDetection
         verify_machine_detection
+      end
+
+      if self.advanced_machine_detection
+        verify_advanced_machine_detection
       end
 
       if self.eventUrl
@@ -80,6 +85,25 @@ module Vonage
 
     def verify_machine_detection
       raise ClientError.new("Invalid 'machineDetection' value, must be either: 'continue' or 'hangup' if defined") unless self.machineDetection == 'continue' || self.machineDetection == 'hangup'
+    end
+
+    def verify_advanced_machine_detection
+      raise ClientError.new("Invalid 'advanced_machine_detection' value, must be a Hash") unless self.advanced_machine_detection.is_a?(Hash)
+      verify_advanced_machine_detection_behavior if self.advanced_machine_detection[:behavior]
+      verify_advanced_machine_detection_mode if self.advanced_machine_detection[:mode]
+      verify_advanced_machine_detection_beep_timeout if self.advanced_machine_detection[:beep_timeout]
+    end
+
+    def verify_advanced_machine_detection_behavior
+      raise ClientError.new("Invalid 'advanced_machine_detection[:behavior]' value, must be a `continue` or `hangup`") unless ['continue', 'hangup'].include?(self.advanced_machine_detection[:behavior])
+    end
+
+    def verify_advanced_machine_detection_mode
+      raise ClientError.new("Invalid 'advanced_machine_detection[:mode]' value, must be a `detect` or `detect_beep`") unless ['detect', 'detect_beep'].include?(self.advanced_machine_detection[:mode])
+    end
+
+    def verify_advanced_machine_detection_beep_timeout
+      raise ClientError.new("Invalid 'advanced_machine_detection[:beep_timeout]' value, must be between 45 and 120") unless self.advanced_machine_detection[:beep_timeout].between?(45, 120)
     end
 
     def verify_event_url
