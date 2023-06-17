@@ -216,114 +216,124 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def subaccounts_list_response
-    headers: response_headers,
-    body: '{
-      "_embedded": {
-         "primary_account": {
-            "api_key": "bbe6222f",
-            "name": "Subaccount department A",
-            "primary_account_api_key": "acc6111f",
-            "use_primary_account_balance": true,
-            "created_at": "2018-03-02T16:34:49Z",
-            "suspended": false,
-            "balance": 100.25,
-            "credit_limit": -100.25
-         },
-         "subaccounts": [
-            {
-               "api_key": "bbe6222f",
-               "name": "Subaccount department A",
-               "primary_account_api_key": "acc6111f",
-               "use_primary_account_balance": true,
-               "created_at": "2018-03-02T16:34:49Z",
-               "suspended": false,
-               "balance": 100.25,
-               "credit_limit": -100.25
-            }
-         ]
-      }
-   }'
+    {
+      headers: response_headers,
+      body: '{
+        "_embedded": {
+          "primary_account": {
+              "api_key": "bbe6222f",
+              "name": "Subaccount department A",
+              "primary_account_api_key": "acc6111f",
+              "use_primary_account_balance": true,
+              "created_at": "2018-03-02T16:34:49Z",
+              "suspended": false,
+              "balance": 100.25,
+              "credit_limit": -100.25
+          },
+          "subaccounts": [
+              {
+                "api_key": "bbe6222f",
+                "name": "Subaccount department A",
+                "primary_account_api_key": "acc6111f",
+                "use_primary_account_balance": true,
+                "created_at": "2018-03-02T16:34:49Z",
+                "suspended": false,
+                "balance": 100.25,
+                "credit_limit": -100.25
+              }
+            ]
+          }
+        }'
+        }
   end
 
   def credit_transfers_list_response
-    headers: response_headers,
-    body: '{
-      "_embedded": {
-         "credit-transfers": [
-            {
-               "credit_transfer_id": "07b5-46e1-a527-85530e625800",
-               "amount": 123.45,
-               "from": "7c9738e6",
-               "to": "abc123",
-               "created_at": "2019-03-02T16:34:49Z"
-            },
-            {
-              "credit_transfer_id": "07b5-46e1-a527-85530e625800",
-              "amount": 100.99,
-              "from": "def456",
-              "to": "ad6dc56f",
-              "created_at": "2019-03-02T16:34:49Z"
-           }
-         ]
-      }
-   }'
+    {
+      headers: response_headers,
+      body: '{
+        "_embedded": {
+          "credit-transfers": [
+              {
+                "credit_transfer_id": "07b5-46e1-a527-85530e625800",
+                "amount": 123.45,
+                "from": "7c9738e6",
+                "to": "abc123",
+                "created_at": "2019-03-02T16:34:49Z"
+              },
+              {
+                "credit_transfer_id": "07b5-46e1-a527-85530e625800",
+                "amount": 100.99,
+                "from": "def456",
+                "to": "ad6dc56f",
+                "created_at": "2019-03-02T16:34:49Z"
+              }
+            ]
+          }
+        }'
+    }
   end
 
   def credit_transfers_list_response_filtered
-    headers: response_headers,
-    body: '{
-      "_embedded": {
-         "credit-transfers": [
-            {
-               "credit_transfer_id": "07b5-46e1-a527-85530e625800",
-               "amount": 123.45,
-               "from": "7c9738e6",
-               "to": "abc123",
-               "created_at": "2019-03-02T16:34:49Z"
-            }
-         ]
-      }
-   }'
+    {
+     headers: response_headers,
+      body: '{
+        "_embedded": {
+          "credit-transfers": [
+              {
+                "credit_transfer_id": "07b5-46e1-a527-85530e625800",
+                "amount": 123.45,
+                "from": "7c9738e6",
+                "to": "abc123",
+                "created_at": "2019-03-02T16:34:49Z"
+              }
+            ]
+          }
+        }'
+    }
   end
 
   def balance_transfers_list_response
-    headers: response_headers,
-    body: '{
-      "_embedded": {
-         "balance_transfers": [
-            {
-               "balance_transfer_id": "07b5-46e1-a527-85530e625800",
-               "amount": 123.45,
-               "from": "7c9738e6",
-               "to": "abc123",
-               "created_at": "2019-03-02T16:34:49Z"
-            },
-            {
-              "balance_transfer_id": "07b5-46e1-a527-85530e625800",
-              "amount": 123.45,
-              "from": "7c9738e6",
-              "to": "def456",
-              "created_at": "2019-03-02T16:34:49Z"
-           }
-         ]
-      }
-   }'
+    {
+      headers: response_headers,
+      body: '{
+        "_embedded": {
+          "balance_transfers": [
+              {
+                "balance_transfer_id": "07b5-46e1-a527-85530e625800",
+                "amount": 123.45,
+                "from": "7c9738e6",
+                "to": "abc123",
+                "created_at": "2019-03-02T16:34:49Z"
+              },
+              {
+                "balance_transfer_id": "07b5-46e1-a527-85530e625800",
+                "amount": 123.45,
+                "from": "7c9738e6",
+                "to": "def456",
+                "created_at": "2019-03-02T16:34:49Z"
+              }
+            ]
+          }
+        }'
+    }
   end
 
   def balance_transfers_list_response_filtered
-    headers: response_headers,
-    body: '{
-      "_embedded": {
-         "balance_transfers": [
-            {
-               "balance_transfer_id": "07b5-46e1-a527-85530e625800",
-               "amount": 123.45,
-               "from": "7c9738e6",
-               "to": "abc123",
-               "created_at": "2019-03-02T16:34:49Z"
-            }
-         ]
-      }
-   }'
+    {
+      headers: response_headers,
+      body: '{
+        "_embedded": {
+          "balance_transfers": [
+              {
+                "balance_transfer_id": "07b5-46e1-a527-85530e625800",
+                "amount": 123.45,
+                "from": "7c9738e6",
+                "to": "abc123",
+                "created_at": "2019-03-02T16:34:49Z"
+              }
+            ]
+           }
+          }'
+    }
   end
 end
