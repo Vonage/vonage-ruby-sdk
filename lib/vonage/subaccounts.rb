@@ -21,8 +21,8 @@ module Vonage
       request("/accounts/#{@config.api_key}/subaccounts", params: params.merge(name: name), type: Post)
     end
 
-    def update
-
+    def update(subaccount_key:, **params)
+      request("/accounts/#{@config.api_key}/subaccounts/#{subaccount_key}", params: params, type: Patch)
     end
 
     def list_credit_transfers

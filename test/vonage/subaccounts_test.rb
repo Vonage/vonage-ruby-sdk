@@ -27,7 +27,7 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_find_method
-    stub_request(:get, subaccounts_uri + "/#{subaccount_api_key}").to_return(response)
+    stub_request(:get, "#{subaccounts_uri}/#{subaccount_api_key}").to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.find(subaccount_key: subaccount_api_key)
   end
@@ -57,10 +57,15 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_update_method
-    skip
-    stub_request(:patch, "/#{subaccount_api_key}").with(request(body: { name: "Bar" })).to_return(response)
+    stub_request(:patch, "#{subaccounts_uri}/#{subaccount_api_key}").with(request(body: { name: "Bar" }, auth: basic_authorization)).to_return(response)
 
-    assert_kind_of Vonage::Response, subaccounts.update(name: "Bar")
+    assert_kind_of Vonage::Response, subaccounts.update(subaccount_key: subaccount_api_key, name: "Bar")
+  end
+
+  def test_update_method_without_subaccount_key
+    assert_raises ArgumentError do
+      subaccounts.update
+    end
   end
 
   def test_list_credit_transfers_method
