@@ -6,8 +6,12 @@ class Vonage::SubaccountsTest < Vonage::Test
     Vonage::Subaccounts.new(config)
   end
 
+  def accounts_uri
+    "https://rest.nexmo.com/accounts/#{api_key}"
+  end
+
   def subaccounts_uri
-    "https://rest.nexmo.com/accounts/#{api_key}/subaccounts"
+    "#{accounts_uri}/subaccounts"
   end
 
   def subaccount_api_key
@@ -90,35 +94,30 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_transfer_credit_method
-    skip
-    stub_request(:post, "/credit-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45" })).to_return(response)
+    stub_request(:post, "#{accounts_uri}/credit-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45" }, auth: basic_authorization)).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_credit(from: "abc123", to: "def456", amount: "123.45")
   end
 
   def test_transfer_credit_method_with_optional_params
-    skip
-    stub_request(:post, "/credit-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45", reference: "Foo" })).to_return(response)
+    stub_request(:post, "#{accounts_uri}/credit-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45", reference: "Foo" }, auth: basic_authorization)).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_credit(from: "abc123", to: "def456", amount: "123.45", reference: "Foo" )
   end
 
   def test_transfer_credit_method_without_from
-    skip
     assert_raises ArgumentError do
       subaccounts.transfer_credit(to: "def456", amount: "123.45")
     end
   end
 
   def test_transfer_credit_method_without_to
-    skip
     assert_raises ArgumentError do
       subaccounts.transfer_credit(from: "abc123", amount: "123.45")
     end
   end
 
   def test_transfer_credit_method_without_amount
-    skip
     assert_raises ArgumentError do
       subaccounts.transfer_credit(from: "abc123", to: "def456")
     end

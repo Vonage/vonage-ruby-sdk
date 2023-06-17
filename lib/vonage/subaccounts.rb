@@ -29,8 +29,8 @@ module Vonage
 
     end
 
-    def transfer_credit
-
+    def transfer_credit(from:, to:, amount:, **params)
+      request("/accounts/#{@config.api_key}/credit-transfers", params: params.merge(from: from, to: to, amount: amount), type: Post)
     end
 
     def list_balance_transfers
