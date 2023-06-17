@@ -39,21 +39,18 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_create_method
-    skip
-    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo" })).to_return(response)
+    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo" }, auth: basic_authorization)).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.create(name: "Foo")
   end
 
   def test_create_method_with_optional_params
-    skip
-    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo", secret: "Password123", use_primary_account_balance: false })).to_return(response)
+    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo", secret: "Password123", use_primary_account_balance: false }, auth: basic_authorization)).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.create(name: "Foo", secret: "Password123", use_primary_account_balance: false)
   end
 
   def test_create_method_without_name
-    skip
     assert_raises ArgumentError do
       subaccounts.create
     end

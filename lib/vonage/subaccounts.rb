@@ -17,8 +17,8 @@ module Vonage
       request("/accounts/#{@config.api_key}/subaccounts/#{subaccount_key}")
     end
 
-    def create
-
+    def create(name:, **params)
+      request("/accounts/#{@config.api_key}/subaccounts", params: params.merge(name: name), type: Post)
     end
 
     def update
