@@ -151,63 +151,54 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_transfer_balance_method_with_optional_params
-    skip
     stub_request(:post, "#{accounts_uri}/balance-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45", reference: "Foo" }, auth: basic_authorization)).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_balance(from: "abc123", to: "def456", amount: "123.45", reference: "Foo" )
   end
 
   def test_transfer_balance_method_without_from
-    skip
     assert_raises ArgumentError do
       subaccounts.transfer_balance(to: "def456", amount: "123.45")
     end
   end
 
   def test_transfer_balance_method_without_to
-    skip
     assert_raises ArgumentError do
       subaccounts.transfer_balance(from: "abc123", amount: "123.45")
     end
   end
 
   def test_transfer_balance_method_without_amount
-    skip
     assert_raises ArgumentError do
       subaccounts.transfer_balance(from: "abc123", to: "def456")
     end
   end
 
   def test_transfer_number_method
-    skip
     stub_request(:post, "#{accounts_uri}/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696 }, auth: basic_authorization)).to_return(response)
 
-    assert_kind_of Vonage::Response, subaccounts.transfer_balance(from: "abc123", to: "def456", number: 23507703696)
+    assert_kind_of Vonage::Response, subaccounts.transfer_number(from: "abc123", to: "def456", number: 23507703696)
   end
 
   def test_transfer_number_method_with_optional_params
-    skip
     stub_request(:post, "#{accounts_uri}/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696, country: 'GB' }, auth: basic_authorization)).to_return(response)
 
-    assert_kind_of Vonage::Response, subaccounts.transfer_balance(from: "abc123", to: "def456", number: 23507703696, country: 'GB' )
+    assert_kind_of Vonage::Response, subaccounts.transfer_number(from: "abc123", to: "def456", number: 23507703696, country: 'GB' )
   end
 
   def test_transfer_number_method_without_from
-    skip
     assert_raises ArgumentError do
       subaccounts.transfer_number(to: "def456", number: 23507703696)
     end
   end
 
   def test_transfer_number_method_without_to
-    skip
     assert_raises ArgumentError do
       subaccounts.transfer_number(from: "abc123", number: 23507703696)
     end
   end
 
   def test_transfer_number_method_without_amount
-    skip
     assert_raises ArgumentError do
       subaccounts.transfer_number(from: "abc123", to: "def456")
     end
