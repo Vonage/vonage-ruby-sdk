@@ -16,7 +16,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_method
     skip
-    stub_request(:get, uri).to_return(subaccounts_list_response)
+    stub_request(:get, subaccounts_uri).to_return(subaccounts_list_response)
 
     subaccounts_list = subaccounts.list
 
@@ -27,14 +27,12 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_find_method
-    skip
-    stub_request(:get, uri + "/#{subaccount_api_key}").to_return(response)
+    stub_request(:get, subaccounts_uri + "/#{subaccount_api_key}").to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.find(subaccount_key: subaccount_api_key)
   end
 
   def test_find_method_without_subaccount_key
-    skip
     assert_raises ArgumentError do
       subaccounts.find
     end
@@ -42,14 +40,14 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_create_method
     skip
-    stub_request(:post, uri).with(request(body: { name: "Foo" })).to_return(response)
+    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo" })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.create(name: "Foo")
   end
 
   def test_create_method_with_optional_params
     skip
-    stub_request(:post, uri).with(request(body: { name: "Foo", secret: "Password123", use_primary_account_balance: false })).to_return(response)
+    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo", secret: "Password123", use_primary_account_balance: false })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.create(name: "Foo", secret: "Password123", use_primary_account_balance: false)
   end
@@ -70,7 +68,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_credit_transfers_method
     skip
-    stub_request(:get, uri + "/credit-transfers").to_return(credit_transfers_list_response)
+    stub_request(:get, subaccounts_uri + "/credit-transfers").to_return(credit_transfers_list_response)
 
     credit_transfers_list = subaccounts.list_credit_transfers
 
@@ -81,7 +79,7 @@ class Vonage::SubaccountsTest < Vonage::Test
   def test_list_credit_transfers_method_with_optional_params
     skip
     query = "?subaccount=abc123"
-    stub_request(:get, uri + "/credit-transfers" + query).to_return(credit_transfers_list_response_filtered)
+    stub_request(:get, subaccounts_uri + "/credit-transfers" + query).to_return(credit_transfers_list_response_filtered)
 
     credit_transfers_list = subaccounts.list_credit_transfers(subaccount: 'abc123')
 
@@ -126,7 +124,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_balance_transfers_method
     skip
-    stub_request(:get, uri + "/balance-transfers").to_return(balance_transfers_list_response)
+    stub_request(:get, subaccounts_uri + "/balance-transfers").to_return(balance_transfers_list_response)
 
     balance_transfers_list = subaccounts.list_balance_transfers
 
@@ -137,7 +135,7 @@ class Vonage::SubaccountsTest < Vonage::Test
   def test_list_balance_transfers_method_with_optional_params
     skip
     query = "?subaccount=abc123"
-    stub_request(:get, uri + "/balance-transfers" + query).to_return(balance_transfers_list_response_filtered)
+    stub_request(:get, subaccounts_uri + "/balance-transfers" + query).to_return(balance_transfers_list_response_filtered)
 
     balance_transfers_list = subaccounts.list_balance_transfers(subaccount: 'abc123')
 

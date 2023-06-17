@@ -3,15 +3,18 @@
 
 module Vonage
   class Subaccounts < Namespace
+    self.authentication = Basic
 
     self.host = :rest_host
+
+    self.request_body = JSON
 
     def list
 
     end
 
-    def find
-
+    def find(subaccount_key:)
+      request("/accounts/#{@config.api_key}/subaccounts/#{subaccount_key}")
     end
 
     def create
