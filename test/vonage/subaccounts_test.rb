@@ -145,15 +145,14 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_transfer_balance_method
-    skip
-    stub_request(:post, "/balance-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45" })).to_return(response)
+    stub_request(:post, "#{accounts_uri}/balance-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45" }, auth: basic_authorization)).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_balance(from: "abc123", to: "def456", amount: "123.45")
   end
 
   def test_transfer_balance_method_with_optional_params
     skip
-    stub_request(:post, "/balance-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45", reference: "Foo" })).to_return(response)
+    stub_request(:post, "#{accounts_uri}/balance-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45", reference: "Foo" }, auth: basic_authorization)).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_balance(from: "abc123", to: "def456", amount: "123.45", reference: "Foo" )
   end
@@ -181,14 +180,14 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_transfer_number_method
     skip
-    stub_request(:post, "/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696 })).to_return(response)
+    stub_request(:post, "#{accounts_uri}/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696 }, auth: basic_authorization)).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_balance(from: "abc123", to: "def456", number: 23507703696)
   end
 
   def test_transfer_number_method_with_optional_params
     skip
-    stub_request(:post, "/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696, country: 'GB' })).to_return(response)
+    stub_request(:post, "#{accounts_uri}/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696, country: 'GB' }, auth: basic_authorization)).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_balance(from: "abc123", to: "def456", number: 23507703696, country: 'GB' )
   end
