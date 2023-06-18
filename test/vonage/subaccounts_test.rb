@@ -72,22 +72,29 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_list_credit_transfers_method
-    stub_request(:get, "#{accounts_uri}/credit-transfers").with(request(auth: basic_authorization)).to_return(credit_transfers_list_response)
+    query = "?start_date=2023-06-15T15:53:50Z"
+    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request(auth: basic_authorization)).to_return(credit_transfers_list_response)
 
-    credit_transfers_list = subaccounts.list_credit_transfers
+    credit_transfers_list = subaccounts.list_credit_transfers(start_date: "2023-06-15T15:53:50Z")
 
     assert_kind_of Vonage::Subaccounts::CreditTransfers::ListResponse, credit_transfers_list
     credit_transfers_list.each { |credit_transfer| assert_kind_of Vonage::Entity, credit_transfer }
   end
 
   def test_list_credit_transfers_method_with_optional_params
-    query = "?subaccount=abc123"
+    query = "?start_date=2023-06-15T15:53:50Z&subaccount=abc123"
     stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request(auth: basic_authorization)).to_return(credit_transfers_list_response_filtered)
 
-    credit_transfers_list = subaccounts.list_credit_transfers(subaccount: 'abc123')
+    credit_transfers_list = subaccounts.list_credit_transfers(start_date: "2023-06-15T15:53:50Z", subaccount: 'abc123')
 
     assert_kind_of Vonage::Subaccounts::CreditTransfers::ListResponse, credit_transfers_list
     credit_transfers_list.each { |credit_transfer| assert_kind_of Vonage::Entity, credit_transfer }
+  end
+
+  def test_list_credit_transfers_method_without_start_date
+    assert_raises ArgumentError do
+      subaccounts.list_credit_transfers
+    end
   end
 
   def test_transfer_credit_method
@@ -121,22 +128,29 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_list_balance_transfers_method
-    stub_request(:get, "#{accounts_uri}/balance-transfers").with(request(auth: basic_authorization)).to_return(balance_transfers_list_response)
+    query = "?start_date=2023-06-15T15:53:50Z"
+    stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request(auth: basic_authorization)).to_return(balance_transfers_list_response)
 
-    balance_transfers_list = subaccounts.list_balance_transfers
+    balance_transfers_list = subaccounts.list_balance_transfers(start_date: "2023-06-15T15:53:50Z")
 
     assert_kind_of Vonage::Subaccounts::BalanceTransfers::ListResponse, balance_transfers_list
     balance_transfers_list.each { |balance_transfer| assert_kind_of Vonage::Entity, balance_transfer }
   end
 
   def test_list_balance_transfers_method_with_optional_params
-    query = "?subaccount=abc123"
+    query = "?start_date=2023-06-15T15:53:50Z&subaccount=abc123"
     stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request(auth: basic_authorization)).to_return(balance_transfers_list_response_filtered)
 
-    balance_transfers_list = subaccounts.list_balance_transfers(subaccount: 'abc123')
+    balance_transfers_list = subaccounts.list_balance_transfers(start_date: "2023-06-15T15:53:50Z", subaccount: 'abc123')
 
     assert_kind_of Vonage::Subaccounts::BalanceTransfers::ListResponse, balance_transfers_list
     balance_transfers_list.each { |balance_transfer| assert_kind_of Vonage::Entity, balance_transfer }
+  end
+
+  def test_list_balance_transfers_method_without_start_date
+    assert_raises ArgumentError do
+      subaccounts.list_balance_transfers
+    end
   end
 
   def test_transfer_balance_method
@@ -170,32 +184,32 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_transfer_number_method
-    stub_request(:post, "#{accounts_uri}/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696 }, auth: basic_authorization)).to_return(response)
-
-    assert_kind_of Vonage::Response, subaccounts.transfer_number(from: "abc123", to: "def456", number: 23507703696)
-  end
-
-  def test_transfer_number_method_with_optional_params
     stub_request(:post, "#{accounts_uri}/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696, country: 'GB' }, auth: basic_authorization)).to_return(response)
 
-    assert_kind_of Vonage::Response, subaccounts.transfer_number(from: "abc123", to: "def456", number: 23507703696, country: 'GB' )
+    assert_kind_of Vonage::Response, subaccounts.transfer_number(from: "abc123", to: "def456", number: 23507703696, country: 'GB')
   end
 
   def test_transfer_number_method_without_from
     assert_raises ArgumentError do
-      subaccounts.transfer_number(to: "def456", number: 23507703696)
+      subaccounts.transfer_number(to: "def456", number: 23507703696, country: 'GB')
     end
   end
 
   def test_transfer_number_method_without_to
     assert_raises ArgumentError do
-      subaccounts.transfer_number(from: "abc123", number: 23507703696)
+      subaccounts.transfer_number(from: "abc123", number: 23507703696, country: 'GB')
     end
   end
 
-  def test_transfer_number_method_without_amount
+  def test_transfer_number_method_without_number
     assert_raises ArgumentError do
-      subaccounts.transfer_number(from: "abc123", to: "def456")
+      subaccounts.transfer_number(from: "abc123", to: "def456", country: 'GB')
+    end
+  end
+
+  def test_transfer_number_method_without_country
+    assert_raises ArgumentError do
+      subaccounts.transfer_number(from: "abc123", to: "def456", number: 23507703696)
     end
   end
 

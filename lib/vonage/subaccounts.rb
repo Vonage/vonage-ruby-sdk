@@ -23,9 +23,8 @@ module Vonage
       request("/accounts/#{@config.api_key}/subaccounts/#{subaccount_key}", params: params, type: Patch)
     end
 
-    def list_credit_transfers(**params)
-      path = "/accounts/#{@config.api_key}/credit-transfers"
-      path += "?#{Params.encode(params)}" unless params.empty?
+    def list_credit_transfers(start_date:, **params)
+      path = "/accounts/#{@config.api_key}/credit-transfers?#{Params.encode(params.merge(start_date: start_date))}"
 
       request(path, response_class: CreditTransfers::ListResponse)
     end
@@ -34,9 +33,8 @@ module Vonage
       request("/accounts/#{@config.api_key}/credit-transfers", params: params.merge(from: from, to: to, amount: amount), type: Post)
     end
 
-    def list_balance_transfers(**params)
-      path = "/accounts/#{@config.api_key}/balance-transfers"
-      path += "?#{Params.encode(params)}" unless params.empty?
+    def list_balance_transfers(start_date:, **params)
+      path = "/accounts/#{@config.api_key}/balance-transfers?#{Params.encode(params.merge(start_date: start_date))}"
 
       request(path, response_class: BalanceTransfers::ListResponse)
     end
@@ -45,8 +43,8 @@ module Vonage
       request("/accounts/#{@config.api_key}/balance-transfers", params: params.merge(from: from, to: to, amount: amount), type: Post)
     end
 
-    def transfer_number(from:, to:, number:, **params)
-      request("/accounts/#{@config.api_key}/transfer-number", params: params.merge(from: from, to: to, number: number), type: Post)
+    def transfer_number(from:, to:, number:, country:)
+      request("/accounts/#{@config.api_key}/transfer-number", params: {from: from, to: to, number: number, country: country}, type: Post)
     end
   end
 end
