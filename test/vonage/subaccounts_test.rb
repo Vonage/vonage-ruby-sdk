@@ -83,7 +83,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_credit_transfers_method_with_optional_params
     query = "?subaccount=abc123"
-    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").to_return(credit_transfers_list_response_filtered)
+    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request(auth: basic_authorization)).to_return(credit_transfers_list_response_filtered)
 
     credit_transfers_list = subaccounts.list_credit_transfers(subaccount: 'abc123')
 
@@ -122,8 +122,7 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_list_balance_transfers_method
-    skip
-    stub_request(:get, subaccounts_uri + "/balance-transfers").to_return(balance_transfers_list_response)
+    stub_request(:get, "#{accounts_uri}/balance-transfers").with(request(auth: basic_authorization)).to_return(balance_transfers_list_response)
 
     balance_transfers_list = subaccounts.list_balance_transfers
 
@@ -132,9 +131,8 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_list_balance_transfers_method_with_optional_params
-    skip
     query = "?subaccount=abc123"
-    stub_request(:get, subaccounts_uri + "/balance-transfers" + query).to_return(balance_transfers_list_response_filtered)
+    stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request(auth: basic_authorization)).to_return(balance_transfers_list_response_filtered)
 
     balance_transfers_list = subaccounts.list_balance_transfers(subaccount: 'abc123')
 

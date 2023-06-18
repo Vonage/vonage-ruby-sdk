@@ -36,8 +36,11 @@ module Vonage
       request("/accounts/#{@config.api_key}/credit-transfers", params: params.merge(from: from, to: to, amount: amount), type: Post)
     end
 
-    def list_balance_transfers
+    def list_balance_transfers(**params)
+      path = "/accounts/#{@config.api_key}/balance-transfers"
+      path += "?#{Params.encode(params)}" unless params.empty?
 
+      request(path, response_class: BalanceTransfers::ListResponse)
     end
 
     def transfer_balance(from:, to:, amount:, **params)
