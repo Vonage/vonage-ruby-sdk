@@ -25,8 +25,11 @@ module Vonage
       request("/accounts/#{@config.api_key}/subaccounts/#{subaccount_key}", params: params, type: Patch)
     end
 
-    def list_credit_transfers
+    def list_credit_transfers(**params)
+      path = "/accounts/#{@config.api_key}/credit-transfers"
+      path += "?#{Params.encode(params)}" unless params.empty?
 
+      request(path, response_class: CreditTransfers::ListResponse)
     end
 
     def transfer_credit(from:, to:, amount:, **params)
