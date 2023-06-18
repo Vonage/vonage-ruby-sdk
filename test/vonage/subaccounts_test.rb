@@ -19,7 +19,6 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_list_method
-    skip
     stub_request(:get, subaccounts_uri).to_return(subaccounts_list_response)
 
     subaccounts_list = subaccounts.list

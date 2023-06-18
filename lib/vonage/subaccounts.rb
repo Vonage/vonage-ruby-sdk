@@ -10,7 +10,7 @@ module Vonage
     self.request_body = JSON
 
     def list
-
+      request("/accounts/#{@config.api_key}/subaccounts", response_class: ListResponse)
     end
 
     def find(subaccount_key:)
