@@ -5,8 +5,6 @@ module Vonage
   class Subaccounts < Namespace
     self.authentication = Basic
 
-    self.host = :rest_host
-
     self.request_body = JSON
 
     def list

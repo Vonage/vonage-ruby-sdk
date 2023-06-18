@@ -7,7 +7,7 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def accounts_uri
-    "https://rest.nexmo.com/accounts/#{api_key}"
+    "https://api.nexmo.com/accounts/#{api_key}"
   end
 
   def subaccounts_uri
