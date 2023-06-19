@@ -88,8 +88,9 @@ module Vonage
     # @example
     #   response = client.subaccounts.list_credit_transfers(start_date: "2023-06-15T15:53:50Z")
     #
-    # @option params [required, String] :start_date
+    # @option params [optional, String] :start_date
     #   The ISO format datetime from which to list transfers. Example: 2019-03-02T16:34:49Z.
+    #   Defaults to "1970-01-01T00:00:00Z" if omitted
     #
     # @option params [optional, String] :end_date
     #   The ISO format datetime to which to list transfers. Example: 2019-03-02T16:34:49Z.
@@ -100,7 +101,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/subaccounts#retrieveCreditTransfers
     #
-    def list_credit_transfers(start_date:, **params)
+    def list_credit_transfers(start_date: "1970-01-01T00:00:00Z", **params)
       path = "/accounts/#{@config.api_key}/credit-transfers?#{Params.encode(params.merge(start_date: start_date))}"
 
       request(path, response_class: CreditTransfers::ListResponse)
@@ -134,8 +135,9 @@ module Vonage
     # @example
     #   response = client.subaccounts.list_balance_transfers(start_date: "2023-06-15T15:53:50Z")
     #
-    # @option params [required, String] :start_date
+    # @option params [optional, String] :start_date
     #   The ISO format datetime from which to list transfers. Example: 2019-03-02T16:34:49Z.
+    #   Defaults to "1970-01-01T00:00:00Z" if omitted
     #
     # @option params [optional, String] :end_date
     #   The ISO format datetime to which to list transfers. Example: 2019-03-02T16:34:49Z.
@@ -146,7 +148,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/subaccounts#retrieveBalanceTransfers
     #
-    def list_balance_transfers(start_date:, **params)
+    def list_balance_transfers(start_date: "1970-01-01T00:00:00Z", **params)
       path = "/accounts/#{@config.api_key}/balance-transfers?#{Params.encode(params.merge(start_date: start_date))}"
 
       request(path, response_class: BalanceTransfers::ListResponse)
@@ -190,7 +192,7 @@ module Vonage
     #   The number to transfer
     #
     # @option params [required, String] :country
-    #   A code representing the country for the number, e.g. GB.
+    #   An ISO-3166-1 alpha 2 code representing the country for the number, e.g. GB.
     #
     # @see https://developer.vonage.com/en/api/subaccounts#transferNumber
     #

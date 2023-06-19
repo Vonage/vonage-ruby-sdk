@@ -91,10 +91,14 @@ class Vonage::SubaccountsTest < Vonage::Test
     credit_transfers_list.each { |credit_transfer| assert_kind_of Vonage::Entity, credit_transfer }
   end
 
-  def test_list_credit_transfers_method_without_start_date
-    assert_raises ArgumentError do
-      subaccounts.list_credit_transfers
-    end
+  def test_list_credit_transfers_method_without_start_date_uses_default
+    query = "?start_date=1970-01-01T00:00:00Z"
+    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request(auth: basic_authorization)).to_return(credit_transfers_list_response)
+
+    credit_transfers_list = subaccounts.list_credit_transfers
+
+    assert_kind_of Vonage::Subaccounts::CreditTransfers::ListResponse, credit_transfers_list
+    credit_transfers_list.each { |credit_transfer| assert_kind_of Vonage::Entity, credit_transfer }
   end
 
   def test_transfer_credit_method
@@ -147,10 +151,14 @@ class Vonage::SubaccountsTest < Vonage::Test
     balance_transfers_list.each { |balance_transfer| assert_kind_of Vonage::Entity, balance_transfer }
   end
 
-  def test_list_balance_transfers_method_without_start_date
-    assert_raises ArgumentError do
-      subaccounts.list_balance_transfers
-    end
+  def test_list_balance_transfers_method_without_start_date_uses_default
+    query = "?start_date=1970-01-01T00:00:00Z"
+    stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request(auth: basic_authorization)).to_return(balance_transfers_list_response)
+
+    balance_transfers_list = subaccounts.list_balance_transfers
+
+    assert_kind_of Vonage::Subaccounts::BalanceTransfers::ListResponse, balance_transfers_list
+    balance_transfers_list.each { |balance_transfer| assert_kind_of Vonage::Entity, balance_transfer }
   end
 
   def test_transfer_balance_method

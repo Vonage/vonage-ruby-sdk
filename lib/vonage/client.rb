@@ -117,7 +117,7 @@ module Vonage
       @sms ||= T.let(SMS.new(config), T.nilable(Vonage::SMS))
     end
 
-    # @return [SMS]
+    # @return [Subaccounts]
     #
     sig { returns(T.nilable(Vonage::Subaccounts)) }
     def subaccounts
