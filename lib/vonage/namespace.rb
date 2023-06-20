@@ -51,6 +51,7 @@ module Vonage
 
     Get = Net::HTTP::Get
     Put = Net::HTTP::Put
+    Patch = Net::HTTP::Patch
     Post = Net::HTTP::Post
     Delete = Net::HTTP::Delete
 

@@ -87,8 +87,8 @@ module Vonage
       'Basic dm9uYWdlLWFwaS1rZXk6dm9uYWdlLWFwaS1zZWNyZXQ='
     end
 
-    def request(body: nil, query: nil, headers: {})
-      headers['Authorization'] = authorization
+    def request(body: nil, query: nil, headers: {}, auth: nil)
+      headers['Authorization'] = auth || authorization
       headers['Content-Type'] = 'application/json' if body
 
       {headers: headers, body: body, query: query}.compact
