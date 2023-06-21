@@ -1,3 +1,7 @@
+# 7.12.0
+
+* Adds Subaccounts API. [#275](https://github.com/Vonage/vonage-ruby-sdk/pull/275)
+
 # 7.11.0
 
 * Updates Voice API functionality. [#270](https://github.com/Vonage/vonage-ruby-sdk/pull/270)
