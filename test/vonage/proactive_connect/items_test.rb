@@ -37,6 +37,83 @@ class Vonage::ProactiveConnect::ItemsTest < Vonage::Test
     assert_raises(ArgumentError) { items.list }
   end
 
+  def test_download_csv_method
+    stub_request(:get, items_uri + '/download?order=asc').to_return(file_response)
+
+    res = items.download_csv(list_id: list_id)
+
+    assert_kind_of Vonage::ProactiveConnect::Items::FileResponse, res
+    assert_equal "list-e546eebe-8e23-4e4d-bb7c-29d4700c9865-items.csv", res.filename
+  end
+
+  def test_download_csv_method_with_desc_order
+    stub_request(:get, items_uri + '/download?order=desc').to_return(file_response)
+
+    res = items.download_csv(list_id: list_id, order: 'desc')
+
+    assert_kind_of Vonage::ProactiveConnect::Items::FileResponse, res
+  end
+
+  def test_download_csv_method_with_default_filename
+    stub_request(:get, items_uri + '/download?order=asc').to_return(file_response_without_filename)
+
+    res = items.download_csv(list_id: list_id)
+
+    assert_kind_of Vonage::ProactiveConnect::Items::FileResponse, res
+    assert_equal "download.csv", res.filename
+  end
+
+  def test_download_csv_method_with_specified_filename
+    stub_request(:get, items_uri + '/download?order=asc').to_return(file_response)
+
+    res = items.download_csv(list_id: list_id, filename: 'foo.csv')
+
+    assert_kind_of Vonage::ProactiveConnect::Items::FileResponse, res
+    assert_equal "foo.csv", res.filename
+  end
+
+  def test_download_csv_method_without_list_id
+    assert_raises(ArgumentError) { items.download_csv }
+  end
+
+  def test_upload_csv_method
+    stub_request(:post, items_uri + "/import").to_return(response)
+
+    csv_rows = <<~eos
+      Name1,name1@example.com
+      Name2,name2@example.com
+      Name3,name3@example.com
+    eos
+    file = Tempfile.create(['new_users', '.csv'])
+    file.write(csv_rows)
+    file.rewind
+
+    assert_kind_of Vonage::Response, items.upload_csv(list_id: list_id, filepath: file.path)
+  end
+
+  def test_upload_csv_method_with_invalid_filepath
+    assert_raises(ArgumentError) { items.upload_csv(list_id: list_id, filepath: 'foo/bar/file.csv') }
+  end
+
+  def test_upload_csv_method_with_unreadable_file
+    file = Tempfile.create(['new_users', '.csv'])
+    file.chmod(600)
+    assert_raises(ArgumentError) { items.upload_csv(list_id: list_id, filepath: file.path) }
+  end
+
+  def test_upload_csv_method_with_non_csv_file
+    file = Tempfile.create(['new_users', '.txt'])
+    assert_raises(ArgumentError) { items.upload_csv(list_id: list_id, filepath: file.path) }
+  end
+
+  def test_upload_csv_method_without_list_id
+    assert_raises(ArgumentError) { items.upload_csv(filepath: 'foo/bar/file.csv') }
+  end
+
+  def test_upload_csv_method_without_filepath
+    assert_raises(ArgumentError) { items.upload_csv(list_id: list_id) }
+  end
+
   def list_response
     {
       body: '{
@@ -136,6 +213,26 @@ class Vonage::ProactiveConnect::ItemsTest < Vonage::Test
         }
       }',
       headers: response_headers
+    }
+  end
+
+  def file_response
+    {
+      headers: {
+        "content-type"=>["text/csv"],
+        "content-disposition"=>["attachment; filename=\"list-e546eebe-8e23-4e4d-bb7c-29d4700c9865-items.csv\""]
+      },
+      body: "\"Name\",\"Email\"\n\"Bob\",\"bob@email.com\"\n"
+    }
+  end
+
+  def file_response_without_filename
+    {
+      headers: {
+        "content-type"=>["text/csv"],
+        "content-disposition"=>["attachment"]
+      },
+      body: "\"Name\",\"Email\"\n\"Bob\",\"bob@email.com\"\n"
     }
   end
 end
