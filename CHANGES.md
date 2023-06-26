@@ -1,6 +1,19 @@
+# 7.12.0
+
+* Adds Subaccounts API. [#275](https://github.com/Vonage/vonage-ruby-sdk/pull/275)
+
+# 7.11.0
+
+* Updates Voice API functionality. [#270](https://github.com/Vonage/vonage-ruby-sdk/pull/270)
+
+# 7.10.0
+
+* Adds Verify2. [#261](https://github.com/Vonage/vonage-ruby-sdk/pull/261)
+* Fixes link in README. [#266](https://github.com/Vonage/vonage-ruby-sdk/pull/266)
+
 # 7.9.0
 
-* Updates the Messages API implementation to ass support for `video` and `file` messages types to the Viber channel, and `sticker` messages in the WhatsApp channel. [#260](https://github.com/Vonage/vonage-ruby-sdk/pull/260)
+* Updates the Messages API implementation to add support for `video` and `file` messages types to the Viber channel, and `sticker` messages in the WhatsApp channel. [#260](https://github.com/Vonage/vonage-ruby-sdk/pull/260)
 * Updates the Numbers API implementation to use Basic authentication. [#262](https://github.com/Vonage/vonage-ruby-sdk/pull/262)
 
 # 7.8.2

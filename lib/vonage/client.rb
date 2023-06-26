@@ -124,6 +124,13 @@ module Vonage
       @sms ||= T.let(SMS.new(config), T.nilable(Vonage::SMS))
     end
 
+    # @return [Subaccounts]
+    #
+    sig { returns(T.nilable(Vonage::Subaccounts)) }
+    def subaccounts
+      @subaccounts ||= T.let(Subaccounts.new(config), T.nilable(Vonage::Subaccounts))
+    end
+
     # @return [TFA]
     #
     sig { returns(T.nilable(Vonage::TFA)) }
@@ -136,6 +143,13 @@ module Vonage
     sig { returns(T.nilable(Vonage::Verify)) }
     def verify
       @verify ||= T.let(Verify.new(config), T.nilable(Vonage::Verify))
+    end
+
+    # @return [Verify2]
+    #
+    sig { returns(T.nilable(Vonage::Verify2)) }
+    def verify2
+      @verify2 ||= T.let(Verify2.new(config), T.nilable(Vonage::Verify2))
     end
 
     # @return [Voice]
