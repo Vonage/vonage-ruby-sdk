@@ -97,7 +97,8 @@ class Vonage::ProactiveConnect::ItemsTest < Vonage::Test
 
   def test_upload_csv_method_with_unreadable_file
     file = Tempfile.create(['new_users', '.csv'])
-    file.chmod(600)
+    # file.chmod(600)
+    FileUtils.chmod "u-r", [file]
     assert_raises(ArgumentError) { items.upload_csv(list_id: list_id, filepath: file.path) }
   end
 
