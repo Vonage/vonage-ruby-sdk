@@ -90,9 +90,9 @@ module Vonage
     def vonage_host
       "api-eu.vonage.com"
     end
-
-    def request(body: nil, query: nil, headers: {})
-      headers['Authorization'] = authorization
+    
+    def request(body: nil, query: nil, headers: {}, auth: nil)
+      headers['Authorization'] = auth || authorization
       headers['Content-Type'] = 'application/json' if body
 
       {headers: headers, body: body, query: query}.compact
@@ -336,6 +336,14 @@ module Vonage
 
     def member_id
       'MEM-xxxxxx'
+    end
+
+    def e164_compliant_number
+      '447000000000'
+    end
+
+    def invalid_number
+      'abcdefg'
     end
 
     alias_method :call_uuid, :call_id
