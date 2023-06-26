@@ -35,26 +35,5 @@ module Vonage
 
       multipart_post_request("/v0.1/bulk/lists/#{list_id}/items/import", filepath: filepath, file_name: pn.basename, mime_type: 'text/csv')
     end
-
-    private
-
-    def multipart_post_request(path, filepath:, file_name:, mime_type:, response_class: Response)
-      uri = URI('https://' + @host + path)
-
-      response = File.open(filepath) do |file|
-        req = Net::HTTP::Post::Multipart.new(
-          uri,
-          {file: Multipart::Post::UploadIO.new(file, mime_type, file_name)}
-        )
-        # authentication.update(req)
-        req['Authorization'] = 'Bearer ' + @config.token
-
-        # set other headers
-
-        @http.request(req)
-      end
-
-      parse(response, response_class)
-    end
   end
 end

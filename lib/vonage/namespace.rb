@@ -118,6 +118,36 @@ module Vonage
       end
     end
 
+    def multipart_post_request(path, filepath:, file_name:, mime_type:, response_class: Response, &block)
+      authentication = self.class.authentication.new(@config)
+
+      uri = URI('https://' + @host + path)
+
+      response = File.open(filepath) do |file|
+        request = Net::HTTP::Post::Multipart.new(
+          uri,
+          {file: Multipart::Post::UploadIO.new(file, mime_type, file_name)}
+        )
+
+        request['User-Agent'] = UserAgent.string(@config.app_name, @config.app_version)
+
+        # Set BearerToken if needed
+        authentication.update(request)
+
+        logger.log_request_info(request)
+
+        @http.request(request, &block)
+      end
+
+      logger.log_response_info(response, @host)
+
+      return if block
+
+      logger.debug(response.body) if response.body
+
+      parse(response, response_class)
+    end
+
     def iterable_request(path, response: nil, response_class: nil, params: {}, &block)
       json_response = ::JSON.parse(response.body)
       response = parse(response, response_class)

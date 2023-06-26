@@ -77,7 +77,7 @@ class Vonage::ProactiveConnect::ItemsTest < Vonage::Test
   end
 
   def test_upload_csv_method
-    stub_request(:post, items_uri + "/import").to_return(response)
+    stub_request(:post, items_uri + "/import").with(headers: {'Authorization' => authorization}).to_return(response)
 
     csv_rows = <<~eos
       Name1,name1@example.com
