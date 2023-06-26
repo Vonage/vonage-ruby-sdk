@@ -19,6 +19,10 @@ class Vonage::ProactiveConnect::Items::FileResponse < Vonage::Response
     File.open("#{pn.cleanpath}/#{filename}", 'w') {|f| f.write(http_response.body) }
   end
 
+  def data
+    http_response ? http_response.body : nil
+  end
+
   private
 
   def initial_filename

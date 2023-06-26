@@ -29,10 +29,5 @@ module Vonage
     def events
       @events ||= Events.new(@config)
     end
-
-    sig { returns(T.nilable(Vonage::ProactiveConnect::Webhooks)) }
-    def webhooks
-      @webhooks ||= Webhooks.new(@config)
-    end
   end
 end

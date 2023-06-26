@@ -1,8 +1,6 @@
 # typed: true
 # frozen_string_literal: true
 
-require 'net/http/post/multipart'
-
 module Vonage
   class ProactiveConnect::Items < Namespace
     extend T::Sig
