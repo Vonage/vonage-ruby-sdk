@@ -11,6 +11,19 @@ module Vonage
 
     self.request_body = JSON
 
+    # Create a list item
+    #
+    # @example
+    #   response = proactive_connect.item.create(list_id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865', data: {name: 'Joe Bloggs', email: 'joe@email.com'})
+    #
+    # @param [required, String] :list_id
+    #   Unique identifier for the list
+    #
+    # @param [required, Hash] :data
+    #   A hash of data containing the item's data attributes and values
+    #
+    # @see https://developer.vonage.com/en/api/proactive-connect#itemsCreate
+    #
     def create(list_id:, data:)
       raise ArgumentError.new(":data must be a Hash") unless data.is_a? Hash
       request(
@@ -20,10 +33,45 @@ module Vonage
       )
     end
 
+    # Get list item by id
+    #
+    # @example
+    #   response = proactive_connect.item.find(list_id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865', item_id: 'd97ebf20-e4de-4e50-921a-7bb4dceb373a')
+    #
+    # @param [required, String] :list_id
+    #   Unique identifier for the list
+    #
+    # @param [required, String] :item_id
+    #   Unique identifier for the item
+    #
+    # @see https://developer.vonage.com/en/api/proactive-connect#itemsGet
+    #
     def find(list_id:, item_id:)
       request("/v0.1/bulk/lists/#{list_id}/items/#{item_id}")
     end
 
+    # Update list item
+    #
+    # @example
+    #   response = proactive_connect.item.create(
+    #     list_id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865',
+    #     item_id: 'd97ebf20-e4de-4e50-921a-7bb4dceb373a',
+    #     data: {name: 'Jane Bloggs', email: 'joe@email.com'}
+    #   )
+    #
+    # @param [required, String] :list_id
+    #   Unique identifier for the list
+    #
+    # @param [required, String] :item_id
+    #   Unique identifier for the item
+    #
+    # @param [required, Hash] :data
+    #   A hash of data containing the item's data attributes and values
+    #   All attributes for the item must be passed, even ones for which the value is not changing.
+    #     If an attribute is omitted, existing data for that attribute will be deleted.
+    #
+    # @see https://developer.vonage.com/en/api/proactive-connect#itemsUpdate
+    #
     def update(list_id:, item_id:, data:)
       raise ArgumentError.new(":data must be a Hash") unless data.is_a? Hash
       request(
@@ -33,6 +81,19 @@ module Vonage
       )
     end
 
+    #  Delete list item
+    #
+    # @example
+    #   response = proactive_connect.item.delete(list_id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865', item_id: 'd97ebf20-e4de-4e50-921a-7bb4dceb373a')
+    #
+    # @param [required, String] :list_id
+    #   Unique identifier for the list
+    #
+    # @param [required, String] :item_id
+    #   Unique identifier for the item
+    #
+    # @see https://developer.vonage.com/en/api/proactive-connect#itemsDelete
+    #
     def delete(list_id:, item_id:)
       request(
         "/v0.1/bulk/lists/#{list_id}/items/#{item_id}",
