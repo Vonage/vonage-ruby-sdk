@@ -25,8 +25,4 @@ class Vonage::ProactiveConnectTest < Vonage::Test
   def test_events_method
     assert_kind_of Vonage::ProactiveConnect::Events, proactive_connect.events
   end
-
-  def test_webhooks_method
-    assert_kind_of Vonage::ProactiveConnect::Webhooks, proactive_connect.webhooks
-  end
 end
