@@ -1,7 +1,7 @@
 # typed: true
 
 class Vonage::ProactiveConnect::Items::FileResponse < Vonage::Response
-  DEFAULT_FILENAME = 'download.csv'
+  DEFAULT_FILENAME = 'vonage-proactive-connect-list-items.csv'
 
   attr_accessor :filename
 
