@@ -60,7 +60,7 @@ class Vonage::ProactiveConnect::ItemsTest < Vonage::Test
     res = items.download_csv(list_id: list_id)
 
     assert_kind_of Vonage::ProactiveConnect::Items::FileResponse, res
-    assert_equal "download.csv", res.filename
+    assert_equal "vonage-proactive-connect-list-items.csv", res.filename
   end
 
   def test_download_csv_method_with_specified_filename
