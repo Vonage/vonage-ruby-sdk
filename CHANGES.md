@@ -1,3 +1,7 @@
+# 7.13.0
+
+* Adds support for the [Lists](https://developer.vonage.com/en/api/proactive-connect#lists), [Items](https://developer.vonage.com/en/api/proactive-connect#items), and [Events](https://developer.vonage.com/en/api/proactive-connect#events) operations of the [Proactive Connect API](https://developer.vonage.com/en/proactive-connect/overview). [#275](https://github.com/Vonage/vonage-ruby-sdk/pull/265)
+
 # 7.12.0
 
 * Adds Subaccounts API. [#275](https://github.com/Vonage/vonage-ruby-sdk/pull/275)
