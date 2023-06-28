@@ -96,6 +96,13 @@ module Vonage
       @pricing ||= T.let(PricingTypes.new(config), T.nilable(Vonage::PricingTypes))
     end
 
+    # @return [ProactiveConnect]
+    #
+    sig { returns(T.nilable(Vonage::ProactiveConnect)) }
+    def proactive_connect
+      @proactive_connect ||= T.let(ProactiveConnect.new(config), T.nilable(Vonage::ProactiveConnect))
+    end
+
     # @return [Redact]
     #
     sig { returns(T.nilable(Vonage::Redact)) }

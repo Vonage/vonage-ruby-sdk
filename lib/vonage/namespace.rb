@@ -1,6 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 require 'net/http'
+require 'net/http/post/multipart'
 require 'json'
 
 module Vonage
@@ -8,7 +9,8 @@ module Vonage
     def initialize(config)
       @config = config
 
-      @host = self.class.host == :api_host ? @config.api_host : @config.rest_host
+      # @host = self.class.host == :api_host ? @config.api_host : @config.rest_host
+      @host = set_host
 
       @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
       @http.use_ssl = true
@@ -21,7 +23,7 @@ module Vonage
     end
 
     def self.host=(host)
-      raise ArgumentError unless host == :rest_host
+      raise ArgumentError unless %i[rest_host vonage_host].include?(host)
 
       @host = host
     end
@@ -116,6 +118,36 @@ module Vonage
 
         parse(response, response_class)
       end
+    end
+
+    def multipart_post_request(path, filepath:, file_name:, mime_type:, response_class: Response, &block)
+      authentication = self.class.authentication.new(@config)
+
+      uri = URI('https://' + @host + path)
+
+      response = File.open(filepath) do |file|
+        request = Net::HTTP::Post::Multipart.new(
+          uri,
+          {file: Multipart::Post::UploadIO.new(file, mime_type, file_name)}
+        )
+
+        request['User-Agent'] = UserAgent.string(@config.app_name, @config.app_version)
+
+        # Set BearerToken if needed
+        authentication.update(request)
+
+        logger.log_request_info(request)
+
+        @http.request(request, &block)
+      end
+
+      logger.log_response_info(response, @host)
+
+      return if block
+
+      logger.debug(response.body) if response.body
+
+      parse(response, response_class)
     end
 
     def iterable_request(path, response: nil, response_class: nil, params: {}, &block)
@@ -217,6 +249,19 @@ module Vonage
 
     def logger
       @config.logger
+    end
+
+    private
+
+    def set_host
+      case self.class.host
+      when :rest_host
+        @config.rest_host
+      when :vonage_host
+        @config.vonage_host
+      else
+        @config.api_host
+      end
     end
   end
 

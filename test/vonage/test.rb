@@ -87,6 +87,10 @@ module Vonage
       'Basic dm9uYWdlLWFwaS1rZXk6dm9uYWdlLWFwaS1zZWNyZXQ='
     end
 
+    def vonage_host
+      "api-eu.vonage.com"
+    end
+    
     def request(body: nil, query: nil, headers: {}, auth: nil)
       headers['Authorization'] = auth || authorization
       headers['Content-Type'] = 'application/json' if body
