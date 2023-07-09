@@ -13,5 +13,3 @@ gem 'sorbet', :group => :development
 gem 'sorbet-runtime'
 gem 'phonelib'
 gem 'codecov', :require => false, :group => :test
-
-gem "ruby-lsp", "~> 0.3.8", :group => :development
