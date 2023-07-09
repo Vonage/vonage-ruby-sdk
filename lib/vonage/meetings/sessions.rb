@@ -9,7 +9,7 @@ module Vonage
 
     self.request_body = JSON
 
-    self.host = :meetings_host
+    self.host = :vonage_host
 
     # Return a list of recordings for a specified session.
     #
