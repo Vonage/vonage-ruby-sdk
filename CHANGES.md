@@ -1,8 +1,30 @@
+# 7.13.0
+
+* Adds support for the [Lists](https://developer.vonage.com/en/api/proactive-connect#lists), [Items](https://developer.vonage.com/en/api/proactive-connect#items), and [Events](https://developer.vonage.com/en/api/proactive-connect#events) operations of the [Proactive Connect API](https://developer.vonage.com/en/proactive-connect/overview). [#275](https://github.com/Vonage/vonage-ruby-sdk/pull/265)
+
+# 7.12.0
+
+* Adds Subaccounts API. [#275](https://github.com/Vonage/vonage-ruby-sdk/pull/275)
+
+# 7.11.0
+
+* Updates Voice API functionality. [#270](https://github.com/Vonage/vonage-ruby-sdk/pull/270)
+
+# 7.10.0
+
+* Adds Verify2. [#261](https://github.com/Vonage/vonage-ruby-sdk/pull/261)
+* Fixes link in README. [#266](https://github.com/Vonage/vonage-ruby-sdk/pull/266)
+
+# 7.9.0
+
+* Updates the Messages API implementation to add support for `video` and `file` messages types to the Viber channel, and `sticker` messages in the WhatsApp channel. [#260](https://github.com/Vonage/vonage-ruby-sdk/pull/260)
+* Updates the Numbers API implementation to use Basic authentication. [#262](https://github.com/Vonage/vonage-ruby-sdk/pull/262)
+
 # 7.8.2
 
 * Updates the GSM::CHARACTERS constant to remove `ç` and instead add `Ç`. Fixes [#256](https://github.com/Vonage/vonage-ruby-sdk/issues/255)
 * Updates code comments for `SMS#send` method to remove properties for unsupported message types `vCal`, `vCard`, and `wappush`
-* Updates namespacing for referencing `SecurityUtils#secure_compare` method due to change in `ruby-jwt ` gem dependency. 
+* Updates namespacing for referencing `SecurityUtils#secure_compare` method due to change in `ruby-jwt ` gem dependency.
 
 # 7.8.1
 

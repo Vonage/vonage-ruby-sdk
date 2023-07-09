@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 module Vonage
   class Voice::Actions::Talk
-    attr_accessor :text, :bargeIn, :loop, :level, :language, :style
+    attr_accessor :text, :bargeIn, :loop, :level, :language, :style, :premium
 
     def initialize(attributes= {})
       @text = attributes.fetch(:text)
@@ -11,6 +11,7 @@ module Vonage
       @level = attributes.fetch(:level, nil)
       @language = attributes.fetch(:language, nil)
       @style = attributes.fetch(:style, nil)
+      @premium = attributes.fetch(:premium, nil)
 
       after_initialize!
     end
@@ -31,6 +32,10 @@ module Vonage
       if self.style
         verify_style
       end
+
+      if self.premium
+        verify_premium
+      end
     end
 
     def verify_barge_in
@@ -47,6 +52,10 @@ module Vonage
 
     def verify_style
       raise ClientError.new("Expected 'style' value to be an Integer") unless self.style.is_a?(Integer)
+    end
+
+    def verify_premium
+      raise ClientError.new("Expected 'premium' value to be a Boolean") unless self.premium == true || self.premium == false
     end
 
     def action

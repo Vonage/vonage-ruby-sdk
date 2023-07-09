@@ -19,6 +19,7 @@ module Vonage
       self.signature_secret = ENV['VONAGE_SIGNATURE_SECRET']
       self.signature_method = ENV['VONAGE_SIGNATURE_METHOD'] || 'md5hash'
       self.token = T.let(nil, T.nilable(String))
+      self.vonage_host = 'api-eu.vonage.com'
     end
 
     # Merges the config with the given options hash.
@@ -201,6 +202,9 @@ module Vonage
 
     sig { params(token: T.nilable(String)).returns(T.nilable(String)) }
     attr_writer :token
+
+    sig { returns(String) }
+    attr_accessor :vonage_host
 
     protected
 

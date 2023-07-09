@@ -17,6 +17,8 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
     * [Webhook signatures](#webhook-signatures)
     * [Pagination](#pagination)
     * [NCCO Builder](#ncco-builder)
+    * [Messages API](#messages-api)
+    * [Verify API v2](#verify-api-v2)
 * [Documentation](#documentation)
 * [Frequently Asked Questions](#frequently-asked-questions)
     * [Supported APIs](#supported-apis)
@@ -220,11 +222,136 @@ Once the message data is created, you can then send the message.
 response = client.messaging.send(to: "447700900000", from: "447700900001", **message)
 ```
 
+## Verify API v2
+
+The [Vonage Verify API v2](https://developer.vonage.com/en/verify/verify-v2/overview) allows you to manage 2FA verification workflows over a number of different channels such as SMS, WhatsApp, WhatsApp Interactive, Voice, Email, and Silent Authentication, either individually or in combination with each other. See the Vonage Developer Documentation for a [complete API reference](https://developer.vonage.com/en/api/verify.v2) listing all the channels, verification options, and callback types.
+
+The Ruby SDK provides two methods for interacting with the Verify v2 API:
+
+- `Verify2#start_verification`: starts a new verification request. Here you can specify options for the request and the workflow to be used.
+- `Verify2#check_code`: for channels where the end-user is sent a one-time code, this method is used to verify the code against the `request_id` of the verification request created by the `start_verification` method.
+
+### Creating a Verify2 Object
+
+```ruby
+verify = client.verify2
+```
+
+### Making a verification request
+
+For simple requests, you may prefer to manually set the value for `workflow` (an array of one or more hashes containing the settings for a particular channel) and any optional params.
+
+Example with the required `:brand` and `:workflow` arguments:
+
+```ruby
+verification_request = verify.start_verification(
+  brand: 'Acme',
+  workflow: [{channel: 'sms', to: '447000000000'}]
+)
+```
+
+Example with the required `:brand` and `:workflow` arguments, and an optional `code_length`:
+
+```ruby
+verification_request = verify.start_verification(
+  brand: 'Acme',
+  workflow: [{channel: 'sms', to: '447000000000'}],
+  code_length: 6
+)
+```
+
+For more complex requests (e.g. with mutliple workflow channels or addtional options), or to take advantage of built-in input validation, you can use the `StartVerificationOptions` object and the `Workflow` and various channel objects or the `WorkflowBuilder`:
+
+#### Create options using StartVerificationOptions object
+
+```ruby
+opts = verify.start_verification_options(
+  locale: 'fr-fr',
+  code_length: 6,
+  client_ref: 'abc-123'
+).to_h
+
+verification_request = verify.start_verification(
+  brand: 'Acme',
+  workflow: [{channel: 'email', to: 'alice.example.com'}],
+  **opts
+)
+```
+
+#### Create workflow using Workflow and Channel objects
+
+```ruby
+# Instantiate a Workflow object
+workflow = verify.workflow
+
+# Add channels to the workflow
+workflow << workflow.sms(to: '447000000000')
+workflow << workflow.email(to: 'alice.example.com')
+
+# Channel data is encpsulated in channel objects stored in the Workflow list array
+workflow.list
+# => [ #<Vonage::Verify2::Channels::SMS:0x0000561474a74778 @channel="sms", @to="447000000000">,
+  #<Vonage::Verify2::Channels::Email:0x0000561474c51a28 @channel="email", @to="alice.example.com">]
+
+# To use the list as the value for `:workflow` in a `start_verification` request call,
+# the objects must be hashified
+workflow_list = workflow.hashified_list
+# => [{:channel=>"sms", :to=>"447000000000"}, {:channel=>"email", :to=>"alice.example.com"}]
+
+verification_request = verify.start_verification(brand: 'Acme', workflow: workflow_list)
+```
+
+#### Create a workflow using the WorkflowBuilder
+
+```ruby
+workflow = verify.workflow_builder.build do |builder|
+  builder.add_voice(to: '447000000001')
+  builder.add_whatsapp(to: '447000000000')
+end
+
+workflow_list = workflow.hashified_list
+# => [{:channel=>"voice", :to=>"447000000001"}, {:channel=>"whatsapp", :to=>"447000000000"}]
+
+verification_request = verify.start_verification(brand: 'Acme', workflow: workflow_list)
+```
+
+### Cancelling a request
+
+You can cancel in in-progress verification request
+
+```ruby
+# Get the `request_id` from the Vonage#Response object returned by the `start_verification` method call
+request_id = verification_request.request_id
+
+verify.cancel_verification_request(request_id: request_id)
+```
+
+### Checking a code
+
+```ruby
+# Get the `request_id` from the Vonage#Response object returned by the `start_verification` method call
+request_id = verification_request.request_id
+
+# Get the one-time code via user input
+# e.g. from params in a route handler or controller action for a form input
+code = params[:code]
+
+begin
+  code_check = verify.check_code(request_id: request_id, code: code)
+rescue => error
+  # an invalid code will raise an exception of type Vonage::ClientError
+end
+
+if code_check.http_response.code == '200'
+  # code is valid
+end
+```
+
 ## Documentation
 
 Vonage Ruby documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby-sdk
 
-Vonage Ruby code examples: https://github.com/Nexmo/nexmo-ruby-code-snippets
+Vonage Ruby code examples: https://github.com/Vonage/vonage-ruby-code-snippets
 
 Vonage APIs API reference: https://developer.nexmo.com/api
 
@@ -252,6 +379,7 @@ The following is a list of Vonage APIs and whether the Ruby SDK provides support
 | Reports API | Beta |❌|
 | SMS API | General Availability |✅|
 | Verify API | General Availability |✅|
+| Verify API v2 | General Availability |✅|
 | Voice API | General Availability |✅|
 
 ## License

@@ -1,7 +1,9 @@
 # typed: true
 # frozen_string_literal: true
-require "net/http"
-require "json"
+
+require 'net/http'
+require 'net/http/post/multipart'
+require 'json'
 
 module Vonage
   class Namespace
@@ -21,7 +23,7 @@ module Vonage
     end
 
     def self.host=(host)
-      raise ArgumentError unless %i[rest_host meetings_host].include?(host)
+      raise ArgumentError unless %i[rest_host vonage_host].include?(host)
 
       @host = host
     end
@@ -137,13 +139,37 @@ module Vonage
       end
     end
 
-    def iterable_request(
-      path,
-      response: nil,
-      response_class: nil,
-      params: {},
-      &block
-    )
+    def multipart_post_request(path, filepath:, file_name:, mime_type:, response_class: Response, &block)
+      authentication = self.class.authentication.new(@config)
+
+      uri = URI('https://' + @host + path)
+
+      response = File.open(filepath) do |file|
+        request = Net::HTTP::Post::Multipart.new(
+          uri,
+          {file: Multipart::Post::UploadIO.new(file, mime_type, file_name)}
+        )
+
+        request['User-Agent'] = UserAgent.string(@config.app_name, @config.app_version)
+
+        # Set BearerToken if needed
+        authentication.update(request)
+
+        logger.log_request_info(request)
+
+        @http.request(request, &block)
+      end
+
+      logger.log_response_info(response, @host)
+
+      return if block
+
+      logger.debug(response.body) if response.body
+
+      parse(response, response_class)
+    end
+
+    def iterable_request(path, response: nil, response_class: nil, params: {}, &block)
       json_response = ::JSON.parse(response.body)
       response = parse(response, response_class)
       remainder = remaining_count(json_response)
@@ -243,7 +269,7 @@ module Vonage
       when Net::HTTPNoContent
         response_class.new(nil, response)
       when Net::HTTPSuccess
-        if response["Content-Type"].split(";").first == "application/json"
+        if response['Content-Type'] && response['Content-Type'].split(';').first == 'application/json'
           entity = ::JSON.parse(response.body, object_class: Vonage::Entity)
 
           response_class.new(entity, response)
@@ -265,8 +291,8 @@ module Vonage
       case self.class.host
       when :rest_host
         @config.rest_host
-      when :meetings_host
-        @config.meetings_host
+      when :vonage_host
+        @config.vonage_host
       else
         @config.api_host
       end

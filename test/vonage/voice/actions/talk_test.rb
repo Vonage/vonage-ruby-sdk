@@ -38,12 +38,18 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
   def test_talk_with_invalid_level
     exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', level: -2 }) }
 
-    assert_match "Expected 'level' value to be a number between -1 and 1", exception.message 
+    assert_match "Expected 'level' value to be a number between -1 and 1", exception.message
   end
 
   def test_talk_with_invalid_style_value
     exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', style: 'baritone' }) }
 
-    assert_match "Expected 'style' value to be an Integer", exception.message 
+    assert_match "Expected 'style' value to be an Integer", exception.message
+  end
+
+  def test_talk_with_invalid_premium_value
+    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', premium: 'foo' }) }
+
+    assert_match "Expected 'premium' value to be a Boolean", exception.message
   end
 end

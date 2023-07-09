@@ -44,6 +44,22 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
     assert_includes whatsapp.data, :file
   end
 
+  def test_with_valid_type_sticker_specified_with_url
+    whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'sticker', message: { url: 'https://example.com/file.webp' })
+
+    assert_equal 'sticker', whatsapp.data[:message_type]
+    assert_includes whatsapp.data, :sticker
+    assert_includes whatsapp.data[:sticker], :url
+  end
+
+  def test_with_valid_type_sticker_specified_with_id
+    whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'sticker', message: { id: '16aec2a6-bf69-11ed-afa1-0242ac120002' })
+
+    assert_equal 'sticker', whatsapp.data[:message_type]
+    assert_includes whatsapp.data, :sticker
+    assert_includes whatsapp.data[:sticker], :id
+  end
+
   def test_with_invalid_type_specified
     exception = assert_raises {
       whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'vcard', message: { url: 'https://example.com/contact.vcf' })
@@ -111,6 +127,24 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
     assert_instance_of Vonage::ClientError, exception
     assert_match ":message must be a Hash", exception.message
+  end
+
+  def test_sticker_without_id_or_url
+    exception = assert_raises {
+      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'sticker', message: {})
+    }
+
+    assert_instance_of Vonage::ClientError, exception
+    assert_match ":message must contain either :id or :url", exception.message
+  end
+
+  def test_sticker_with_both_id_and_url
+    exception = assert_raises {
+      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'sticker', message: { url: 'https://example.com/file.webp', id: '16aec2a6-bf69-11ed-afa1-0242ac120002' })
+    }
+
+    assert_instance_of Vonage::ClientError, exception
+    assert_match ":message must contain either :id or :url", exception.message
   end
 
   def test_with_opts_client_ref

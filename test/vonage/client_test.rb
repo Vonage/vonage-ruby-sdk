@@ -62,6 +62,11 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::PricingTypes, client.pricing
   end
 
+  def test_proactive_connect_method
+    assert_kind_of Vonage::ProactiveConnect, client.proactive_connect
+  end
+
+
   def test_redact_method
     assert_kind_of Vonage::Redact, client.redact
   end
@@ -74,12 +79,20 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::SMS, client.sms
   end
 
+  def test_subaccounts_method
+    assert_kind_of Vonage::Subaccounts, client.subaccounts
+  end
+
   def test_tfa_method
     assert_kind_of Vonage::TFA, client.tfa
   end
 
   def test_verify_method
     assert_kind_of Vonage::Verify, client.verify
+  end
+
+  def test_verify2_method
+    assert_kind_of Vonage::Verify2, client.verify2
   end
 
   def test_raises_client_error_for_4xx_responses
