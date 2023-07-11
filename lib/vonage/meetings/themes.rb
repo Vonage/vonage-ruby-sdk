@@ -142,18 +142,16 @@ module Vonage
       raise ArgumentError, 'file at :filepath not readable' unless pn.readable?
       raise ArgumentError, "logo_type: must be one of #{valid_logo_types}" unless valid_logo_types.include?(logo_type)
 
-      creds = get_logo_upload_credentials
+      logo_upload_credentials = get_logo_upload_credentials
 
-      filtered_creds = creds.select {|cred| cred.fields.logo_type == logo_type }.first
+      filtered_logo_upload_credentials = logo_upload_credentials.select {|cred| cred.fields.logo_type == logo_type }.first
 
-      s3_upload_response = upload_logo_file(filepath: filepath, credentials: filtered_creds)
+      upload_logo_file(filepath: filepath, credentials: filtered_logo_upload_credentials)
 
-      if s3_upload_response.http_response.code == '204'
-        finalize_logos(theme_id: theme_id, keys: [filtered_creds.fields.key])
-      else
-        raise ClientError, 'problem with upload'
-      end
+      finalize_logos(theme_id: theme_id, keys: [filtered_logo_upload_credentials.fields.key])
     end
+
+    private
 
     def get_logo_upload_credentials
       request("/beta/meetings/themes/logos-upload-urls", response_class: ListResponse)
@@ -162,25 +160,7 @@ module Vonage
     def upload_logo_file(filepath:, credentials:)
       pn = Pathname.new(filepath)
 
-      creds_key_map = {
-        content_type: "Content-Type",
-        logo_type: "logoType",
-        x_amz_algorithm: "X-Amz-Algorithm",
-        x_amz_credential: "X-Amz-Credential",
-        x_amz_date: "X-Amz-Date",
-        x_amz_security_token: "X-Amz-Security-Token",
-        policy: "Policy",
-        x_amz_signature: "X-Amz-Signature"
-      }
-
-      params = {}
-      credentials.fields.attributes.each do |k,v|
-        if creds_key_map.keys.include?(k)
-          params[creds_key_map[k]] = v
-        else
-          params[k.to_s] = v
-        end
-      end
+      params = format_s3_upload_credentials(credentials)
 
       multipart_post_request(
         nil,
@@ -201,6 +181,28 @@ module Vonage
         },
         type: Put
       )
+    end
+
+    def format_s3_upload_credentials(credentials)
+      credentials_key_map = {
+        content_type: "Content-Type",
+        logo_type: "logoType",
+        x_amz_algorithm: "X-Amz-Algorithm",
+        x_amz_credential: "X-Amz-Credential",
+        x_amz_date: "X-Amz-Date",
+        x_amz_security_token: "X-Amz-Security-Token",
+        policy: "Policy",
+        x_amz_signature: "X-Amz-Signature"
+      }
+
+      params = credentials.fields.attributes
+      params.transform_keys do |k|
+        if credentials_key_map.keys.include?(k)
+          credentials_key_map[k]
+        else
+          k.to_s
+        end
+      end
     end
   end
 end
