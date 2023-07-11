@@ -6,11 +6,11 @@ class Vonage::Meetings::RoomsTest < Vonage::Test
   end
 
   def rooms_uri
-    "https://" + meetings_host + "/beta/meetings/rooms"
+    "https://" + meetings_host + "/meetings/rooms"
   end
 
   def room_uri
-    "https://" + meetings_host + "/beta/meetings/rooms/" + meetings_id
+    "https://" + meetings_host + "/meetings/rooms/" + meetings_id
   end
 
   def test_list_method

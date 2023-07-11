@@ -21,7 +21,7 @@ module Vonage
     #
     # TODO: add type signature
     def list
-      request("/beta/meetings/themes", response_class: ListResponse)
+      request("/meetings/themes", response_class: ListResponse)
     end
 
     # Return information for specified theme.
@@ -34,7 +34,7 @@ module Vonage
     #
     # TODO: add type signature
     def info(theme_id:)
-      request("/beta/meetings/themes/" + theme_id)
+      request("/meetings/themes/" + theme_id)
     end
 
     # Create a new theme.
@@ -54,7 +54,7 @@ module Vonage
     # TODO: add type signature
     def create(main_color:, brand_text:, **params)
       request(
-        "/beta/meetings/themes",
+        "/meetings/themes",
         params: params.merge(main_color: main_color, brand_text: brand_text),
         type: Post
       )
@@ -77,7 +77,7 @@ module Vonage
     # TODO: add type signature
     def update(theme_id:, **params)
       request(
-        "/beta/meetings/themes/" + theme_id,
+        "/meetings/themes/" + theme_id,
         params: {
           update_details: params
         },
@@ -99,7 +99,7 @@ module Vonage
     # TODO: add type signature
     def delete(theme_id:, force: false)
       request(
-        "/beta/meetings/themes/" + theme_id + "?force=#{force}",
+        "/meetings/themes/" + theme_id + "?force=#{force}",
         type: Delete
       )
     end
@@ -118,7 +118,7 @@ module Vonage
     #
     # TODO: add type signature
     def list_rooms(theme_id:, **params)
-      path = "/beta/meetings/themes/" + theme_id + "/rooms"
+      path = "/meetings/themes/" + theme_id + "/rooms"
       path += "?#{Params.encode(params)}" unless params.empty?
 
       request(path, response_class: Meetings::Rooms::ListResponse)
@@ -154,7 +154,7 @@ module Vonage
     private
 
     def get_logo_upload_credentials
-      request("/beta/meetings/themes/logos-upload-urls", response_class: ListResponse)
+      request("/meetings/themes/logos-upload-urls", response_class: ListResponse)
     end
 
     def upload_logo_file(filepath:, credentials:)
@@ -175,7 +175,7 @@ module Vonage
 
     def finalize_logos(theme_id:, keys: [])
       request(
-        "/beta/meetings/themes/" + theme_id + "/finalizeLogos",
+        "/meetings/themes/" + theme_id + "/finalizeLogos",
         params: {
           keys: keys
         },

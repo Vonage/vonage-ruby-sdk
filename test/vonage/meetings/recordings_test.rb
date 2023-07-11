@@ -6,7 +6,7 @@ class Vonage::Meetings::RecordingsTest < Vonage::Test
   end
 
   def recording_uri
-    "https://" + meetings_host + "/beta/meetings/recordings/" + meetings_id
+    "https://" + meetings_host + "/meetings/recordings/" + meetings_id
   end
 
   def test_info_method

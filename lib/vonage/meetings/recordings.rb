@@ -21,7 +21,7 @@ module Vonage
     #
     # TODO: add type signature
     def info(recording_id:)
-      request("/beta/meetings/recordings/" + recording_id)
+      request("/meetings/recordings/" + recording_id)
     end
 
     # Delete a specified recording.
@@ -34,7 +34,7 @@ module Vonage
     #
     # TODO: add type signature
     def delete(recording_id:)
-      request("/beta/meetings/recordings/" + recording_id, type: Delete)
+      request("/meetings/recordings/" + recording_id, type: Delete)
     end
   end
 end

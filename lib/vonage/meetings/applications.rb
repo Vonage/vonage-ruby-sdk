@@ -21,7 +21,7 @@ module Vonage
     #
     # TODO: add type signature
     def update(**params)
-      request("/beta/meetings/applications", params: params, type: Patch)
+      request("/meetings/applications", params: params, type: Patch)
     end
   end
 end

@@ -6,7 +6,7 @@ class Vonage::Meetings::DialInNumbersTest < Vonage::Test
   end
 
   def dial_in_numbers_uri
-    "https://" + meetings_host + "/beta/meetings/dial-in-numbers"
+    "https://" + meetings_host + "/meetings/dial-in-numbers"
   end
 
   def list_response

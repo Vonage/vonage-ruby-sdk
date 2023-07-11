@@ -22,7 +22,7 @@ module Vonage
     # TODO: add type signature
     def list_recordings(session_id:)
       request(
-        "/beta/meetings/sessions/" + session_id + "/recordings",
+        "/meetings/sessions/" + session_id + "/recordings",
         response_class: ListResponse
       )
     end

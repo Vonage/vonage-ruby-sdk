@@ -19,7 +19,7 @@ module Vonage
     #
     # TODO: add type signature
     def list
-      request("/beta/meetings/dial-in-numbers", response_class: ListResponse)
+      request("/meetings/dial-in-numbers", response_class: ListResponse)
     end
   end
 end

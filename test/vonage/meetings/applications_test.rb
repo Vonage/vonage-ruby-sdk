@@ -6,7 +6,7 @@ class Vonage::Meetings::ApplicationsTest < Vonage::Test
   end
 
   def applications_uri
-    "https://" + meetings_host + "/beta/meetings/applications"
+    "https://" + meetings_host + "/meetings/applications"
   end
 
   def test_update_method

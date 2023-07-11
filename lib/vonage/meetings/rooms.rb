@@ -25,7 +25,7 @@ module Vonage
     #
     # TODO: add type signature
     def list(**params)
-      path = "/beta/meetings/rooms"
+      path = "/meetings/rooms"
       path += "?#{Params.encode(params)}" unless params.empty?
 
       request(path, response_class: ListResponse)
@@ -41,7 +41,7 @@ module Vonage
     #
     # TODO: add type signature
     def info(room_id:)
-      request("/beta/meetings/rooms/" + room_id)
+      request("/meetings/rooms/" + room_id)
     end
 
     # Create a new room.
@@ -57,7 +57,7 @@ module Vonage
     # TODO: add type signature
     def create(display_name:, **params)
       request(
-        "/beta/meetings/rooms",
+        "/meetings/rooms",
         params: params.merge({ display_name: display_name }),
         type: Post
       )
@@ -76,7 +76,7 @@ module Vonage
     # TODO: add type signature
     def update(room_id:, **params)
       request(
-        "/beta/meetings/rooms/" + room_id,
+        "/meetings/rooms/" + room_id,
         params: {
           update_details: params
         },
