@@ -13,7 +13,6 @@ module Vonage
       self.api_secret = T.let(ENV['VONAGE_API_SECRET'], T.nilable(String))
       self.application_id = ENV['VONAGE_APPLICATION_ID']
       self.logger = (defined?(::Rails.logger) && ::Rails.logger) || Vonage::Logger.new(nil)
-      self.meetings_host = 'api-eu.vonage.com'
       self.private_key = ENV['VONAGE_PRIVATE_KEY_PATH'] ? File.read(T.must(ENV['VONAGE_PRIVATE_KEY_PATH'])) : ENV['VONAGE_PRIVATE_KEY']
       self.rest_host = 'rest.nexmo.com'
       self.signature_secret = ENV['VONAGE_SIGNATURE_SECRET']
@@ -135,9 +134,6 @@ module Vonage
     def logger=(logger)
       @logger = T.let(Logger.new(logger), T.nilable(Vonage::Logger))
     end
-
-    sig { returns(String) }
-    attr_accessor :meetings_host
 
     # Returns the value of attribute private_key.
     #

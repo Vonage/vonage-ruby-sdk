@@ -135,14 +135,72 @@ module Vonage
     # @see TODO: add docs link
     #
     # TODO: add type signature
-    def upload_logo(theme_id:)
-      # TODO: combine 3 steps to upload logo:
-      #
-      # 1. Get URLs that can be used to upload logos for a theme via a POST: https://nexmo-developer.herokuapp.com/api/meetings#getUploadUrlsForTheme
-      # 2. Make a POST request to the URL
-      # 3. Change given logo to be permanent: https://nexmo-developer.herokuapp.com/api/meetings#finalizeLogosForTheme
-      #
-      # See documentation for more info: https://developer.vonage.com/en/meetings/code-snippets/theme-management#uploading-icons-and-logos
+    def set_logo(theme_id:, filepath:, logo_type:)
+      pn = Pathname.new(filepath)
+      valid_logo_types = ['white', 'colored', 'favicon']
+      raise ArgumentError, ':filepath not for a file' unless pn.file?
+      raise ArgumentError, 'file at :filepath not readable' unless pn.readable?
+      raise ArgumentError, "logo_type: must be one of #{valid_logo_types}" unless valid_logo_types.include?(logo_type)
+
+      creds = get_logo_upload_credentials
+
+      filtered_creds = creds.select {|cred| cred.fields.logo_type == logo_type }.first
+
+      s3_upload_response = upload_logo_file(filepath: filepath, credentials: filtered_creds)
+
+      if s3_upload_response.http_response.code == '204'
+        finalize_logos(theme_id: theme_id, keys: [filtered_creds.fields.key])
+      else
+        raise ClientError, 'problem with upload'
+      end
+    end
+
+    def get_logo_upload_credentials
+      request("/beta/meetings/themes/logos-upload-urls", response_class: ListResponse)
+    end
+
+    def upload_logo_file(filepath:, credentials:)
+      pn = Pathname.new(filepath)
+
+      creds_key_map = {
+        content_type: "Content-Type",
+        logo_type: "logoType",
+        x_amz_algorithm: "X-Amz-Algorithm",
+        x_amz_credential: "X-Amz-Credential",
+        x_amz_date: "X-Amz-Date",
+        x_amz_security_token: "X-Amz-Security-Token",
+        policy: "Policy",
+        x_amz_signature: "X-Amz-Signature"
+      }
+
+      params = {}
+      credentials.fields.attributes.each do |k,v|
+        if creds_key_map.keys.include?(k)
+          params[creds_key_map[k]] = v
+        else
+          params[k.to_s] = v
+        end
+      end
+
+      multipart_post_request(
+        nil,
+        filepath: filepath,
+        file_name: pn.basename,
+        mime_type: credentials.fields.content_type,
+        params: params,
+        override_uri: credentials.url,
+        no_auth: true
+      )
+    end
+
+    def finalize_logos(theme_id:, keys: [])
+      request(
+        "/beta/meetings/themes/" + theme_id + "/finalizeLogos",
+        params: {
+          keys: keys
+        },
+        type: Put
+      )
     end
   end
 end

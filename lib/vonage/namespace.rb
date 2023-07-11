@@ -139,25 +139,29 @@ module Vonage
       end
     end
 
-    def multipart_post_request(path, filepath:, file_name:, mime_type:, response_class: Response, &block)
-      authentication = self.class.authentication.new(@config)
+    def multipart_post_request(path, filepath:, file_name:, mime_type:, params: {}, override_uri: nil, no_auth: false, response_class: Response, &block)
+      authentication = self.class.authentication.new(@config) unless no_auth
 
-      uri = URI('https://' + @host + path)
+      uri = override_uri ? URI(override_uri) : URI('https://' + @host + path)
+
+      http = override_uri ? Net::HTTP.new(uri.host, Net::HTTP.https_default_port, p_addr = nil) : @http
+      http.use_ssl = true
+      http.set_debug_output($stdout)
 
       response = File.open(filepath) do |file|
         request = Net::HTTP::Post::Multipart.new(
           uri,
-          {file: Multipart::Post::UploadIO.new(file, mime_type, file_name)}
+          params.merge(file: Multipart::Post::UploadIO.new(file, mime_type, file_name))
         )
 
         request['User-Agent'] = UserAgent.string(@config.app_name, @config.app_version)
 
         # Set BearerToken if needed
-        authentication.update(request)
+        authentication.update(request) unless no_auth
 
         logger.log_request_info(request)
 
-        @http.request(request, &block)
+        http.request(request, &block)
       end
 
       logger.log_response_info(response, @host)
