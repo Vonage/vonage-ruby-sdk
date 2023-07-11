@@ -20,6 +20,10 @@ class Vonage::Meetings::ThemesTest < Vonage::Test
     }
   end
 
+  def test_png_file
+    file = Tempfile.create(['logo', '.png'])
+  end
+
   def test_list_method
     stub_request(:get, themes_uri).to_return(list_response)
 
@@ -152,11 +156,85 @@ class Vonage::Meetings::ThemesTest < Vonage::Test
     room_list.each { |room| assert_kind_of Vonage::Entity, room }
   end
 
-  def test_upload_logo_method
-    skip
+  def test_set_logo_method
+    stub_request(:get, themes_uri + "/logos-upload-urls").to_return(get_logo_upload_credentials_response)
+    stub_request(:post, "https://storage-url.com").to_return(status: 204)
+    stub_request(:put, theme_uri + "/finalizeLogos").with(body: {keys: ["auto-expiring-temp/logos/white/ca63a155-d5f0-4131-9903-c59907e53df0"]}).to_return(response)
+
+    assert_kind_of Vonage::Response, themes.set_logo(theme_id: meetings_id, filepath: test_png_file.path, logo_type: 'white')
   end
 
-  def test_upload_logo_method_without_theme_id
-    skip
+  def test_set_logo_method_without_theme_id
+    assert_raises(ArgumentError) { themes.set_logo(filepath: test_png_file.path, logo_type: 'white') }
+  end
+
+  def test_set_logo_method_without_filepath
+    assert_raises(ArgumentError) { themes.set_logo(theme_id: meetings_id, logo_type: 'white') }
+  end
+
+  def test_set_logo_method_without_logo_type
+    assert_raises(ArgumentError) { themes.set_logo(theme_id: meetings_id, filepath: test_png_file.path) }
+  end
+
+  def test_set_logo_method_with_invalid_filepath
+    assert_raises(ArgumentError) { themes.set_logo(theme_id: meetings_id, filepath: '/foo/bar/logo.png', logo_type: 'white') }
+  end
+
+  def test_set_logo_method_with_invalid_logo_type
+    assert_raises(ArgumentError) { themes.set_logo(theme_id: meetings_id, filepath: test_png_file.path, logo_type: 'foo') }
+  end
+
+  def get_logo_upload_credentials_response
+    {
+      body: '[
+        {
+          "url": "https://storage-url.com",
+          "fields": {
+            "Content-Type": "image/png",
+            "key": "auto-expiring-temp/logos/white/ca63a155-d5f0-4131-9903-c59907e53df0",
+            "logoType": "white",
+            "bucket": "roomservice-whitelabel-logos-prod",
+            "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+            "X-Amz-Credential": "ASSCSSQSAMKJISDGBW/20220410/us-east-1/s3/aws4_request",
+            "X-Amz-Date": "20220410T200246Z",
+            "X-Amz-Security-Token": "IQoJb3JpZ2luX2VjEBIaCXVzLWVhc3QtMSJHMEUCIDMxvPG4",
+            "Policy": "eyJleHBpcmF0aW9uIjoiMjAyMy0wNi0wN1QxMjo0Njo0MFo",
+            "X-Amz-Signature": "fcb46c1adfa98836f0533aadebedc6fb1edbd90aa583f3264c0ae5bb63d83123"
+           }
+        },
+        {
+          "url": "https://storage-url.com",
+          "fields": {
+            "Content-Type": "image/png",
+            "key": "auto-expiring-temp/logos/colored/ca63a155-d5f0-4131-9903-c59907e53df0",
+            "logoType": "colored",
+            "bucket": "roomservice-whitelabel-logos-prod",
+            "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+            "X-Amz-Credential": "ASSCSSQSAMKJISDGBW/20220410/us-east-1/s3/aws4_request",
+            "X-Amz-Date": "20220410T200246Z",
+            "X-Amz-Security-Token": "IQoJb3JpZ2luX2VjEBIaCXVzLWVhc3QtMSJHMEUCIDMxvPG4",
+            "Policy": "eyJleHBpcmF0aW9uIjoiMjAyMy0wNi0wN1QxMjo0Njo0MFo",
+            "X-Amz-Signature": "fcb46c1adfa98836f0533aadebedc6fb1edbd90aa583f3264c0ae5bb63d83123"
+           }
+        },
+        {
+          "url": "https://storage-url.com",
+          "fields": {
+            "Content-Type": "image/png",
+            "key": "auto-expiring-temp/logos/favicon/ca63a155-d5f0-4131-9903-c59907e53df0",
+            "logoType": "favicon",
+            "bucket": "roomservice-whitelabel-logos-prod",
+            "X-Amz-Algorithm": "AWS4-HMAC-SHA256",
+            "X-Amz-Credential": "ASSCSSQSAMKJISDGBW/20220410/us-east-1/s3/aws4_request",
+            "X-Amz-Date": "20220410T200246Z",
+            "X-Amz-Security-Token": "IQoJb3JpZ2luX2VjEBIaCXVzLWVhc3QtMSJHMEUCIDMxvPG4",
+            "Policy": "eyJleHBpcmF0aW9uIjoiMjAyMy0wNi0wN1QxMjo0Njo0MFo",
+            "X-Amz-Signature": "fcb46c1adfa98836f0533aadebedc6fb1edbd90aa583f3264c0ae5bb63d83123"
+           }
+        }
+      ]',
+      headers: response_headers,
+      status: 200
+    }
   end
 end
