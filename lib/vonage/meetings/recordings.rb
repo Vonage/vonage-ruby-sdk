@@ -13,26 +13,22 @@ module Vonage
 
     # Return information for specified recording.
     #
-    # @param [required, String] recording_id (The id of the recoring for which the info should be returned)
+    # @param [required, String] recording_id The id of the recoring for which the info should be returned
     #
     # @return [Response]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#getRecording
     def info(recording_id:)
       request("/meetings/recordings/" + recording_id)
     end
 
     # Delete a specified recording.
     #
-    # @param [required, String] recording_id (The id of the recoring to be deleted)
+    # @param [required, String] recording_id The id of the recoring to be deleted
     #
     # @return [Response]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#deleteRecording
     def delete(recording_id:)
       request("/meetings/recordings/" + recording_id, type: Delete)
     end

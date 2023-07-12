@@ -13,13 +13,11 @@ module Vonage
 
     # Update an existing application.
     #
-    # @param [optional, String] default_theme_id (The id of the theme to set as application default theme)
+    # @param [required, String] :default_theme_id The id of the theme to set as application default theme
     #
     # @return [Response]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#updateApplication
     def update(default_theme_id:)
       request("/meetings/applications", params: {update_details: {default_theme_id: default_theme_id}}, type: Patch)
     end

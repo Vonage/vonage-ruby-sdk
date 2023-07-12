@@ -13,13 +13,11 @@ module Vonage
 
     # Return a list of recordings for a specified session.
     #
-    # @param [required, String] session_id (The id of the session for which the recordings list should be returned)
+    # @param [required, String] session_id The id of the session for which the recordings list should be returned
     #
     # @return [ListResponse]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#getSessionRecordings
     def list_recordings(session_id:)
       request(
         "/meetings/sessions/" + session_id + "/recordings",

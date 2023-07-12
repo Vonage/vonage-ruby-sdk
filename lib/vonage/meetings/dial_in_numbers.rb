@@ -15,9 +15,7 @@ module Vonage
     #
     # @return [ListResponse]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#getDialInNumbers
     def list
       request("/meetings/dial-in-numbers", response_class: ListResponse)
     end

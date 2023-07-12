@@ -13,26 +13,20 @@ module Vonage
 
     # Get a list of themes associated with the Vonage application.
     #
-    # TODO: add auto_advance option
-    #
     # @return [ListResponse]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#getThemes
     def list
       request("/meetings/themes", response_class: ListResponse)
     end
 
     # Return information for specified theme.
     #
-    # @param [required, String] theme_id (The id of the theme for which the info should be returned)
+    # @param [required, String] theme_id The id of the theme for which the info should be returned
     #
     # @return [Response]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#getThemeById
     def info(theme_id:)
       request("/meetings/themes/" + theme_id)
     end
@@ -40,18 +34,20 @@ module Vonage
     # Create a new theme.
     #
     # @param [required, String] :main_color
+    #   The main color that will be used for the meeting room.
     #
     # @param [required, String] :brand_text
+    #   The text that will appear on the meeting homepage, in the case that there is no brand image
     #
     # @param [optional, String] :theme_name
+    #   The name of the theme (must be unique). If null, a UUID will automatically be generated
     #
     # @param [optional, String] :short_company_url
+    #   The URL that will represent every meeting room with this theme. The value must be unique across Vonage
     #
     # @return [Response]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#createTheme
     def create(main_color:, brand_text:, **params)
       request(
         "/meetings/themes",
@@ -62,19 +58,23 @@ module Vonage
 
     # Update an existing theme.
     #
-    # @param [optional, String] :main_color
+    # @param [required, String] theme_id The id of the theme to be updated
     #
-    # @param [optional, String] :brand_text
+    # @param [required, String] :main_color
+    #   The main color that will be used for the meeting room.
+    #
+    # @param [required, String] :brand_text
+    #   The text that will appear on the meeting homepage, in the case that there is no brand image
     #
     # @param [optional, String] :theme_name
+    #   The name of the theme (must be unique). If null, a UUID will automatically be generated
     #
     # @param [optional, String] :short_company_url
+    #   The URL that will represent every meeting room with this theme. The value must be unique across Vonage
     #
     # @return [Response]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#updateTheme
     def update(theme_id:, **params)
       request(
         "/meetings/themes/" + theme_id,
@@ -87,16 +87,14 @@ module Vonage
 
     # Delete an existing theme.
     #
-    # @param [required, String] theme_id
+    # @param [required, String] :theme_id The id of the theme to be deleted
     #
-    # @param [optional, Boolean] force. Set to `true` to force delete a theme currently being used for a room, or as
+    # @param [optional, Boolean] :force. Set to `true` to force delete a theme currently being used for a room, or as
     # a default theme. (Defaults to `false`)
     #
     # @return [Response]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#deleteTheme
     def delete(theme_id:, force: false)
       request(
         "/meetings/themes/" + theme_id + "?force=#{force}",
@@ -106,17 +104,17 @@ module Vonage
 
     # Get a list of rooms that are associated with a theme id.
     #
-    # @param [required, String] theme_id
+    # @param [required, String] theme_id THe ID of the theme to search for rooms associated with.
     #
-    # @param [optional, String] :start_id
+    # @param [optional, Integer] :start_id
     #
-    # @param [optional, String] :end_id
+    # @param [optional, Integer] :end_id
+    #
+    # @param [optional, Integer] :page_size
     #
     # @return [Response]
     #
-    # @see TODO: add docs link
-    #
-    # TODO: add type signature
+    # @see https://developer.vonage.com/en/api/meetings#getRoomsByThemeId
     def list_rooms(theme_id:, **params)
       path = "/meetings/themes/" + theme_id + "/rooms"
       path += "?#{Params.encode(params)}" unless params.empty?
@@ -124,15 +122,27 @@ module Vonage
       request(path, response_class: Meetings::Rooms::ListResponse)
     end
 
-    # Update an existing room.
+    # Set a logo for a theme.
     #
-    # @param [required, String] theme_id
+    # @param [required, String] :theme_id The ID of the theme for which the logo should be set
     #
-    # TODO: add remaining params
+    # @param [required, String] :filepath
+    #   The filepath of the logo file. Logo files must conform to the following requirements:
+    #     - Format: PNG
+    #     - Maximum size: 1MB
+    #     - Background must be transparent
+    #     - Dimensions:
+    #       - 1 px - 300 px (`white` and `colored` logos)
+    #       - 16 x 16 - 32 x 32 and must be square (favicon)
+    #
+    # @param [required, String] :logo_type
+    #   The type of logo to be set. Must be one of `white`, `colored`, `favicon`
     #
     # @return [Response]
     #
-    # @see TODO: add docs link
+    # @see https://developer.vonage.com/en/meetings/guides/theme-management#uploading-icons-and-logos
+    # @see https://developer.vonage.com/en/api/meetings#getUploadUrlsForTheme
+    # @see https://developer.vonage.com/en/api/meetings#finalizeLogosForTheme
     #
     # TODO: add type signature
     def set_logo(theme_id:, filepath:, logo_type:)
