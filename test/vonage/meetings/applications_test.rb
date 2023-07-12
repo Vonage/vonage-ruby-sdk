@@ -10,23 +10,20 @@ class Vonage::Meetings::ApplicationsTest < Vonage::Test
   end
 
   def test_update_method
-    stub_request(:patch, applications_uri).to_return(response)
-
-    assert_kind_of Vonage::Response, applications.update
-  end
-
-  def test_update_method_with_optional_arguments
     stub_request(:patch, applications_uri).with(
       request(
         body: {
-          default_theme_id: "aecda5ae-6296-42df-a881-67bdd1ecacb8"
+          update_details: {
+            default_theme_id: "aecda5ae-6296-42df-a881-67bdd1ecacb8"
+          }
         }
       )
     ).to_return(response)
 
-    assert_kind_of Vonage::Response,
-                   applications.update(
-                     default_theme_id: "aecda5ae-6296-42df-a881-67bdd1ecacb8"
-                   )
+    assert_kind_of Vonage::Response, applications.update(default_theme_id: "aecda5ae-6296-42df-a881-67bdd1ecacb8")
+  end
+
+  def test_update_method_without_default_theme_id
+    assert_raises(ArgumentError) { applications.update }
   end
 end
