@@ -20,8 +20,8 @@ module Vonage
     # @see TODO: add docs link
     #
     # TODO: add type signature
-    def update(**params)
-      request("/meetings/applications", params: params, type: Patch)
+    def update(default_theme_id:)
+      request("/meetings/applications", params: {update_details: {default_theme_id: default_theme_id}}, type: Patch)
     end
   end
 end
