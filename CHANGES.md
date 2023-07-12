@@ -1,4 +1,4 @@
-# 7.12.0
+# 7.14.0
 
 * Adds Meetings API. [#258](https://github.com/Vonage/vonage-ruby-sdk/pull/258)
 
