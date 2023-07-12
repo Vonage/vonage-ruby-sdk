@@ -75,12 +75,6 @@ class Vonage::Meetings::RoomsTest < Vonage::Test
   end
 
   def test_update_method
-    stub_request(:patch, room_uri).to_return(response)
-
-    assert_kind_of Vonage::Response, rooms.update(room_id: meetings_id)
-  end
-
-  def test_update_method_with_optional_arguments
     stub_request(:patch, room_uri).with(
       request(
         body: {
@@ -99,6 +93,10 @@ class Vonage::Meetings::RoomsTest < Vonage::Test
   end
 
   def test_update_method_without_room_id
-    assert_raises(ArgumentError) { rooms.update }
+    assert_raises(ArgumentError) { rooms.update(expires_at: "2023-01-30 15:00:00.000") }
+  end
+
+  def test_update_method_without_additional_keyword_argument
+    assert_raises(ArgumentError) { rooms.update(room_id: meetings_id) }
   end
 end
