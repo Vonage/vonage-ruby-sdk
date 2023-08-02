@@ -45,19 +45,17 @@ class Vonage::UsersTest < Vonage::Test
   end
 
   def test_create_method
-    skip
     stub_request(:post, users_uri).with(request).to_return(response)
 
     assert_kind_of Vonage::Response, users.create
   end
 
   def test_create_method_with_optional_params
-    skip
     params = {name: 'USR-1234'}
 
     stub_request(:post, users_uri).with(request(body: params)).to_return(response)
 
-    assert_kind_of Vonage::Response, users.create(params)
+    assert_kind_of Vonage::Response, users.create(**params)
   end
 
   def test_update_method
@@ -66,7 +64,7 @@ class Vonage::UsersTest < Vonage::Test
 
     stub_request(:patch, user_uri).with(request(body: params)).to_return(response)
 
-    assert_kind_of Vonage::Response, users.update(params)
+    assert_kind_of Vonage::Response, users.update(**params)
   end
 
   def test_update_method_with_optional_params
@@ -75,7 +73,7 @@ class Vonage::UsersTest < Vonage::Test
 
     stub_request(:patch, user_uri).with(request(body: params)).to_return(response)
 
-    assert_kind_of Vonage::Response, users.update(params)
+    assert_kind_of Vonage::Response, users.update(**params)
   end
 
   def test_update_method_without_id

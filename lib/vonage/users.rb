@@ -16,8 +16,8 @@ module Vonage
       request("/v1/users/#{id}")
     end
 
-    def create
-
+    def create(**params)
+      request('/v1/users', params: params, type: Post)
     end
 
     def update
