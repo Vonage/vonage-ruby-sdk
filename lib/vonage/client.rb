@@ -145,6 +145,13 @@ module Vonage
       @tfa ||= T.let(TFA.new(config), T.nilable(Vonage::TFA))
     end
 
+    # @return [Users]
+    #
+    sig { returns(T.nilable(Vonage::Users)) }
+    def users
+      @users ||= T.let(Users.new(config), T.nilable(Vonage::Users))
+    end
+
     # @return [Verify]
     #
     sig { returns(T.nilable(Vonage::Verify)) }

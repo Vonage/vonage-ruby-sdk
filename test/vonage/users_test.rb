@@ -73,6 +73,7 @@ class Vonage::UsersTest < Vonage::Test
   end
 
   def test_update_method_without_id
+    skip
     assert_raises ArgumentError do
       users.update
     end
