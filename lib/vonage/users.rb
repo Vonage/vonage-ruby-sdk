@@ -4,12 +4,12 @@
 module Vonage
   class Users < Namespace
     extend T::Sig
-    self.authentication = JWT
+    self.authentication = BearerToken
 
     self.request_body = JSON
 
-    def list
-
+    def list(**params)
+      request('/v1/users', params: params, response_class: ListResponse)
     end
 
     def find

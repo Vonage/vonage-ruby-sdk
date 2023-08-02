@@ -7,18 +7,26 @@ class Vonage::UsersTest < Vonage::Test
   end
 
   def users_uri
-    'https://api.nexmo.com//v1/users'
+    'https://api.nexmo.com/v1/users'
   end
 
   def user_uri
-    'https://api.nexmo.com//v1/users/' + user_id
+    'https://api.nexmo.com/v1/users/' + user_id
   end
 
   def test_list_method
-    skip
     stub_request(:get, users_uri).with(request).to_return(users_response)
 
     response = users.list
+
+    assert_kind_of Vonage::Users::ListResponse, response
+    response.each{|resp| assert_kind_of Vonage::Response, resp }
+  end
+
+  def test_list_method_with_optional_params
+    stub_request(:get, users_uri + '?order=asc').with(request).to_return(users_response)
+
+    response = users.list(order: 'asc')
 
     assert_kind_of Vonage::Users::ListResponse, response
     response.each{|resp| assert_kind_of Vonage::Response, resp }
