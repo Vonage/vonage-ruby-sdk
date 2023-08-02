@@ -20,8 +20,8 @@ module Vonage
       request('/v1/users', params: params, type: Post)
     end
 
-    def update
-
+    def update(id:, **params)
+      request("/v1/users/#{id}", params: params.merge(id: id), type: Patch)
     end
 
     def delete

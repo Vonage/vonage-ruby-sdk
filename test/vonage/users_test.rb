@@ -59,7 +59,6 @@ class Vonage::UsersTest < Vonage::Test
   end
 
   def test_update_method
-    skip
     params = {id: user_id}
 
     stub_request(:patch, user_uri).with(request(body: params)).to_return(response)
@@ -68,7 +67,6 @@ class Vonage::UsersTest < Vonage::Test
   end
 
   def test_update_method_with_optional_params
-    skip
     params = {id: user_id, display_name: 'Foo'}
 
     stub_request(:patch, user_uri).with(request(body: params)).to_return(response)
@@ -77,7 +75,6 @@ class Vonage::UsersTest < Vonage::Test
   end
 
   def test_update_method_without_id
-    skip
     assert_raises ArgumentError do
       users.update
     end
