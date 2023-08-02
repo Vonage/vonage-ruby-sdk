@@ -12,8 +12,8 @@ module Vonage
       request('/v1/users', params: params, response_class: ListResponse)
     end
 
-    def find
-
+    def find(id:)
+      request("/v1/users/#{id}")
     end
 
     def create

@@ -33,14 +33,12 @@ class Vonage::UsersTest < Vonage::Test
   end
 
   def test_find_method
-    skip
     stub_request(:get, user_uri).with(request).to_return(response)
 
     assert_kind_of Vonage::Response, users.find(id: user_id)
   end
 
   def test_find_method_without_id
-    skip
     assert_raises ArgumentError do
       users.find
     end
