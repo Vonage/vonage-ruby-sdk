@@ -81,14 +81,12 @@ class Vonage::UsersTest < Vonage::Test
   end
 
   def test_delete_method
-    skip
-    stub_request(:delete, user_id).with(request).to_return(status: 204)
+    stub_request(:delete, user_uri).with(request).to_return(status: 204)
 
     assert_kind_of Vonage::Response, users.delete(id: user_id)
   end
 
   def test_delete_method_without_id
-    skip
     assert_raises ArgumentError do
       users.delete
     end
