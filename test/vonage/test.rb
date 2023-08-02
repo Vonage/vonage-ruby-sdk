@@ -95,7 +95,7 @@ module Vonage
     def vonage_host
       "api-eu.vonage.com"
     end
-    
+
     def request(body: nil, query: nil, headers: {}, auth: nil)
       headers['Authorization'] = auth || authorization
       headers['Content-Type'] = 'application/json' if body
@@ -113,6 +113,10 @@ module Vonage
 
     def secrets_response
       { body: '{"_embedded": {"secrets":[]}}', headers: response_headers }
+    end
+
+    def users_response
+      { body: '{"_embedded": {"users":[]}}', headers: response_headers }
     end
 
     def numbers_response

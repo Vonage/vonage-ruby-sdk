@@ -87,6 +87,10 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::TFA, client.tfa
   end
 
+  def test_users_method
+    assert_kind_of Vonage::Users, client.users
+  end
+
   def test_verify_method
     assert_kind_of Vonage::Verify, client.verify
   end
