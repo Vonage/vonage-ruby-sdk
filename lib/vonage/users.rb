@@ -21,7 +21,7 @@ module Vonage
     end
 
     def update(id:, **params)
-      request("/v1/users/#{id}", params: params.merge(id: id), type: Patch)
+      request("/v1/users/#{id}", params: params, type: Patch)
     end
 
     def delete(id:)

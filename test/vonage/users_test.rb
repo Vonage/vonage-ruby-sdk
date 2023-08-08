@@ -59,19 +59,17 @@ class Vonage::UsersTest < Vonage::Test
   end
 
   def test_update_method
-    params = {id: user_id}
+    stub_request(:patch, user_uri).to_return(response)
 
-    stub_request(:patch, user_uri).with(request(body: params)).to_return(response)
-
-    assert_kind_of Vonage::Response, users.update(**params)
+    assert_kind_of Vonage::Response, users.update(id: user_id)
   end
 
   def test_update_method_with_optional_params
-    params = {id: user_id, display_name: 'Foo'}
+    params = {display_name: 'Foo'}
 
     stub_request(:patch, user_uri).with(request(body: params)).to_return(response)
 
-    assert_kind_of Vonage::Response, users.update(**params)
+    assert_kind_of Vonage::Response, users.update(id: user_id, **params)
   end
 
   def test_update_method_without_id
