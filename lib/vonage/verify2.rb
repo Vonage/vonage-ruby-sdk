@@ -28,7 +28,7 @@ module Vonage
     #   @option opts [String] :client_ref Reference to be included in callbacks
     #   @option opts [Boolean] If used, must be set to `false`. Will bypass a network block for a single Verify V2 request
     #
-    # @return Vomage::Response
+    # @return Vonage::Response
     # @see https://developer.vonage.com/en/api/verify.v2#newRequest
     #
     def start_verification(brand:, workflow:, **opts)
