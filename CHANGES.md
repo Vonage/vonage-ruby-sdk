@@ -1,3 +1,7 @@
+# 7.15.0
+
+* Adds Users. [#282](https://github.com/Vonage/vonage-ruby-sdk/pull/282)
+
 # 7.14.0
 
 * Adds Meetings API. [#258](https://github.com/Vonage/vonage-ruby-sdk/pull/258)
