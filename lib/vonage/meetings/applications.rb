@@ -19,7 +19,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#updateApplication
     def update(default_theme_id:)
-      request("/meetings/applications", params: {update_details: {default_theme_id: default_theme_id}}, type: Patch)
+      request("/v1/meetings/applications", params: {update_details: {default_theme_id: default_theme_id}}, type: Patch)
     end
   end
 end

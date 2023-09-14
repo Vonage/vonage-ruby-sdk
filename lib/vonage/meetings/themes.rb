@@ -17,7 +17,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getThemes
     def list
-      request("/meetings/themes", response_class: ListResponse)
+      request("/v1/meetings/themes", response_class: ListResponse)
     end
 
     # Return information for specified theme.
@@ -28,7 +28,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getThemeById
     def info(theme_id:)
-      request("/meetings/themes/" + theme_id)
+      request("/v1/meetings/themes/" + theme_id)
     end
 
     # Create a new theme.
@@ -50,7 +50,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/meetings#createTheme
     def create(main_color:, brand_text:, **params)
       request(
-        "/meetings/themes",
+        "/v1/meetings/themes",
         params: params.merge(main_color: main_color, brand_text: brand_text),
         type: Post
       )
@@ -77,7 +77,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/meetings#updateTheme
     def update(theme_id:, **params)
       request(
-        "/meetings/themes/" + theme_id,
+        "/v1/meetings/themes/" + theme_id,
         params: {
           update_details: params
         },
@@ -97,7 +97,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/meetings#deleteTheme
     def delete(theme_id:, force: false)
       request(
-        "/meetings/themes/" + theme_id + "?force=#{force}",
+        "/v1/meetings/themes/" + theme_id + "?force=#{force}",
         type: Delete
       )
     end
@@ -116,7 +116,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getRoomsByThemeId
     def list_rooms(theme_id:, **params)
-      path = "/meetings/themes/" + theme_id + "/rooms"
+      path = "/v1/meetings/themes/" + theme_id + "/rooms"
       path += "?#{Params.encode(params)}" unless params.empty?
 
       request(path, response_class: Meetings::Rooms::ListResponse)
@@ -164,7 +164,7 @@ module Vonage
     private
 
     def get_logo_upload_credentials
-      request("/meetings/themes/logos-upload-urls", response_class: ListResponse)
+      request("/v1/meetings/themes/logos-upload-urls", response_class: ListResponse)
     end
 
     def upload_logo_file(filepath:, credentials:)
@@ -185,7 +185,7 @@ module Vonage
 
     def finalize_logos(theme_id:, keys: [])
       request(
-        "/meetings/themes/" + theme_id + "/finalizeLogos",
+        "/v1/meetings/themes/" + theme_id + "/finalizeLogos",
         params: {
           keys: keys
         },

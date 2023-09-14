@@ -17,7 +17,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getDialInNumbers
     def list
-      request("/meetings/dial-in-numbers", response_class: ListResponse)
+      request("/v1/meetings/dial-in-numbers", response_class: ListResponse)
     end
   end
 end
