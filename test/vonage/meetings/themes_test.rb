@@ -6,11 +6,11 @@ class Vonage::Meetings::ThemesTest < Vonage::Test
   end
 
   def themes_uri
-    "https://" + meetings_host + "/meetings/themes"
+    "https://" + meetings_host + "/v1/meetings/themes"
   end
 
   def theme_uri
-    "https://" + meetings_host + "/meetings/themes/" + meetings_id
+    "https://" + meetings_host + "/v1/meetings/themes/" + meetings_id
   end
 
   def list_response
