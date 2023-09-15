@@ -19,7 +19,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getRecording
     def info(recording_id:)
-      request("/meetings/recordings/" + recording_id)
+      request("/v1/meetings/recordings/" + recording_id)
     end
 
     # Delete a specified recording.
@@ -30,7 +30,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#deleteRecording
     def delete(recording_id:)
-      request("/meetings/recordings/" + recording_id, type: Delete)
+      request("/v1/meetings/recordings/" + recording_id, type: Delete)
     end
   end
 end

@@ -1,3 +1,7 @@
+# 7.15.1
+
+* Updates Meetings endpoints to `v1`. [#286](https://github.com/Vonage/vonage-ruby-sdk/pull/286)
+
 # 7.15.0
 
 * Adds Users. [#282](https://github.com/Vonage/vonage-ruby-sdk/pull/282)

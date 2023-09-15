@@ -23,7 +23,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getRooms
     def list(**params)
-      path = "/meetings/rooms"
+      path = "/v1/meetings/rooms"
       path += "?#{Params.encode(params)}" unless params.empty?
 
       request(path, response_class: ListResponse)
@@ -38,7 +38,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getRoom
     def info(room_id:)
-      request("/meetings/rooms/" + room_id)
+      request("/v1/meetings/rooms/" + room_id)
     end
 
     # Create a new room.
@@ -96,7 +96,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/meetings#createRoom
     def create(display_name:, **params)
       request(
-        "/meetings/rooms",
+        "/v1/meetings/rooms",
         params: params.merge({ display_name: display_name }),
         type: Post
       )
@@ -144,7 +144,7 @@ module Vonage
     def update(room_id:, **params)
       raise ArgumentError, 'must provide at least one other param in addition to :room_id' if params.empty?
       request(
-        "/meetings/rooms/" + room_id,
+        "/v1/meetings/rooms/" + room_id,
         params: {
           update_details: params
         },

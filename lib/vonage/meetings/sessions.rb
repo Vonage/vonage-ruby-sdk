@@ -20,7 +20,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/meetings#getSessionRecordings
     def list_recordings(session_id:)
       request(
-        "/meetings/sessions/" + session_id + "/recordings",
+        "/v1/meetings/sessions/" + session_id + "/recordings",
         response_class: ListResponse
       )
     end

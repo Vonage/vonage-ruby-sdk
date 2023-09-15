@@ -6,7 +6,7 @@ class Vonage::Meetings::SessionsTest < Vonage::Test
   end
 
   def sessions_uri
-    "https://" + meetings_host + "/meetings/sessions/" + meetings_id +
+    "https://" + meetings_host + "/v1/meetings/sessions/" + meetings_id +
       "/recordings"
   end
 
