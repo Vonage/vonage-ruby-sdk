@@ -12,6 +12,7 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
 * [Installation](#installation)
 * [Usage](#usage)
     * [Logging](#logging)
+    * [Exceptions](#exceptions)
     * [Overriding the default hosts](#overriding-the-default-hosts)
     * [JWT authentication](#jwt-authentication)
     * [Webhook signatures](#webhook-signatures)
@@ -82,6 +83,46 @@ By default the library sets the logger to `Rails.logger` if it is defined.
 
 To disable logging set the logger to `nil`.
 
+## Exceptions
+
+Where exceptions result from an error response from the Vonage API (HTTP responses that aren't ion the range `2xx` or `3xx`), the `Net::HTTPResponse` object will be available as a property of the `Exception` object via a `http_response` getter method (where there is no `Net::HTTPResponse` object associated with the exception, the value of `http_response` will be `nil`).
+
+You can rescue the the exception to access the `http_response`, as well as use other getters provided for specific parts of the response. For example:
+
+```ruby
+begin
+  verification_request = client.verify2.start_verification(
+    brand: 'Acme',
+    workflow: [{channel: 'sms', to: '44700000000'}]
+  )
+rescue Vonage::APIError => error
+  if error.http_response
+    error.http_response # => #<Net::HTTPUnauthorized 401 Unauthorized readbody=true>
+    error.http_response_code # => "401"
+    error.http_response_headers # => {"date"=>["Sun, 24 Sep 2023 11:08:47 GMT"], ...rest of headers}
+    error.http_response_body # => {"title"=>"Unauthorized", ...rest of body}
+  end
+end
+```
+
+For certain legacy API products, such as the [SMS API](https://developer.vonage.com/en/messaging/sms/overview), [Verify v1 API](https://developer.vonage.com/en/verify/verify-v1/overview) and [Number Insight v1 API](https://developer.vonage.com/en/number-insight/overview), a `200` response is received even in situations where there is an API-related error. For exceptions raised in these situation, rather than a `Net::HTTPResponse` object, a `Vonage::Response` object will be made available as a property of the exception via a `response` getter method. The properties on this object will depend on the response data provided by the API endpoint. For example:
+
+```ruby
+begin
+  sms = client.sms.send(
+    from: 'Vonage',
+    to: '44700000000',
+    text: 'Hello World!'
+  )
+rescue Vonage::Error => error
+  if error.is_a? Vonage::ServiceError
+    error.response # => #<Vonage::Response:0x0000555b2e49d4f8>
+    error.response.messages.first.status # => "4"
+    error.response.messages.first.error_text # => "Bad Credentials"
+    error.response.http_response # => #<Net::HTTPOK 200 OK readbody=true>
+  end
+end
+```
 
 ## Overriding the default hosts
 
