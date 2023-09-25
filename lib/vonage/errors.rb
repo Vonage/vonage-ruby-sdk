@@ -27,27 +27,30 @@ module Vonage
         when Net::HTTPServerError
           ServerError
         else
-          Error
+          APIError
         end
 
-      message =
-        if response.content_type == "application/json"
-          hash = ::JSON.parse(response.body)
+      message = response.content_type.to_s.include?("json") ? set_message(response) : ""
 
-          if hash.key?("error_title")
-            hash["error_title"]
-          elsif hash.key?("error-code-label")
-            hash["error-code-label"]
-          elsif hash.key?("description")
-            hash["description"]
-          elsif hash.key?("message")
-            hash["message"]
-          elsif problem_details?(hash)
-            problem_details_message(hash)
-          end
-        end
+      exception_class.new(message, http_response: response)
+    end
 
-      exception_class.new(message)
+    def self.set_message(response)
+      hash = ::JSON.parse(response.body)
+
+      if hash.key?("error_title")
+        hash["error_title"]
+      elsif hash.key?("error-code-label")
+        hash["error-code-label"]
+      elsif hash.key?("description")
+        hash["description"]
+      elsif hash.key?("message")
+        hash["message"]
+      elsif problem_details?(hash)
+        problem_details_message(hash)
+      else
+        ""
+      end
     end
 
     sig { params(hash: T::Hash[String, T.untyped]).returns(T::Boolean) }
@@ -57,7 +60,7 @@ module Vonage
 
     sig { params(hash: T::Hash[String, T.untyped]).returns(String) }
     def self.problem_details_message(hash)
-      "#{hash["title"]}. #{hash["detail"]} See #{hash["type"]} for more info, or email support@nexmo.com if you have any questions."
+      "#{hash["title"]}. #{hash["detail"]} See #{hash["type"]} for more info, or email support@vonage.com if you have any questions."
     end
   end
 

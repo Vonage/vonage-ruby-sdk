@@ -20,24 +20,43 @@ class Vonage::ErrorsTest < Minitest::Test
     error = Errors.parse(response(401))
 
     assert_kind_of Vonage::AuthenticationError, error
+    assert_kind_of Vonage::APIError, error
+    assert_kind_of Net::HTTPUnauthorized, error.http_response
+    assert_equal "401", error.http_response_code
+    assert_kind_of Hash, error.http_response_headers
+    assert_kind_of Hash, error.http_response_body
   end
 
   def test_parse_with_4xx_response
     error = Errors.parse(response(400))
 
     assert_kind_of Vonage::ClientError, error
+    assert_kind_of Vonage::APIError, error
+    assert_kind_of Net::HTTPClientError, error.http_response
+    assert_equal "400", error.http_response_code
+    assert_kind_of Hash, error.http_response_headers
+    assert_kind_of Hash, error.http_response_body
   end
 
   def test_parse_with_5xx_response
     error = Errors.parse(response(500))
 
     assert_kind_of Vonage::ServerError, error
+    assert_kind_of Vonage::APIError, error
+    assert_kind_of Net::HTTPInternalServerError, error.http_response
+    assert_equal "500", error.http_response_code
+    assert_kind_of Hash, error.http_response_headers
+    assert_kind_of Hash, error.http_response_body
   end
 
   def test_parse_with_other_response
     error = Errors.parse(response(101))
 
-    assert_kind_of Vonage::Error, error
+    assert_kind_of Vonage::APIError, error
+    assert_kind_of Net::HTTPInformation, error.http_response
+    assert_equal "101", error.http_response_code
+    assert_kind_of Hash, error.http_response_headers
+    assert_kind_of Hash, error.http_response_body
   end
 
   def test_parse_with_problem_response
@@ -55,7 +74,11 @@ class Vonage::ErrorsTest < Minitest::Test
     assert_includes error.message, 'You do not have enough credit.'
     assert_includes error.message, 'Your current balance is 30, but that costs 50.'
     assert_includes error.message, 'See https://example.com/Error#out-of-credit for more info,'
-    assert_includes error.message, 'or email support@nexmo.com if you have any questions.'
+    assert_includes error.message, 'or email support@vonage.com if you have any questions.'
+    assert_equal error.http_response_body['type'], "https://example.com/Error#out-of-credit"
+    assert_equal error.http_response_body['title'], "You do not have enough credit"
+    assert_equal error.http_response_body['detail'], "Your current balance is 30, but that costs 50."
+    assert_equal error.http_response_body['instance'], "<trace_id>"
   end
 
   def test_parse_with_invalid_parameters_response
@@ -70,6 +93,9 @@ class Vonage::ErrorsTest < Minitest::Test
     error = Errors.parse(error_response)
 
     assert_includes error.message, 'Bad Request'
+    assert_equal error.http_response_body['type'], "BAD_REQUEST"
+    assert_equal error.http_response_body['error_title'], "Bad Request"
+    assert_equal error.http_response_body['invalid_parameters']['event_url'], "Is required."
   end
 
   def test_parse_with_code_and_description
@@ -83,6 +109,8 @@ class Vonage::ErrorsTest < Minitest::Test
     error = Errors.parse(error_response)
 
     assert_includes error.message, 'Endpoint does not exist, or you do not have access'
+    assert_equal error.http_response_body['code'], "http:error:not-found"
+    assert_equal error.http_response_body['description'], "Endpoint does not exist, or you do not have access."
   end
 
   def test_parse_with_error_label
@@ -96,5 +124,7 @@ class Vonage::ErrorsTest < Minitest::Test
     error = Errors.parse(error_response)
 
     assert_includes error.message, 'Numbers from this country can be requested from the Dashboard'
+    assert_equal error.http_response_body['error-code'], "420"
+    assert_equal error.http_response_body['error-code-label'], "Numbers from this country can be requested from the Dashboard (https://dashboard.nexmo.com/buy-numbers) as they require a valid local address to be provided before being purchased."
   end
 end

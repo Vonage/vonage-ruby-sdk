@@ -1,3 +1,7 @@
+# 7.16.0
+
+* Adds HTTP Response context to some Exception types. [#287](https://github.com/Vonage/vonage-ruby-sdk/pull/287)
+
 # 7.15.1
 
 * Updates Meetings endpoints to `v1`. [#286](https://github.com/Vonage/vonage-ruby-sdk/pull/286)
