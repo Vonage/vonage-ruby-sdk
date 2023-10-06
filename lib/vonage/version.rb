@@ -1,5 +1,5 @@
 # typed: strong
 
 module Vonage
-  VERSION = "7.16.0"
+  VERSION = "7.17.0"
 end
