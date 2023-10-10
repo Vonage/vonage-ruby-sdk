@@ -24,8 +24,6 @@ module Vonage
 
     sig { params(request: T.any(Net::HTTP::Post, Net::HTTP::Get, Net::HTTP::Delete, Net::HTTP::Put, Net::HTTP::Patch)).void }
     def log_request_info(request)
-      @logger = T.let(@logger, T.nilable(T.any(::Logger, Vonage::Logger)))
-
       T.must(@logger).info do
         format('Vonage API request', {
           method: request.method,
