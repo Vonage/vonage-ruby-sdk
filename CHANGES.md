@@ -1,6 +1,6 @@
 # 7.16.1
 
-* Updates Sorbet type signatures for Logger creation and assignment. [#290](https://github.com/Vonage/vonage-ruby-sdk/pull/287)
+* Updates Sorbet type signatures for Logger creation and assignment. [#290](https://github.com/Vonage/vonage-ruby-sdk/pull/290)
 
 # 7.16.0
 
