@@ -6,21 +6,10 @@ module Vonage
     VALID_OPTS = [:locale, :channel_timeout, :client_ref, :code_length, :code, :fraud_check].freeze
 
     VALID_LOCALES = [
-      "de-de",
-      "en-gb",
-      "en-us",
-      "es-es",
-      "es-us",
-      "fr-fr",
-      "he-il",
-      "hi-in",
-      "id-id",
-      "it-it",
-      "ja-jp",
-      "pt-br",
-      "pt-pt",
-      "ru-ru",
-      "yue-cn"
+      "ar-xa", "cs-cz", "cy-gb", "de-de", "el-gr", "en-au", "en-gb", "en-in", "en-us", "es-es", "es-mx", "es-us",
+      "fi-fi", "fil-ph", "fr-ca", "fr-fr", "he-il", "hi-in", "hu-hu", "id-id", "is-is", "it-it", "ja-jp", "nb-no",
+      "nl-nl", "pl-pl", "pt-br", "pt-pt", "ro-ro", "ru-ru", "sv-se", "th-th", "tr-tr", "vi-vn", "yue-cn", "zh-cn",
+      "zh-tw"
     ].freeze
 
     MIN_CHANNEL_TIMEOUT, MAX_CHANNEL_TIMEOUT = [60, 900]
