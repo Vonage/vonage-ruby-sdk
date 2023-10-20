@@ -2,6 +2,11 @@
 
 * Removes locale validation in Verify2 in order to support any new locales added to the API. [#289](https://github.com/Vonage/vonage-ruby-sdk/pull/289)
 
+# 7.16.1
+
+* Updates Sorbet type signatures for Logger creation and assignment. [#290](https://github.com/Vonage/vonage-ruby-sdk/pull/290)
+
+
 # 7.16.0
 
 * Adds HTTP Response context to some Exception types. [#287](https://github.com/Vonage/vonage-ruby-sdk/pull/287)
