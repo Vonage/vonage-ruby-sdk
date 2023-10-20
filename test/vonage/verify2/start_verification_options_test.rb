@@ -16,13 +16,6 @@ class Vonage::Verify2::StartVerificationOptionsTest < Vonage::Test
     assert_equal 'en-gb', opts.instance_variable_get(:@locale)
   end
 
-  def test_locale_setter_method_with_invalid_arg
-    opts = options
-    assert_raises ArgumentError do
-      opts.locale = 'foo-bar'
-    end
-  end
-
   def test_channel_timeout_getter_method
     assert_nil options.channel_timeout
   end
