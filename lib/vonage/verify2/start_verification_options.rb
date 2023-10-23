@@ -5,11 +5,6 @@ module Vonage
   class Verify2::StartVerificationOptions
     VALID_OPTS = [:locale, :channel_timeout, :client_ref, :code_length, :code, :fraud_check].freeze
 
-    VALID_LOCALES = [
-      'en-us', 'en-gb', 'es-es', 'es-mx', 'es-us', 'it-it', 'fr-fr',
-      'de-de', 'ru-ru', 'hi-in', 'pt-br', 'pt-pt', 'id-id'
-    ].freeze
-
     MIN_CHANNEL_TIMEOUT, MAX_CHANNEL_TIMEOUT = [60, 900]
 
     MIN_CODE_LENGTH, MAX_CODE_LENGTH = [4, 10]
@@ -23,10 +18,6 @@ module Vonage
     end
 
     def locale=(locale)
-      unless VALID_LOCALES.include?(locale)
-        raise ArgumentError, "Invalid 'locale' #{locale}. Please choose from the following #{VALID_LOCALES}"
-      end
-
       @locale = locale
     end
 
