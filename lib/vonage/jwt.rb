@@ -39,5 +39,9 @@ module Vonage
       payload[:private_key] = private_key if private_key && !payload[:private_key]
       @token = Vonage::JWTBuilder.new(payload).jwt.generate
     end
+
+    def self.verify_hs256_signature(token:, signature_secret:)
+      verify_signature(token, signature_secret, 'HS256')
+    end
   end
 end

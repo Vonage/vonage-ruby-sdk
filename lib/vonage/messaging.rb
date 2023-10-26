@@ -25,5 +25,9 @@ module Vonage
     def send(params)
       request('/v1/messages', params: params, type: Post)
     end
+
+    def verify_webhook_token(token:, signature_secret: @config.signature_secret)
+      JWT.verify_hs256_signature(token: token, signature_secret: signature_secret)
+    end
   end
 end
