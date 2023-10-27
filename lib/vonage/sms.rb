@@ -91,11 +91,22 @@ module Vonage
       response
     end
 
+    def verify_webhook_sig(webhook_params:, signature_secret: @config.signature_secret, signature_method: @config.signature_method)
+      signature.check(webhook_params, signature_secret: signature_secret, signature_method: signature_method)
+    end
+
     private
 
     sig { params(text: String).returns(T::Boolean) }
     def unicode?(text)
       !Vonage::GSM7.encoded?(text)
+    end
+
+    # @return [Signature]
+    #
+    sig { returns(T.nilable(Vonage::Signature)) }
+    def signature
+      @signature ||= T.let(Signature.new(@config), T.nilable(Vonage::Signature))
     end
   end
 end

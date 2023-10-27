@@ -27,24 +27,24 @@ module Vonage
     #
     # @see https://developer.nexmo.com/concepts/guides/signing-messages
     #
-    def check(params, signature_method: @config.signature_method)
+    def check(params, signature_secret: @config.signature_secret, signature_method: @config.signature_method)
       params = params.dup
 
       signature = params.delete('sig')
 
-      ::JWT::Algos::Hmac::SecurityUtils.secure_compare(signature, digest(params, signature_method))
+      ::JWT::Algos::Hmac::SecurityUtils.secure_compare(signature, digest(params, signature_secret, signature_method))
     end
 
     private
 
-    def digest(params, signature_method)
+    def digest(params, signature_secret, signature_method)
       digest_string = params.sort.map { |k, v| "&#{k}=#{v.tr('&=', '_')}" }.join
 
       case signature_method
       when 'md5', 'sha1', 'sha256', 'sha512'
-        OpenSSL::HMAC.hexdigest(signature_method, @config.signature_secret, digest_string).upcase
+        OpenSSL::HMAC.hexdigest(signature_method, signature_secret, digest_string).upcase
       when 'md5hash'
-        Digest::MD5.hexdigest("#{digest_string}#{@config.signature_secret}")
+        Digest::MD5.hexdigest("#{digest_string}#{signature_secret}")
       else
         raise ArgumentError, "Unknown signature algorithm: #{signature_method}. Expected: md5hash, md5, sha1, sha256, or sha512."
       end
