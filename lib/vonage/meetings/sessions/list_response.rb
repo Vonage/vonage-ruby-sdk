@@ -6,6 +6,6 @@ class Vonage::Meetings::Sessions::ListResponse < Vonage::Response
   def each
     return enum_for(:each) unless block_given?
 
-    @entity._embedded.each { |item| yield item }
+    @entity._embedded.recordings.each { |item| yield item }
   end
 end
