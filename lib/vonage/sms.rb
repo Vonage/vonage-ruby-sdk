@@ -91,6 +91,15 @@ module Vonage
       response
     end
 
+    # Validate a Signature from an SMS API Webhook.
+    #
+    # @param [Hash, required] :webhook_params The parameters from the webhook request body
+    # @param [String, optional] :signature_secret The account signature secret. Required, unless `signature_secret`
+    #   is set in `Config`
+    # @param [String, optional] :signature_method The account signature method. Required, unless `signature_method`
+    #   is set in `Config`
+    #
+    # @return [Boolean] true, if the JWT is verified, false otherwise
     def verify_webhook_sig(webhook_params:, signature_secret: @config.signature_secret, signature_method: @config.signature_method)
       signature.check(webhook_params, signature_secret: signature_secret, signature_method: signature_method)
     end

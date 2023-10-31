@@ -40,6 +40,19 @@ module Vonage
       @token = Vonage::JWTBuilder.new(payload).jwt.generate
     end
 
+    # Validate a JSON Web Token from a Vonage Webhook.
+    #
+    # Certain Vonage APIs include a JWT signed with a user's account signature secret in
+    # the Authorization header of Webhook requests. This method can be used to verify that those requests originate
+    # from the Vonage API.
+    #
+    # @param [String, required] :token The JWT from the Webhook's Authorization header
+    # @param [String, required] :signature_secret The account signature secret
+    #
+    # @return [Boolean] true, if the JWT is verified, false otherwise
+    #
+    # @see https://developer.vonage.com/en/getting-started/concepts/webhooks#decoding-signed-webhooks
+    #
     def self.verify_hs256_signature(token:, signature_secret:)
       verify_signature(token, signature_secret, 'HS256')
     end
