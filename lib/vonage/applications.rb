@@ -33,6 +33,8 @@ module Vonage
     #
     #   response = client.applications.create(params)
     #
+    # @param [Hash] params
+    #
     # @option params [required, String] :name
     #   Application name.
     #
@@ -44,7 +46,9 @@ module Vonage
     #   This contains the configuration for each product.
     #   This replaces the application `type` from version 1 of the Application API.
     #
-    # @param [Hash] params
+    # @option params [Hash] :privacy
+    #   - **:improve_ai** (Boolean) If set to `true``, Vonage may store and use your content and data for the improvement
+    #      of Vonage's AI based services and technologies.
     #
     # @return [Response]
     #
@@ -73,7 +77,7 @@ module Vonage
     #   Set this to `false` to not auto-advance through all the pages in the record
     #   and collect all the data. The default is `true`.
     # @param [Hash] params
-    #  
+    #
     # @return [ListResponse]
     #
     # @see https://developer.nexmo.com/api/application.v2#listApplication
@@ -109,6 +113,9 @@ module Vonage
     # @example
     #   response = client.applications.update(id, answer_method: 'POST')
     #
+    # @param [String] id
+    # @param [Hash] params
+    #
     # @option params [required, String] :name
     #   Application name.
     #
@@ -120,8 +127,9 @@ module Vonage
     #   This contains the configuration for each product.
     #   This replaces the application `type` from version 1 of the Application API.
     #
-    # @param [String] id
-    # @param [Hash] params
+    # @option params [Hash] :privacy
+    #   - **:improve_ai** (Boolean) If set to `true``, Vonage may store and use your content and data for the improvement
+    #      of Vonage's AI based services and technologies.
     #
     # @return [Response]
     #
