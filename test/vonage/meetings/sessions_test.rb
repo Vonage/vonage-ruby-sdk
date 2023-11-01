@@ -13,7 +13,7 @@ class Vonage::Meetings::SessionsTest < Vonage::Test
   def list_response
     {
       headers: response_headers,
-      body: '{"_embedded":[{"key":"value"}, {"key":"value"}, {"key":"value"}]}'
+      body: '{"_embedded": {"recordings": [{"key":"value"}, {"key":"value"}, {"key":"value"}]}}'
     }
   end
 
