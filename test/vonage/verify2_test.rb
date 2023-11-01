@@ -37,6 +37,20 @@ class Vonage::Verify2Test < Vonage::Test
     'Example Brand'
   end
 
+  def check_url
+    'https://api.nexmo.com/v2/verify/c11236f4-00bf-4b89-84ba-88b25df97315/silent-auth/redirect'
+  end
+
+  def silent_auth_response
+    {
+      body: '{
+        "request_id": "c11236f4-00bf-4b89-84ba-88b25df97315",
+        "check_url": "https://api.nexmo.com/v2/verify/c11236f4-00bf-4b89-84ba-88b25df97315/silent-auth/redirect"
+     }',
+      headers: response_headers
+    }
+  end
+
   def test_start_verification_method
     workflow = [{channel: 'sms', to: to_number}]
 
@@ -89,6 +103,16 @@ class Vonage::Verify2Test < Vonage::Test
     stub_request(:post, uri).with(body: {brand: brand, workflow: workflow}).to_return(response)
 
     assert_kind_of Vonage::Response, verify2.start_verification(brand: brand,workflow: workflow)
+  end
+
+  def test_start_verification_method_returns_check_url_with_silent_auth_workflow
+    workflow = [{channel: 'silent_auth', to: to_number}]
+
+    stub_request(:post, uri).with(body: {brand: brand, workflow: workflow}).to_return(silent_auth_response)
+    verification_response = verify2.start_verification(brand: brand, workflow: workflow)
+
+    assert_kind_of Vonage::Response, verification_response
+    assert_equal check_url, verification_response.check_url
   end
 
   def test_check_code_method

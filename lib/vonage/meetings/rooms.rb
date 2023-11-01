@@ -89,7 +89,7 @@ module Vonage
     # @param [optional, Hash] :ui_settings Provides options to customize the user interface
     #   @option :ui_settings [String] :language
     #     The desired language of the UI. The default is `en` (English).
-    #     Must be one of: `en`, `fr`, `de`, `es`, `pt`, `ca`, `he`
+    #     Must be one of: `ar`, `pt-br`, `ca`, `zh-tw`, `zh-cn`, `en`, `fr`, `de`, `he`, `it`, `es`
     #
     # @return [Response]
     #
