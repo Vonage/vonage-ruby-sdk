@@ -25,5 +25,16 @@ module Vonage
     def send(params)
       request('/v1/messages', params: params, type: Post)
     end
+
+    # Validate a JSON Web Token from a Messages API Webhook.
+    #
+    # @param [String, required] :token The JWT from the Webhook's Authorization header
+    # @param [String, optional] :signature_secret The account signature secret. Required, unless `signature_secret`
+    #   is set in `Config`
+    #
+    # @return [Boolean] true, if the JWT is verified, false otherwise
+    def verify_webhook_token(token:, signature_secret: @config.signature_secret)
+      JWT.verify_hs256_signature(token: token, signature_secret: signature_secret)
+    end
   end
 end
