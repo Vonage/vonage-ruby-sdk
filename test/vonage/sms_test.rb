@@ -24,6 +24,19 @@ class Vonage::SMSTest < Vonage::Test
     }
   end
 
+  def signed_webhook_params
+    {
+      'message-timestamp' => '2013-11-21 15:27:30',
+      'messageId' => '020000001B0FE827',
+      'msisdn' => '14843472194',
+      'text' => 'Test again',
+      'timestamp' => '1385047698',
+      'to' => '13239877404',
+      'type' => 'text',
+      'sig' => 'd2e7b1dc968737c5998ad624e02f90b7'
+    }
+  end
+
   def test_send_method
     params = {from: 'Ruby', to: msisdn, text: 'Hello from Ruby!'}
 
@@ -59,5 +72,15 @@ class Vonage::SMSTest < Vonage::Test
     sms.send(params)
 
     assert_includes io.string, 'WARN -- : Sending unicode text SMS without setting the type parameter'
+  end
+
+  def test_verify_webhook_sig_method
+    check = sms.verify_webhook_sig(
+      webhook_params: signed_webhook_params,
+      signature_secret: 'my_secret_key_for_testing',
+      signature_method: 'md5hash'
+    )
+
+    assert_equal(true, check)
   end
 end

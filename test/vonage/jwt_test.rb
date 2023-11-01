@@ -1,7 +1,7 @@
 # typed: false
 require_relative './test'
 
-class Vonage::JWTTest < Minitest::Test
+class Vonage::JWTTest < Vonage::Test
   def private_key
     @private_key ||= File.read('test/private_key.txt')
   end
@@ -110,5 +110,17 @@ class Vonage::JWTTest < Minitest::Test
     token = Vonage::JWT.generate(payload, private_key)
 
     assert token
+  end
+
+  def test_verify_hs256_signature_with_valid_secret
+    verification = Vonage::JWT.verify_hs256_signature(token: sample_webhook_token, signature_secret: sample_valid_signature_secret)
+
+    assert_equal(true, verification)
+  end
+
+  def test_verify_hs256_signature_with_invalid_secret
+    verification = Vonage::JWT.verify_hs256_signature(token: sample_webhook_token, signature_secret: sample_invalid_signature_secret)
+
+    assert_equal(false, verification)
   end
 end

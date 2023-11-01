@@ -168,7 +168,7 @@ claims = {
 token = Vonage::JWT.generate(claims)
 
 client = Vonage::Client.new(token: token)
-````
+```
 
 Documentation for the Vonage Ruby JWT generator gem can be found at
 [https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby](https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby).
@@ -176,23 +176,115 @@ The documentation outlines all the possible parameters you can use to customize 
 
 ## Webhook signatures
 
-To check webhook signatures you'll also need to specify the `signature_secret` option. For example:
+Certain Vonage APIs provide signed [webhooks](https://developer.vonage.com/en/getting-started/concepts/webhooks) as a means of verifying the origin of the webhooks. The exact signing mechanism varies depending on the API.
+
+### Signature in Request Body
+
+The [SMS API](https://developer.vonage.com/en/messaging/sms/overview) signs the webhook request using a hash digest. This is assigned to a `sig` parameter in the request body.
+
+You can verify the webhook request using the `Vonage::SMS#verify_webhook_sig` method. As well as the **request params** from the received webhook, the method also needs access to the signature secret associated with the Vonage account (available from the [Vonage Dashboard](https://dashboard.nexmo.com/settings)), and the signature method used for signing (e.g. `sha512`), again this is based on thes setting in the Dashboard.
+
+There are a few different ways of providing these values to the method:
+
+1. Pass all values to the method invocation.
+
+```ruby
+client = Vonage::Client.new
+
+client.sms.verify_webhook_sig(
+  webhook_params: params,
+  signature_secret: 'secret',
+  signature_method: 'sha512'
+) # => returns true if the signature is valid, false otherwise
+```
+
+2. Set `signature_secret` and `signature_method` at `Client` instantiation.
+
+```ruby
+client = Vonage::Client.new(
+  signature_secret: 'secret',
+  signature_method: 'sha512'
+)
+
+client.sms.verify_webhook_sig(webhook_params: params) # => returns true if the signature is valid, false otherwise
+```
+
+3. Set `signature_secret` and `signature_method` on the `Config` object.
 
 ```ruby
 client = Vonage::Client.new
 client.config.signature_secret = 'secret'
 client.config.signature_method = 'sha512'
 
-if client.signature.check(request.GET)
-  # valid signature
-else
-  # invalid signature
-end
+client.sms.verify_webhook_sig(webhook_params: params) # => returns true if the signature is valid, false otherwise
 ```
 
-Alternatively you can set the `VONAGE_SIGNATURE_SECRET` environment variable.
+4. Set `signature_secret` and `signature_method` as environment variables named `VONAGE_SIGNATURE_SECRET` and `VONAGE_SIGNATURE_METHOD`
 
-Note: you'll need to contact support@nexmo.com to enable message signing on your account.
+```ruby
+client = Vonage::Client.new
+
+client.sms.verify_webhook_sig(webhook_params: params) # => returns true if the signature is valid, false otherwise
+```
+
+**Note:** Webhook signing for the SMS API is not switched on by default. You'll need to contact support@vonage.com to enable message signing on your account.
+
+### Signed JWT in Header
+
+The [Voice API](https://developer.vonage.com/en/voice/voice-api/overview) and [Messages API](https://developer.vonage.com/en/messages/overview) both include an `Authorization` header in their webhook requests. The value of this header includes a JSON Web Token (JWT) signed using the Signature Secret associated with your Vonage account.
+
+The `Vonage::Voice` and `Vonage::Messaging` classes both define a `verify_webhook_token` method which can be used to verify the JWT received in the webhook `Authorization` header.
+
+To verify the JWT, you'll first need to extract it from the `Authorization` header. The header value will look something like the following:
+
+```ruby
+"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1OTUyN" # remainder of token omitted for brevity
+```
+
+Note: we are only interested in the token itself, which comes *after* the word `Bearer` and the space.
+
+Once you have extrated the token, you can pass it to the `verify_webhook_token` method in order to verify it.
+
+The method also needs access to the the method also needs access to the signature secret associated with the Vonage account (available from the [Vonage Dashboard](https://dashboard.nexmo.com/settings)). There are a few different ways of providing this value to the method:
+
+1. Pass all values to the method invocation.
+
+```ruby
+client = Vonage::Client.new
+
+client.voice.verify_webhook_token(
+  token: extracted_token,
+  signature_secret: 'secret'
+) # => returns true if the token is valid, false otherwise
+```
+
+2. Set `signature_secret` at `Client` instantiation.
+
+```ruby
+client = Vonage::Client.new(
+  signature_secret: 'secret'
+)
+
+client.voice.verify_webhook_token(token: extracted_token) # => returns true if the token is valid, false otherwise
+```
+
+3. Set `signature_secret` on the `Config` object.
+
+```ruby
+client = Vonage::Client.new
+client.config.signature_secret = 'secret'
+client.config.signature_method = 'sha512'
+
+client.voice.verify_webhook_token(token: extracted_token) # => returns true if the token is valid, false otherwise
+```
+
+4. Set `signature_secret` as an environment variable named `VONAGE_SIGNATURE_SECRET`
+
+```ruby
+client = Vonage::Client.new
+
+client.voice.verify_webhook_token(token: extracted_token) # => returns true if the token is valid, false otherwise
+```
 
 ## Pagination
 
