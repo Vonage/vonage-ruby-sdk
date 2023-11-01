@@ -1,3 +1,10 @@
+# 7.18.0
+
+* Adds webhook token verification functionality. [#291](https://github.com/Vonage/vonage-ruby-sdk/pull/291)
+* Ensures Verify v2 Silent Auth Synchronous Support. [#292](https://github.com/Vonage/vonage-ruby-sdk/pull/292)
+* Updates Meetings API comments and fixes `Sessions::ListResponse`. [#293](https://github.com/Vonage/vonage-ruby-sdk/pull/293)
+* Updates Applications API comments. [#294](https://github.com/Vonage/vonage-ruby-sdk/pull/294)
+
 # 7.17.0
 
 * Removes locale validation in Verify2 in order to support any new locales added to the API. [#289](https://github.com/Vonage/vonage-ruby-sdk/pull/289)
