@@ -47,31 +47,26 @@ class Vonage::SignatureTest < Vonage::Test
   end
 
   def test_check_instance_method_with_md5hash
-    skip
     assert_equal signature.check(params_with_valid_signature_md5hash, signature_method: 'md5hash'), true
     assert_equal signature.check(params_with_invalid_signature, signature_method: 'md5hash'), false
   end
 
   def test_check_instance_method_with_md5hmac
-    skip
     assert_equal signature.check(params_with_valid_signature_md5, signature_method: 'md5'), true
     assert_equal signature.check(params_with_invalid_signature, signature_method: 'md5'), false
   end
 
   def test_check_instance_method_with_sha1
-    skip
     assert_equal signature.check(params_with_valid_signature_sha1, signature_method: 'sha1'), true
     assert_equal signature.check(params_with_invalid_signature, signature_method: 'sha1'), false
   end
 
   def test_check_instance_method_with_sha256
-    skip
     assert_equal signature.check(params_with_valid_signature_sha256, signature_method: 'sha256'), true
     assert_equal signature.check(params_with_invalid_signature, signature_method: 'sha256'), false
   end
 
   def test_check_instance_method_with_sha512
-    skip
     assert_equal signature.check(params_with_valid_signature_sha512, signature_method: 'sha512'), true
     assert_equal signature.check(params_with_invalid_signature, signature_method: 'sha512'), false
   end
@@ -85,7 +80,6 @@ class Vonage::SignatureTest < Vonage::Test
   end
 
   def test_check_instance_method_replaces_disallowed_characters_with_underscores
-    skip
     signature_value = 'c3d6a686ab9c7e7408bb1c0506e9629a'
 
     assert_equal signature.check({'k' => '_', 'sig' => signature_value}), true
