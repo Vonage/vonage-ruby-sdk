@@ -144,4 +144,27 @@ class Vonage::VoiceTest < Vonage::Test
   def test_dtmf_method
     assert_kind_of Vonage::Voice::DTMF, calls.dtmf
   end
+
+  def test_verify_webhook_token_method_with_valid_secret_passed_in
+    verification = calls.verify_webhook_token(token: sample_webhook_token, signature_secret: sample_valid_signature_secret)
+
+    assert_equal(true, verification)
+  end
+
+  def test_verify_webhook_token_method_with_valid_secret_in_config
+    config.signature_secret = sample_valid_signature_secret
+    verification = calls.verify_webhook_token(token: sample_webhook_token)
+
+    assert_equal(true, verification)
+  end
+
+  def test_verify_webhook_token_method_with_invalid_secret
+    verification = calls.verify_webhook_token(token: sample_webhook_token, signature_secret: sample_invalid_signature_secret)
+
+    assert_equal(false, verification)
+  end
+
+  def test_verify_webhook_token_method_with_no_token
+    assert_raises(ArgumentError) { calls.verify_webhook_token }
+  end
 end

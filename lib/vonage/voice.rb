@@ -48,6 +48,17 @@ module Vonage
     # @option params [String] :machine_detection
     #   Configure the behavior when Vonage detects that the call is answered by voicemail.
     #
+    # @option params [Hash] :advanced_machine_detection
+    #   Configure the behavior of Vonage's advanced machine detection. Overrides machine_detection if both are set.
+    #   Hash with three possible properties:
+    #     - :behavior [String]: Must be one of `continue` or `hangup`. When hangup is used, the call will be terminated if a
+    #         machine is detected. When continue is used, the call will continue even if a machine is detected.
+    #     - :mode [String]: Must be one of `detect` or `detect_beep`. Detect if machine answered and sends a human or
+    #         machine status in the webhook payload. When set to `detect_beep`, the system also attempts to detect
+    #         voice mail beep and sends an additional parameter `sub_state` in the webhook with the value `beep_start`.
+    #     - :beep_timeout [Integer]: Min: 45, Max: 120. Maximum time in seconds Vonage should wait for a machine beep
+    #         to be detected. A machine event with `sub_state` set to `beep_timeout` will be sent if the timeout is exceeded.
+    #
     # @option params [Integer] :length_timer
     #   Set the number of seconds that elapse before Vonage hangs up after the call state changes to in_progress.
     #
@@ -267,6 +278,17 @@ module Vonage
     #
     def dtmf
       @dtmf ||= DTMF.new(@config)
+    end
+
+    # Validate a JSON Web Token from a Voice API Webhook.
+    #
+    # @param [String, required] :token The JWT from the Webhook's Authorization header
+    # @param [String, optional] :signature_secret The account signature secret. Required, unless `signature_secret`
+    #   is set in `Config`
+    #
+    # @return [Boolean] true, if the JWT is verified, false otherwise
+    def verify_webhook_token(token:, signature_secret: @config.signature_secret)
+      JWT.verify_hs256_signature(token: token, signature_secret: signature_secret)
     end
   end
 end

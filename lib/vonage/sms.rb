@@ -47,14 +47,6 @@ module Vonage
     # @option params [String] :type
     #   The format of the message body.
     #
-    # @option params [String] :vcard
-    #   A business card in [vCard format](https://en.wikipedia.org/wiki/VCard).
-    #   Depends on **:type** option having the value `vcard`.
-    #
-    # @option params [String] :vcal
-    #   A calendar event in [vCal format](https://en.wikipedia.org/wiki/VCal).
-    #   Depends on **:type** option having the value `vcal`.
-    #
     # @option params [String] :body
     #   Hex encoded binary data.
     #   Depends on **:type** option having the value `binary`.
@@ -66,18 +58,6 @@ module Vonage
     # @option params [Integer] :protocol_id
     #   The value of the [protocol identifier](https://en.wikipedia.org/wiki/GSM_03.40#Protocol_Identifier) to use.
     #   Ensure that the value is aligned with **:udh**.
-    #
-    # @option params [String] :title
-    #   The title for a wappush SMS.
-    #   Depends on **:type** option having the value `wappush`.
-    #
-    # @option params [String] :url
-    #   The URL of your website.
-    #   Depends on **:type** option having the value `wappush`.
-    #
-    # @option params [String] :validity
-    #   The availability for an SMS in milliseconds.
-    #   Depends on **:type** option having the value `wappush`.
     #
     # @option params [String] :client_ref
     #   You can optionally include your own reference of up to 40 characters.
@@ -111,11 +91,31 @@ module Vonage
       response
     end
 
+    # Validate a Signature from an SMS API Webhook.
+    #
+    # @param [Hash, required] :webhook_params The parameters from the webhook request body
+    # @param [String, optional] :signature_secret The account signature secret. Required, unless `signature_secret`
+    #   is set in `Config`
+    # @param [String, optional] :signature_method The account signature method. Required, unless `signature_method`
+    #   is set in `Config`
+    #
+    # @return [Boolean] true, if the JWT is verified, false otherwise
+    def verify_webhook_sig(webhook_params:, signature_secret: @config.signature_secret, signature_method: @config.signature_method)
+      signature.check(webhook_params, signature_secret: signature_secret, signature_method: signature_method)
+    end
+
     private
 
     sig { params(text: String).returns(T::Boolean) }
     def unicode?(text)
       !Vonage::GSM7.encoded?(text)
+    end
+
+    # @return [Signature]
+    #
+    sig { returns(T.nilable(Vonage::Signature)) }
+    def signature
+      @signature ||= T.let(Signature.new(@config), T.nilable(Vonage::Signature))
     end
   end
 end

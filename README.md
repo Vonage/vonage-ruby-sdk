@@ -12,11 +12,14 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
 * [Installation](#installation)
 * [Usage](#usage)
     * [Logging](#logging)
+    * [Exceptions](#exceptions)
     * [Overriding the default hosts](#overriding-the-default-hosts)
     * [JWT authentication](#jwt-authentication)
     * [Webhook signatures](#webhook-signatures)
     * [Pagination](#pagination)
     * [NCCO Builder](#ncco-builder)
+    * [Messages API](#messages-api)
+    * [Verify API v2](#verify-api-v2)
 * [Documentation](#documentation)
 * [Frequently Asked Questions](#frequently-asked-questions)
     * [Supported APIs](#supported-apis)
@@ -80,6 +83,46 @@ By default the library sets the logger to `Rails.logger` if it is defined.
 
 To disable logging set the logger to `nil`.
 
+## Exceptions
+
+Where exceptions result from an error response from the Vonage API (HTTP responses that aren't ion the range `2xx` or `3xx`), the `Net::HTTPResponse` object will be available as a property of the `Exception` object via a `http_response` getter method (where there is no `Net::HTTPResponse` object associated with the exception, the value of `http_response` will be `nil`).
+
+You can rescue the the exception to access the `http_response`, as well as use other getters provided for specific parts of the response. For example:
+
+```ruby
+begin
+  verification_request = client.verify2.start_verification(
+    brand: 'Acme',
+    workflow: [{channel: 'sms', to: '44700000000'}]
+  )
+rescue Vonage::APIError => error
+  if error.http_response
+    error.http_response # => #<Net::HTTPUnauthorized 401 Unauthorized readbody=true>
+    error.http_response_code # => "401"
+    error.http_response_headers # => {"date"=>["Sun, 24 Sep 2023 11:08:47 GMT"], ...rest of headers}
+    error.http_response_body # => {"title"=>"Unauthorized", ...rest of body}
+  end
+end
+```
+
+For certain legacy API products, such as the [SMS API](https://developer.vonage.com/en/messaging/sms/overview), [Verify v1 API](https://developer.vonage.com/en/verify/verify-v1/overview) and [Number Insight v1 API](https://developer.vonage.com/en/number-insight/overview), a `200` response is received even in situations where there is an API-related error. For exceptions raised in these situation, rather than a `Net::HTTPResponse` object, a `Vonage::Response` object will be made available as a property of the exception via a `response` getter method. The properties on this object will depend on the response data provided by the API endpoint. For example:
+
+```ruby
+begin
+  sms = client.sms.send(
+    from: 'Vonage',
+    to: '44700000000',
+    text: 'Hello World!'
+  )
+rescue Vonage::Error => error
+  if error.is_a? Vonage::ServiceError
+    error.response # => #<Vonage::Response:0x0000555b2e49d4f8>
+    error.response.messages.first.status # => "4"
+    error.response.messages.first.error_text # => "Bad Credentials"
+    error.response.http_response # => #<Net::HTTPOK 200 OK readbody=true>
+  end
+end
+```
 
 ## Overriding the default hosts
 
@@ -125,7 +168,7 @@ claims = {
 token = Vonage::JWT.generate(claims)
 
 client = Vonage::Client.new(token: token)
-````
+```
 
 Documentation for the Vonage Ruby JWT generator gem can be found at
 [https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby](https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby).
@@ -133,23 +176,115 @@ The documentation outlines all the possible parameters you can use to customize 
 
 ## Webhook signatures
 
-To check webhook signatures you'll also need to specify the `signature_secret` option. For example:
+Certain Vonage APIs provide signed [webhooks](https://developer.vonage.com/en/getting-started/concepts/webhooks) as a means of verifying the origin of the webhooks. The exact signing mechanism varies depending on the API.
+
+### Signature in Request Body
+
+The [SMS API](https://developer.vonage.com/en/messaging/sms/overview) signs the webhook request using a hash digest. This is assigned to a `sig` parameter in the request body.
+
+You can verify the webhook request using the `Vonage::SMS#verify_webhook_sig` method. As well as the **request params** from the received webhook, the method also needs access to the signature secret associated with the Vonage account (available from the [Vonage Dashboard](https://dashboard.nexmo.com/settings)), and the signature method used for signing (e.g. `sha512`), again this is based on thes setting in the Dashboard.
+
+There are a few different ways of providing these values to the method:
+
+1. Pass all values to the method invocation.
+
+```ruby
+client = Vonage::Client.new
+
+client.sms.verify_webhook_sig(
+  webhook_params: params,
+  signature_secret: 'secret',
+  signature_method: 'sha512'
+) # => returns true if the signature is valid, false otherwise
+```
+
+2. Set `signature_secret` and `signature_method` at `Client` instantiation.
+
+```ruby
+client = Vonage::Client.new(
+  signature_secret: 'secret',
+  signature_method: 'sha512'
+)
+
+client.sms.verify_webhook_sig(webhook_params: params) # => returns true if the signature is valid, false otherwise
+```
+
+3. Set `signature_secret` and `signature_method` on the `Config` object.
 
 ```ruby
 client = Vonage::Client.new
 client.config.signature_secret = 'secret'
 client.config.signature_method = 'sha512'
 
-if client.signature.check(request.GET)
-  # valid signature
-else
-  # invalid signature
-end
+client.sms.verify_webhook_sig(webhook_params: params) # => returns true if the signature is valid, false otherwise
 ```
 
-Alternatively you can set the `VONAGE_SIGNATURE_SECRET` environment variable.
+4. Set `signature_secret` and `signature_method` as environment variables named `VONAGE_SIGNATURE_SECRET` and `VONAGE_SIGNATURE_METHOD`
 
-Note: you'll need to contact support@nexmo.com to enable message signing on your account.
+```ruby
+client = Vonage::Client.new
+
+client.sms.verify_webhook_sig(webhook_params: params) # => returns true if the signature is valid, false otherwise
+```
+
+**Note:** Webhook signing for the SMS API is not switched on by default. You'll need to contact support@vonage.com to enable message signing on your account.
+
+### Signed JWT in Header
+
+The [Voice API](https://developer.vonage.com/en/voice/voice-api/overview) and [Messages API](https://developer.vonage.com/en/messages/overview) both include an `Authorization` header in their webhook requests. The value of this header includes a JSON Web Token (JWT) signed using the Signature Secret associated with your Vonage account.
+
+The `Vonage::Voice` and `Vonage::Messaging` classes both define a `verify_webhook_token` method which can be used to verify the JWT received in the webhook `Authorization` header.
+
+To verify the JWT, you'll first need to extract it from the `Authorization` header. The header value will look something like the following:
+
+```ruby
+"Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1OTUyN" # remainder of token omitted for brevity
+```
+
+Note: we are only interested in the token itself, which comes *after* the word `Bearer` and the space.
+
+Once you have extrated the token, you can pass it to the `verify_webhook_token` method in order to verify it.
+
+The method also needs access to the the method also needs access to the signature secret associated with the Vonage account (available from the [Vonage Dashboard](https://dashboard.nexmo.com/settings)). There are a few different ways of providing this value to the method:
+
+1. Pass all values to the method invocation.
+
+```ruby
+client = Vonage::Client.new
+
+client.voice.verify_webhook_token(
+  token: extracted_token,
+  signature_secret: 'secret'
+) # => returns true if the token is valid, false otherwise
+```
+
+2. Set `signature_secret` at `Client` instantiation.
+
+```ruby
+client = Vonage::Client.new(
+  signature_secret: 'secret'
+)
+
+client.voice.verify_webhook_token(token: extracted_token) # => returns true if the token is valid, false otherwise
+```
+
+3. Set `signature_secret` on the `Config` object.
+
+```ruby
+client = Vonage::Client.new
+client.config.signature_secret = 'secret'
+client.config.signature_method = 'sha512'
+
+client.voice.verify_webhook_token(token: extracted_token) # => returns true if the token is valid, false otherwise
+```
+
+4. Set `signature_secret` as an environment variable named `VONAGE_SIGNATURE_SECRET`
+
+```ruby
+client = Vonage::Client.new
+
+client.voice.verify_webhook_token(token: extracted_token) # => returns true if the token is valid, false otherwise
+```
 
 ## Pagination
 
@@ -220,11 +355,136 @@ Once the message data is created, you can then send the message.
 response = client.messaging.send(to: "447700900000", from: "447700900001", **message)
 ```
 
+## Verify API v2
+
+The [Vonage Verify API v2](https://developer.vonage.com/en/verify/verify-v2/overview) allows you to manage 2FA verification workflows over a number of different channels such as SMS, WhatsApp, WhatsApp Interactive, Voice, Email, and Silent Authentication, either individually or in combination with each other. See the Vonage Developer Documentation for a [complete API reference](https://developer.vonage.com/en/api/verify.v2) listing all the channels, verification options, and callback types.
+
+The Ruby SDK provides two methods for interacting with the Verify v2 API:
+
+- `Verify2#start_verification`: starts a new verification request. Here you can specify options for the request and the workflow to be used.
+- `Verify2#check_code`: for channels where the end-user is sent a one-time code, this method is used to verify the code against the `request_id` of the verification request created by the `start_verification` method.
+
+### Creating a Verify2 Object
+
+```ruby
+verify = client.verify2
+```
+
+### Making a verification request
+
+For simple requests, you may prefer to manually set the value for `workflow` (an array of one or more hashes containing the settings for a particular channel) and any optional params.
+
+Example with the required `:brand` and `:workflow` arguments:
+
+```ruby
+verification_request = verify.start_verification(
+  brand: 'Acme',
+  workflow: [{channel: 'sms', to: '447000000000'}]
+)
+```
+
+Example with the required `:brand` and `:workflow` arguments, and an optional `code_length`:
+
+```ruby
+verification_request = verify.start_verification(
+  brand: 'Acme',
+  workflow: [{channel: 'sms', to: '447000000000'}],
+  code_length: 6
+)
+```
+
+For more complex requests (e.g. with mutliple workflow channels or addtional options), or to take advantage of built-in input validation, you can use the `StartVerificationOptions` object and the `Workflow` and various channel objects or the `WorkflowBuilder`:
+
+#### Create options using StartVerificationOptions object
+
+```ruby
+opts = verify.start_verification_options(
+  locale: 'fr-fr',
+  code_length: 6,
+  client_ref: 'abc-123'
+).to_h
+
+verification_request = verify.start_verification(
+  brand: 'Acme',
+  workflow: [{channel: 'email', to: 'alice.example.com'}],
+  **opts
+)
+```
+
+#### Create workflow using Workflow and Channel objects
+
+```ruby
+# Instantiate a Workflow object
+workflow = verify.workflow
+
+# Add channels to the workflow
+workflow << workflow.sms(to: '447000000000')
+workflow << workflow.email(to: 'alice.example.com')
+
+# Channel data is encpsulated in channel objects stored in the Workflow list array
+workflow.list
+# => [ #<Vonage::Verify2::Channels::SMS:0x0000561474a74778 @channel="sms", @to="447000000000">,
+  #<Vonage::Verify2::Channels::Email:0x0000561474c51a28 @channel="email", @to="alice.example.com">]
+
+# To use the list as the value for `:workflow` in a `start_verification` request call,
+# the objects must be hashified
+workflow_list = workflow.hashified_list
+# => [{:channel=>"sms", :to=>"447000000000"}, {:channel=>"email", :to=>"alice.example.com"}]
+
+verification_request = verify.start_verification(brand: 'Acme', workflow: workflow_list)
+```
+
+#### Create a workflow using the WorkflowBuilder
+
+```ruby
+workflow = verify.workflow_builder.build do |builder|
+  builder.add_voice(to: '447000000001')
+  builder.add_whatsapp(to: '447000000000')
+end
+
+workflow_list = workflow.hashified_list
+# => [{:channel=>"voice", :to=>"447000000001"}, {:channel=>"whatsapp", :to=>"447000000000"}]
+
+verification_request = verify.start_verification(brand: 'Acme', workflow: workflow_list)
+```
+
+### Cancelling a request
+
+You can cancel in in-progress verification request
+
+```ruby
+# Get the `request_id` from the Vonage#Response object returned by the `start_verification` method call
+request_id = verification_request.request_id
+
+verify.cancel_verification_request(request_id: request_id)
+```
+
+### Checking a code
+
+```ruby
+# Get the `request_id` from the Vonage#Response object returned by the `start_verification` method call
+request_id = verification_request.request_id
+
+# Get the one-time code via user input
+# e.g. from params in a route handler or controller action for a form input
+code = params[:code]
+
+begin
+  code_check = verify.check_code(request_id: request_id, code: code)
+rescue => error
+  # an invalid code will raise an exception of type Vonage::ClientError
+end
+
+if code_check.http_response.code == '200'
+  # code is valid
+end
+```
+
 ## Documentation
 
 Vonage Ruby documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby-sdk
 
-Vonage Ruby code examples: https://github.com/Nexmo/nexmo-ruby-code-snippets
+Vonage Ruby code examples: https://github.com/Vonage/vonage-ruby-code-snippets
 
 Vonage APIs API reference: https://developer.nexmo.com/api
 
@@ -252,6 +512,7 @@ The following is a list of Vonage APIs and whether the Ruby SDK provides support
 | Reports API | Beta |❌|
 | SMS API | General Availability |✅|
 | Verify API | General Availability |✅|
+| Verify API v2 | General Availability |✅|
 | Voice API | General Availability |✅|
 
 ## License

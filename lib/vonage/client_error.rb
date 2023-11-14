@@ -1,6 +1,6 @@
 # typed: strong
 
 module Vonage
-  class ClientError < Error
+  class ClientError < APIError
   end
 end

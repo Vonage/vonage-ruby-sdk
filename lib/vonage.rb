@@ -7,6 +7,7 @@ module Vonage
   loader = Zeitwerk::Loader.new
   loader.tag = File.basename(__FILE__, '.rb')
   loader.inflector.inflect({
+    'api_error' => 'APIError',
     'dtmf' => 'DTMF',
     'gsm7' => 'GSM7',
     'http' => 'HTTP',

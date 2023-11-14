@@ -61,6 +61,13 @@ module Vonage
       @files ||= T.let(Files.new(config), T.nilable(Vonage::Files))
     end
 
+    # @return [Meetings]
+    #
+    sig { returns(T.nilable(Vonage::Meetings)) }
+    def meetings
+      @meetings ||= T.let(Meetings.new(config), T.nilable(Vonage::Meetings))
+    end
+
     # @return [Messages]
     #
     sig { returns(T.nilable(Vonage::Messages)) }
@@ -96,6 +103,13 @@ module Vonage
       @pricing ||= T.let(PricingTypes.new(config), T.nilable(Vonage::PricingTypes))
     end
 
+    # @return [ProactiveConnect]
+    #
+    sig { returns(T.nilable(Vonage::ProactiveConnect)) }
+    def proactive_connect
+      @proactive_connect ||= T.let(ProactiveConnect.new(config), T.nilable(Vonage::ProactiveConnect))
+    end
+
     # @return [Redact]
     #
     sig { returns(T.nilable(Vonage::Redact)) }
@@ -117,11 +131,25 @@ module Vonage
       @sms ||= T.let(SMS.new(config), T.nilable(Vonage::SMS))
     end
 
+    # @return [Subaccounts]
+    #
+    sig { returns(T.nilable(Vonage::Subaccounts)) }
+    def subaccounts
+      @subaccounts ||= T.let(Subaccounts.new(config), T.nilable(Vonage::Subaccounts))
+    end
+
     # @return [TFA]
     #
     sig { returns(T.nilable(Vonage::TFA)) }
     def tfa
       @tfa ||= T.let(TFA.new(config), T.nilable(Vonage::TFA))
+    end
+
+    # @return [Users]
+    #
+    sig { returns(T.nilable(Vonage::Users)) }
+    def users
+      @users ||= T.let(Users.new(config), T.nilable(Vonage::Users))
     end
 
     # @return [Verify]
@@ -130,13 +158,19 @@ module Vonage
     def verify
       @verify ||= T.let(Verify.new(config), T.nilable(Vonage::Verify))
     end
+    
+    # @return [Verify2]
+    #
+    sig { returns(T.nilable(Vonage::Verify2)) }
+    def verify2
+      @verify2 ||= T.let(Verify2.new(config), T.nilable(Vonage::Verify2))
+    end
 
     # @return [Video]
     #
     sig { returns(T.nilable(Vonage::Video)) }
     def video
       @video ||= T.let(Video.new(config), T.nilable(Vonage::Video))
-    end
 
     # @return [Voice]
     #

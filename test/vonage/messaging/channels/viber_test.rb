@@ -23,6 +23,20 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
     assert_includes viber.data, :image
   end
 
+  def test_with_valid_type_video_specified
+    viber = Vonage::Messaging::Channels::Viber.new(type: 'video', message: { url: 'https://example.com/video.mp4', thumb_url: 'https://example.com/file1.jpg' })
+
+    assert_equal 'video', viber.data[:message_type]
+    assert_includes viber.data, :video
+  end
+
+  def test_with_valid_type_file_specified
+    viber = Vonage::Messaging::Channels::Viber.new(type: 'file', message: { url: 'https://example.com/file.pdf' })
+
+    assert_equal 'file', viber.data[:message_type]
+    assert_includes viber.data, :file
+  end
+
   def test_with_invalid_type_specified
     exception = assert_raises {
       viber = Vonage::Messaging::Channels::Viber.new(type: 'audio', message: { url: 'https://example.com/audio.mp3' })
@@ -50,6 +64,33 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
   def test_image_without_url
     exception = assert_raises {
       viber = Vonage::Messaging::Channels::Viber.new(type: 'image', message: {})
+    }
+
+    assert_instance_of Vonage::ClientError, exception
+    assert_match ":url is required in :message", exception.message
+  end
+
+  def test_video_without_url
+    exception = assert_raises {
+      viber = Vonage::Messaging::Channels::Viber.new(type: 'video', message: { thumb_url: 'https://example.com/file1.jpg' })
+    }
+
+    assert_instance_of Vonage::ClientError, exception
+    assert_match ":url is required in :message", exception.message
+  end
+
+  def test_video_without_thumb_url
+    exception = assert_raises {
+      viber = Vonage::Messaging::Channels::Viber.new(type: 'video', message: { url: 'https://example.com/video.mp4' })
+    }
+
+    assert_instance_of Vonage::ClientError, exception
+    assert_match ":thumb_url is required in :message", exception.message
+  end
+
+  def test_file_without_url
+    exception = assert_raises {
+      viber = Vonage::Messaging::Channels::Viber.new(type: 'file', message: {})
     }
 
     assert_instance_of Vonage::ClientError, exception

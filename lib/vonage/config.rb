@@ -19,6 +19,7 @@ module Vonage
       self.signature_method = ENV['VONAGE_SIGNATURE_METHOD'] || 'md5hash'
       self.token = T.let(nil, T.nilable(String))
       self.video_host = 'video.api.vonage.com'
+      self.vonage_host = 'api-eu.vonage.com'
     end
 
     # Merges the config with the given options hash.
@@ -130,7 +131,11 @@ module Vonage
 
     # @return [Vonage::Logger]
     #
-    sig { params(logger: T.nilable(T.any(::Logger, Vonage::Logger))).returns(T.nilable(Vonage::Logger)) }
+    sig { params(logger: T.nilable(
+      defined?(ActiveSupport::BroadcastLogger) ?
+        T.any(::Logger, Vonage::Logger, ActiveSupport::BroadcastLogger)
+      : T.any(::Logger, Vonage::Logger)
+    )).returns(T.nilable(Vonage::Logger)) }
     def logger=(logger)
       @logger = T.let(Logger.new(logger), T.nilable(Vonage::Logger))
     end
@@ -201,6 +206,9 @@ module Vonage
 
     sig { returns(String) }
     attr_accessor :video_host
+    
+    sig { returns(String) }
+    attr_accessor :vonage_host
 
     protected
 

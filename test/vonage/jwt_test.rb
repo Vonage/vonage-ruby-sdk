@@ -1,7 +1,7 @@
 # typed: false
 require_relative './test'
 
-class Vonage::JWTTest < Minitest::Test
+class Vonage::JWTTest < Vonage::Test
   def private_key
     @private_key ||= File.read('test/private_key.txt')
   end
@@ -15,7 +15,7 @@ class Vonage::JWTTest < Minitest::Test
   end
 
   def sample_token
-    'eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1OTUyNTM2MTMsImp0aSI6ImU1QmxGeDVOek5ydCIsImV4cCI6MTU5NTI1NDUxMywic3ViIjoiU3ViamVjdCIsImFwcGxpY2F0aW9uX2lkIjoieHh4eHh4eHgteHh4eC14eHh4LXh4eHgteHh4eHh4eHh4eHh4In0.Jv1flw0dzDEskyEHaK1appNUEHF2zBRJw0VWjQ8ri-MzsWguPu8ofoGVfWDTemF2xj87ukgfg8a3kTOjA0rZfCMUG4vJiGrWPJvCab7ECvy0_-vJgsDSzrG7I5MsBpbJnc1iyxv1kRu_U-EcbOceaM77yqisRLFSmwkEYuLFAOMuFeBOHZTbHYLhWYvzCOZXIU0IxDNQfGw-wXxXSMcv8aAPvhJe7bYZeRUpX8Pw0y2Qz0PxE7tB2ven_6-F_5FuOl2ARGU90GpzLho77aV5KQAKsaShwA4oqH5ETJF5JUDc9MYky-7Hbu2BmC3AqnpxGNnu7g4M6nnM-g63_5WFFg'
+    "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE1OTUyNTM2MTMsImp0aSI6ImU1QmxGeDVOek5ydCIsImV4cCI6MTU5NTI1NDUxMywiYXBwbGljYXRpb25faWQiOiJ4eHh4eHh4eC14eHh4LXh4eHgteHh4eC14eHh4eHh4eHh4eHgifQ.DurSM2It4XstunZd_PykqDW1EceX5pCCB3s1ER2_ljMkLZbNuMcMv3GvCnTdtNKhizMEjrH8PXyVSjENdKMjUscyyMISNzLKQMYM1vsHOIIeFQY0M90D2wEaAvHf7fUtPPbBPsOUsl3zMDCrpikDSvEnMXOlxNTkc7_xxCWjv1dQI5Fu7_6VE8xEXgLi0jCv3rEaA61CYlzGwVRFkAH9kkettJa3tl7ZyHNqgR4TM-9DmuPomNQ8ARgff3ab0NalVZougF4cgxQvvMqIOWhXfxkmU-OCAs86wVGDkapJ8TJt_NuUKcVAMfhnf9eLR3USVMnsz2oTRWcezKrJM63mQQ"
   end
 
   def decode(token)
@@ -110,5 +110,17 @@ class Vonage::JWTTest < Minitest::Test
     token = Vonage::JWT.generate(payload, private_key)
 
     assert token
+  end
+
+  def test_verify_hs256_signature_with_valid_secret
+    verification = Vonage::JWT.verify_hs256_signature(token: sample_webhook_token, signature_secret: sample_valid_signature_secret)
+
+    assert_equal(true, verification)
+  end
+
+  def test_verify_hs256_signature_with_invalid_secret
+    verification = Vonage::JWT.verify_hs256_signature(token: sample_webhook_token, signature_secret: sample_invalid_signature_secret)
+
+    assert_equal(false, verification)
   end
 end

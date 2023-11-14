@@ -34,13 +34,13 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     endpoint = { type: 'phone', number: 'abcd' }
 
     exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: endpoint) }
-    
+
     assert_match "Expected 'number' value to be in E.164 format", exception.message
   end
 
   def test_verify_with_invalid_from_number
     exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, from: 'abcd') }
-    
+
     assert_match "Invalid 'from' value, must be in E.164 format", exception.message
   end
 
@@ -60,6 +60,30 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, machineDetection: 'yes') }
 
     assert_match "Invalid 'machineDetection' value, must be either: 'continue' or 'hangup' if defined", exception.message
+  end
+
+  def test_verify_with_invalid_advanced_machine_detection_data_type
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, advanced_machine_detection: 'foo') }
+
+    assert_match "Invalid 'advanced_machine_detection' value, must be a Hash", exception.message
+  end
+
+  def test_verify_with_invalid_advanced_machine_detection_behavior
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, advanced_machine_detection: {behavior: 'bar'}) }
+
+    assert_match "Invalid 'advanced_machine_detection[:behavior]' value, must be a `continue` or `hangup`", exception.message
+  end
+
+  def test_verify_with_invalid_advanced_machine_detection_mode
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, advanced_machine_detection: {mode: 'qux'}) }
+
+    assert_match "Invalid 'advanced_machine_detection[:mode]' value, must be a `detect` or `detect_beep`", exception.message
+  end
+
+  def test_verify_with_invalid_advanced_machine_detection_beep_timeout
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, advanced_machine_detection: {beep_timeout: 1}) }
+
+    assert_match "Invalid 'advanced_machine_detection[:beep_timeout]' value, must be between 45 and 120", exception.message
   end
 
   def test_verify_with_invalid_event_url

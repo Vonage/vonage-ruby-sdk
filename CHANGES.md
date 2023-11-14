@@ -1,6 +1,62 @@
-# 8.0.0.beta
+# 7.18.0
 
-* Adds video funtionality to the library. See PR [#249](https://github.com/Vonage/vonage-ruby-sdk/pull/249)
+* Adds webhook token verification functionality. [#291](https://github.com/Vonage/vonage-ruby-sdk/pull/291)
+* Ensures Verify v2 Silent Auth Synchronous Support. [#292](https://github.com/Vonage/vonage-ruby-sdk/pull/292)
+* Updates Meetings API comments and fixes `Sessions::ListResponse`. [#293](https://github.com/Vonage/vonage-ruby-sdk/pull/293)
+* Updates Applications API comments. [#294](https://github.com/Vonage/vonage-ruby-sdk/pull/294)
+
+# 7.17.0
+
+* Removes locale validation in Verify2 in order to support any new locales added to the API. [#289](https://github.com/Vonage/vonage-ruby-sdk/pull/289)
+
+# 7.16.1
+
+* Updates Sorbet type signatures for Logger creation and assignment. [#290](https://github.com/Vonage/vonage-ruby-sdk/pull/290)
+
+
+# 7.16.0
+
+* Adds HTTP Response context to some Exception types. [#287](https://github.com/Vonage/vonage-ruby-sdk/pull/287)
+
+# 7.15.1
+
+* Updates Meetings endpoints to `v1`. [#286](https://github.com/Vonage/vonage-ruby-sdk/pull/286)
+
+# 7.15.0
+
+* Adds Users. [#282](https://github.com/Vonage/vonage-ruby-sdk/pull/282)
+
+# 7.14.0
+
+* Adds Meetings API. [#258](https://github.com/Vonage/vonage-ruby-sdk/pull/258)
+
+# 7.13.0
+
+* Adds support for the [Lists](https://developer.vonage.com/en/api/proactive-connect#lists), [Items](https://developer.vonage.com/en/api/proactive-connect#items), and [Events](https://developer.vonage.com/en/api/proactive-connect#events) operations of the [Proactive Connect API](https://developer.vonage.com/en/proactive-connect/overview). [#275](https://github.com/Vonage/vonage-ruby-sdk/pull/265)
+
+# 7.12.0
+
+* Adds Subaccounts API. [#275](https://github.com/Vonage/vonage-ruby-sdk/pull/275)
+
+# 7.11.0
+
+* Updates Voice API functionality. [#270](https://github.com/Vonage/vonage-ruby-sdk/pull/270)
+
+# 7.10.0
+
+* Adds Verify2. [#261](https://github.com/Vonage/vonage-ruby-sdk/pull/261)
+* Fixes link in README. [#266](https://github.com/Vonage/vonage-ruby-sdk/pull/266)
+
+# 7.9.0
+
+* Updates the Messages API implementation to add support for `video` and `file` messages types to the Viber channel, and `sticker` messages in the WhatsApp channel. [#260](https://github.com/Vonage/vonage-ruby-sdk/pull/260)
+* Updates the Numbers API implementation to use Basic authentication. [#262](https://github.com/Vonage/vonage-ruby-sdk/pull/262)
+
+# 7.8.2
+
+* Updates the GSM::CHARACTERS constant to remove `ç` and instead add `Ç`. Fixes [#256](https://github.com/Vonage/vonage-ruby-sdk/issues/255)
+* Updates code comments for `SMS#send` method to remove properties for unsupported message types `vCal`, `vCard`, and `wappush`
+* Updates namespacing for referencing `SecurityUtils#secure_compare` method due to change in `ruby-jwt ` gem dependency.
 
 # 7.8.1
 
