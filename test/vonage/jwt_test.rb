@@ -76,7 +76,6 @@ class Vonage::JWTTest < Vonage::Test
     Timecop.freeze(Time.at(1595253613))
 
     token = Vonage::JWT.generate({ :application_id => 'xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx', :jti => 'e5BlFx5NzNrt' }, private_key)
-    decoded = decode(token)
 
     assert_equal token, sample_token
   end

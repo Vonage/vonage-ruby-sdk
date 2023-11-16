@@ -21,7 +21,7 @@ class Vonage::Meetings::ThemesTest < Vonage::Test
   end
 
   def test_png_file
-    file = Tempfile.create(['logo', '.png'])
+    Tempfile.create(['logo', '.png'])
   end
 
   def test_list_method

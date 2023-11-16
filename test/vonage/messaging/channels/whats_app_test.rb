@@ -62,7 +62,7 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
   def test_with_invalid_type_specified
     exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'vcard', message: { url: 'https://example.com/contact.vcf' })
+      Vonage::Messaging::Channels::WhatsApp.new(type: 'vcard', message: { url: 'https://example.com/contact.vcf' })
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -77,7 +77,7 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
   def test_with_invalid_message_class
     exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'image', message: "https://example.com/image.jpg")
+      Vonage::Messaging::Channels::WhatsApp.new(type: 'image', message: "https://example.com/image.jpg")
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -86,7 +86,7 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
   def test_object_message_without_url
     exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'image', message: {})
+      Vonage::Messaging::Channels::WhatsApp.new(type: 'image', message: {})
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -95,7 +95,7 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
   def test_template_message_without_name
     exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'template', message: {}, opts: { whatsapp: { policy: 'deterministic', locale: 'en-GB'} })
+      Vonage::Messaging::Channels::WhatsApp.new(type: 'template', message: {}, opts: { whatsapp: { policy: 'deterministic', locale: 'en-GB'} })
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -104,7 +104,7 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
   def test_template_message_without_whatsapp_object
     exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'template', message: { name: 'verify'})
+      Vonage::Messaging::Channels::WhatsApp.new(type: 'template', message: { name: 'verify'})
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -113,7 +113,7 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
   def test_template_message_without_whatsapp_object_locale
     exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'template', message: { name: 'verify'}, opts: { whatsapp: { policy: 'deterministic'} })
+      Vonage::Messaging::Channels::WhatsApp.new(type: 'template', message: { name: 'verify'}, opts: { whatsapp: { policy: 'deterministic'} })
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -122,7 +122,7 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
   def test_custom_message_with_invalid_message_type
     exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'custom', message: "Hello world!")
+      Vonage::Messaging::Channels::WhatsApp.new(type: 'custom', message: "Hello world!")
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -131,7 +131,7 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
   def test_sticker_without_id_or_url
     exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'sticker', message: {})
+      Vonage::Messaging::Channels::WhatsApp.new(type: 'sticker', message: {})
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -140,7 +140,7 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
   def test_sticker_with_both_id_and_url
     exception = assert_raises {
-      whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'sticker', message: { url: 'https://example.com/file.webp', id: '16aec2a6-bf69-11ed-afa1-0242ac120002' })
+      Vonage::Messaging::Channels::WhatsApp.new(type: 'sticker', message: { url: 'https://example.com/file.webp', id: '16aec2a6-bf69-11ed-afa1-0242ac120002' })
     }
 
     assert_instance_of Vonage::ClientError, exception

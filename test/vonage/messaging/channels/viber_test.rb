@@ -39,7 +39,7 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
 
   def test_with_invalid_type_specified
     exception = assert_raises {
-      viber = Vonage::Messaging::Channels::Viber.new(type: 'audio', message: { url: 'https://example.com/audio.mp3' })
+      Vonage::Messaging::Channels::Viber.new(type: 'audio', message: { url: 'https://example.com/audio.mp3' })
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -54,7 +54,7 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
 
   def test_with_invalid_message_class
     exception = assert_raises {
-      viber = Vonage::Messaging::Channels::Viber.new(type: 'image', message: "https://example.com/image.jpg")
+      Vonage::Messaging::Channels::Viber.new(type: 'image', message: "https://example.com/image.jpg")
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -63,7 +63,7 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
 
   def test_image_without_url
     exception = assert_raises {
-      viber = Vonage::Messaging::Channels::Viber.new(type: 'image', message: {})
+      Vonage::Messaging::Channels::Viber.new(type: 'image', message: {})
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -72,7 +72,7 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
 
   def test_video_without_url
     exception = assert_raises {
-      viber = Vonage::Messaging::Channels::Viber.new(type: 'video', message: { thumb_url: 'https://example.com/file1.jpg' })
+      Vonage::Messaging::Channels::Viber.new(type: 'video', message: { thumb_url: 'https://example.com/file1.jpg' })
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -81,7 +81,7 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
 
   def test_video_without_thumb_url
     exception = assert_raises {
-      viber = Vonage::Messaging::Channels::Viber.new(type: 'video', message: { url: 'https://example.com/video.mp4' })
+      Vonage::Messaging::Channels::Viber.new(type: 'video', message: { url: 'https://example.com/video.mp4' })
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -90,7 +90,7 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
 
   def test_file_without_url
     exception = assert_raises {
-      viber = Vonage::Messaging::Channels::Viber.new(type: 'file', message: {})
+      Vonage::Messaging::Channels::Viber.new(type: 'file', message: {})
     }
 
     assert_instance_of Vonage::ClientError, exception

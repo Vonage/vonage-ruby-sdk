@@ -18,7 +18,7 @@ class Vonage::MeetingsTest < Vonage::Test
     assert_kind_of Vonage::Meetings::Sessions, meetings.sessions
   end
 
-	def test_themes_method
+  def test_themes_method
     assert_kind_of Vonage::Meetings::Themes, meetings.themes
   end
 
