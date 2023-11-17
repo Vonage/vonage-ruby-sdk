@@ -39,7 +39,7 @@ class Vonage::Messaging::Channels::MMSTest < Vonage::Test
 
   def test_with_invalid_type_specified
     exception = assert_raises {
-      mms = Vonage::Messaging::Channels::MMS.new(type: 'text', message: { url: 'https://example.com/video.mp4' })
+      Vonage::Messaging::Channels::MMS.new(type: 'text', message: { url: 'https://example.com/video.mp4' })
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -54,7 +54,7 @@ class Vonage::Messaging::Channels::MMSTest < Vonage::Test
 
   def test_with_invalid_message_class
     exception = assert_raises {
-      mms = Vonage::Messaging::Channels::MMS.new(type: 'image', message: "https://example.com/image.jpg")
+      Vonage::Messaging::Channels::MMS.new(type: 'image', message: "https://example.com/image.jpg")
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -70,7 +70,7 @@ class Vonage::Messaging::Channels::MMSTest < Vonage::Test
 
   def test_without_url
     exception = assert_raises {
-      mms = Vonage::Messaging::Channels::MMS.new(type: 'image', message: { caption: "Additional text to accompany the image." })
+      Vonage::Messaging::Channels::MMS.new(type: 'image', message: { caption: "Additional text to accompany the image." })
     }
 
     assert_instance_of Vonage::ClientError, exception
