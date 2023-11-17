@@ -1,14 +1,29 @@
 name: Release published
+
 on:
   release:
     types: [published]
+
+permissions:
+  actions: write
+  checks: write
+  contents: write
+  deployments: read
+  issues: write
+  discussions: write
+  packages: write
+  pages: write
+  pull-requests: write
+  security-events: write
+  statuses: write
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
         with:
-          ref: ${{ github.event.release.target_commitish }} 
+          ref: ${{ github.event.release.target_commitish }}
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
