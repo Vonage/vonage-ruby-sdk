@@ -54,6 +54,10 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::NumberInsight, client.number_insight
   end
 
+  def test_number_insight_2_method
+    assert_kind_of Vonage::NumberInsight2, client.number_insight_2
+  end
+
   def test_numbers_method
     assert_kind_of Vonage::Numbers, client.numbers
   end
