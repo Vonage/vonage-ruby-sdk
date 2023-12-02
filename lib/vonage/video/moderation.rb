@@ -11,8 +11,6 @@ module Vonage
 
     # Force a client to disconnect from a session.
     #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
-    #
     # @param [required, String] :session_id
     #
     # @param [required, String] :connection_id The connection ID of the specific participant to be disconnected from the session.
@@ -27,8 +25,6 @@ module Vonage
 
     # Force mute a specific publisher stream in a session.
     #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
-    #
     # @param [required, String] :session_id
     #
     # @param [required, String] :stream_id The stream ID of the specific stream to be muted.
@@ -42,8 +38,6 @@ module Vonage
     end
 
     # Force mute all publisher stream for a specific session.
-    #
-    # @param [optional, String] :application_id (Required unless already set at Client instantiation or set in ENV)
     #
     # @param [required, String] :session_id
     #
