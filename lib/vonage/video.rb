@@ -74,30 +74,36 @@ module Vonage
       JWT.generate(claims, @config.private_key)
     end
 
-    # @return [Streams]
-    #
-    def streams
-      @streams ||= Streams.new(@config)
-    end
-
     # @return [Archives]
     #
     def archives
       @archives ||= Archives.new(@config)
     end
 
-    # @return [Archives]
+    # @return [Broadcasts]
+    #
+    def broadcasts
+      @broadcasts ||= Broadcasts.new(@config)
+    end
+
+    # @return [Moderation]
     #
     def moderation
       @moderation ||= Moderation.new(@config)
     end
 
-    # @return [Archives]
+    # @return [Signals]
     #
     def signals
       @signals ||= Signals.new(@config)
     end
 
-    # TODO: add token generator
+    # @return [Streams]
+    #
+    def streams
+      @streams ||= Streams.new(@config)
+    end
+
+
   end
 end

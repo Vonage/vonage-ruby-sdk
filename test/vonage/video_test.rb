@@ -126,6 +126,10 @@ class Vonage::VideoTest < Vonage::Test
     assert_kind_of Vonage::Video::Archives, video.archives
   end
 
+  def test_broadcasts_method
+    assert_kind_of Vonage::Video::Broadcasts, video.broadcasts
+  end
+
   def test_moderation_method
     assert_kind_of Vonage::Video::Moderation, video.moderation
   end
