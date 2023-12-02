@@ -4,7 +4,7 @@
 module Vonage
   class Video < Namespace
     include Keys
-    
+
     self.authentication = BearerToken
 
     self.host = :video_host
@@ -30,7 +30,7 @@ module Vonage
     #
     def create_session(**params)
       request_params = params.clone
-      request_params[:archive_mode] ||= 'manual' 
+      request_params[:archive_mode] ||= 'manual'
       media_mode = request_params.delete(:media_mode) || 'routed'
 
       if media_mode == 'relayed' && request_params[:archive_mode] == 'manual'
@@ -42,7 +42,7 @@ module Vonage
       response = request('/session/create', params: camelcase(request_params), type: Post)
 
       public_response_data = {
-        session_id: response.entity[:session_id],
+        session_id: response.entity.first.session_id,
         archive_mode: request_params[:archive_mode],
         media_mode: media_mode,
         location: request_params[:location]
@@ -54,7 +54,19 @@ module Vonage
     end
 
     def generate_client_token(session_id:, scope: 'session.connect', role: 'publisher', **params)
-      claims = {session_id: session_id, application_id: @config.application_id, scope: scope, role: role}
+      claims = {
+        application_id: @config.application_id,
+        scope: scope,
+        session_id: session_id,
+        role: role,
+        initial_layout_class_list: '',
+        sub: 'video',
+        acl: {
+          paths: {'/session/**' => {}}
+        }
+      }
+
+
       claims[:data] = params[:data] if params[:data]
       claims[:initial_layout_class_list] = params[:initial_layout_class_list].join(' ') if params[:initial_layout_class_list]
       claims[:exp] = params[:expire_time].to_i if params[:expire_time]

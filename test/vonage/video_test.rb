@@ -11,7 +11,15 @@ class Vonage::VideoTest < Vonage::Test
   end
 
   def decode_jwt_payload(token)
-    JWT.decode(token, private_key, false, {algorithm: 'RS256'}).first
+    JWT.decode(token, private_key, false, {algorithm: 'HS256'}).first
+  end
+
+  def create_session_response_body
+    "[{\"session_id\":\"2_MX5lMzM2ZmUxOS01MWNhLTRiNTktYTczOS1jNzA3MWIzZjY5Y2N-\"}]"
+  end
+
+  def response
+    { body: create_session_response_body, headers: response_headers }
   end
 
   def test_create_method
@@ -102,7 +110,7 @@ class Vonage::VideoTest < Vonage::Test
     expire_time = Time.now.to_i + 500
     token = video.generate_client_token(session_id: 'abc123', role: 'moderator', initial_layout_class_list: ['foo', 'bar'], data: 'test', expire_time: expire_time)
     decoded_token_payload = decode_jwt_payload(token)
-    
+
     assert_equal 'abc123', decoded_token_payload['session_id']
     assert_equal 'moderator', decoded_token_payload['role']
     assert_equal 'foo bar', decoded_token_payload['initial_layout_class_list']
