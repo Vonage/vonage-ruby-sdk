@@ -35,6 +35,15 @@ class Vonage::Verify2::Channels::SilentAuthTest < Vonage::Test
     assert_equal test_url, sa_workflow.instance_variable_get(:@redirect_url)
   end
 
+  def test_redirect_url_setter_method_with_invalid_url
+    sa_workflow = silent_auth_channel
+    test_url = 'acme-app.com/sa/redirect'
+
+    assert_raises ArgumentError do
+      sa_workflow.redirect_url = test_url
+    end
+  end
+
   def test_redirect_url_getter_method
     sa_workflow = silent_auth_channel
     test_url = 'https://acme-app.com/sa/redirect'
