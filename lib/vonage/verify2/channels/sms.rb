@@ -11,7 +11,7 @@ module Vonage
     def initialize(to:, app_hash: nil)
       self.channel = 'sms'
       self.to = to
-      self.app_hash = app_hash if app_hash
+      self.app_hash = app_hash unless app_hash.nil?
     end
 
     def to=(to)

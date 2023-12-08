@@ -17,13 +17,15 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
     * [JWT authentication](#jwt-authentication)
     * [Webhook signatures](#webhook-signatures)
     * [Pagination](#pagination)
-    * [NCCO Builder](#ncco-builder)
     * [Messages API](#messages-api)
     * [Verify API v2](#verify-api-v2)
+    * [Voice API](#voice-api)
+      * [NCCO Builder](#ncco-builder)
 * [Documentation](#documentation)
-* [Frequently Asked Questions](#frequently-asked-questions)
-    * [Supported APIs](#supported-apis)
+* [Supported APIs](#supported-apis)
+* [Other SDKs and Tools](#other-sdks-and-tools)
 * [License](#license)
+* [Contribute](#contribute)
 
 
 ## Requirements
@@ -66,8 +68,47 @@ For production you can specify the `VONAGE_API_KEY` and `VONAGE_API_SECRET`
 environment variables instead of specifying the key and secret explicitly,
 keeping your credentials out of source control.
 
+For APIs which use a JWT for authentication you'll need to pass `application_id` and `private_key` arguments to the
+`Client` constructor as well as or instead of `api_key` and `api_secret`. See [JWT Authentication](#jwt-authentication).
 
-## Logging
+It is also possible to over-ride the default hosts at `Client` instantiation. See [Overriding the default hosts](overriding-the-default-hosts).
+
+### JWT authentication
+
+To call newer endpoints that support JWT authentication such as the Voice API and Messages API you'll
+also need to specify the `application_id` and `private_key` options. For example:
+
+```ruby
+client = Vonage::Client.new(application_id: application_id, private_key: private_key)
+```
+
+Both arguments should have string values corresponding to the `id` and `private_key`
+values returned in a ["create an application"](https://developer.nexmo.com/api/application.v2#createApplication)
+response. These credentials can be stored in a datastore, in environment variables,
+on disk outside of source control, or in some kind of key management infrastructure.
+
+By default the library generates a short lived JWT per request. To generate a long lived
+JWT for multiple requests or to specify JWT claims directly use `Vonage::JWT.generate` and
+the token option. For example:
+
+```ruby
+claims = {
+  application_id: application_id,
+  private_key: 'path/to/private.key',
+  nbf: 1483315200,
+  ttl: 800
+}
+
+token = Vonage::JWT.generate(claims)
+
+client = Vonage::Client.new(token: token)
+```
+
+Documentation for the Vonage Ruby JWT generator gem can be found at
+[https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby](https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby).
+The documentation outlines all the possible parameters you can use to customize and build a token with.
+
+### Logging
 
 Use the logger option to specify a logger. For example:
 
@@ -83,7 +124,7 @@ By default the library sets the logger to `Rails.logger` if it is defined.
 
 To disable logging set the logger to `nil`.
 
-## Exceptions
+### Exceptions
 
 Where exceptions result from an error response from the Vonage API (HTTP responses that aren't ion the range `2xx` or `3xx`), the `Net::HTTPResponse` object will be available as a property of the `Exception` object via a `http_response` getter method (where there is no `Net::HTTPResponse` object associated with the exception, the value of `http_response` will be `nil`).
 
@@ -124,7 +165,7 @@ rescue Vonage::Error => error
 end
 ```
 
-## Overriding the default hosts
+### Overriding the default hosts
 
 To override the default hosts that the SDK uses for HTTP requests, you need to
 specify the `api_host`, `rest_host` or both in the client configuration. For example:
@@ -139,46 +180,13 @@ client = Vonage::Client.new(
 By default the hosts are set to `api.nexmo.com` and `rest.nexmo.com`, respectively.
 
 
-## JWT authentication
 
-To call newer endpoints that support JWT authentication such as the Voice API and Messages API you'll
-also need to specify the `application_id` and `private_key` options. For example:
 
-```ruby
-client = Vonage::Client.new(application_id: application_id, private_key: private_key)
-```
-
-Both arguments should have string values corresponding to the `id` and `private_key`
-values returned in a ["create an application"](https://developer.nexmo.com/api/application.v2#createApplication)
-response. These credentials can be stored in a datastore, in environment variables,
-on disk outside of source control, or in some kind of key management infrastructure.
-
-By default the library generates a short lived JWT per request. To generate a long lived
-JWT for multiple requests or to specify JWT claims directly use `Vonage::JWT.generate` and
-the token option. For example:
-
-```ruby
-claims = {
-  application_id: application_id,
-  private_key: 'path/to/private.key',
-  nbf: 1483315200,
-  ttl: 800
-}
-
-token = Vonage::JWT.generate(claims)
-
-client = Vonage::Client.new(token: token)
-```
-
-Documentation for the Vonage Ruby JWT generator gem can be found at
-[https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby](https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby).
-The documentation outlines all the possible parameters you can use to customize and build a token with.
-
-## Webhook signatures
+### Webhook signatures
 
 Certain Vonage APIs provide signed [webhooks](https://developer.vonage.com/en/getting-started/concepts/webhooks) as a means of verifying the origin of the webhooks. The exact signing mechanism varies depending on the API.
 
-### Signature in Request Body
+#### Signature in Request Body
 
 The [SMS API](https://developer.vonage.com/en/messaging/sms/overview) signs the webhook request using a hash digest. This is assigned to a `sig` parameter in the request body.
 
@@ -229,7 +237,7 @@ client.sms.verify_webhook_sig(webhook_params: params) # => returns true if the s
 
 **Note:** Webhook signing for the SMS API is not switched on by default. You'll need to contact support@vonage.com to enable message signing on your account.
 
-### Signed JWT in Header
+#### Signed JWT in Header
 
 The [Voice API](https://developer.vonage.com/en/voice/voice-api/overview) and [Messages API](https://developer.vonage.com/en/messages/overview) both include an `Authorization` header in their webhook requests. The value of this header includes a JSON Web Token (JWT) signed using the Signature Secret associated with your Vonage account.
 
@@ -286,7 +294,7 @@ client = Vonage::Client.new
 client.voice.verify_webhook_token(token: extracted_token) # => returns true if the token is valid, false otherwise
 ```
 
-## Pagination
+### Pagination
 
 Vonage APIs paginate list requests. This means that if a collection is requested that is larger than the API default, the API will return the first page of items in the collection. The Ruby SDK provides an `auto_advance` parameter that will traverse through the pages and return all the results in one response object.
 
@@ -303,31 +311,6 @@ To modify the `auto_advance` behavior you can specify it in your method:
 client.applications.list(auto_advance: false)
 ```
 
-## NCCO Builder
-
-The Vonage Voice API accepts instructions via JSON objects called NCCOs. Each NCCO can be made up multiple actions that are executed in the order they are written. The Vonage API Developer Portal contains an [NCCO Reference](https://developer.vonage.com/voice/voice-api/ncco-reference) with instructions and information on all the parameters possible.
-
-The SDK includes an NCCO builder that you can use to build NCCOs for your Voice API methods.
-
-For example, to build `talk` and `input` NCCO actions and then combine them into a single NCCO you would do the following:
-
-```ruby
-talk = Vonage::Voice::Ncco.talk(text: 'Hello World!')
-input = Vonage::Voice::Ncco.input(type: ['dtmf'], dtmf: { bargeIn: true })
-ncco = Vonage::Voice::Ncco.build(talk, input)
-
-# => [{:action=>"talk", :text=>"Hello World!"}, {:action=>"input", :type=>["dtmf"], :dtmf=>{:bargeIn=>true}}]
-```
-
-Once you have the constructed NCCO you can then use it in a Voice API request:
-
-```ruby
-response = client.voice.create({
-  to: [{type: 'phone', number: '14843331234'}],
-  from: {type: 'phone', number: '14843335555'},
-  ncco: ncco
-})
-```
 
 ## Messages API
 
@@ -480,40 +463,85 @@ if code_check.http_response.code == '200'
 end
 ```
 
+## Voice API
+
+The [Vonage Voice API](The [Vonage Verify API v2](https://developer.vonage.com/en/verify/verify-v2/overview) allows you to automate voice interactions by creating calls, streaming audio, playing text to speech, playing DTMF tones, and other actions. See the Vonage Developer Documentation for a [complete API reference](https://developer.vonage.com/en/api/voice) listing all the Voice API capabilities.
+
+The Ruby SDK provides numerous methods for interacting with the Voice v2 API. Here's an example of using the `create` method to make an outbound text-to-speech call:
+
+```ruby
+response = client.voice.create(
+  to: [{
+    type: 'phone',
+    number: '447700900000'
+  }],
+  from: {
+    type: 'phone',
+    number: '447700900001'
+  },
+  answer_url: [
+    'https://raw.githubusercontent.com/nexmo-community/ncco-examples/gh-pages/text-to-speech.json'
+  ]
+)
+```
+
+### NCCO Builder
+
+The Vonage Voice API accepts instructions via JSON objects called NCCOs. Each NCCO can be made up multiple actions that are executed in the order they are written. The Vonage API Developer Portal contains an [NCCO Reference](https://developer.vonage.com/voice/voice-api/ncco-reference) with instructions and information on all the parameters possible.
+
+The SDK includes an NCCO builder that you can use to build NCCOs for your Voice API methods.
+
+For example, to build `talk` and `input` NCCO actions and then combine them into a single NCCO you would do the following:
+
+```ruby
+talk = Vonage::Voice::Ncco.talk(text: 'Hello World!')
+input = Vonage::Voice::Ncco.input(type: ['dtmf'], dtmf: { bargeIn: true })
+ncco = Vonage::Voice::Ncco.build(talk, input)
+
+# => [{:action=>"talk", :text=>"Hello World!"}, {:action=>"input", :type=>["dtmf"], :dtmf=>{:bargeIn=>true}}]
+```
+
+Once you have the constructed NCCO you can then use it in a Voice API request:
+
+```ruby
+response = client.voice.create({
+  to: [{type: 'phone', number: '14843331234'}],
+  from: {type: 'phone', number: '14843335555'},
+  ncco: ncco
+})
+```
+
 ## Documentation
 
-Vonage Ruby documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby-sdk
+Vonage Ruby SDK documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby-sdk
 
-Vonage Ruby code examples: https://github.com/Vonage/vonage-ruby-code-snippets
+Vonage Ruby SDK code examples: https://github.com/Vonage/vonage-ruby-code-snippets
 
 Vonage APIs API reference: https://developer.nexmo.com/api
 
-## Frequently Asked Questions
-
 ## Supported APIs
 
-The following is a list of Vonage APIs and whether the Ruby SDK provides support for them:
+The following is a list of Vonage APIs for which the Ruby SDK currently provides support:
 
-| API   | API Release Status |  Supported?
-|----------|:---------:|:-------------:|
-| Account API | General Availability |✅|
-| Alerts API | General Availability |✅|
-| Application API | General Availability |✅|
-| Audit API | Beta |❌|
-| Conversation API | Beta |❌|
-| Dispatch API | Beta |❌|
-| External Accounts API | Beta |❌|
-| Media API | Beta | ❌|
-| Messages API | General Availability |✅|
-| Number Insight API | General Availability |✅|
-| Number Management API | General Availability |✅|
-| Pricing API | General Availability |✅|
-| Redact API | Developer Preview |✅|
-| Reports API | Beta |❌|
-| SMS API | General Availability |✅|
-| Verify API | General Availability |✅|
-| Verify API v2 | General Availability |✅|
-| Voice API | General Availability |✅|
+* [Account API](https://developer.vonage.com/en/account/overview)
+* [Application API](https://developer.vonage.com/en/application/overview)
+* [Meetings API](https://developer.vonage.com/en/meetings/overview)
+* [Messages API](https://developer.vonage.com/en/messages/overview)
+* [Number Insight API](https://developer.vonage.com/en/number-insight/overview)
+* [Numbers API](https://developer.vonage.com/en/numbers/overview)
+* [Proactive Connect API](https://developer.vonage.com/en/proactive-connect/overview) *
+* [Redact API](https://developer.vonage.com/en/redact/overview)
+* [SMS API](https://developer.vonage.com/en/messaging/sms/overview)
+* [Subaccounts API](https://developer.vonage.com/en/account/subaccounts/overview)
+* [Verify API](https://developer.vonage.com/en/verify/overview)
+* [Voice API](https://developer.vonage.com/en/verify/overview)
+
+\* The Proactive Connect API is partially supported in the SDK. Specifically, the Events, Items, and Lists endpoints are supported.
+
+## Other SDKs and Tools
+
+You can find information about other Vonage SDKs and Tooling on our [Developer Portal](https://developer.vonage.com/en/tools).
+
 
 ## License
 
@@ -521,3 +549,13 @@ This library is released under the [Apache 2.0 License][license]
 
 [signup]: https://dashboard.nexmo.com/sign-up?utm_source=DEV_REL&utm_medium=github&utm_campaign=ruby-client-library
 [license]: LICENSE.txt
+
+## Contribute!
+
+_We :heart: contributions to this library!_
+
+It is a good idea to [talk to us](https://developer.vonage.com/community/slack)
+first if you plan to add any new functionality.
+Otherwise, [bug reports](https://github.com/Vonage/vonage-ruby-sdk/issues),
+[bug fixes](https://github.com/Vonage/vonage-ruby-sdk/pulls) and feedback on the
+library are always appreciated.

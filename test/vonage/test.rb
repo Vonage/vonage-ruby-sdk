@@ -392,14 +392,6 @@ module Vonage
       'abcdefg'
     end
 
-    def e164_compliant_number
-      '447000000000'
-    end
-
-    def invalid_number
-      'abcdefg'
-    end
-
     alias_method :call_uuid, :call_id
   end
 end

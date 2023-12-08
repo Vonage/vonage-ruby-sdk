@@ -10,7 +10,7 @@ module Vonage
     # Request a verification be sent to a user.
     #
     # @example
-    #   verification_request = verify.start_verification(
+    #   verification_request = client.verify2.start_verification(
     #     brand: 'Acme',
     #     workflow: [{channel: 'sms', to: '447000000000'}],
     #     code_length: 6
@@ -41,7 +41,7 @@ module Vonage
     # Check a supplied code against a request to see if it is valid.
     #
     # @example
-    #   code_check = verify.check_code(request_id: '7e8c5965-0a3f-44df-8a14-f1486209d8a2', code: '1234')
+    #   code_check = client.verify2.check_code(request_id: '7e8c5965-0a3f-44df-8a14-f1486209d8a2', code: '1234')
     #
     # @param [required, String] :request_id The request_id of the verification request being checked
     #
@@ -56,7 +56,7 @@ module Vonage
     # Cancel a verifiction. If a verification request is still active, calling this method aborts the workflow.
     #
     # @example
-    #   verify.cancel_verification_request(request_id: '7e8c5965-0a3f-44df-8a14-f1486209d8a2')
+    #   client.verify2.cancel_verification_request(request_id: '7e8c5965-0a3f-44df-8a14-f1486209d8a2')
     #
     # @param [required, String] :request_id The request_id of the verification request to be cancelled
     #

@@ -46,7 +46,7 @@ class Vonage::Messaging::Channels::MessengerTest < Vonage::Test
 
   def test_with_invalid_type_specified
     exception = assert_raises {
-      messenger = Vonage::Messaging::Channels::Messenger.new(type: 'vcard', message: { url: 'https://example.com/contact.vcf' })
+      Vonage::Messaging::Channels::Messenger.new(type: 'vcard', message: { url: 'https://example.com/contact.vcf' })
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -61,7 +61,7 @@ class Vonage::Messaging::Channels::MessengerTest < Vonage::Test
 
   def test_with_invalid_message_class
     exception = assert_raises {
-      messenger = Vonage::Messaging::Channels::Messenger.new(type: 'image', message: "https://example.com/image.jpg")
+      Vonage::Messaging::Channels::Messenger.new(type: 'image', message: "https://example.com/image.jpg")
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -70,7 +70,7 @@ class Vonage::Messaging::Channels::MessengerTest < Vonage::Test
 
   def test_object_message_without_url
     exception = assert_raises {
-      messenger = Vonage::Messaging::Channels::Messenger.new(type: 'image', message: {})
+      Vonage::Messaging::Channels::Messenger.new(type: 'image', message: {})
     }
 
     assert_instance_of Vonage::ClientError, exception
