@@ -89,6 +89,13 @@ module Vonage
       @number_insight ||= T.let(NumberInsight.new(config), T.nilable(Vonage::NumberInsight))
     end
 
+    # @return [NumberInsight2]
+    #
+    sig { returns(T.nilable(Vonage::NumberInsight2)) }
+    def number_insight_2
+      @number_insight_2 ||= T.let(NumberInsight2.new(config), T.nilable(Vonage::NumberInsight2))
+    end
+
     # @return [Numbers]
     #
     sig { returns(T.nilable(Vonage::Numbers)) }
