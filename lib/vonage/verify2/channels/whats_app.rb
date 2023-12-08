@@ -10,7 +10,7 @@ module Vonage
     def initialize(to:, from: nil)
       self.channel = 'whatsapp'
       self.to = to
-      self.from = from if from
+      self.from = from unless from.nil?
     end
 
     def to=(to)
