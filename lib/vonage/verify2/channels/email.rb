@@ -10,16 +10,14 @@ module Vonage
     def initialize(to:, from: nil)
       self.channel = 'email'
       self.to = to
-      self.from = from if from
+      self.from = from unless from.nil?
     end
 
     def to=(to)
-      # TODO: add validation
       @to = to
     end
 
     def from=(from)
-      # TODO: add validation
       @from = from
     end
 
