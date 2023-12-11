@@ -54,7 +54,7 @@ There are some changes to methods between the `opentok` SDK and the Video API im
 - Some methods have been renamed and/or moved, for clarity and/or to better reflect what the method does. These are listed below:
 
 | OpenTok Method Name | Vonage Video Method Name |
-|---|---|---|
+|---|---|
 | `opentok.generate_token` | `video.generate_client_token` |
 | `opentok.archives.create` | `video.archives.start` |
 | `opentok.archives.find` | `video.archives.info` |
