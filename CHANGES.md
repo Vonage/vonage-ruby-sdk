@@ -1,3 +1,9 @@
+# 7.19.0
+
+* Adds Video API functionality. [#297](https://github.com/Vonage/vonage-ruby-sdk/pull/297)
+* Adds Number Insight v2. [#299](https://github.com/Vonage/vonage-ruby-sdk/pull/299)
+* Updates Verify v2 Silent Authentication workflow options. [#300](https://github.com/Vonage/vonage-ruby-sdk/pull/300)
+
 # 7.18.0
 
 * Adds webhook token verification functionality. [#291](https://github.com/Vonage/vonage-ruby-sdk/pull/291)
