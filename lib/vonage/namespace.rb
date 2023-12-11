@@ -23,8 +23,7 @@ module Vonage
     end
 
     def self.host=(host)
-      raise ArgumentError unless %i[rest_host vonage_host].include?(host)
-
+      raise ArgumentError unless %i[rest_host video_host vonage_host].include?(host)
       @host = host
     end
 
@@ -273,7 +272,7 @@ module Vonage
       when Net::HTTPNoContent
         response_class.new(nil, response)
       when Net::HTTPSuccess
-        if response['Content-Type'] && response['Content-Type'].split(';').first == 'application/json'
+        if response['Content-Type'] && response['Content-Type'].split(';').first == 'application/json' && !response.body.empty?
           entity = ::JSON.parse(response.body, object_class: Vonage::Entity)
 
           response_class.new(entity, response)
@@ -295,6 +294,8 @@ module Vonage
       case self.class.host
       when :rest_host
         @config.rest_host
+      when :video_host
+        @config.video_host
       when :vonage_host
         @config.vonage_host
       else

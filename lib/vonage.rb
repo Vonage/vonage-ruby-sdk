@@ -13,6 +13,7 @@ module Vonage
     'http' => 'HTTP',
     'json' => 'JSON',
     'jwt' => 'JWT',
+    'sip' => 'SIP',
     'sms' => 'SMS',
     'mms' => 'MMS',
     'tfa' => 'TFA',
