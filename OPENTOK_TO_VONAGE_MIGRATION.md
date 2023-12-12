@@ -1,4 +1,4 @@
-# Migration guide from OpenTok Node SDK to Vonage Video Node SDK
+# Migration guide from OpenTok Ruby SDK to Vonage Ruby SDK
 
 ## Installation
 
@@ -10,7 +10,7 @@ gem vonage
 
 and run `bundle install`
 
-Note: not all the Video API features are yet supported in the `vonage` gem . There is a full list of [Supported Features](supported-features) later in this document.
+Note: not all the Video API features are yet supported in the `vonage` gem . There is a full list of [Supported Features](#supported-features) later in this document.
 
 ## Setup
 
