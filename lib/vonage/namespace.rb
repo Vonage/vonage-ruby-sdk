@@ -2,6 +2,7 @@
 # frozen_string_literal: true
 
 require 'net/http'
+require 'net/http/persistent'
 require 'net/http/post/multipart'
 require 'json'
 
@@ -12,8 +13,7 @@ module Vonage
 
       @host = set_host
 
-      @http = Net::HTTP.new(@host, Net::HTTP.https_default_port, p_addr = nil)
-      @http.use_ssl = true
+      @http = Net::HTTP::Persistent.new
 
       @config.http.set(@http) unless @config.http.nil?
     end
@@ -94,7 +94,8 @@ module Vonage
     def make_request!(request, &block)
       logger.log_request_info(request)
 
-      response = @http.request(request, &block)
+      uri = URI("https://" + @host + request.path)
+      response = @http.request(uri, request, &block)
 
       logger.log_response_info(response, @host)
 
@@ -143,7 +144,7 @@ module Vonage
 
       uri = override_uri ? URI(override_uri) : URI('https://' + @host + path)
 
-      http = override_uri ? Net::HTTP.new(uri.host, Net::HTTP.https_default_port, p_addr = nil) : @http
+      http = Net::HTTP.new(uri.host, Net::HTTP.https_default_port, p_addr = nil)
       http.use_ssl = true
       http.set_debug_output($stdout)
 

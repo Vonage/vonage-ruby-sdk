@@ -1,3 +1,7 @@
+# 7.19.0.exp.0.1.0
+
+* An experimental pre-release. This version switches the HTTP adapter from `Net::HTTP` to `Net::HTTP::Persistent` for all standard requests.
+
 # 7.19.0
 
 * Adds Video API functionality. [#297](https://github.com/Vonage/vonage-ruby-sdk/pull/297)
