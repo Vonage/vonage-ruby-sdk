@@ -40,7 +40,7 @@ class Vonage::Verify2::Channels::SMSTest < Vonage::Test
     new_number = '447000000002'
     channel.from = new_number
 
-    assert_equal new_number, channel.instance_variable_get(:@to)
+    assert_equal new_number, channel.instance_variable_get(:@from)
   end
 
   def test_from_setter_method_with_invalid_number

@@ -6,7 +6,7 @@ module Vonage
   class Verify2::Channels::SMS
     APP_HASH_LENGTH = 11
 
-    attr_reader :channel, :to, :app_hash
+    attr_reader :channel, :to, :from, :app_hash
 
     def initialize(to:, app_hash: nil)
       self.channel = 'sms'
@@ -17,6 +17,11 @@ module Vonage
     def to=(to)
       raise ArgumentError, "Invalid 'to' value #{to}. Expected to be in E.164 format" unless Phonelib.parse(to).valid?
       @to = to
+    end
+
+    def from=(from)
+      raise ArgumentError, "Invalid 'from' value #{from}. Expected to be in E.164 format" unless Phonelib.parse(from).valid?
+      @from = from
     end
 
     def app_hash=(app_hash)
