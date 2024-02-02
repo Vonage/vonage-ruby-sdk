@@ -1,3 +1,7 @@
+# 7.20.0
+
+* Updates Verify v2 API SMS channel to add new parameters. [#303](https://github.com/Vonage/vonage-ruby-sdk/pull/303)
+
 # 7.19.0
 
 * Adds Video API functionality. [#297](https://github.com/Vonage/vonage-ruby-sdk/pull/297)
