@@ -43,12 +43,6 @@ class Vonage::Verify2::Channels::SMSTest < Vonage::Test
     assert_equal new_number, channel.instance_variable_get(:@from)
   end
 
-  def test_from_setter_method_with_invalid_number
-    assert_raises ArgumentError do
-      sms_channel.from = invalid_number
-    end
-  end
-
   def test_entity_id_getter_method
     assert_nil sms_channel.entity_id
   end

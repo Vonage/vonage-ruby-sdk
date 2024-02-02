@@ -20,7 +20,6 @@ module Vonage
     end
 
     def from=(from)
-      raise ArgumentError, "Invalid 'from' value #{from}. Expected to be in E.164 format" unless Phonelib.parse(from).valid?
       @from = from
     end
 
