@@ -31,6 +31,64 @@ class Vonage::Verify2::Channels::SMSTest < Vonage::Test
     end
   end
 
+  def test_from_getter_method
+    assert_nil sms_channel.from
+  end
+
+  def test_from_setter_method
+    channel = sms_channel
+    new_number = '447000000002'
+    channel.from = new_number
+
+    assert_equal new_number, channel.instance_variable_get(:@from)
+  end
+
+  def test_entity_id_getter_method
+    assert_nil sms_channel.entity_id
+  end
+
+  def test_entity_id_setter_method
+    channel = sms_channel
+    channel.entity_id = '1101407360000017170'
+
+    assert_equal '1101407360000017170', channel.instance_variable_get(:@entity_id)
+  end
+
+  def test_entity_id_setter_method_with_invalid_arg_too_short
+    assert_raises ArgumentError do
+      sms_channel.entity_id = ''
+    end
+  end
+
+  def test_entity_id_setter_method_with_invalid_arg_too_long
+    assert_raises ArgumentError do
+      sms_channel.entity_id = '110140736000001717072'
+    end
+  end
+
+  def test_content_id_getter_method
+    assert_nil sms_channel.content_id
+  end
+
+  def test_content_id_setter_method
+    channel = sms_channel
+    channel.content_id = '1101407360000017170'
+
+    assert_equal '1101407360000017170', channel.instance_variable_get(:@content_id)
+  end
+
+  def test_content_id_setter_method_with_invalid_arg_too_short
+    assert_raises ArgumentError do
+      sms_channel.content_id = ''
+    end
+  end
+
+  def test_content_id_setter_method_with_invalid_arg_too_long
+    assert_raises ArgumentError do
+      sms_channel.content_id = '110140736000001717072'
+    end
+  end
+
   def test_app_hash_getter_method
     assert_nil sms_channel.app_hash
   end
