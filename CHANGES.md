@@ -1,6 +1,6 @@
-# 7.19.0.exp.0.1.0
+# 7.20.0
 
-* An experimental pre-release. This version switches the HTTP adapter from `Net::HTTP` to `Net::HTTP::Persistent` for all standard requests.
+* Updates Verify v2 API SMS channel to add new parameters. [#303](https://github.com/Vonage/vonage-ruby-sdk/pull/303)
 
 # 7.19.0
 

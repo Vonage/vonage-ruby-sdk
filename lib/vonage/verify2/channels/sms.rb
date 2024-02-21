@@ -6,7 +6,7 @@ module Vonage
   class Verify2::Channels::SMS
     APP_HASH_LENGTH = 11
 
-    attr_reader :channel, :to, :app_hash
+    attr_reader :channel, :to, :from, :entity_id, :content_id, :app_hash
 
     def initialize(to:, app_hash: nil)
       self.channel = 'sms'
@@ -17,6 +17,20 @@ module Vonage
     def to=(to)
       raise ArgumentError, "Invalid 'to' value #{to}. Expected to be in E.164 format" unless Phonelib.parse(to).valid?
       @to = to
+    end
+
+    def from=(from)
+      @from = from
+    end
+
+    def entity_id=(entity_id)
+      raise ArgumentError, "Invalid 'entity_id' value #{entity_id}. Length must be between 1 and 20 characters." unless entity_id.length.between?(1, 20)
+      @entity_id = entity_id
+    end
+
+    def content_id=(content_id)
+      raise ArgumentError, "Invalid 'content_id' value #{content_id}. Length must be between 1 and 20 characters ." unless content_id.length.between?(1, 20)
+      @content_id = content_id
     end
 
     def app_hash=(app_hash)
