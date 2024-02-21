@@ -1,3 +1,7 @@
+# 7.21.0
+
+* Changes the HTTP adapter from `Net::HTTP` to `Net::HTTP::Persistent` and fixes an issue with a dependency (`ruby-jwt`)
+
 # 7.20.0
 
 * Updates Verify v2 API SMS channel to add new parameters. [#303](https://github.com/Vonage/vonage-ruby-sdk/pull/303)
