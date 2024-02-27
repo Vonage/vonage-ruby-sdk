@@ -26,6 +26,10 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::Voice, client.voice
   end
 
+  def test_conversation_method
+    assert_kind_of Vonage::Conversation, client.conversation
+  end
+
   def test_conversations_method
     assert_kind_of Vonage::Conversations, client.conversations
   end
