@@ -77,7 +77,7 @@ class Vonage::Conversation::MemberTest < Vonage::Test
   end
 
   def test_update_method
-    stub_request(:put, member_uri).with(body: { state: 'left' }).to_return(response)
+    stub_request(:patch, member_uri).with(body: { state: 'left' }).to_return(response)
 
     assert_kind_of Vonage::Response, member.update(conversation_id: conversation_id, member_id: member_id, state: 'left')
   end

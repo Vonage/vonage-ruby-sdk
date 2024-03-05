@@ -24,7 +24,7 @@ module Vonage
     end
 
     def update(conversation_id:, member_id:, **params)
-      request("/v1/conversations/#{conversation_id}/members/#{member_id}", params: params, type: Put)
+      request("/v1/conversations/#{conversation_id}/members/#{member_id}", params: params, type: Patch)
     end
   end
 end
