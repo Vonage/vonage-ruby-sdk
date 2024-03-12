@@ -53,7 +53,6 @@ module Vonage
     #
     sig { returns(T.nilable(Vonage::Conversations)) }
     def conversations
-      logger.info('This method is deprecated and will be removed in a future release. Please use `#conversation` instead.')
       @conversations ||= T.let(Conversations.new(config), T.nilable(Vonage::Conversations))
     end
 
