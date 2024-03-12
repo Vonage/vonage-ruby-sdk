@@ -1,3 +1,7 @@
+# 7.22.0
+
+* Adds support for v1 the Conversation API. [#305](https://github.com/Vonage/vonage-ruby-sdk/pull/305)
+
 # 7.21.0
 
 * Changes the HTTP adapter from `Net::HTTP` to `Net::HTTP::Persistent` and fixes an issue with a dependency (`ruby-jwt`)
