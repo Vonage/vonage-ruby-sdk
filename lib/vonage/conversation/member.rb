@@ -19,10 +19,6 @@ module Vonage
       request("/v1/conversations/#{conversation_id}/members/#{member_id}", response_class: Vonage::Response)
     end
 
-    def find_me(conversation_id:)
-      request("/v1/conversations/#{conversation_id}/members/me")
-    end
-
     def update(conversation_id:, member_id:, **params)
       request("/v1/conversations/#{conversation_id}/members/#{member_id}", params: params, type: Patch)
     end

@@ -66,16 +66,6 @@ class Vonage::Conversation::MemberTest < Vonage::Test
     assert_raises(ArgumentError) { member.find(conversation_id: conversation_id) }
   end
 
-  def test_find_me_method
-    stub_request(:get, members_uri + '/me').to_return(response)
-
-    assert_kind_of Vonage::Response, member.find_me(conversation_id: conversation_id)
-  end
-
-  def test_find_me_method_without_conversation_id
-    assert_raises(ArgumentError) { member.find_me }
-  end
-
   def test_update_method
     stub_request(:patch, member_uri).with(body: { state: 'left' }).to_return(response)
 
