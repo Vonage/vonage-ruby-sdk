@@ -1,7 +1,7 @@
 # typed: false
 require_relative '../test'
 
-class Vonage::Video::SignalsTest < Vonage::Test
+class Vonage::Video::ModerationTest < Vonage::Test
   def moderation
     Vonage::Video::Moderation.new(config)
   end

@@ -9,6 +9,8 @@ module Vonage
 
     # Create a member.
     #
+    # @deprecated Please use {Vonage::Conversation::Member#create} instead
+    #
     # @option params [String] :action
     #   Invite or join a member to a conversation.
     #   Must be one of: `invite` or `join`.
@@ -40,10 +42,13 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#createMember
     #
     def create(conversation_id, params)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation::Member#create` instead.')
       request('/beta/conversations/' + conversation_id + '/members', params: params, type: Post)
     end
 
     # List members.
+    #
+    # @deprecated Please use {Vonage::Conversation::Member#list} instead
     #
     # @param [String] conversation_id
     #
@@ -56,10 +61,13 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#getMembers
     #
     def list(conversation_id, params = nil, auto_advance = true)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation::Member#list` instead.')
       request('/beta/conversations/' + conversation_id + '/members', params: params)
     end
 
     # Retrieve a member.
+    #
+    # @deprecated Please use {Vonage::Conversation::Member#find} instead
     #
     # @param [String] conversation_id
     # @param [String] member_id
@@ -69,10 +77,13 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#getMember
     #
     def get(conversation_id, member_id)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation::Member#find` instead.')
       request('/beta/conversations/' + conversation_id + '/members/' + member_id)
     end
 
     # Update a member.
+    #
+    # @deprecated Please use {Vonage::Conversation::Member#update} instead
     #
     # @option params [String] :action
     #   Invite or join a member to a conversation.
@@ -89,10 +100,13 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#updateMember
     #
     def update(conversation_id, member_id, params)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation::Member#update` instead.')
       request('/beta/conversations/' + conversation_id + '/members/' + member_id, params: params, type: Put)
     end
 
     # Delete a member.
+    #
+    # @deprecated
     #
     # @param [String] conversation_id
     # @param [String] member_id
@@ -102,6 +116,7 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#deleteMember
     #
     def delete(conversation_id, member_id)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request('/beta/conversations/' + conversation_id + '/members/' + member_id, type: Delete)
     end
   end

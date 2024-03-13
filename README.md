@@ -525,6 +525,7 @@ The following is a list of Vonage APIs for which the Ruby SDK currently provides
 
 * [Account API](https://developer.vonage.com/en/account/overview)
 * [Application API](https://developer.vonage.com/en/application/overview)
+* [Conversation API](https://developer.vonage.com/en/conversation/overview)
 * [Meetings API](https://developer.vonage.com/en/meetings/overview)
 * [Messages API](https://developer.vonage.com/en/messages/overview)
 * [Number Insight API](https://developer.vonage.com/en/number-insight/overview)

@@ -11,6 +11,8 @@ module Vonage
 
     # Create a conversation.
     #
+    # @deprecated Please use {Vonage::Conversation#create} instead
+    #
     # @example
     #   response = client.conversations.create(name: 'Example Conversation', display_name: 'Example Display Name')
     #
@@ -37,10 +39,13 @@ module Vonage
     #
     sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def create(params)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation#create` instead.')
       request('/beta/conversations', params: params, type: Post)
     end
 
     # List all conversations associated with your application.
+    #
+    # @deprecated Please use {Vonage::Conversation#list} instead
     #
     # @example
     #   response = client.conversations.list
@@ -71,6 +76,7 @@ module Vonage
     #
     sig { params(params: T.nilable(T::Hash[Symbol, T.untyped]), auto_advance: T::Boolean).returns(Vonage::Response) }
     def list(params = nil, auto_advance = true)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation#list` instead.')
       if params && !params.key?(:auto_advance)
         params.merge!(auto_advance: true)
       end
@@ -79,6 +85,8 @@ module Vonage
     end
 
     # Retrieve a conversation.
+    #
+    # @deprecated Please use {Vonage::Conversation#find} instead
     #
     # @example
     #   response = client.conversations.get(id)
@@ -91,10 +99,13 @@ module Vonage
     #
     sig { params(id: String).returns(Vonage::Response) }
     def get(id)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation#find` instead.')
       request('/beta/conversations/' + id)
     end
   
     # Update a conversation.
+    #
+    # @deprecated Please use {Vonage::Conversation#update} instead
     #
     # @example
     #   response = client.conversations.update(id, display_name: 'Updated conversation')
@@ -127,10 +138,13 @@ module Vonage
       params: T::Hash[Symbol, T.untyped]
     ).returns(Vonage::Response) }
     def update(id, params)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation#update` instead.')
       request('/beta/conversations/' + id, params: params, type: Put)
     end
 
     # Delete a conversation.
+    #
+    # @deprecated Please use {Vonage::Conversation#delete} instead
     #
     # @example
     #   response = client.conversations.delete(id)
@@ -143,10 +157,13 @@ module Vonage
     #
     sig { params(id: String).returns(Vonage::Response) }
     def delete(id)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation#delete` instead.')
       request('/beta/conversations/' + id, type: Delete)
     end
 
     # Record a conversation.
+    #
+    # @deprecated
     #
     # @example
     #   response = client.conversations.record(id, action: 'start')
@@ -178,13 +195,17 @@ module Vonage
       params: T::Hash[Symbol, T.untyped]
     ).returns(Vonage::Response) }
     def record(id, params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request('/v1/conversations/' + id + '/record', params: params, type: Put)
     end
 
     # @return [Events]
     #
+    # @deprecated Please use {Vonage::Conversation#event} instead
+    #
     sig { returns(T.nilable(Vonage::Conversations::Events)) }
     def events
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation#event` instead.')
       @events = T.let(@events, T.nilable(Vonage::Conversations::Events))
       @config = T.let(@config, T.nilable(Vonage::Config))
       @events ||= Events.new(@config)
@@ -192,24 +213,33 @@ module Vonage
 
     # @return [Legs]
     #
+    # @deprecated
+    #
     sig { returns(T.nilable(Vonage::Conversations::Legs)) }
     def legs
+      logger.info('This method is deprecated and will be removed in a future release.')
       @legs = T.let(@legs, T.nilable(Vonage::Conversations::Legs))
       @legs ||= Legs.new(@config)
     end
 
     # @return [Members]
     #
+    # @deprecated Please use {Vonage::Conversation#member} instead
+    #
     sig { returns(T.nilable(Vonage::Conversations::Members)) }
     def members
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation#member` instead.')
       @members = T.let(@members, T.nilable(Vonage::Conversations::Members))
       @members ||= Members.new(@config)
     end
 
     # @return [Users]
     #
+    # @deprecated Please use {Vonage::Conversation#user} instead
+    #
     sig { returns(T.nilable(Vonage::Conversations::Users)) }
     def users
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Conversation#user` instead.')
       @users = T.let(@users, T.nilable(Vonage::Conversations::Users))
       @users ||= Users.new(@config)
     end

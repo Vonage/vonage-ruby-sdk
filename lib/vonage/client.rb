@@ -40,7 +40,16 @@ module Vonage
       @applications ||= T.let(Applications.new(config), T.nilable(Vonage::Applications))
     end
 
+    # @return [Conversation]
+    #
+    sig { returns(T.nilable(Vonage::Conversation)) }
+    def conversation
+      @conversation ||= T.let(Conversation.new(config), T.nilable(Vonage::Conversation))
+    end
+
     # @return [Conversations]
+    #
+    # @deprecated Please use {#conversation} instead
     #
     sig { returns(T.nilable(Vonage::Conversations)) }
     def conversations

@@ -134,6 +134,22 @@ module Vonage
       { body: '{"_embedded": {"applications":[]}}', headers: response_headers }
     end
 
+    def conversation_list_response
+      { body: '{"_embedded": {"conversations":[]}}', headers: response_headers }
+    end
+
+    def session_list_response
+      { body: '{"_embedded": {"sessions":[]}}', headers: response_headers }
+    end
+
+    def members_list_response
+      { body: '{"_embedded": {"members":[]}}', headers: response_headers }
+    end
+
+    def events_list_response
+      { body: '{"_embedded": []}', headers: response_headers }
+    end
+
     def secrets_response
       { body: '{"_embedded": {"secrets":[]}}', headers: response_headers }
     end

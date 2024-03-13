@@ -9,6 +9,8 @@ module Vonage
 
     # Create a user.
     #
+    # @deprecated Please use {Vonage::Users#create} instead
+    #
     # @option params [String] :name
     #   Unique name for a user.
     #
@@ -26,10 +28,13 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#createUser
     #
     def create(params)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Users#create` instead.')
       request('/beta/users', params: params, type: Post)
     end
 
     # List users.
+    #
+    # @deprecated Please use {Vonage::Users#list} instead
     #
     # @option params [Boolean] :auto_advance
     #   Set this to `false` to not auto-advance through all the pages in the record
@@ -40,10 +45,13 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#getUsers
     #
     def list(params = nil, auto_advance = true)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Users#list` instead.')
       request('/beta/users', params: params)
     end
 
     # Retrieve a user.
+    #
+    # @deprecated Please use {Vonage::Users#find} instead
     #
     # @param [String] id
     #
@@ -52,10 +60,13 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#getUser
     #
     def get(id)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Users#find` instead.')
       request('/beta/users/' + id)
     end
 
     # Update a user.
+    #
+    # @deprecated Please use {Vonage::Users#update} instead
     #
     # @option params [String] :name
     #   Unique name for a user.
@@ -79,10 +90,13 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#updateUser
     #
     def update(id, params)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Users#update` instead.')
       request('/beta/users/' + id, params: params, type: Put)
     end
 
     # Delete a user.
+    #
+    # @deprecated Please use {Vonage::Users#delete} instead
     #
     # @param [String] id
     #
@@ -91,6 +105,7 @@ module Vonage
     # @see https://developer.nexmo.com/api/conversation#deleteUser
     #
     def delete(id)
+      logger.info('This method is deprecated and will be removed in a future release. Please use `Vonage::Users#delete` instead.')
       request('/beta/users/' + id, type: Delete)
     end
   end
