@@ -1,3 +1,7 @@
+# 7.23.0
+
+* Minor updates to Verify v2. [#306](https://github.com/Vonage/vonage-ruby-sdk/pull/306)
+
 # 7.22.0
 
 * Adds support for v1 the Conversation API. [#305](https://github.com/Vonage/vonage-ruby-sdk/pull/305)
