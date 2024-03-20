@@ -9,8 +9,12 @@ class Vonage::Verify2::Channels::EmailTest < Vonage::Test
     'alice@example.com'
   end
 
-  def channel_getter_method
-    assert_equal 'whatsapp', email_channel.channel
+  def test_channel_getter_method
+    assert_equal 'email', email_channel.channel
+  end
+
+  def test_with_to_omitted
+    assert_raises(ArgumentError) { Vonage::Verify2::Channels::Email.new }
   end
 
   def test_to_getter_method

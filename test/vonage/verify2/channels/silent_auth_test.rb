@@ -5,8 +5,12 @@ class Vonage::Verify2::Channels::SilentAuthTest < Vonage::Test
     Vonage::Verify2::Channels::SilentAuth.new(to: e164_compliant_number)
   end
 
-  def channel_getter_method
+  def test_channel_getter_method
     assert_equal 'silent_auth', silent_auth_channel.channel
+  end
+
+  def test_with_to_omitted
+    assert_raises(ArgumentError) { Vonage::Verify2::Channels::SilentAuth.new }
   end
 
   def test_to_setter_method

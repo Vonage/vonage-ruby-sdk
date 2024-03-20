@@ -9,8 +9,12 @@ class Vonage::Verify2::Channels::SMSTest < Vonage::Test
     'FA+9qCX9VSu'
   end
 
-  def channel_getter_method
+  def test_channel_getter_method
     assert_equal 'sms', sms_channel.channel
+  end
+
+  def test_with_to_omitted
+    assert_raises(ArgumentError) { Vonage::Verify2::Channels::SMS.new }
   end
 
   def test_to_getter_method

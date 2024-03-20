@@ -40,7 +40,7 @@ class Vonage::Verify2::WorkflowTest < Vonage::Test
   def test_shovel_method
     flow = workflow
     channel1 = flow.sms(to: e164_compliant_number)
-    channel2 = flow.whatsapp(to: e164_compliant_number)
+    channel2 = flow.whatsapp(to: e164_compliant_number, from: e164_compliant_number)
     flow << channel1
     flow << channel2
 
@@ -51,7 +51,7 @@ class Vonage::Verify2::WorkflowTest < Vonage::Test
   def test_hashified_list_method
     flow = workflow
     flow << flow.sms(to: e164_compliant_number)
-    flow << flow.whatsapp(to: e164_compliant_number)
+    flow << flow.whatsapp(to: e164_compliant_number, from: e164_compliant_number)
 
     hashified_list = flow.hashified_list
     assert hashified_list.all?(Hash)
