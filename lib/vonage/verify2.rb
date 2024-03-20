@@ -66,6 +66,10 @@ module Vonage
       request('/v2/verify/' + request_id, type: Delete)
     end
 
+    def next_workflow(request_id:)
+      request('/v2/verify/' + request_id + '/next-workflow', type: Post)
+    end
+
     # Instantiate a new Vonage::Verify2::StartVerificationOptions object
     #
     # @param [optional, Hash] opts the options for the verification request.

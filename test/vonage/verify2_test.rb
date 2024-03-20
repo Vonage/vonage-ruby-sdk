@@ -135,6 +135,18 @@ class Vonage::Verify2Test < Vonage::Test
     end
   end
 
+  def test_next_workflow_method
+    stub_request(:post, uri + request_id + '/next-workflow').to_return(response)
+
+    assert_kind_of Vonage::Response, verify2.next_workflow(request_id: request_id)
+  end
+
+  def test_next_workflow_method_without_request_id
+    assert_raises ArgumentError do
+      verify2.next_workflow
+    end
+  end
+
   def test_start_verification_options_method
     assert_instance_of Vonage::Verify2::StartVerificationOptions, verify2.start_verification_options
   end
