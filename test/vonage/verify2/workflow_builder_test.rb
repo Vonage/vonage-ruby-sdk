@@ -24,12 +24,12 @@ class Vonage::Verify2::WorkflowTest < Vonage::Test
   def test_build_method_adding_multiple_channels
     workflow = Vonage::Verify2::WorkflowBuilder.build do |builder|
       builder.add_sms(to: e164_compliant_number)
-      builder.add_whatsapp(to: e164_compliant_number)
+      builder.add_whatsapp(to: e164_compliant_number, from: e164_compliant_number)
     end
 
     assert_instance_of Vonage::Verify2::Workflow, workflow
     assert_instance_of Vonage::Verify2::Channels::SMS, workflow.list.first
     assert_instance_of Vonage::Verify2::Channels::WhatsApp, workflow.list.last
-    assert_equal({channel: 'whatsapp', to: e164_compliant_number}, workflow.list.last.to_h)
+    assert_equal({channel: 'whatsapp', to: e164_compliant_number, from: e164_compliant_number}, workflow.list.last.to_h)
   end
 end

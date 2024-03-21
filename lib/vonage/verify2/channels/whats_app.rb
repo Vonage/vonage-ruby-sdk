@@ -7,10 +7,10 @@ module Vonage
 
     attr_reader :channel, :to, :from
 
-    def initialize(to:, from: nil)
+    def initialize(to:, from:)
       self.channel = 'whatsapp'
       self.to = to
-      self.from = from unless from.nil?
+      self.from = from
     end
 
     def to=(to)

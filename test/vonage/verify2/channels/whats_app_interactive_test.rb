@@ -5,8 +5,12 @@ class Vonage::Verify2::Channels::WhatsAppInteractiveTest < Vonage::Test
     Vonage::Verify2::Channels::WhatsAppInteractive.new(to: e164_compliant_number)
   end
 
-  def channel_getter_method
+  def test_channel_getter_method
     assert_equal 'whatsapp_interactive', whatsapp_interactive_channel.channel
+  end
+
+  def test_with_to_omitted
+    assert_raises(ArgumentError) { Vonage::Verify2::Channels::WhatsAppInteractive.new }
   end
 
   def test_to_getter_method

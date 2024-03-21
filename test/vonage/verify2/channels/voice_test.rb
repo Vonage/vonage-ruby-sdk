@@ -5,8 +5,12 @@ class Vonage::Verify2::Channels::VoiceTest < Vonage::Test
     Vonage::Verify2::Channels::Voice.new(to: e164_compliant_number)
   end
 
-  def channel_getter_method
+  def test_channel_getter_method
     assert_equal 'voice', voice_channel.channel
+  end
+
+  def test_with_to_omitted
+    assert_raises(ArgumentError) { Vonage::Verify2::Channels::Voice.new }
   end
 
   def test_to_getter_method
