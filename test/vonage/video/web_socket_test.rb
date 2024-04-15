@@ -100,4 +100,14 @@ class Vonage::Video::WebSocketTest < Vonage::Test
       )
     end
   end
+
+  def test_connect_method_with_invalid_websocket_data_type
+    assert_raises(ArgumentError) do
+      web_socket.connect(
+        session_id: video_session_id,
+        token: sample_video_token,
+        websocket: 'wss://example.com/ws-endpoint'
+      )
+    end
+  end
 end

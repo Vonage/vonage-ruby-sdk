@@ -33,7 +33,8 @@ module Vonage
         'language_code',
         'max_duration',
         'partial_captions',
-        'status_callback_url'
+        'status_callback_url',
+        'audio_rate'
       ]
       hash.transform_keys do |k|
         if exceptions.include?(k.to_s)
