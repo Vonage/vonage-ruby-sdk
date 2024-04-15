@@ -29,7 +29,11 @@ module Vonage
         'screenshare_type',
         'session_id',
         'stream_mode',
-        'archive_mode'
+        'archive_mode',
+        'language_code',
+        'max_duration',
+        'partial_captions',
+        'status_callback_url'
       ]
       hash.transform_keys do |k|
         if exceptions.include?(k.to_s)
