@@ -104,6 +104,22 @@ module Vonage
       @streams ||= Streams.new(@config)
     end
 
+    # @return [Captions]
+    #
+    def captions
+      @captions ||= Captions.new(@config)
+    end
 
+    # @return [Renders]
+    #
+    def renders
+      @renders ||= Renders.new(@config)
+    end
+
+    # @return [WebSocket]
+    #
+    def web_socket
+      @web_socket ||= WebSocket.new(@config)
+    end
   end
 end
