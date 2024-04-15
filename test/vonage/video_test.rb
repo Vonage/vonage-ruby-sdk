@@ -137,4 +137,16 @@ class Vonage::VideoTest < Vonage::Test
   def test_signals_method
     assert_kind_of Vonage::Video::Signals, video.signals
   end
+
+  def test_captions_method
+    assert_kind_of Vonage::Video::Captions, video.captions
+  end
+
+  def test_renders_method
+    assert_kind_of Vonage::Video::Renders, video.renders
+  end
+
+  def test_web_socket_method
+    assert_kind_of Vonage::Video::WebSocket, video.web_socket
+  end
 end
