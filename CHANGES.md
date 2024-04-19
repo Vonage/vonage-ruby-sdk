@@ -1,3 +1,7 @@
+# 7.24.0
+
+* Updating Video API functionality with methods for Live Captions, Audio Connector, Experience Composer, and a `publisheronly` cleint token role. [#307](https://github.com/Vonage/vonage-ruby-sdk/pull/307)
+
 # 7.23.0
 
 * Minor updates to Verify v2. [#306](https://github.com/Vonage/vonage-ruby-sdk/pull/306)
