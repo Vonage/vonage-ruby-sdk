@@ -54,6 +54,9 @@ module Vonage
     end
 
     def generate_client_token(session_id:, scope: 'session.connect', role: 'publisher', **params)
+      valid_roles = %w[publisher subscriber moderator publisheronly]
+      raise ArgumentError, "Invalid role: #{role}" unless valid_roles.include?(role)
+
       claims = {
         application_id: @config.application_id,
         scope: scope,
@@ -104,6 +107,22 @@ module Vonage
       @streams ||= Streams.new(@config)
     end
 
+    # @return [Captions]
+    #
+    def captions
+      @captions ||= Captions.new(@config)
+    end
 
+    # @return [Renders]
+    #
+    def renders
+      @renders ||= Renders.new(@config)
+    end
+
+    # @return [WebSocket]
+    #
+    def web_socket
+      @web_socket ||= WebSocket.new(@config)
+    end
   end
 end

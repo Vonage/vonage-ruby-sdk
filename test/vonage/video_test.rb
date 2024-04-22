@@ -106,6 +106,42 @@ class Vonage::VideoTest < Vonage::Test
     assert_equal 'abc123', decoded_token_payload['session_id']
   end
 
+  def test_generate_client_token_with_publisher_role
+    token = video.generate_client_token(session_id: 'abc123', role: 'publisher')
+    decoded_token_payload = decode_jwt_payload(token)
+
+    assert_equal 'abc123', decoded_token_payload['session_id']
+    assert_equal 'publisher', decoded_token_payload['role']
+  end
+
+  def test_generate_client_token_with_subscriber_role
+    token = video.generate_client_token(session_id: 'abc123', role: 'subscriber')
+    decoded_token_payload = decode_jwt_payload(token)
+
+    assert_equal 'abc123', decoded_token_payload['session_id']
+    assert_equal 'subscriber', decoded_token_payload['role']
+  end
+
+  def test_generate_client_token_with_moderator_role
+    token = video.generate_client_token(session_id: 'abc123', role: 'moderator')
+    decoded_token_payload = decode_jwt_payload(token)
+
+    assert_equal 'abc123', decoded_token_payload['session_id']
+    assert_equal 'moderator', decoded_token_payload['role']
+  end
+
+  def test_generate_client_token_with_publisheronly_role
+    token = video.generate_client_token(session_id: 'abc123', role: 'publisheronly')
+    decoded_token_payload = decode_jwt_payload(token)
+
+    assert_equal 'abc123', decoded_token_payload['session_id']
+    assert_equal 'publisheronly', decoded_token_payload['role']
+  end
+
+  def test_generate_client_token_with_invalid_role
+    assert_raises(ArgumentError) { video.generate_client_token(session_id: 'abc123', role: 'foo') }
+  end
+
   def test_generate_client_token_with_custom_options
     expire_time = Time.now.to_i + 500
     token = video.generate_client_token(session_id: 'abc123', role: 'moderator', initial_layout_class_list: ['foo', 'bar'], data: 'test', expire_time: expire_time)
@@ -136,5 +172,17 @@ class Vonage::VideoTest < Vonage::Test
 
   def test_signals_method
     assert_kind_of Vonage::Video::Signals, video.signals
+  end
+
+  def test_captions_method
+    assert_kind_of Vonage::Video::Captions, video.captions
+  end
+
+  def test_renders_method
+    assert_kind_of Vonage::Video::Renders, video.renders
+  end
+
+  def test_web_socket_method
+    assert_kind_of Vonage::Video::WebSocket, video.web_socket
   end
 end
