@@ -10,6 +10,15 @@ class Vonage::MessagingTest < Vonage::Test
     'https://api.nexmo.com/v1/messages'
   end
 
+  def test_valid_message_delegator
+    message = Vonage::Messaging::Message.sms(message: "Hello world!")
+    assert_equal message, messaging.sms(message: "Hello world!")
+  end
+
+  def test_invalid_message_delegator
+    assert_raises { messaging.invalid }
+  end
+
   def test_send_method
     params = {
       to: "447700900000",
