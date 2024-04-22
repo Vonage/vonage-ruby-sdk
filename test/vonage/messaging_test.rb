@@ -35,6 +35,14 @@ class Vonage::MessagingTest < Vonage::Test
     assert_kind_of Vonage::Response, messaging.send(to: "447700900000", from: "447700900001", **message)
   end
 
+  def test_send_method_without_to
+    assert_raises(ArgumentError) { messaging.send(from: "447700900001", message: "Hello world!") }
+  end
+
+  def test_send_method_without_from
+    assert_raises(ArgumentError) { messaging.send(to: "447700900000", message: "Hello world!") }
+  end
+
   def test_verify_webhook_token_method_with_valid_secret_passed_in
     verification = messaging.verify_webhook_token(token: sample_webhook_token, signature_secret: sample_valid_signature_secret)
 
