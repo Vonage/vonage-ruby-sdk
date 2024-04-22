@@ -1,11 +1,16 @@
 # typed: true
 # frozen_string_literal: true
+require 'forwardable'
 
 module Vonage
   class Messaging < Namespace
+    extend Forwardable
+
     self.authentication = BearerToken
 
     self.request_body = JSON
+
+    def_delegators Message, *Message::CHANNELS.keys
 
     # Send a Message.
     #
