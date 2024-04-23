@@ -408,7 +408,7 @@ module Vonage
       '447000000000'
     end
 
-    def invalid_number
+    def non_e164_compliant_number
       'abcdefg'
     end
 
