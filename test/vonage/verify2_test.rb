@@ -77,6 +77,22 @@ class Vonage::Verify2Test < Vonage::Test
     end
   end
 
+  def test_start_verification_method_wit_brand_too_short
+    workflow = [{channel: 'sms', to: to_number}]
+
+    assert_raises ArgumentError do
+      verify2.start_verification(brand: '', workflow: workflow)
+    end
+  end
+
+  def test_start_verification_method_wit_brand_too_long
+    workflow = [{channel: 'sms', to: to_number}]
+
+    assert_raises ArgumentError do
+      verify2.start_verification(brand: 'abcdefghijklmnopq', workflow: workflow)
+    end
+  end
+
   def test_start_verification_method_without_workflow
     assert_raises ArgumentError do
       verify2.start_verification(brand: brand)
