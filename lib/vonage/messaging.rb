@@ -1,16 +1,21 @@
 # typed: true
 # frozen_string_literal: true
+require 'forwardable'
 
 module Vonage
   class Messaging < Namespace
+    extend Forwardable
+
     self.authentication = BearerToken
 
     self.request_body = JSON
 
+    def_delegators Message, *Message::CHANNELS.keys
+
     # Send a Message.
     #
     # @example
-    #   message = Vonage::Messaging::Message.sms(message: "Hello world!")
+    #   message = client.messaging.sms(message: "Hello world!")
     #   response = client.messaging.send(to: "447700900000", from: "447700900001", **message)
     #
     # @option params [required, String] :to
@@ -22,8 +27,8 @@ module Vonage
     #
     # @see https://developer.vonage.com/api/messages-olympus#SendMessage
     #
-    def send(params)
-      request('/v1/messages', params: params, type: Post)
+    def send(to:, from:, **message)
+      request('/v1/messages', params: {to: to, from: from, **message}, type: Post)
     end
 
     # Validate a JSON Web Token from a Messages API Webhook.

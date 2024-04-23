@@ -1,6 +1,7 @@
 # 7.24.0
 
 * Updating Video API functionality with methods for Live Captions, Audio Connector, Experience Composer, and a `publisheronly` cleint token role. [#307](https://github.com/Vonage/vonage-ruby-sdk/pull/307)
+* Updating Messages API implementation to add a delegator for the `Message` class, and enforce some required args in `Messaging#send`. [#308](https://github.com/Vonage/vonage-ruby-sdk/pull/308)
 
 # 7.23.0
 

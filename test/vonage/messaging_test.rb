@@ -10,6 +10,15 @@ class Vonage::MessagingTest < Vonage::Test
     'https://api.nexmo.com/v1/messages'
   end
 
+  def test_valid_message_delegator
+    message = Vonage::Messaging::Message.sms(message: "Hello world!")
+    assert_equal message, messaging.sms(message: "Hello world!")
+  end
+
+  def test_invalid_message_delegator
+    assert_raises { messaging.invalid }
+  end
+
   def test_send_method
     params = {
       to: "447700900000",
@@ -24,6 +33,14 @@ class Vonage::MessagingTest < Vonage::Test
     message = Vonage::Messaging::Message.sms(message: "Hello world!")
 
     assert_kind_of Vonage::Response, messaging.send(to: "447700900000", from: "447700900001", **message)
+  end
+
+  def test_send_method_without_to
+    assert_raises(ArgumentError) { messaging.send(from: "447700900001", message: "Hello world!") }
+  end
+
+  def test_send_method_without_from
+    assert_raises(ArgumentError) { messaging.send(to: "447700900000", message: "Hello world!") }
   end
 
   def test_verify_webhook_token_method_with_valid_secret_passed_in
