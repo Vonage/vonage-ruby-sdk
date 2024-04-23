@@ -20,6 +20,7 @@ module Vonage
     end
 
     def from=(from)
+      validate_from(from)
       @from = from
     end
 
@@ -49,5 +50,14 @@ module Vonage
     private
 
     attr_writer :channel
+
+    def validate_from(from)
+      if from.match?(/\D/)
+        raise ArgumentError, "Invalid alpha-numeric 'from' value #{from}. Length must be between 3 and 11 characters." unless from.length.between?(3, 11)
+      else
+        raise ArgumentError, "Invalid numeric 'from' value #{from}. Length must be between 11 and 15 characters." unless from.length.between?(11, 15)
+        raise ArgumentError, "Invalid 'from' value #{from}. Expected to be in E.164 format" unless Phonelib.parse(from).valid?
+      end
+    end
   end
 end
