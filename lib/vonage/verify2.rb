@@ -17,6 +17,7 @@ module Vonage
     #   )
     #
     # @param [required, String] :brand The brand that is sending the verification request
+    #   - Must be between 1 and 16 characters in length
     #
     # @param [required, Array<Hash>] :workflow An array of hashes for channels in the workflow
     #
@@ -32,6 +33,8 @@ module Vonage
     # @see https://developer.vonage.com/en/api/verify.v2#newRequest
     #
     def start_verification(brand:, workflow:, **opts)
+      raise ArgumentError, ':workflow must be a String' unless brand.is_a?(String)
+      raise ArgumentError, "Invalid 'brand' value #{brand}. Length must be between 1 and 16 characters." unless brand.length.between?(1, 16)
       raise ArgumentError, ':workflow must be an Array' unless workflow.is_a?(Array)
       raise ArgumentError, ':workflow must not be empty' if workflow.empty?
 
