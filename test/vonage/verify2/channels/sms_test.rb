@@ -29,9 +29,9 @@ class Vonage::Verify2::Channels::SMSTest < Vonage::Test
     assert_equal new_number, channel.instance_variable_get(:@to)
   end
 
-  def test_to_setter_method_with_invalid_number
+  def test_to_setter_method_with_non_e164_compliant_number
     assert_raises ArgumentError do
-      sms_channel.to = invalid_number
+      sms_channel.to = non_e164_compliant_number
     end
   end
 
@@ -39,12 +39,44 @@ class Vonage::Verify2::Channels::SMSTest < Vonage::Test
     assert_nil sms_channel.from
   end
 
-  def test_from_setter_method
+  def test_from_setter_method_with_valid_numeric
     channel = sms_channel
     new_number = '447000000002'
     channel.from = new_number
 
     assert_equal new_number, channel.instance_variable_get(:@from)
+  end
+
+  def test_from_setter_method_with_valid_alphanumeric
+    channel = sms_channel
+    new_number = 'abc123'
+    channel.from = new_number
+
+    assert_equal new_number, channel.instance_variable_get(:@from)
+  end
+
+  def test_from_setter_method_with_numeric_too_short
+    assert_raises ArgumentError do
+      sms_channel.from = '4470000002'
+    end
+  end
+
+  def test_from_setter_method_with_numeric_too_long
+    assert_raises ArgumentError do
+      sms_channel.from = '4470000000000002'
+    end
+  end
+
+  def test_from_setter_method_with_alphanumeric_too_short
+    assert_raises ArgumentError do
+      sms_channel.from = 'ab'
+    end
+  end
+
+  def test_from_setter_method_with_alphanumeric_too_long
+    assert_raises ArgumentError do
+      sms_channel.from = 'abcdefghijkl'
+    end
   end
 
   def test_entity_id_getter_method

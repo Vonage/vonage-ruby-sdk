@@ -1,3 +1,7 @@
+# 7.25.0
+
+* Validation updates to Verify v2 SMS and WhatsApp channels. [#309](https://github.com/Vonage/vonage-ruby-sdk/pull/309)
+
 # 7.24.0
 
 * Updating Video API functionality with methods for Live Captions, Audio Connector, Experience Composer, and a `publisheronly` cleint token role. [#307](https://github.com/Vonage/vonage-ruby-sdk/pull/307)

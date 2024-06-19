@@ -21,9 +21,9 @@ class Vonage::Verify2::Channels::SilentAuthTest < Vonage::Test
     assert_equal new_number, sa_workflow.instance_variable_get(:@to)
   end
 
-  def test_to_setter_method_with_invalid_number
+  def test_to_setter_method_with_non_e164_compliant_number
     assert_raises ArgumentError do
-      silent_auth_channel.to = invalid_number
+      silent_auth_channel.to = non_e164_compliant_number
     end
   end
 

@@ -29,9 +29,9 @@ class Vonage::Verify2::Channels::WhatsAppTest < Vonage::Test
     assert_equal new_number, channel.instance_variable_get(:@to)
   end
 
-  def test_to_setter_method_with_invalid_number
+  def test_to_setter_method_with_non_e164_compliant_number
     assert_raises ArgumentError do
-      whatsapp_channel.to = invalid_number
+      whatsapp_channel.to = non_e164_compliant_number
     end
   end
 
@@ -47,9 +47,21 @@ class Vonage::Verify2::Channels::WhatsAppTest < Vonage::Test
     assert_equal new_number, channel.instance_variable_get(:@from)
   end
 
-  def test_from_setter_method_with_invalid_number
+  def test_from_setter_method_with_non_e164_compliant_number
     assert_raises ArgumentError do
-      whatsapp_channel.from = invalid_number
+      whatsapp_channel.from = non_e164_compliant_number
+    end
+  end
+
+  def test_from_setter_method_with_number_too_short
+    assert_raises ArgumentError do
+      whatsapp_channel.from = '4470000002'
+    end
+  end
+
+  def test_from_setter_method_with_number_too_long
+    assert_raises ArgumentError do
+      whatsapp_channel.from = '4470000000000002'
     end
   end
 

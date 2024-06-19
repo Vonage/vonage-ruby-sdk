@@ -19,6 +19,7 @@ module Vonage
     end
 
     def from=(from)
+      raise ArgumentError, "Invalid 'from' value #{from}. Length must be between 11 and 15 characters." unless from.length.between?(11, 15)
       raise ArgumentError, "Invalid 'from' value #{from}. Expected to be in E.164 format" unless Phonelib.parse(from.to_i).valid?
       @from = from
     end
