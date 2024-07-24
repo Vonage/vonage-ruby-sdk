@@ -67,7 +67,7 @@ module Vonage
       end
 
       # Set BasicAuth if neeeded
-      authentication.update(uri)
+      # authentication.update(uri)
 
       # instantiate request
       request = type.new(uri)

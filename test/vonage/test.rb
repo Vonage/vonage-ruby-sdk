@@ -114,7 +114,9 @@ module Vonage
 
     def request(body: nil, query: nil, headers: {}, auth: nil)
       headers['Authorization'] = auth || authorization
-      headers['Content-Type'] = 'application/json' if body
+      if body
+        headers['Content-Type'] = 'application/json' unless headers.has_key?('Content-Type')
+      end
 
       { headers: headers, body: body, query: query }.compact
     end
