@@ -209,6 +209,7 @@ module Vonage
       }
 
       hash.merge!(headers: endpoint_attrs[:headers]) if endpoint_attrs[:headers]
+      hash.merge!(standardHeaders: endpoint_attrs[:standardHeaders]) if endpoint_attrs[:standardHeaders]
 
       hash
     end
