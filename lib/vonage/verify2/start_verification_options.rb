@@ -5,7 +5,7 @@ module Vonage
   class Verify2::StartVerificationOptions
     VALID_OPTS = [:locale, :channel_timeout, :client_ref, :code_length, :code, :fraud_check].freeze
 
-    MIN_CHANNEL_TIMEOUT, MAX_CHANNEL_TIMEOUT = [60, 900]
+    MIN_CHANNEL_TIMEOUT, MAX_CHANNEL_TIMEOUT = [15, 900]
 
     MIN_CODE_LENGTH, MAX_CODE_LENGTH = [4, 10]
 
@@ -22,6 +22,7 @@ module Vonage
     end
 
     def channel_timeout=(channel_timeout)
+      raise ArgumentError, "Invalid 'channel_timeout' #{channel_timeout}. Must be an integer" unless channel_timeout.is_a?(Integer)
       unless channel_timeout.between?(MIN_CHANNEL_TIMEOUT, MAX_CHANNEL_TIMEOUT)
         raise ArgumentError, "Invalid 'channel_timeout' #{channel_timeout}. Must be between #{MIN_CHANNEL_TIMEOUT} and #{MAX_CHANNEL_TIMEOUT} (inclusive)"
       end
