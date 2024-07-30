@@ -5,27 +5,25 @@ module Vonage
   class NetworkAuthentication::Client < Namespace
     extend T::Sig
 
-    # include NetworkAuthentication::TokenRequest
-
     self.authentication = BearerToken
 
     self.host = :vonage_host
 
     self.request_headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
-    def token(**params)
+    def token(oidc_auth_code:, redirect_uri:, **params)
       request(
         '/oauth2/token',
         params: {
           grant_type: 'authorization_code',
-          code: params[:oidc_auth_code],
-          redirect_uri: params[:redirect_uri]
+          code: oidc_auth_code,
+          redirect_uri: redirect_uri
         },
         type: Post
       )
     end
 
-    def self.generate_oidc_uri(purpose:, api_scope:, login_hint:, redirect_uri:, state: nil)
+    def generate_oidc_uri(purpose:, api_scope:, login_hint:, redirect_uri:, state: nil)
       scope = "openid+dpv:#{purpose}##{api_scope}"
       uri = "https://oidc.idp.vonage.com/oauth2/auth?" +
         "client_id=#{@config.application_id}" +

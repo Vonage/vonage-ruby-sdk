@@ -5,8 +5,6 @@ module Vonage
   class NetworkAuthentication::Server < Namespace
     extend T::Sig
 
-    include TokenRequest
-
     self.authentication = BearerToken
 
     self.host = :vonage_host
