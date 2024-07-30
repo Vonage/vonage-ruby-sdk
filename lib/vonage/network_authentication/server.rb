@@ -11,13 +11,14 @@ module Vonage
 
     self.request_headers['Content-Type'] = 'application/x-www-form-urlencoded'
 
-    def generate_token(**params)
-      auth_request_id = bc_authorize(**params).auth_request_id
+    def token(purpose:, api_scope:, login_hint:, **params)
+      auth_req_id = bc_authorize(
+        purpose: purpose,
+        api_scope: api_scope,
+        login_hint: login_hint
+      ).auth_req_id
 
-      token(
-        grant_type: 'urn:openid:params:grant-type:ciba',
-        auth_req_id: auth_request_id
-      ).access_token
+      request_access_token(auth_req_id: auth_req_id).access_token
     end
 
     def bc_authorize(purpose:, api_scope:, login_hint:)
@@ -27,6 +28,17 @@ module Vonage
         params: {
           scope: scope,
           login_hint: login_hint
+        },
+        type: Post
+      )
+    end
+
+    def request_access_token(auth_req_id:)
+      request(
+        "/oauth2/token",
+        params: {
+          grant_type: 'urn:openid:params:grant-type:ciba',
+          auth_req_id: auth_req_id
         },
         type: Post
       )

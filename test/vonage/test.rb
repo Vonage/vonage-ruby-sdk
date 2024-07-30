@@ -358,9 +358,19 @@ module Vonage
       }
     end
 
+    def network_authentication_auth_request_id
+      'b1963d15-537f-459a-be89-e00fc310b82b'
+    end
+
     def network_authentication_token_response
       { 
         body: '{"access_token":"' + sample_webhook_token + '", "token_type":"Bearer", "expires_in":3600}', 
+        headers: response_headers }
+    end
+
+    def network_authentication_oicd_response
+      { 
+        body: '{"auth_req_id":"' + network_authentication_auth_request_id + '", "expires_in":120, "interval": "2"}', 
         headers: response_headers }
     end
 

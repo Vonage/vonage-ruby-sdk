@@ -14,10 +14,6 @@ class Vonage::NetworkAuthentication::ClientTest < Vonage::Test
     '0dadaeb4-7c79-4d39-b4b0-5a6cc08bf537'
   end
 
-  def example_redirect_uri
-    'https://example.com/callback'
-  end
-
   def example_purpose
     'FraudPreventionAndDetection'
   end
