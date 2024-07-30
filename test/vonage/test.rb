@@ -358,6 +358,12 @@ module Vonage
       }
     end
 
+    def network_authentication_token_response
+      { 
+        body: '{"access_token":"' + sample_webhook_token + '", "token_type":"Bearer", "expires_in":3600}', 
+        headers: response_headers }
+    end
+
     def response
       { body: '{"key":"value"}', headers: response_headers }
     end

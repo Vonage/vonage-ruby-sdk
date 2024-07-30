@@ -20,7 +20,7 @@ module Vonage
           redirect_uri: redirect_uri
         },
         type: Post
-      )
+      ).access_token
     end
 
     def generate_oidc_uri(purpose:, api_scope:, login_hint:, redirect_uri:, state: nil)

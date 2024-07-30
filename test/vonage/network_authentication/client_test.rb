@@ -41,9 +41,9 @@ class Vonage::NetworkAuthentication::ClientTest < Vonage::Test
       redirect_uri: example_redirect_uri
     }
 
-    stub_request(:post, token_uri).with(request(body: request_params, headers: headers)).to_return(response)
+    stub_request(:post, token_uri).with(request(body: request_params, headers: headers)).to_return(network_authentication_token_response)
 
-    assert_kind_of Vonage::Response, client.token(oidc_auth_code: example_oidc_auth_code, redirect_uri: example_redirect_uri)
+    assert_equal sample_webhook_token, client.token(oidc_auth_code: example_oidc_auth_code, redirect_uri: example_redirect_uri)
   end
 
   def test_token_method_without_oidc_auth_code
