@@ -86,4 +86,16 @@ class Vonage::NetworkAuthentication::ServerTest < Vonage::Test
 
     assert_equal sample_webhook_token, server.token(purpose: example_purpose, api_scope: example_api_scope, login_hint: example_login_hint)
   end
+
+  def test_token_method_without_purpose
+    assert_raises(ArgumentError) { server.token(api_scope: example_api_scope, login_hint: example_login_hint) }
+  end
+
+  def test_token_method_without_api_scope
+    assert_raises(ArgumentError) { server.token(purpose: example_purpose, login_hint: example_login_hint) }
+  end
+
+  def test_token_method_without_login_hint
+    assert_raises(ArgumentError) { server.token(purpose: example_purpose, api_scope: example_api_scope) }
+  end
 end
