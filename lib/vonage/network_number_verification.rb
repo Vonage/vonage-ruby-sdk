@@ -34,6 +34,10 @@ module Vonage
     def verify(phone_number:, auth_data:, hashed: false)
       raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid? || hashed == true
       raise ArgumentError.new("`phone_number` must be prepended with a `+`") unless phone_number.start_with?('+') || hashed == true
+      raise ArgumentError.new("`auth_data` must contain key `:oidc_auth_code`") unless auth_data.has_key?(:oidc_auth_code)
+      raise ArgumentError.new("`auth_data[:oidc_auth_code]` must be a String") unless auth_data[:oidc_auth_code].is_a?(String)
+      raise ArgumentError.new("`auth_data` must contain key `:redirect_uri`") unless auth_data.has_key?(:redirect_uri)
+      raise ArgumentError.new("`auth_data[:redirect_uri]` must be a String") unless auth_data[:redirect_uri].is_a?(String)
 
       params = {phone_number: phone_number}
       params[:hashed_phone_number] = params.delete(:phone_number) if hashed == true

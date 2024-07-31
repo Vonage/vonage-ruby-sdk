@@ -80,7 +80,7 @@ module Vonage
       request["Accept"] = "application/json"
       self.class.request_headers.each { |key, value| request[key] = value }
 
-      # Set BearerToken if needed
+      # Set Authorization header if needed
       authentication.update(request, auth_data)
 
       # set body
@@ -156,7 +156,7 @@ module Vonage
 
         request['User-Agent'] = UserAgent.string(@config.app_name, @config.app_version)
 
-        # Set BearerToken if needed
+        # Set Authorization header if needed
         authentication.update(request, auth_data) unless no_auth
 
         logger.log_request_info(request)

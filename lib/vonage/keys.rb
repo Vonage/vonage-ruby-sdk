@@ -36,6 +36,7 @@ module Vonage
         'status_callback_url',
         'audio_rate',
         'phone_number',
+        'hashed_phone_number',
         'max_age'
       ]
       hash.transform_keys do |k|
