@@ -15,6 +15,7 @@ module Vonage
     'jwt' => 'JWT',
     'sip' => 'SIP',
     'sms' => 'SMS',
+    'network_sim_swap' => 'NetworkSIMSwap',
     'mms' => 'MMS',
     'tfa' => 'TFA',
     'version' => 'VERSION',

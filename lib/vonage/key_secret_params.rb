@@ -5,9 +5,10 @@ module Vonage
     extend T::Sig
 
     sig { params(
-      object: T.any(T::Hash[T.untyped, T.untyped], URI::HTTPS, Net::HTTP::Post, Net::HTTP::Get)
+      object: T.any(T::Hash[T.untyped, T.untyped], URI::HTTPS, Net::HTTP::Post, Net::HTTP::Get),
+      data:  T.nilable(Hash)
     ).void }
-    def update(object)
+    def update(object, data)
       return unless object.is_a?(Hash)
 
       @config = T.let(@config, T.nilable(Vonage::Config))

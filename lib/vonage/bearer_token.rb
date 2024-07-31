@@ -3,7 +3,7 @@
 
 module Vonage
   class BearerToken < AbstractAuthentication
-    def update(object)
+    def update(object, data)
       return unless object.is_a?(Net::HTTPRequest)
 
       object['Authorization'] = 'Bearer ' + @config.token

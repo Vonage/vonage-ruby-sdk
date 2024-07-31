@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module Vonage
-  class NetworkAuthentication::Server < Namespace
+  class NetworkAuthentication::ServerAuthentication < Namespace
     extend T::Sig
 
     self.authentication = BearerToken

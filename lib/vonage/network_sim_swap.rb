@@ -32,10 +32,9 @@ module Vonage
     #
     sig { params(phone_number: String, max_age: T.nilable(Integer)).returns(Vonage::Response) }
     def check(phone_number:, max_age: nil)
-      raise ArgumentError.new("`phone_number` must be in E.164 format") unless unless Phonelib.parse(phone_number).valid?
-      raise ArgumentError.new("`phone_number` must be prepended with a `+`") unless unless phone_number.start_with?('+')
+      raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid?
+      raise ArgumentError.new("`phone_number` must be prepended with a `+`") unless phone_number.start_with?('+')
       if max_age
-        raise ArgumentError.new("`max_age` must be an integer") unless max_age.is_a?(Integer)
         raise ArgumentError.new("`max_age` must between 1 and 2400") unless max_age.between?(1, 2400)
       end
 
@@ -50,15 +49,15 @@ module Vonage
           login_hint: phone_number,
           purpose: 'FraudPreventionAndDetection',
           api_scope: 'check-sim-swap',
-          auth_flow: :server
+          auth_flow: :server_authentication
         }
       )
     end
 
     sig { params(phone_number: String).returns(Vonage::Response) }
     def retrieve_date(phone_number:)
-      raise ArgumentError.new("`phone_number` must be in E.164 format") unless unless Phonelib.parse(phone_number).valid?
-      raise ArgumentError.new("`phone_number` must be prepended with a `+`") unless unless phone_number.start_with?('+')
+      raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid?
+      raise ArgumentError.new("`phone_number` must be prepended with a `+`") unless phone_number.start_with?('+')
 
       params = {phone_number: phone_number}
 
@@ -70,7 +69,7 @@ module Vonage
           login_hint: phone_number,
           purpose: 'FraudPreventionAndDetection',
           api_scope: 'retrieve-sim-swap-date',
-          auth_flow: :server
+          auth_flow: :server_authentication
         }
       )
     end

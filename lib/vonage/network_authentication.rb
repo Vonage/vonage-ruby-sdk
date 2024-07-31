@@ -6,17 +6,17 @@ module Vonage
     def update(object, data)
       return unless object.is_a?(Net::HTTPRequest)
 
-      token = self.public_send(data[:auth_flow]).token(data)
+      token = self.public_send(data[:auth_flow]).token(**data)
 
       object['Authorization'] = 'Bearer ' + token
     end
 
-    def client
-      @client ||= Client.new(@config)
+    def client_authentication
+      @client_authentication ||= ClientAuthentication.new(@config)
     end
 
-    def server
-      @server ||= Server.new(@config)
+    def server_authentication
+      @server_authentication ||= ServerAuthentication.new(@config)
     end
   end
 end

@@ -57,9 +57,9 @@ module Vonage
     Post = Net::HTTP::Post
     Delete = Net::HTTP::Delete
 
-    def build_request(path:, type: Get, params: {})
+    def build_request(path:, type: Get, params: {}, auth_data: nil)
       authentication = self.class.authentication.new(@config)
-      authentication.update(params)
+      authentication.update(params, auth_data)
 
       uri = URI("https://" + @host + path)
       unless type.const_get(:REQUEST_HAS_BODY) || params.empty?
@@ -81,7 +81,7 @@ module Vonage
       self.class.request_headers.each { |key, value| request[key] = value }
 
       # Set BearerToken if needed
-      authentication.update(request)
+      authentication.update(request, auth_data)
 
       # set body
       if type.const_get(:REQUEST_HAS_BODY)
@@ -106,7 +106,7 @@ module Vonage
       response
     end
 
-    def request(path, params: nil, type: Get, response_class: Response, &block)
+    def request(path, params: nil, type: Get, response_class: Response, auth_data: nil, &block)
       auto_advance =
         (
           if !params.nil? && params.key?(:auto_advance)
@@ -120,7 +120,7 @@ module Vonage
         params.tap { |params| params.delete(:auto_advance) } if !params.nil? &&
         params.key?(:auto_advance)
 
-      request = build_request(path: path, params: params || {}, type: type)
+      request = build_request(path: path, params: params || {}, type: type, auth_data: auth_data)
 
       response = make_request!(request, &block)
 
@@ -139,7 +139,7 @@ module Vonage
       end
     end
 
-    def multipart_post_request(path, filepath:, file_name:, mime_type:, params: {}, override_uri: nil, no_auth: false, response_class: Response, &block)
+    def multipart_post_request(path, filepath:, file_name:, mime_type:, params: {}, override_uri: nil, no_auth: false, response_class: Response, auth_data: nil, &block)
       authentication = self.class.authentication.new(@config) unless no_auth
 
       uri = override_uri ? URI(override_uri) : URI('https://' + @host + path)
@@ -157,7 +157,7 @@ module Vonage
         request['User-Agent'] = UserAgent.string(@config.app_name, @config.app_version)
 
         # Set BearerToken if needed
-        authentication.update(request) unless no_auth
+        authentication.update(request, auth_data) unless no_auth
 
         logger.log_request_info(request)
 

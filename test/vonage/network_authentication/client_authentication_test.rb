@@ -1,9 +1,9 @@
 # typed: false
 require_relative '../test'
 
-class Vonage::NetworkAuthentication::ClientTest < Vonage::Test
+class Vonage::NetworkAuthentication::ClientAuthenticationTest < Vonage::Test
   def client
-    Vonage::NetworkAuthentication::Client.new(config)
+    Vonage::NetworkAuthentication::ClientAuthentication.new(config)
   end
 
   def token_uri

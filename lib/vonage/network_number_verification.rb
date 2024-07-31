@@ -32,8 +32,8 @@ module Vonage
     #
     sig { params(phone_number: String, auth_data: Hash, hashed: T::Boolean).returns(Vonage::Response) }
     def verify(phone_number:, auth_data:, hashed: false)
-      raise ArgumentError.new("`phone_number` must be in E.164 format") unless unless Phonelib.parse(phone_number).valid? || hashed == true
-      raise ArgumentError.new("`phone_number` must be prepended with a `+`") unless unless phone_number.start_with?('+') || hashed == true
+      raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid? || hashed == true
+      raise ArgumentError.new("`phone_number` must be prepended with a `+`") unless phone_number.start_with?('+') || hashed == true
 
       params = {phone_number: phone_number}
       params[:hashed_phone_number] = params.delete(:phone_number) if hashed == true
@@ -45,7 +45,7 @@ module Vonage
         auth_data: {
           oidc_auth_code: auth_data[:oidc_auth_code],
           redirect_uri: auth_data[:redirect_uri],
-          auth_flow: :client
+          auth_flow: :client_authentication
         }
       )
     end

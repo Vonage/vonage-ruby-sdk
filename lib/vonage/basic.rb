@@ -2,7 +2,7 @@
 
 module Vonage
   class Basic < AbstractAuthentication
-    def update(object)
+    def update(object, data)
       return unless object.is_a?(Net::HTTPRequest)
 
       object.basic_auth(@config.api_key, @config.api_secret)
