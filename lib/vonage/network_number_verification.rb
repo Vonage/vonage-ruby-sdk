@@ -53,5 +53,19 @@ module Vonage
         }
       )
     end
+
+    sig { params(phone_number: String, redirect_uri: String, state: T.nilable(String)).returns(String) }
+    def generate_oidc_uri(phone_number:, redirect_uri:, state: nil)
+      params = {
+        purpose: 'FraudPreventionAndDetection',
+        api_scope: 'number-verification-verify-read',
+        login_hint: phone_number,
+        redirect_uri: redirect_uri
+      }
+
+      params[:state] = state if state
+
+      Vonage::NetworkAuthentication::ClientAuthentication.new(@config).generate_oidc_uri(**params)
+    end
   end
 end
