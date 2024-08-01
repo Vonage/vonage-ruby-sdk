@@ -13,22 +13,18 @@ module Vonage
 
     self.request_body = JSON
 
-    # Make fraud check requests with a phone number by looking up fraud score and/or by checking sim swap status.
+    # Check if SIM swap has been performed during a past period.
     #
     # @example
-    #   response = client.number_insight_2.fraud_check(type: 'phone', phone: '447900000000', insights: ['fraud_score'])
+    #   response = client.network_sim_swap.check(phone_number: '+447900000000')
     #
-    # @param [required, String] :type The type of number to check.
-    #   Accepted value is “phone” when a phone number is provided.
+    # @param [required, String] :phone_number The phone number to check, in the E.164 format, prepended with a `+`.
     #
-    # @param [required, String] :phone A single phone number that you need insight about in the E.164 format.
-    #
-    # @param [required, Array] :insights An array of strings indicating the fraud check insights required for the number.
-    #   Must be least one of: `fraud_score`, `sim_swap`
+    # @param [optional, Integer] :max_age Period in hours to be checked for SIM swap
     #
     # @return [Response]
     #
-    # @see https://developer.vonage.com/en/api/number-insight.v2#fraud_check
+    # @see https://developer.vonage.com/en/api/camara/sim-swap#checkSimSwap
     #
     sig { params(phone_number: String, max_age: T.nilable(Integer)).returns(Vonage::Response) }
     def check(phone_number:, max_age: nil)
@@ -54,6 +50,17 @@ module Vonage
       )
     end
 
+    # Get timestamp of last MSISDN <-> IMSI pairing change for a mobile user account provided with MSIDN.
+    #
+    # @example
+    #   response = client.network_sim_swap.retrieve_date(phone_number: '+447900000000')
+    #
+    # @param [required, String] :phone_number The phone number to check, in the E.164 format, prepended with a `+`.
+    #
+    # @return [Response]
+    #
+    # @see https://developer.vonage.com/en/api/camara/sim-swap#retrieveSimSwapDate
+    #
     sig { params(phone_number: String).returns(Vonage::Response) }
     def retrieve_date(phone_number:)
       raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid?

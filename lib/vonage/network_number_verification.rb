@@ -13,22 +13,29 @@ module Vonage
 
     self.request_body = JSON
 
-    # Make fraud check requests with a phone number by looking up fraud score and/or by checking sim swap status.
+    # Verifies if the specified phone number (plain text or hashed format) matches the one that the user is currently using.
     #
     # @example
-    #   response = client.number_insight_2.fraud_check(type: 'phone', phone: '447900000000', insights: ['fraud_score'])
+    #   response = client.network_number_verification.verify(
+    #     phone_number: '+447900000000',
+    #     auth_data: {
+    #       oidc_auth_code: '0dadaeb4-7c79-4d39-b4b0-5a6cc08bf537',
+    #       redirect_uri: 'https://example.com/callback'
+    #     }
+    #   )
     #
-    # @param [required, String] :type The type of number to check.
-    #   Accepted value is “phone” when a phone number is provided.
+    # @param [required, String] :phone_number The phone number to check, in the E.164 format, prepended with a `+`.
     #
-    # @param [required, String] :phone A single phone number that you need insight about in the E.164 format.
+    # @param [required, Hash] :auth_data A hash of authentication data required for the client token request. Must contain the following keys:
+    # @option auth_data [required, String] :oidc_auth_code The OIDC auth code.
+    # @option auth_data [required, String] :redirect_uri The redirect URI.
+    # @see https://developer.vonage.com/en/getting-started-network/authentication#client-authentication-flow
     #
-    # @param [required, Array] :insights An array of strings indicating the fraud check insights required for the number.
-    #   Must be least one of: `fraud_score`, `sim_swap`
+    # @param [required, Boolean] :hashed Whether the value of `phone_number` is hashed (true) or not hashed (false, the default).
     #
     # @return [Response]
     #
-    # @see https://developer.vonage.com/en/api/number-insight.v2#fraud_check
+    # @see https://developer.vonage.com/en/api/camara/number-verification#verifyNumberVerification
     #
     sig { params(phone_number: String, auth_data: Hash, hashed: T::Boolean).returns(Vonage::Response) }
     def verify(phone_number:, auth_data:, hashed: false)
@@ -54,6 +61,24 @@ module Vonage
       )
     end
 
+    # Creates a URL for a client-side OIDC request.
+    #
+    # @example
+    #   response = client.network_number_verification.generate_oidc_uri(
+    #     phone_number: '+447900000000',
+    #     redirect_uri: 'https://example.com/callback'
+    #   )
+    #
+    # @param [required, String] :phone_number The phone number that will be checked during the verification request.
+    #
+    # @param [required, String] :redirect_uri The URI that will receive the callback containing the OIDC auth code.
+    #
+    # @param [optional, String] :state A string that you can use for tracking. 
+    #   This field is optional, but it is recommended to set a unique identifier for each access token you generate.
+    #
+    # @return [String]
+    #
+    # @see https://developer.vonage.com/en/getting-started-network/authentication#1-make-an-oidc-request
     sig { params(phone_number: String, redirect_uri: String, state: T.nilable(String)).returns(String) }
     def generate_oidc_uri(phone_number:, redirect_uri:, state: nil)
       params = {
