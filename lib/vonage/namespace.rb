@@ -66,9 +66,6 @@ module Vonage
         uri.query = Params.encode(params)
       end
 
-      # Set BasicAuth if neeeded
-      # authentication.update(uri)
-
       # instantiate request
       request = type.new(uri)
 
