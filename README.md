@@ -528,6 +528,8 @@ The following is a list of Vonage APIs for which the Ruby SDK currently provides
 * [Conversation API](https://developer.vonage.com/en/conversation/overview)
 * [Meetings API](https://developer.vonage.com/en/meetings/overview)
 * [Messages API](https://developer.vonage.com/en/messages/overview)
+* [Network Number Verification API](https://developer.vonage.com/en/number-verification/overview)
+* [Network SIM Swap API](https://developer.vonage.com/en/sim-swap/overview)
 * [Number Insight API](https://developer.vonage.com/en/number-insight/overview)
 * [Numbers API](https://developer.vonage.com/en/numbers/overview)
 * [Proactive Connect API](https://developer.vonage.com/en/proactive-connect/overview) *
