@@ -98,7 +98,7 @@ module Vonage
       @network_number_verification ||= T.let(NetworkNumberVerification.new(config), T.nilable(Vonage::NetworkNumberVerification))
     end
 
-    # @return [NetworkNumberVerification]
+    # @return [NetworkSIMSwap]
     #
     sig { returns(T.nilable(Vonage::NetworkSIMSwap)) }
     def network_sim_swap

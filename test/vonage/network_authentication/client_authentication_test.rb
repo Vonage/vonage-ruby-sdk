@@ -58,7 +58,7 @@ class Vonage::NetworkAuthentication::ClientAuthenticationTest < Vonage::Test
       redirect_uri: example_redirect_uri
     )
 
-    assert_equal "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid+dpv:#{example_purpose}##{example_api_scope}&login_hint=#{example_login_hint}&redirect_uri=#{example_redirect_uri}", uri
+    assert_equal "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid%20dpv:#{example_purpose}%23#{example_api_scope}&login_hint=#{example_login_hint}&redirect_uri=#{example_redirect_uri}", uri
   end
 
   def test_generate_oidc_uri_method_with_optional_params
@@ -70,7 +70,7 @@ class Vonage::NetworkAuthentication::ClientAuthenticationTest < Vonage::Test
       state: '12345'
     )
 
-    assert_equal "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid+dpv:#{example_purpose}##{example_api_scope}&login_hint=#{example_login_hint}&redirect_uri=#{example_redirect_uri}&state=12345", uri
+    assert_equal "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid%20dpv:#{example_purpose}%23#{example_api_scope}&login_hint=#{example_login_hint}&redirect_uri=#{example_redirect_uri}&state=12345", uri
   end
 
   def test_generate_oidc_uri_method_without_purpose

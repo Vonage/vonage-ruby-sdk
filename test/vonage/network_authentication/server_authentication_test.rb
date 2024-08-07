@@ -28,7 +28,7 @@ class Vonage::NetworkAuthentication::ServerAuthenticationTest < Vonage::Test
 
   def test_bc_authorize_method
     request_params = {
-      scope: "openid+dpv:#{example_purpose}##{example_api_scope}",
+      scope: "openid dpv:#{example_purpose}##{example_api_scope}",
       login_hint: example_login_hint
     }
 
@@ -72,7 +72,7 @@ class Vonage::NetworkAuthentication::ServerAuthenticationTest < Vonage::Test
 
   def test_token_method
     bc_authorize_request_params = {
-      scope: "openid+dpv:#{example_purpose}##{example_api_scope}",
+      scope: "openid dpv:#{example_purpose}##{example_api_scope}",
       login_hint: example_login_hint
     }
 

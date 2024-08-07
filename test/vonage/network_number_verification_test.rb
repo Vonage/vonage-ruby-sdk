@@ -152,13 +152,13 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
   end
 
   def test_generate_client_uri_method
-    expected_uri = "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid+dpv:FraudPreventionAndDetection#number-verification-verify-read&login_hint=#{phone_number}&redirect_uri=#{example_redirect_uri}"
+    expected_uri = "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid%20dpv:FraudPreventionAndDetection%23number-verification-verify-read&login_hint=#{phone_number}&redirect_uri=#{example_redirect_uri}"
 
     assert_equal expected_uri, network_number_verification.generate_oidc_uri(phone_number: phone_number, redirect_uri: example_redirect_uri)
   end
 
   def test_generate_client_uri_method_with_optional_params
-    expected_uri = "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid+dpv:FraudPreventionAndDetection#number-verification-verify-read&login_hint=#{phone_number}&redirect_uri=#{example_redirect_uri}&state=12345"
+    expected_uri = "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid%20dpv:FraudPreventionAndDetection%23number-verification-verify-read&login_hint=#{phone_number}&redirect_uri=#{example_redirect_uri}&state=12345"
 
     assert_equal expected_uri, network_number_verification.generate_oidc_uri(phone_number: phone_number, redirect_uri: example_redirect_uri, state: '12345')
   end

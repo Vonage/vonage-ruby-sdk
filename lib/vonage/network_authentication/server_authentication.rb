@@ -22,7 +22,7 @@ module Vonage
     end
 
     def bc_authorize(purpose:, api_scope:, login_hint:)
-      scope = "openid+dpv:#{purpose}##{api_scope}"
+      scope = "openid dpv:#{purpose}##{api_scope}"
       request(
         "/oauth2/bc-authorize",
         params: {

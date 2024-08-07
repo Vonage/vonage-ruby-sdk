@@ -73,7 +73,7 @@ module Vonage
     #
     # @param [required, String] :redirect_uri The URI that will receive the callback containing the OIDC auth code.
     #
-    # @param [optional, String] :state A string that you can use for tracking. 
+    # @param [required, String] :state A string that you can use for tracking. 
     #   This field is optional, but it is recommended to set a unique identifier for each access token you generate.
     #
     # @return [String]

@@ -16,7 +16,7 @@ class Vonage::NetworkSIMSwapTest < Vonage::Test
 
   def test_check_method
     bc_authorize_request_params = {
-      scope: "openid+dpv:FraudPreventionAndDetection#check-sim-swap",
+      scope: "openid dpv:FraudPreventionAndDetection#check-sim-swap",
       login_hint: phone_number
     }
 
@@ -36,7 +36,7 @@ class Vonage::NetworkSIMSwapTest < Vonage::Test
 
   def test_check_method_with_optional_params
     bc_authorize_request_params = {
-      scope: "openid+dpv:FraudPreventionAndDetection#check-sim-swap",
+      scope: "openid dpv:FraudPreventionAndDetection#check-sim-swap",
       login_hint: phone_number
     }
 
@@ -71,7 +71,7 @@ class Vonage::NetworkSIMSwapTest < Vonage::Test
 
   def test_retrieve_date_method
     bc_authorize_request_params = {
-      scope: "openid+dpv:FraudPreventionAndDetection#retrieve-sim-swap-date",
+      scope: "openid dpv:FraudPreventionAndDetection#retrieve-sim-swap-date",
       login_hint: phone_number
     }
 
