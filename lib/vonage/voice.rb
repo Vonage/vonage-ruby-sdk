@@ -18,6 +18,8 @@ module Vonage
     #
     # @option params [required, Array<Hash>] :to
     #   Connect to a Phone (PSTN) number, SIP Endpoint, Websocket, or VBC extension.
+    #   The `to` Hash can contain a number of different properties depending on the `type`.
+    #   See the API reference for specific details.
     #
     # @option params [Hash] :from
     #   Connect to a Phone (PSTN) number. Should not be set if **:random_from_number** is **true**

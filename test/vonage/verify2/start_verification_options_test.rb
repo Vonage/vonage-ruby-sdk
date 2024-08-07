@@ -27,10 +27,38 @@ class Vonage::Verify2::StartVerificationOptionsTest < Vonage::Test
     assert_equal 90, opts.instance_variable_get(:@channel_timeout)
   end
 
+  def test_channel_timeout_setter_method_at_min_value
+    opts = options
+    opts.channel_timeout = 15
+
+    assert_equal 15, opts.instance_variable_get(:@channel_timeout)
+  end
+
+  def test_channel_timeout_setter_method_at_max_value
+    opts = options
+    opts.channel_timeout = 900
+
+    assert_equal 900, opts.instance_variable_get(:@channel_timeout)
+  end
+
+  def test_channel_timeout_setter_method_below_min_value
+    opts = options
+    assert_raises ArgumentError do
+      opts.channel_timeout = 14
+    end
+  end
+
+  def test_channel_timeout_setter_method_above_max_value
+    opts = options
+    assert_raises ArgumentError do
+      opts.channel_timeout = 901
+    end
+  end
+
   def test_channel_timeout_setter_method_with_invalid_arg
     opts = options
     assert_raises ArgumentError do
-      opts.channel_timeout = 0
+      opts.channel_timeout = '90'
     end
   end
 
