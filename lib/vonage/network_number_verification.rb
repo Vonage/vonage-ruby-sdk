@@ -31,23 +31,20 @@ module Vonage
     # @option auth_data [required, String] :redirect_uri The redirect URI.
     # @see https://developer.vonage.com/en/getting-started-network/authentication#client-authentication-flow
     #
-    # @param [required, Boolean] :hashed Whether the value of `phone_number` is hashed (true) or not hashed (false, the default).
-    #
     # @return [Response]
     #
     # @see https://developer.vonage.com/en/api/camara/number-verification#verifyNumberVerification
     #
-    sig { params(phone_number: String, auth_data: Hash, hashed: T::Boolean).returns(Vonage::Response) }
-    def verify(phone_number:, auth_data:, hashed: false)
-      raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid? || hashed == true
-      raise ArgumentError.new("`phone_number` must be prepended with a `+`") unless phone_number.start_with?('+') || hashed == true
+    sig { params(phone_number: String, auth_data: Hash).returns(Vonage::Response) }
+    def verify(phone_number:, auth_data:)
+      raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid?
+      raise ArgumentError.new("`phone_number` must be prepended with a `+`") unless phone_number.start_with?('+')
       raise ArgumentError.new("`auth_data` must contain key `:oidc_auth_code`") unless auth_data.has_key?(:oidc_auth_code)
       raise ArgumentError.new("`auth_data[:oidc_auth_code]` must be a String") unless auth_data[:oidc_auth_code].is_a?(String)
       raise ArgumentError.new("`auth_data` must contain key `:redirect_uri`") unless auth_data.has_key?(:redirect_uri)
       raise ArgumentError.new("`auth_data[:redirect_uri]` must be a String") unless auth_data[:redirect_uri].is_a?(String)
 
       params = {phone_number: phone_number}
-      params[:hashed_phone_number] = params.delete(:phone_number) if hashed == true
 
       request(
         '/camara/number-verification/v031/verify',
