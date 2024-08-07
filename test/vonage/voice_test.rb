@@ -26,6 +26,30 @@ class Vonage::VoiceTest < Vonage::Test
     assert_kind_of Vonage::Response, calls.create(params)
   end
 
+  def test_create_method_with_connect_to_sip_standard_headers
+    params = {
+      to: [
+        {
+          type: 'sip',
+          uri: 'sip:rebekka@sip.example.com',
+          headers: {
+            location: 'New York',
+            occupation: 'developer'
+          },
+          standard_headers: {
+            'User-to-User' => '56a390f3d2b7310023a2;encoding=hex;purpose=foo;content=bar'
+          }
+        }
+      ],
+      from: {type: 'phone', number: '14843335555'},
+      answer_url: ['https://example.com/answer']
+    }
+
+    stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
+
+    assert_kind_of Vonage::Response, calls.create(params)
+  end
+
   def test_create_method_raises_error_if_from_set_and_random_from_number_true
     params = {
       to: [{type: 'phone', number: '14843331234'}],
