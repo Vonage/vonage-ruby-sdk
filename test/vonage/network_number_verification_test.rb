@@ -73,7 +73,7 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
     assert_kind_of Vonage::Response, response
   end
 
-  def test_check_method_without_phone_number
+  def test_verify_method_without_phone_number
     assert_raises(ArgumentError) do
       network_number_verification.verify(
       auth_data: {
@@ -84,7 +84,7 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
     end
   end
 
-  def test_check_method_with_invalid_phone_number
+  def test_verify_method_with_invalid_phone_number
     auth_data = {
       oidc_auth_code: example_oidc_auth_code,
       redirect_uri: example_redirect_uri
@@ -95,7 +95,7 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
     assert_raises(ArgumentError) { network_number_verification.verify(phone_number: '447904603505', auth_data: auth_data) }
   end
 
-  def test_check_method_with_invalid_hashed
+  def test_verify_method_with_invalid_hashed
     auth_data = {
       oidc_auth_code: example_oidc_auth_code,
       redirect_uri: example_redirect_uri
@@ -104,11 +104,11 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
     assert_raises(TypeError) { network_number_verification.verify(phone_number: hashed_phone_number, auth_data: auth_data, hashed: 'true') }
   end
 
-  def test_check_method_without_auth_data
+  def test_verify_method_without_auth_data
     assert_raises(ArgumentError) { network_number_verification.verify(phone_number: phone_number) }
   end
 
-  def test_check_method_with_invalid_auth_data
+  def test_verify_method_with_invalid_auth_data
     auth_data = [
       example_oidc_auth_code,
       example_redirect_uri
@@ -117,7 +117,7 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
     assert_raises(TypeError) { network_number_verification.verify(phone_number: phone_number, auth_data: auth_data) }
   end
 
-  def test_check_method_without_oidc_auth_code
+  def test_verify_method_without_oidc_auth_code
     auth_data = {
       redirect_uri: example_redirect_uri
     }
@@ -125,7 +125,7 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
     assert_raises(ArgumentError) { network_number_verification.verify(phone_number: phone_number, auth_data: auth_data) }
   end
 
-  def test_check_method_with_invalid_oidc_auth_code
+  def test_verify_method_with_invalid_oidc_auth_code
     auth_data = {
       oidc_auth_code: 12345,
       redirect_uri: example_redirect_uri
@@ -134,7 +134,7 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
     assert_raises(ArgumentError) { network_number_verification.verify(phone_number: phone_number, auth_data: auth_data) }
   end
 
-  def test_check_method_without_redirect_uri
+  def test_verify_method_without_redirect_uri
     auth_data = {
       oidc_auth_code: example_oidc_auth_code
     }
@@ -142,7 +142,7 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
     assert_raises(ArgumentError) { network_number_verification.verify(phone_number: phone_number, auth_data: auth_data) }
   end
 
-  def test_check_method_with_invalid_redirect_uri
+  def test_verify_method_with_invalid_redirect_uri
     auth_data = {
       oidc_auth_code: example_oidc_auth_code,
       redirect_uri: 12345
@@ -152,22 +152,20 @@ class Vonage::NetworkNumberVerificationTest < Vonage::Test
   end
 
   def test_generate_client_uri_method
-    expected_uri = "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid%20dpv:FraudPreventionAndDetection%23number-verification-verify-read&login_hint=#{phone_number}&redirect_uri=#{example_redirect_uri}"
-
-    assert_equal expected_uri, network_number_verification.generate_oidc_uri(phone_number: phone_number, redirect_uri: example_redirect_uri)
-  end
-
-  def test_generate_client_uri_method_with_optional_params
     expected_uri = "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid%20dpv:FraudPreventionAndDetection%23number-verification-verify-read&login_hint=#{phone_number}&redirect_uri=#{example_redirect_uri}&state=12345"
 
     assert_equal expected_uri, network_number_verification.generate_oidc_uri(phone_number: phone_number, redirect_uri: example_redirect_uri, state: '12345')
   end
 
   def test_generate_client_uri_method_without_phone_number
-    assert_raises(ArgumentError) { network_number_verification.generate_oidc_uri(redirect_uri: example_redirect_uri) }
+    assert_raises(ArgumentError) { network_number_verification.generate_oidc_uri(redirect_uri: example_redirect_uri, state: '12345') }
   end
 
   def test_generate_client_uri_method_without_redirect_uri
-    assert_raises(ArgumentError) { network_number_verification.generate_oidc_uri(phone_number: phone_number) }
+    assert_raises(ArgumentError) { network_number_verification.generate_oidc_uri(phone_number: phone_number, state: '12345') }
+  end
+
+  def test_generate_client_uri_method_without_state
+    assert_raises(ArgumentError) { network_number_verification.generate_oidc_uri(phone_number: phone_number, redirect_uri: example_redirect_uri) }
   end
 end

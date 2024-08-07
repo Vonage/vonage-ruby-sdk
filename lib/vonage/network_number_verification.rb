@@ -74,21 +74,20 @@ module Vonage
     # @param [required, String] :redirect_uri The URI that will receive the callback containing the OIDC auth code.
     #
     # @param [required, String] :state A string that you can use for tracking. 
-    #   This field is optional, but it is recommended to set a unique identifier for each access token you generate.
+    #   Used to set a unique identifier for each access token you generate.
     #
     # @return [String]
     #
     # @see https://developer.vonage.com/en/getting-started-network/authentication#1-make-an-oidc-request
-    sig { params(phone_number: String, redirect_uri: String, state: T.nilable(String)).returns(String) }
-    def generate_oidc_uri(phone_number:, redirect_uri:, state: nil)
+    sig { params(phone_number: String, redirect_uri: String, state: String).returns(String) }
+    def generate_oidc_uri(phone_number:, redirect_uri:, state:)
       params = {
         purpose: 'FraudPreventionAndDetection',
         api_scope: 'number-verification-verify-read',
         login_hint: phone_number,
-        redirect_uri: redirect_uri
+        redirect_uri: redirect_uri,
+        state: state
       }
-
-      params[:state] = state if state
 
       Vonage::NetworkAuthentication::ClientAuthentication.new(@config).generate_oidc_uri(**params)
     end

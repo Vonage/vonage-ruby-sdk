@@ -55,17 +55,6 @@ class Vonage::NetworkAuthentication::ClientAuthenticationTest < Vonage::Test
       purpose: example_purpose,
       api_scope: example_api_scope,
       login_hint: example_login_hint,
-      redirect_uri: example_redirect_uri
-    )
-
-    assert_equal "https://oidc.idp.vonage.com/oauth2/auth?client_id=#{application_id}&response_type=code&scope=openid%20dpv:#{example_purpose}%23#{example_api_scope}&login_hint=#{example_login_hint}&redirect_uri=#{example_redirect_uri}", uri
-  end
-
-  def test_generate_oidc_uri_method_with_optional_params
-    uri = client_authentication.generate_oidc_uri(
-      purpose: example_purpose,
-      api_scope: example_api_scope,
-      login_hint: example_login_hint,
       redirect_uri: example_redirect_uri,
       state: '12345'
     )
@@ -74,18 +63,57 @@ class Vonage::NetworkAuthentication::ClientAuthenticationTest < Vonage::Test
   end
 
   def test_generate_oidc_uri_method_without_purpose
-    assert_raises(ArgumentError) { client_authentication.generate_oidc_uri(api_scope: example_api_scope, login_hint: example_login_hint, redirect_uri: example_redirect_uri) }
+    assert_raises(ArgumentError) do
+      client_authentication.generate_oidc_uri(
+        api_scope: example_api_scope,
+        login_hint: example_login_hint,
+        redirect_uri: example_redirect_uri,
+        state: '12345'
+      )
+    end
   end
 
   def test_generate_oidc_uri_method_without_api_scope
-    assert_raises(ArgumentError) { client_authentication.generate_oidc_uri(purpose: example_purpose, login_hint: example_login_hint, redirect_uri: example_redirect_uri) }
+    assert_raises(ArgumentError) do
+      client_authentication.generate_oidc_uri(
+        purpose: example_purpose,
+        login_hint: example_login_hint,
+        redirect_uri: example_redirect_uri,
+        state: '12345'
+      )
+    end
   end
 
   def test_generate_oidc_uri_method_without_login_hint
-    assert_raises(ArgumentError) { client_authentication.generate_oidc_uri(purpose: example_purpose, api_scope: example_api_scope, redirect_uri: example_redirect_uri) }
+    assert_raises(ArgumentError) do
+      client_authentication.generate_oidc_uri(
+        purpose: example_purpose,
+        api_scope: example_api_scope,
+        redirect_uri: example_redirect_uri,
+        state: '12345'
+      )
+    end
   end
 
   def test_generate_oidc_uri_method_without_redirect_uri
-    assert_raises(ArgumentError) { client_authentication.generate_oidc_uri(purpose: example_purpose, api_scope: example_api_scope, login_hint: example_login_hint) }
+    assert_raises(ArgumentError) do
+      client_authentication.generate_oidc_uri(
+        purpose: example_purpose,
+        api_scope: example_api_scope,
+        login_hint: example_login_hint,
+        state: '12345'
+      )
+    end
+  end
+
+  def test_generate_oidc_uri_method_without_state
+    assert_raises(ArgumentError) do
+      client_authentication.generate_oidc_uri(
+        purpose: example_purpose,
+        api_scope: example_api_scope,
+        login_hint: example_login_hint,
+        redirect_uri: example_redirect_uri
+      )
+    end
   end
 end
