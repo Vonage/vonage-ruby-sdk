@@ -1,3 +1,8 @@
+# 7.26.0
+
+* Implements the Network Number Verification and Network SIM Swap APIs. [#313](https://github.com/Vonage/vonage-ruby-sdk/pull/313)
+* Makes some minor updates to the Voice and Verify2 implementations. [#312](https://github.com/Vonage/vonage-ruby-sdk/pull/312)
+
 # 7.25.0
 
 * Validation updates to Verify v2 SMS and WhatsApp channels. [#309](https://github.com/Vonage/vonage-ruby-sdk/pull/309)

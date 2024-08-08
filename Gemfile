@@ -13,3 +13,6 @@ gem 'sorbet', :group => :development
 gem 'sorbet-runtime'
 gem 'phonelib'
 gem 'codecov', :require => false, :group => :test
+group :test, :development do
+  gem 'pry'
+end

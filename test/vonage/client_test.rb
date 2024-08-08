@@ -54,6 +54,14 @@ class Vonage::ClientTest < Vonage::Test
     assert_kind_of Vonage::Messaging, client.messaging
   end
 
+  def test_network_number_verification_method
+    assert_kind_of Vonage::NetworkNumberVerification, client.network_number_verification
+  end
+
+  def test_network_sim_swap_method
+    assert_kind_of Vonage::NetworkSIMSwap, client.network_sim_swap
+  end
+
   def test_number_insight_method
     assert_kind_of Vonage::NumberInsight, client.number_insight
   end

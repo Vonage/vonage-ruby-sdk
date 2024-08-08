@@ -91,6 +91,20 @@ module Vonage
       @messaging ||= T.let(Messaging.new(config), T.nilable(Vonage::Messaging))
     end
 
+    # @return [NetworkNumberVerification]
+    #
+    sig { returns(T.nilable(Vonage::NetworkNumberVerification)) }
+    def network_number_verification
+      @network_number_verification ||= T.let(NetworkNumberVerification.new(config), T.nilable(Vonage::NetworkNumberVerification))
+    end
+
+    # @return [NetworkSIMSwap]
+    #
+    sig { returns(T.nilable(Vonage::NetworkSIMSwap)) }
+    def network_sim_swap
+      @network_sim_swap ||= T.let(NetworkSIMSwap.new(config), T.nilable(Vonage::NetworkSIMSwap))
+    end
+
     # @return [NumberInsight]
     #
     sig { returns(T.nilable(Vonage::NumberInsight)) }
