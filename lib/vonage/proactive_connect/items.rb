@@ -11,6 +11,8 @@ module Vonage
 
     # Find all list items
     #
+    # @deprecated
+    #
     # @example
     #   response = proactive_connect.items.list(list_id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865')
     #
@@ -29,6 +31,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#itemsFindAll
     #
     def list(list_id:, **params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       path = "/v0.1/bulk/lists/#{list_id}/items"
       path += "?#{Params.encode(params)}" unless params.empty?
 
@@ -36,6 +39,8 @@ module Vonage
     end
 
     # Download list items as a CSV file format
+    #
+    # @deprecated
     #
     # @example
     #   response = proactive_connect.items.download_csv(list_id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865')
@@ -64,6 +69,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#itemsDownload
     #
     def download_csv(list_id:, order: 'asc', **params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       response = request("/v0.1/bulk/lists/#{list_id}/items/download?order=#{order}", response_class: FileResponse)
 
       response.filename = params[:filename] if params[:filename]
@@ -73,6 +79,8 @@ module Vonage
     end
 
     # Import list items from a CSV file
+    #
+    # @deprecated
     #
     # @example
     #   response = proactive_connect.items.upload_csv(list_id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865', filepath: '/files/import.csv')
@@ -96,6 +104,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#itemsImport
     #
     def upload_csv(list_id:, filepath:)
+      logger.info('This method is deprecated and will be removed in a future release.')
       pn = Pathname.new(filepath)
       raise ArgumentError, ':filepath not for a file' unless pn.file?
       raise ArgumentError, 'file at :filepath not readable' unless pn.readable?

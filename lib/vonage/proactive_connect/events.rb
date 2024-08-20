@@ -11,6 +11,8 @@ module Vonage
 
     # Find all events
     #
+    # @deprecated
+    #
     # @example
     #   response = proactive_connect.events.list
     #
@@ -59,6 +61,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#eventsFindAll
     #
     def list(**params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       path = "/v0.1/bulk/events"
       path += "?#{Params.encode(params)}" unless params.empty?
 
