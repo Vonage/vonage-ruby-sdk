@@ -83,7 +83,7 @@ client = Vonage::Client.new(application_id: application_id, private_key: private
 ```
 
 Both arguments should have string values corresponding to the `id` and `private_key`
-values returned in a ["create an application"](https://developer.nexmo.com/api/application.v2#createApplication)
+values returned in a ["create an application"](https://developer.vonage.com/api/application.v2#createApplication)
 response. These credentials can be stored in a datastore, in environment variables,
 on disk outside of source control, or in some kind of key management infrastructure.
 
@@ -104,8 +104,8 @@ token = Vonage::JWT.generate(claims)
 client = Vonage::Client.new(token: token)
 ```
 
-Documentation for the Vonage Ruby JWT generator gem can be found at
-[https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby](https://www.rubydoc.info/github/nexmo/nexmo-jwt-ruby).
+Documentation for the Vonage Ruby JWT generator gem can be found at: https://www.rubydoc.info/gems/vonage-jwt
+
 The documentation outlines all the possible parameters you can use to customize and build a token with.
 
 ### Logging
@@ -178,9 +178,6 @@ client = Vonage::Client.new(
 ```
 
 By default the hosts are set to `api.nexmo.com` and `rest.nexmo.com`, respectively.
-
-
-
 
 ### Webhook signatures
 
@@ -300,10 +297,10 @@ Vonage APIs paginate list requests. This means that if a collection is requested
 
 The `auto_advance` parameter is set to a default of `true` for the following APIs:
 
-* [Account API](https://developer.nexmo.com/api/developer/account)
-* [Application API](https://developer.nexmo.com/api/application.v2)
-* [Conversation API](https://developer.nexmo.com/api/conversation)
-* [Voice API](https://developer.nexmo.com/api/voice)
+* [Account API](https://developer.vonage.com/api/developer/account)
+* [Application API](https://developer.vonage.com/api/application.v2)
+* [Conversation API](https://developer.vonage.com/api/conversation)
+* [Voice API](https://developer.vonage.com/api/voice)
 
 To modify the `auto_advance` behavior you can specify it in your method:
 
@@ -314,7 +311,7 @@ client.applications.list(auto_advance: false)
 
 ## Messages API
 
-The [Vonage Messages API](https://developer.vonage.com/messages/overview) allows you to send messages over a number of different channels, and various message types within each channel. See the Vonage Developer Documentation for a [complete API reference](https://developer.vonage.com/api/messages-olympus) listing all the channel and message type combinations.
+The [Vonage Messages API](https://developer.vonage.com/messages/overview) allows you to send messages over a number of different channels, and various message types within each channel. See the Vonage Developer Documentation for a [complete API reference](https://developer.vonage.com/en/api/messages) listing all the channel and message type combinations.
 
 The Ruby SDK allows you to construct message data for specific messaging channels. Other than SMS (which has only one type -- text), you need to pass the message `:type` as well as the `:message` itself as arguments to the appropriate messages method, along with any optional properties if needed.
 
@@ -513,11 +510,11 @@ response = client.voice.create({
 
 ## Documentation
 
-Vonage Ruby SDK documentation: https://www.rubydoc.info/github/Vonage/vonage-ruby-sdk
+Vonage Ruby SDK documentation: https://www.rubydoc.info/gems/vonage
 
 Vonage Ruby SDK code examples: https://github.com/Vonage/vonage-ruby-code-snippets
 
-Vonage APIs API reference: https://developer.nexmo.com/api
+Vonage APIs API reference: https://developer.vonage.com/api
 
 ## Supported APIs
 
