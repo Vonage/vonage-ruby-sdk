@@ -13,6 +13,8 @@ module Vonage
 
     # Get a list of rooms associated with the Vonage application.
     #
+    # @deprecated
+    #
     # @param [optional, Integer] :start_id
     #
     # @param [optional, Integer] :end_id
@@ -23,6 +25,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getRooms
     def list(**params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       path = "/v1/meetings/rooms"
       path += "?#{Params.encode(params)}" unless params.empty?
 
@@ -31,6 +34,8 @@ module Vonage
 
     # Return information for specified room.
     #
+    # @deprecated
+    #
     # @param [required, String] room_id
     #   The id of the room for which the info should be returned
     #
@@ -38,10 +43,13 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getRoom
     def info(room_id:)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request("/v1/meetings/rooms/" + room_id)
     end
 
     # Create a new room.
+    #
+    # @deprecated
     #
     # @param [required, String] :display_name
     #
@@ -95,6 +103,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#createRoom
     def create(display_name:, **params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request(
         "/v1/meetings/rooms",
         params: params.merge({ display_name: display_name }),
@@ -105,6 +114,8 @@ module Vonage
     # Update an existing room.
     # Although paramaters (other than `room_id`) are optional, at least one other parameter must be provided or an error
     #   response will be received.
+    #
+    # @deprecated
     #
     # @param [required, String] room_id The ID of the Room to be updated
     #
@@ -142,6 +153,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#updateRoom
     def update(room_id:, **params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       raise ArgumentError, 'must provide at least one other param in addition to :room_id' if params.empty?
       request(
         "/v1/meetings/rooms/" + room_id,
