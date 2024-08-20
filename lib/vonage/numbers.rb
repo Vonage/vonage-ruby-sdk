@@ -17,6 +17,8 @@ module Vonage
     #     puts "#{item.msisdn} #{item.country} #{item.type}"
     #   end
     #
+    # @param [Hash] params
+    #
     # @option params [String] :application_id
     #   The application that you want to return the numbers for.
     #
@@ -47,8 +49,6 @@ module Vonage
     #   Set this to `true` to auto-advance through all the pages in the record
     #   and collect all the data. The default is `false`.
     #
-    # @param [Hash] params
-    #
     # @return [ListResponse]
     #
     # @see https://developer.nexmo.com/api/developer/numbers#getOwnedNumbers
@@ -64,6 +64,8 @@ module Vonage
     #   response.each do |item|
     #     puts "#{item.msisdn} #{item.type} #{item.cost}"
     #   end
+    #
+    # @param [Hash] params
     #
     # @option params [required, String] :country
     #   The two character country code in ISO 3166-1 alpha-2 format.
@@ -82,7 +84,7 @@ module Vonage
     #   - `2` - Search for numbers that end with **:pattern**
     #
     # @option params [String] :features
-    #   Available features are `SMS` and `VOICE`.
+    #   Available features are `SMS`, `MMS`, and `VOICE`.
     #   To look for numbers that support both, use a comma-separated value: `SMS,VOICE`.
     #
     # @option params [Integer] :size
@@ -94,8 +96,6 @@ module Vonage
     # @option params [Boolean] :auto_advance
     #   Set this to `true` to auto-advance through all the pages in the record
     #   and collect all the data. The default is `false`.
-    #
-    # @param [Hash] params
     #
     # @return [ListResponse]
     #
@@ -110,6 +110,8 @@ module Vonage
     # @example
     #   response = client.numbers.buy(country: 'GB', msisdn: '447700900000')
     #
+    # @param [Hash] params
+    #
     # @option params [required, String] :country
     #   The two character country code in ISO 3166-1 alpha-2 format.
     #
@@ -119,8 +121,6 @@ module Vonage
     # @option params [String] :target_api_key
     #   If you'd like to perform an action on a subaccount, provide the `api_key` of that account here.
     #   If you'd like to perform an action on your own account, you do not need to provide this field.
-    #
-    # @param [Hash] params
     #
     # @return [Response]
     #
@@ -140,6 +140,8 @@ module Vonage
     # @example
     #   response = client.numbers.cancel(country: 'GB', msisdn: '447700900000')
     #
+    # @param [Hash] params
+    #
     # @option params [required, String] :country
     #   The two character country code in ISO 3166-1 alpha-2 format.
     #
@@ -149,8 +151,6 @@ module Vonage
     # @option params [String] :target_api_key
     #   If you'd like to perform an action on a subaccount, provide the `api_key` of that account here.
     #   If you'd like to perform an action on your own account, you do not need to provide this field.
-    #
-    # @param [Hash] params
     #
     # @return [Response]
     #
@@ -177,6 +177,8 @@ module Vonage
     #
     #   response = client.numbers.update(params)
     #
+    # @param [Hash] params
+    #
     # @option params [required, String] :country
     #   The two character country code in ISO 3166-1 alpha-2 format.
     #
@@ -202,8 +204,6 @@ module Vonage
     #
     # @option params [String] :voice_status_callback
     #   A webhook URI for Vonage to send a request to when a call ends.
-    #
-    # @param [Hash] params
     #
     # @return [Response]
     #
