@@ -16,8 +16,44 @@ class Vonage::Voice::Actions::RecordTest < Vonage::Test
   end
 
   def test_create_record_with_optional_params
-    expected = [{ action: 'record', format: 'mp3' }]
-    record = Vonage::Voice::Actions::Record.new(format: 'mp3')
+    expected = [
+      {
+        action: 'record',
+        format: 'mp3',
+        split: 'conversation',
+        channels: 2,
+        endOnSilence: 3,
+        endOnKey: '#',
+        timeOut: 7200,
+        beepStart: true,
+        eventUrl: ['https://example.com/event'],
+        eventMethod: 'GET',
+        transcription: {
+          language: 'en-GB',
+          eventUrl: ['https://example.com/transcription'],
+          eventMethod: 'GET',
+          sentimentAnalysis: true
+        }
+      }
+    ]
+
+    record = Vonage::Voice::Actions::Record.new(
+      format: 'mp3',
+      split: 'conversation',
+        channels: 2,
+        endOnSilence: 3,
+        endOnKey: '#',
+        timeOut: 7200,
+        beepStart: true,
+        eventUrl: ['https://example.com/event'],
+        eventMethod: 'GET',
+        transcription: {
+          language: 'en-GB',
+          eventUrl: ['https://example.com/transcription'],
+          eventMethod: 'GET',
+          sentimentAnalysis: true
+        }
+    )
 
     assert_equal expected, record.create_record!(record)
   end
@@ -84,15 +120,77 @@ class Vonage::Voice::Actions::RecordTest < Vonage::Test
     assert_match "Expected 'beepStart' value to be a Boolean", exception.message
   end
 
-  def test_record_with_invalid_event_url_value
-    exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', eventUrl: 'invalid'}) }
+  def test_record_with_invalid_event_url_type
+    exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', eventUrl: 'https://example.com/event' }) }
 
-    assert_match "Invalid 'eventUrl' value, must be a valid URL", exception.message
+    assert_match "Expected 'eventUrl' parameter to be an Array containing a single string item", exception.message
+  end
+
+  def test_record_with_invalid_event_url_value
+    exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', eventUrl: ['invalid.url']}) }
+
+    assert_match "Invalid 'eventUrl' value, array must contain a valid URL", exception.message
   end
 
   def test_record_with_invalid_event_method_value
     exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', eventMethod: 'invalid'}) }
 
-    assert_match "Invalid 'eventMethod' value. must be either: 'GET' or 'POST'", exception.message
+    assert_match "Invalid 'eventMethod' value. Must be either: 'GET' or 'POST'", exception.message
+  end
+
+  def test_record_with_invalid_transcription_type
+    exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', transcription: [] }) }
+
+    assert_match "Expected 'transcription' parameter to be a Hash", exception.message
+  end
+
+  def test_record_with_invalid_transcription_language_type
+    exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', transcription: { language: :en } }) }
+
+    assert_match "Invalid 'language' value, must be a String", exception.message
+  end
+
+  def test_record_with_invalid_transcription_event_url_type
+    exception = assert_raises do 
+      Vonage::Voice::Actions::Record.new(
+        {
+          action: 'record',
+          transcription: {
+            eventUrl: 'https://example.com/event'
+          }
+        }
+      ) 
+    end
+
+    assert_match "Expected 'eventUrl' parameter to be an Array containing a single string item", exception.message
+  end
+
+  def test_record_with_invalid_transcription_event_url_value
+    exception = assert_raises do 
+      Vonage::Voice::Actions::Record.new(
+        {
+          action: 'record',
+          transcription: {
+            eventUrl: [
+              'invalid.url'
+            ]
+          }
+        }
+      ) 
+    end
+
+    assert_match "Invalid 'eventUrl' value, array must contain a valid URL", exception.message
+  end
+
+  def test_record_with_invalid_transcription_event_method_value
+    exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', transcription: { eventMethod: 'PATCH' } }) }
+
+    assert_match "Invalid 'eventMethod' value, must be either: 'GET' or 'POST'", exception.message
+  end
+
+  def test_record_with_invalid_transcription_sentiment_analysis_value
+    exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', transcription: { sentimentAnalysis: 'true' } }) }
+
+    assert_match "Invalid 'sentimentAnalysis' value, must be a Boolean", exception.message
   end
 end
