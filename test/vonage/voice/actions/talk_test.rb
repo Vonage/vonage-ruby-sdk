@@ -17,8 +17,34 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
   end
 
   def test_create_talk_with_optional_params
-    expected = [{ action: 'talk', text: 'Sample Text', bargeIn: true }]
-    talk = Vonage::Voice::Actions::Talk.new(text: 'Sample Text', bargeIn: true)
+    expected = [
+      {
+        action: 'talk',
+        text: 'Sample Text',
+        bargeIn: true,
+        loop: 3,
+        level: 0.5,
+        language: 'en-GB',
+        style: 1,
+        premium: true,
+        eventOnCompletion: true,
+        eventUrl: 'https://example.com/event',
+        eventMethod: 'GET'
+      }
+    ]
+
+    talk = Vonage::Voice::Actions::Talk.new(
+      text: 'Sample Text',
+      bargeIn: true,
+      loop: 3,
+      level: 0.5,
+      language: 'en-GB',
+      style: 1,
+      premium: true,
+      eventOnCompletion: true,
+      eventUrl: 'https://example.com/event',
+      eventMethod: 'GET'
+    )
 
     assert_equal expected, talk.create_talk!(talk)
   end
@@ -30,9 +56,9 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
   end
 
   def test_talk_with_invalid_loop_value
-    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', loop: 3 }) }
+    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', loop: -1 }) }
 
-    assert_match "Expected 'loop' value to be either 1 or 0", exception.message
+    assert_match "Expected 'loop' value to be either 0 or a positive integer", exception.message
   end
 
   def test_talk_with_invalid_level
@@ -51,5 +77,23 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
     exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', premium: 'foo' }) }
 
     assert_match "Expected 'premium' value to be a Boolean", exception.message
+  end
+
+  def test_talk_with_invalid_event_on_completion_value
+    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', eventOnCompletion: 'true' }) }
+
+    assert_match "Expected 'eventOnCompletion' value to be a Boolean", exception.message
+  end
+
+  def test_verify_with_invalid_event_url
+    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', eventUrl: 'foo.bar' }) }
+
+    assert_match "Invalid 'eventUrl' value, must be a valid URL", exception.message
+  end
+
+  def test_verify_with_invalid_event_method
+    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', eventMethod: 'PATCH' }) }
+
+    assert_match "Invalid 'eventMethod' value. must be either: 'GET' or 'POST'", exception.message
   end
 end

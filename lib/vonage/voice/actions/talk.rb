@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 module Vonage
   class Voice::Actions::Talk
-    attr_accessor :text, :bargeIn, :loop, :level, :language, :style, :premium
+    attr_accessor :text, :bargeIn, :loop, :level, :language, :style, :premium, :eventOnCompletion, :eventUrl, :eventMethod
 
     def initialize(attributes= {})
       @text = attributes.fetch(:text)
@@ -12,12 +12,15 @@ module Vonage
       @language = attributes.fetch(:language, nil)
       @style = attributes.fetch(:style, nil)
       @premium = attributes.fetch(:premium, nil)
+      @eventOnCompletion = attributes.fetch(:eventOnCompletion, nil)
+      @eventUrl = attributes.fetch(:eventUrl, nil)
+      @eventMethod = attributes.fetch(:eventMethod, nil)
 
       after_initialize!
     end
 
     def after_initialize!
-      if self.bargeIn
+      if self.bargeIn || self.bargeIn == false
         verify_barge_in
       end
 
@@ -33,8 +36,20 @@ module Vonage
         verify_style
       end
 
-      if self.premium
+      if self.premium || self.premium == false
         verify_premium
+      end
+
+      if self.eventOnCompletion || self.eventOnCompletion == false
+        verify_event_on_completion
+      end
+
+      if self.eventUrl
+        verify_event_url
+      end
+
+      if self.eventMethod
+        verify_event_method
       end
     end
 
@@ -43,7 +58,7 @@ module Vonage
     end
 
     def verify_loop
-      raise ClientError.new("Expected 'loop' value to be either 1 or 0") unless self.loop == 1 || self.loop == 0
+      raise ClientError.new("Expected 'loop' value to be either 0 or a positive integer") unless self.loop >= 0
     end
 
     def verify_level
@@ -56,6 +71,24 @@ module Vonage
 
     def verify_premium
       raise ClientError.new("Expected 'premium' value to be a Boolean") unless self.premium == true || self.premium == false
+    end
+
+    def verify_event_on_completion
+      raise ClientError.new("Expected 'eventOnCompletion' value to be a Boolean") unless self.eventOnCompletion == true || self.eventOnCompletion == false
+    end
+
+    def verify_event_url
+      uri = URI.parse(self.eventUrl)
+
+      raise ClientError.new("Invalid 'eventUrl' value, must be a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+
+      self.eventUrl
+    end
+
+    def verify_event_method
+      valid_methods = ['GET', 'POST']
+
+      raise ClientError.new("Invalid 'eventMethod' value. must be either: 'GET' or 'POST'") unless valid_methods.include?(self.eventMethod.upcase)
     end
 
     def action
@@ -75,6 +108,10 @@ module Vonage
       ncco[0].merge!(level: builder.level) if builder.level
       ncco[0].merge!(language: builder.language) if builder.language
       ncco[0].merge!(style: builder.style) if builder.style
+      ncco[0].merge!(premium: builder.premium) if (builder.bargeIn || builder.bargeIn == false)
+      ncco[0].merge!(eventOnCompletion: builder.eventOnCompletion) if (builder.eventOnCompletion || builder.eventOnCompletion == false)
+      ncco[0].merge!(eventUrl: builder.eventUrl) if builder.eventUrl
+      ncco[0].merge!(eventMethod: builder.eventMethod) if builder.eventMethod
 
       ncco
     end
