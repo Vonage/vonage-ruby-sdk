@@ -86,10 +86,16 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     assert_match "Invalid 'advanced_machine_detection[:beep_timeout]' value, must be between 45 and 120", exception.message
   end
 
-  def test_verify_with_invalid_event_url
-    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, eventUrl: 'invalid') }
+  def test_connect_with_invalid_event_url_type
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, eventUrl: 'https://example.com/event') }
 
-    assert_match "Invalid 'eventUrl' value, must be a valid URL", exception.message
+    assert_match "Expected 'eventUrl' parameter to be an Array containing a single string item", exception.message
+  end
+
+  def test_connect_with_invalid_event_url
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, eventUrl: ['foo.bar'] ) }
+
+    assert_match "Invalid 'eventUrl' value, array must contain a valid URL", exception.message
   end
 
   def test_verify_with_invalid_event_method

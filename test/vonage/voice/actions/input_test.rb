@@ -152,13 +152,13 @@ class Vonage::Voice::Actions::InputTest < Vonage::Test
   end
 
   def test_input_with_invalid_event_url_type
-    exception = assert_raises { Vonage::Voice::Actions::Input.new({ type: ['speech'], eventUrl: 'https://example.com/event' }) }
+    exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], eventUrl: 'https://example.com/event') }
 
     assert_match "Expected 'eventUrl' parameter to be an Array containing a single string item", exception.message
   end
 
   def test_input_with_invalid_event_url
-    exception = assert_raises { Vonage::Voice::Actions::Input.new({ type: ['speech'], eventUrl: ['foo.bar'] }) }
+    exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], eventUrl: ['foo.bar']) }
 
     assert_match "Invalid 'eventUrl' value, array must contain a valid URL", exception.message
   end

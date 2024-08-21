@@ -46,9 +46,13 @@ module Vonage
     end
 
     def verify_stream_url
-      raise ClientError.new("Expected 'streamUrl' parameter to be an Array containing a single string item") unless self.streamUrl.is_a?(Array)
+      stream_url = self.streamUrl
 
-      uri = URI.parse(self.streamUrl[0])
+      unless stream_url.is_a?(Array) && stream_url.length == 1 && stream_url[0].is_a?(String)
+        raise ClientError.new("Expected 'streamUrl' parameter to be an Array containing a single string item")
+      end
+
+      uri = URI.parse(stream_url[0])
 
       raise ClientError.new("Invalid 'streamUrl' value, must be a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
     end

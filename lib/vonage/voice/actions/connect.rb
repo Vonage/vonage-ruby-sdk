@@ -107,9 +107,13 @@ module Vonage
     end
 
     def verify_event_url
-      uri = URI.parse(self.eventUrl)
+      unless self.eventUrl.is_a?(Array) && self.eventUrl.length == 1 && self.eventUrl[0].is_a?(String)
+        raise ClientError.new("Expected 'eventUrl' parameter to be an Array containing a single string item")
+      end
 
-      raise ClientError.new("Invalid 'eventUrl' value, must be a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+      uri = URI.parse(self.eventUrl[0])
+
+      raise ClientError.new("Invalid 'eventUrl' value, array must contain a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
 
       self.eventUrl
     end

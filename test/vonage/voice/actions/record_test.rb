@@ -183,13 +183,13 @@ class Vonage::Voice::Actions::RecordTest < Vonage::Test
   end
 
   def test_record_with_invalid_transcription_event_method_value
-    exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', transcription: { eventMethod: 'PATCH' } }) }
+    exception = assert_raises { Vonage::Voice::Actions::Record.new(action: 'record', transcription: { eventMethod: 'PATCH' }) }
 
     assert_match "Invalid 'eventMethod' value, must be either: 'GET' or 'POST'", exception.message
   end
 
   def test_record_with_invalid_transcription_sentiment_analysis_value
-    exception = assert_raises { Vonage::Voice::Actions::Record.new({ action: 'record', transcription: { sentimentAnalysis: 'true' } }) }
+    exception = assert_raises { Vonage::Voice::Actions::Record.new(action: 'record', transcription: { sentimentAnalysis: 'true' }) }
 
     assert_match "Invalid 'sentimentAnalysis' value, must be a Boolean", exception.message
   end
