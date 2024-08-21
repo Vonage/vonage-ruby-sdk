@@ -90,7 +90,7 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
   end
 
   def test_talk_with_invalid_event_url_type
-    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', eventUrl: 'https://example.com/example.mp3' }) }
+    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', eventUrl: 'https://example.com/event' }) }
 
     assert_match "Expected 'eventUrl' parameter to be an Array containing a single string item", exception.message
   end
