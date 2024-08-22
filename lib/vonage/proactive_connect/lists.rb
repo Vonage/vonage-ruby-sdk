@@ -11,6 +11,8 @@ module Vonage
 
     # Find all lists
     #
+    # @deprecated
+    #
     # @example
     #   response = proactive_connect.lists.list
     #
@@ -26,6 +28,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#listsFindAll
     #
     def list(**params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       path = "/v0.1/bulk/lists"
       path += "?#{Params.encode(params)}" unless params.empty?
 

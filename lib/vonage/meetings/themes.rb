@@ -13,14 +13,19 @@ module Vonage
 
     # Get a list of themes associated with the Vonage application.
     #
+    # @deprecated
+    #
     # @return [ListResponse]
     #
     # @see https://developer.vonage.com/en/api/meetings#getThemes
     def list
+      logger.info('This method is deprecated and will be removed in a future release.')
       request("/v1/meetings/themes", response_class: ListResponse)
     end
 
     # Return information for specified theme.
+    #
+    # @deprecated
     #
     # @param [required, String] theme_id The id of the theme for which the info should be returned
     #
@@ -28,10 +33,13 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getThemeById
     def info(theme_id:)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request("/v1/meetings/themes/" + theme_id)
     end
 
     # Create a new theme.
+    #
+    # @deprecated
     #
     # @param [required, String] :main_color
     #   The main color that will be used for the meeting room.
@@ -49,6 +57,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#createTheme
     def create(main_color:, brand_text:, **params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request(
         "/v1/meetings/themes",
         params: params.merge(main_color: main_color, brand_text: brand_text),
@@ -57,6 +66,8 @@ module Vonage
     end
 
     # Update an existing theme.
+    #
+    # @deprecated
     #
     # @param [required, String] theme_id The id of the theme to be updated
     #
@@ -76,6 +87,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#updateTheme
     def update(theme_id:, **params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request(
         "/v1/meetings/themes/" + theme_id,
         params: {
@@ -87,6 +99,8 @@ module Vonage
 
     # Delete an existing theme.
     #
+    # @deprecated
+    #
     # @param [required, String] :theme_id The id of the theme to be deleted
     #
     # @param [optional, Boolean] :force. Set to `true` to force delete a theme currently being used for a room, or as
@@ -96,6 +110,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#deleteTheme
     def delete(theme_id:, force: false)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request(
         "/v1/meetings/themes/" + theme_id + "?force=#{force}",
         type: Delete
@@ -103,6 +118,8 @@ module Vonage
     end
 
     # Get a list of rooms that are associated with a theme id.
+    #
+    # @deprecated
     #
     # @param [required, String] theme_id THe ID of the theme to search for rooms associated with.
     #
@@ -116,6 +133,7 @@ module Vonage
     #
     # @see https://developer.vonage.com/en/api/meetings#getRoomsByThemeId
     def list_rooms(theme_id:, **params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       path = "/v1/meetings/themes/" + theme_id + "/rooms"
       path += "?#{Params.encode(params)}" unless params.empty?
 
@@ -123,6 +141,8 @@ module Vonage
     end
 
     # Set a logo for a theme.
+    #
+    # @deprecated
     #
     # @param [required, String] :theme_id The ID of the theme for which the logo should be set
     #
@@ -146,6 +166,7 @@ module Vonage
     #
     # TODO: add type signature
     def set_logo(theme_id:, filepath:, logo_type:)
+      logger.info('This method is deprecated and will be removed in a future release.')
       pn = Pathname.new(filepath)
       valid_logo_types = ['white', 'colored', 'favicon']
       raise ArgumentError, ':filepath not for a file' unless pn.file?

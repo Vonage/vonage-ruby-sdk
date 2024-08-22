@@ -13,6 +13,8 @@ module Vonage
 
     # Create list
     #
+    # @deprecated
+    #
     # @example
     #   response = proactive_connect.list.create(name: 'List Number 1')
     #
@@ -47,6 +49,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#listsCreate
     #
     def create(name:, **params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request(
         "/v0.1/bulk/lists",
         params: params.merge({ name: name }),
@@ -55,6 +58,8 @@ module Vonage
     end
 
     # Get list by id
+    #
+    # @deprecated
     #
     # @example
     #   response = proactive_connect.list.find(id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865')
@@ -65,10 +70,13 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#listsGet
     #
     def find(id:)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request("/v0.1/bulk/lists/#{id}")
     end
 
     # Update list
+    #
+    # @deprecated
     #
     # @example
     #   response = proactive_connect.list.update(name: 'List Number 1')
@@ -107,6 +115,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#listsUpdate
     #
     def update(id:, name:, **params)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request(
         "/v0.1/bulk/lists/#{id}",
         params: params.merge({ name: name }),
@@ -115,6 +124,8 @@ module Vonage
     end
 
     # Delete a list by id
+    #
+    # @deprecated
     #
     # @example
     #   response = proactive_connect.list.delete(id: '74ea1ecf-06c9-4072-a285-61677bd353e8')
@@ -125,6 +136,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#listsDelete
     #
     def delete(id:)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request(
         "/v0.1/bulk/lists/#{id}",
         type: Delete
@@ -132,6 +144,8 @@ module Vonage
     end
 
     # Clear list by deleting all items
+    #
+    # @deprecated
     #
     # @example
     #   response = proactive_connect.list.clear_items(id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865')
@@ -142,6 +156,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#listsClear
     #
     def clear_items(id:)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request(
         "/v0.1/bulk/lists/#{id}/clear",
         type: Post
@@ -149,6 +164,8 @@ module Vonage
     end
 
     # Fetch and replace all items from datasource
+    #
+    # @deprecated
     #
     # @example
     #   response = proactive_connect.list.fetch_and_replace_items(id: 'e546eebe-8e23-4e4d-bb7c-29d4700c9865')
@@ -159,6 +176,7 @@ module Vonage
     # @see https://developer.vonage.com/en/api/proactive-connect#listsFetch
     #
     def fetch_and_replace_items(id:)
+      logger.info('This method is deprecated and will be removed in a future release.')
       request(
         "/v0.1/bulk/lists/#{id}/fetch",
         type: Post
