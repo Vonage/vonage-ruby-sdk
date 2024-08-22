@@ -17,8 +17,64 @@ class Vonage::Voice::Actions::InputTest < Vonage::Test
   end
 
   def test_create_input_with_optional_params
-    expected = [{ action: 'input', type: [ 'dtmf' ], dtmf: { maxDigits: 1 } }]
-    input = Vonage::Voice::Actions::Input.new(type: [ 'dtmf' ], dtmf: { maxDigits: 1 })
+    expected = [
+      {
+        action: 'input',
+        type: [
+          'dtmf',
+          'speech'
+        ],
+        dtmf: { 
+          timeOut: 5,
+          maxDigits: 1,
+          submitOnHash: true
+        },
+        speech: {
+          uuid: [
+            "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+          ],
+          endOnSilence: 5,
+          context: [ "order" ],
+          startTimeout: 5,
+          maxDuration: 50,
+          saveAudio: true,
+          sensitivity: 50
+        },
+        eventUrl: [
+          'https://example.com/webhooks/events',
+        ],
+        eventMethod: 'GET',
+        mode: "asyncronous"
+      }
+    ]
+
+    input = Vonage::Voice::Actions::Input.new(
+      type: [
+        'dtmf',
+        'speech'
+      ],
+      dtmf: { 
+        timeOut: 5,
+        maxDigits: 1,
+        submitOnHash: true
+      },
+      speech: {
+        uuid: [
+          "aaaaaaaa-bbbb-cccc-dddd-0123456789ab"
+        ],
+        endOnSilence: 5,
+        context: [ "order" ],
+        startTimeout: 5,
+        maxDuration: 50,
+        saveAudio: true,
+        sensitivity: 50
+      },
+      eventUrl: [
+        'https://example.com/webhooks/events',
+      ],
+      eventMethod: 'GET',
+      mode: "asyncronous"
+    )
 
     assert_equal expected, input.create_input!(input)
   end
@@ -95,15 +151,27 @@ class Vonage::Voice::Actions::InputTest < Vonage::Test
     assert_match "Expected 'maxDuration' to not be more than 60 seconds", exception.message
   end
 
-  def test_input_with_invalid_event_url_value
-    exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], speech: { maxDuration: 10 }, eventUrl: 'invalid') }
+  def test_input_with_invalid_event_url_type
+    exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], eventUrl: 'https://example.com/event') }
 
-    assert_match "Invalid 'eventUrl' value, must be a valid URL", exception.message
+    assert_match "Expected 'eventUrl' parameter to be an Array containing a single string item", exception.message
+  end
+
+  def test_input_with_invalid_event_url
+    exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], eventUrl: ['foo.bar']) }
+
+    assert_match "Invalid 'eventUrl' value, array must contain a valid URL", exception.message
   end
 
   def test_input_with_invalid_event_method_value
     exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], speech: { maxDuration: 10 }, eventMethod: 'invalid') }
 
     assert_match "Invalid 'eventMethod' value. must be either: 'GET' or 'POST'", exception.message
+  end
+
+  def test_input_with_invalid_mode_value
+    exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], mode: 'syncronous') }
+
+    assert_match "Invalid 'mode' value, must be asyncronous'", exception.message
   end
 end

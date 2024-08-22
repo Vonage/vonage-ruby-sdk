@@ -3,7 +3,7 @@
 
 module Vonage
   class Voice::Actions::Input
-    attr_accessor :type, :dtmf, :speech, :eventUrl, :eventMethod
+    attr_accessor :type, :dtmf, :speech, :eventUrl, :eventMethod, :mode
 
     def initialize(attributes = {})
       @type = attributes.fetch(:type)
@@ -11,6 +11,7 @@ module Vonage
       @speech = attributes.fetch(:speech, nil)
       @eventUrl = attributes.fetch(:eventUrl, nil)
       @eventMethod = attributes.fetch(:eventMethod, nil)
+      @mode = attributes.fetch(:mode, nil)
 
       after_initialize!
     end
@@ -32,6 +33,10 @@ module Vonage
 
       if self.eventMethod
         validate_event_method
+      end
+
+      if self.mode
+        validate_mode
       end
     end
 
@@ -83,9 +88,13 @@ module Vonage
     end
 
     def validate_event_url
-      uri = URI.parse(self.eventUrl)
+      unless self.eventUrl.is_a?(Array) && self.eventUrl.length == 1 && self.eventUrl[0].is_a?(String)
+        raise ClientError.new("Expected 'eventUrl' parameter to be an Array containing a single string item")
+      end
 
-      raise ClientError.new("Invalid 'eventUrl' value, must be a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+      uri = URI.parse(self.eventUrl[0])
+
+      raise ClientError.new("Invalid 'eventUrl' value, array must contain a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
 
       self.eventUrl
     end
@@ -94,6 +103,12 @@ module Vonage
       valid_methods = ['GET', 'POST']
 
       raise ClientError.new("Invalid 'eventMethod' value. must be either: 'GET' or 'POST'") unless valid_methods.include?(self.eventMethod.upcase)
+    end
+
+    def validate_mode
+      valid_modes = ['asyncronous']
+
+      raise ClientError.new("Invalid 'mode' value, must be asyncronous'") unless valid_modes.include?(self.mode)
     end
 
     def action
@@ -112,6 +127,7 @@ module Vonage
       ncco[0].merge!(speech: builder.speech) if builder.speech
       ncco[0].merge!(eventUrl: builder.eventUrl) if builder.eventUrl
       ncco[0].merge!(eventMethod: builder.eventMethod) if builder.eventMethod
+      ncco[0].merge!(mode: builder.mode) if builder.mode
 
       ncco
     end

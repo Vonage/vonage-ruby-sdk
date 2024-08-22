@@ -26,13 +26,19 @@ class Vonage::Voice::Actions::NotifyTest < Vonage::Test
   def test_notify_with_invalid_event_url_invalid_type
     exception = assert_raises { Vonage::Voice::Actions::Notify.new(payload: { foo: 'bar' }, eventUrl: 'https://example.com') }
 
-    assert_match "Expected 'eventUrl' value to be an Array with a single string", exception.message
+    assert_match "Expected 'eventUrl' parameter to be an Array containing a single string item", exception.message
   end
 
-  def test_notify_with_invalid_event_url
-    exception = assert_raises { Vonage::Voice::Actions::Notify.new(payload: { foo: 'bar' }, eventUrl: ['invalid']) }
+  def test_notify_with_invalid_event_url_type
+    exception = assert_raises { Vonage::Voice::Actions::Notify.new(payload: { foo: 'bar' }, eventUrl: 'https://example.com/event') }
 
-    assert_match "Invalid 'eventUrl' value, must be a valid URL", exception.message
+    assert_match "Expected 'eventUrl' parameter to be an Array containing a single string item", exception.message
+  end
+
+  def test_notify_with_invalid_event_url_value
+    exception = assert_raises { Vonage::Voice::Actions::Notify.new(payload: { foo: 'bar' }, eventUrl: ['foo.bar']) }
+
+    assert_match "Invalid 'eventUrl' value, array must contain a valid URL", exception.message
   end
 
   def test_notify_with_invalid_event_method

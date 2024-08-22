@@ -3,7 +3,7 @@
 
 module Vonage
   class Voice::Actions::Record
-    attr_accessor :format, :split, :channels, :endOnSilence, :endOnKey, :timeOut, :beepStart, :eventUrl, :eventMethod
+    attr_accessor :format, :split, :channels, :endOnSilence, :endOnKey, :timeOut, :beepStart, :eventUrl, :eventMethod, :transcription
 
     def initialize(attributes = {})
       @format = attributes.fetch(:format, nil)
@@ -15,6 +15,7 @@ module Vonage
       @beepStart = attributes.fetch(:beepStart, nil)
       @eventUrl = attributes.fetch(:eventUrl, nil)
       @eventMethod = attributes.fetch(:eventMethod, nil)
+      @transcription = attributes.fetch(:transcription, nil)
 
       after_initialize!
     end
@@ -55,6 +56,10 @@ module Vonage
       if self.eventMethod
         validate_event_method
       end
+
+      if self.transcription
+        validate_transcription
+      end
     end
 
     def validate_format
@@ -90,9 +95,13 @@ module Vonage
     end
 
     def validate_event_url
-      uri = URI.parse(self.eventUrl)
+      unless self.eventUrl.is_a?(Array) && self.eventUrl.length == 1 && self.eventUrl[0].is_a?(String)
+        raise ClientError.new("Expected 'eventUrl' parameter to be an Array containing a single string item")
+      end
 
-      raise ClientError.new("Invalid 'eventUrl' value, must be a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+      uri = URI.parse(self.eventUrl[0])
+
+      raise ClientError.new("Invalid 'eventUrl' value, array must contain a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
 
       self.eventUrl
     end
@@ -100,7 +109,45 @@ module Vonage
     def validate_event_method
       valid_methods = ['GET', 'POST']
 
-      raise ClientError.new("Invalid 'eventMethod' value. must be either: 'GET' or 'POST'") unless valid_methods.include?(self.eventMethod.upcase)
+      raise ClientError.new("Invalid 'eventMethod' value. Must be either: 'GET' or 'POST'") unless valid_methods.include?(self.eventMethod.upcase)
+    end
+
+    def validate_transcription
+      raise ClientError.new("Expected 'transcription' parameter to be a Hash") unless self.transcription.is_a?(Hash)
+
+      if self.transcription[:language]
+        raise ClientError.new("Invalid 'language' value, must be a String") unless self.transcription[:language].is_a?(String)
+      end
+
+      if self.transcription[:eventUrl]
+        event_url = self.transcription[:eventUrl]
+
+        unless event_url.is_a?(Array) && event_url.length == 1 && event_url[0].is_a?(String)
+          raise ClientError.new("Expected 'eventUrl' parameter to be an Array containing a single string item")
+        end
+
+        uri = URI.parse(event_url[0])
+
+        raise ClientError.new("Invalid 'eventUrl' value, array must contain a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+      end
+
+      if self.transcription[:eventMethod]
+        event_method = self.transcription[:eventMethod]
+        raise ClientError.new("Invalid 'eventMethod' value, must be either: 'GET' or 'POST'") unless ['GET', 'POST'].include?(event_method.upcase)
+      end
+
+      if self.transcription[:sentimentAnalysis]
+        sentiment_analysis = self.transcription[:sentimentAnalysis]
+        raise ClientError.new("Invalid 'sentimentAnalysis' value, must be a Boolean") unless sentiment_analysis == true || sentiment_analysis == false
+      end
+
+      # if self.dtmf[:maxDigits]
+      #   raise ClientError.new("Expected 'maxDigits' to not be more than 22") if self.dtmf[:maxDigits] > 22
+      # end
+
+      # if self.dtmf[:submitOnHash]
+      #   raise ClientError.new("Invalid 'submitOnHash' value, must be a Boolean") unless self.dtmf[:submitOnHash] == true || self.dtmf[:submitOnHash] == false
+      # end
     end
 
     def action
@@ -123,6 +170,7 @@ module Vonage
       ncco[0].merge!(beepStart: builder.beepStart) if builder.beepStart
       ncco[0].merge!(eventUrl: builder.eventUrl) if builder.eventUrl
       ncco[0].merge!(eventMethod: builder.eventMethod) if builder.eventMethod
+      ncco[0].merge!(transcription: builder.transcription) if builder.transcription
 
       ncco
     end

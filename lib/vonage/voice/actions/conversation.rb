@@ -49,9 +49,15 @@ module Vonage
     end
 
     def verify_music_on_hold_url
-      uri = URI.parse(self.musicOnHoldUrl)
+      music_on_hold_url = self.musicOnHoldUrl
 
-      raise ClientError.new("Invalid 'musicOnHoldUrl' value, must be a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
+      unless music_on_hold_url.is_a?(Array) && music_on_hold_url.length == 1 && music_on_hold_url[0].is_a?(String)
+        raise ClientError.new("Expected 'musicOnHoldUrl' parameter to be an Array containing a single string item")
+      end
+
+      uri = URI.parse(music_on_hold_url[0])
+
+      raise ClientError.new("Invalid 'musicOnHoldUrl' value, array must contain a valid URL") unless uri.kind_of?(URI::HTTP) || uri.kind_of?(URI::HTTPS)
 
       self.musicOnHoldUrl
     end

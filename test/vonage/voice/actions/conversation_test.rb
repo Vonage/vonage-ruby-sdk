@@ -23,10 +23,16 @@ class Vonage::Voice::Actions::ConversationTest < Vonage::Test
     assert_equal expected, conversation.create_conversation!(conversation)
   end
 
-  def test_conversation_with_invalid_music_on_hold_url
-    exception = assert_raises { Vonage::Voice::Actions::Conversation.new(name: 'test123', musicOnHoldUrl: 'invalid') }
+  def test_conversation_with_invalid_music_on_hold_url_type
+    exception = assert_raises { Vonage::Voice::Actions::Conversation.new(name: 'test123', musicOnHoldUrl: 'https://example.com/event') }
 
-    assert_match "Invalid 'musicOnHoldUrl' value, must be a valid URL", exception.message
+    assert_match "Expected 'musicOnHoldUrl' parameter to be an Array containing a single string item", exception.message
+  end
+
+  def test_conversation_with_invalid_music_on_hold_url_value
+    exception = assert_raises { Vonage::Voice::Actions::Conversation.new(name: 'test123', musicOnHoldUrl: ['foo.bar']) }
+
+    assert_match "Invalid 'musicOnHoldUrl' value, array must contain a valid URL", exception.message
   end
 
   def test_conversation_with_invalid_start_on_enter
