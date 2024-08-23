@@ -31,6 +31,10 @@ module Vonage
       request('/v1/messages', params: {to: to, from: from, **message}, type: Post)
     end
 
+    def update(message_uuid:, **params)
+      request("/v1/messages/#{message_uuid}", params: params, type: Patch)
+    end
+
     # Validate a JSON Web Token from a Messages API Webhook.
     #
     # @param [String, required] :token The JWT from the Webhook's Authorization header
