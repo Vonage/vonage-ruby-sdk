@@ -1,3 +1,10 @@
+# 7.27.0
+
+* Updates Messages API implementation to add RCS channel as well as a new `PATCH` endpoint for RCS message revocation and WhatsApp Mark as Read features. [#316](https://github.com/Vonage/vonage-ruby-sdk/pull/316)
+* Updates to `talk`, `stream`, `input`, and `record` NCCOs in Voice API implementation. [#315](https://github.com/Vonage/vonage-ruby-sdk/pull/315)
+* Adds deprecation warnings to Meetings API and Proactive Connect API implementations, and updates code comments for Numbers API. [#314](https://github.com/Vonage/vonage-ruby-sdk/pull/314)
+
+
 # 7.26.0
 
 * Implements the Network Number Verification and Network SIM Swap APIs. [#313](https://github.com/Vonage/vonage-ruby-sdk/pull/313)
