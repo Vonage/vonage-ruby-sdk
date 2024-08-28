@@ -25,10 +25,24 @@ module Vonage
     # @option params [required, Hash] **message
     #   The Vonage Message object to use for this message.
     #
-    # @see https://developer.vonage.com/api/messages-olympus#SendMessage
+    # @see https://developer.vonage.com/api/messages#SendMessage
     #
     def send(to:, from:, **message)
       request('/v1/messages', params: {to: to, from: from, **message}, type: Post)
+    end
+
+    # Update a Message Object.
+    #
+    # @example
+    #   message = client.messaging.update(message_uuid: "aaaaaaaa-bbbb-4ccc-8ddd-0123456789ab", status: "read")
+    #
+    # @option params [required, String] :message_uuid. the UUID of the message to update.
+    #
+    # `:message_uuid` is always required. Other parameters will depend on the message channel and the specific action being performed.
+    # @see https://developer.vonage.com/api/messages#UpdateMessage
+    #
+    def update(message_uuid:, **params)
+      request("/v1/messages/#{message_uuid}", params: params, type: Patch)
     end
 
     # Validate a JSON Web Token from a Messages API Webhook.

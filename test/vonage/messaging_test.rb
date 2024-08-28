@@ -6,6 +6,14 @@ class Vonage::MessagingTest < Vonage::Test
     Vonage::Messaging.new(config)
   end
 
+  def geo_specific_messaging_host
+    'api-eu.vonage.com'
+  end
+
+  def geo_specific_messaging
+    Vonage::Messaging.new(config.merge(api_host: geo_specific_messaging_host))
+  end
+
   def messaging_uri
     'https://api.nexmo.com/v1/messages'
   end
@@ -64,5 +72,11 @@ class Vonage::MessagingTest < Vonage::Test
 
   def test_verify_webhook_token_method_with_no_token
     assert_raises(ArgumentError) { messaging.verify_webhook_token }
+  end
+
+  def test_update_method
+    stub_request(:patch, 'https://' + geo_specific_messaging_host + '/v1/messages/' + message_uuid).with(request(body: {status: 'read'})).to_return(response)
+
+    assert_kind_of Vonage::Response, geo_specific_messaging.update(message_uuid: message_uuid, status: 'read')
   end
 end

@@ -2,7 +2,7 @@
 
 
 class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
-  def test_messenger_initialize
+  def test_whats_app_initialize
     whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'text', message: 'Hello world!')
 
     assert_kind_of Vonage::Messaging::Channels::WhatsApp, whatsapp

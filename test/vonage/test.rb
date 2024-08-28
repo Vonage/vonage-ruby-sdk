@@ -406,6 +406,10 @@ module Vonage
       "MEET-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
     end
 
+    def message_uuid
+      "aaaaaaaa-bbbb-4ccc-8ddd-0123456789ab"
+    end
+
     def video_id
       'VIDEO-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
     end

@@ -5,6 +5,7 @@ module Vonage
     CHANNELS = {
       sms: Vonage::Messaging::Channels::SMS,
       mms: Vonage::Messaging::Channels::MMS,
+      rcs: Vonage::Messaging::Channels::RCS,
       whatsapp: Vonage::Messaging::Channels::WhatsApp,
       messenger: Vonage::Messaging::Channels::Messenger,
       viber: Vonage::Messaging::Channels::Viber
