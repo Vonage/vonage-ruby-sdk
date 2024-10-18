@@ -215,4 +215,12 @@ class Vonage::Verify2Test < Vonage::Test
   def test_workflow_builder_method
     assert_equal Vonage::Verify2::WorkflowBuilder, verify2.workflow_builder
   end
+
+  def test_templates_method
+    assert_instance_of Vonage::Verify2::Templates, verify2.templates
+  end
+
+  def test_template_fragments_method
+    assert_instance_of Vonage::Verify2::TemplateFragments, verify2.template_fragments
+  end
 end

@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 
 module Vonage
-  class Verify2::TemplateFragments
+  class Verify2::TemplateFragments < Namespace
     
   end
 end
