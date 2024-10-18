@@ -3,6 +3,10 @@
 
 module Vonage
   class Verify2::TemplateFragments < Namespace
+    self.authentication = BearerToken
+
+    self.request_body = JSON
+
     
   end
 end
