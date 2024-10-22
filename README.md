@@ -14,6 +14,7 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
     * [Logging](#logging)
     * [Exceptions](#exceptions)
     * [Overriding the default hosts](#overriding-the-default-hosts)
+    * [HTTP Client Configuration](#http-client-configuration)
     * [JWT authentication](#jwt-authentication)
     * [Webhook signatures](#webhook-signatures)
     * [Pagination](#pagination)
@@ -178,6 +179,33 @@ client = Vonage::Client.new(
 ```
 
 By default the hosts are set to `api.nexmo.com` and `rest.nexmo.com`, respectively.
+
+### HTTP Client Configuration
+
+It is possible to set configuration options on the HTTP client. This can be don in a couple of ways.
+
+1. Using an `:http` key during `Vonage::Client` instantiation, for example:
+    ```ruby
+    client = Vonage::Client.new(
+      api_key: 'YOUR-API-KEY',
+      api_secret: 'YOUR-API-SECRET',
+      http: {
+        max_retries: 1
+      }
+    )
+    ```
+
+2. By using the `http=` setter on the `Vonage::Config` object, for example:
+    ```ruby
+    client = Vonage::Client.new(
+      api_key: 'YOUR-API-KEY',
+      api_secret: 'YOUR-API-SECRET'
+    )
+
+    client.config.http = { max_retries: 1 }
+    ```
+
+The Vonage Ruby SDK uses the [`Net::HTTP::Persistent` library](https://github.com/drbrain/net-http-persistent) as an HTTP client. For available configuration options see [the documentation for that library](https://www.rubydoc.info/gems/net-http-persistent/3.0.0/Net/HTTP/Persistent).
 
 ### Webhook signatures
 
