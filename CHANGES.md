@@ -1,3 +1,7 @@
+# 7.27.1
+
+* Fixes a bug with setting options on the HTTP client. [#319](https://github.com/Vonage/vonage-ruby-sdk/pull/319)
+
 # 7.27.0
 
 * Updates Messages API implementation to add RCS channel as well as a new `PATCH` endpoint for RCS message revocation and WhatsApp Mark as Read features. [#316](https://github.com/Vonage/vonage-ruby-sdk/pull/316)

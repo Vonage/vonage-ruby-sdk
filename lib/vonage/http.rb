@@ -1,6 +1,6 @@
 # typed: strict
 # frozen_string_literal: true
-require 'net/http'
+require 'net/http/persistent'
 
 module Vonage
   module HTTP
@@ -21,7 +21,7 @@ module Vonage
         end
       end
 
-      sig { params(http: Net::HTTP).returns(T::Hash[Symbol, T.untyped]) }
+      sig { params(http: Net::HTTP::Persistent).returns(T::Hash[Symbol, T.untyped]) }
       def set(http)
         @hash.each do |name, value|
           http.public_send(defined_options.fetch(name), value)
@@ -34,7 +34,7 @@ module Vonage
       def defined_options
         @defined_options = T.let(@defined_options, T.nilable(T::Hash[Symbol, T.untyped]))
 
-        @defined_options ||= Net::HTTP.instance_methods.grep(/\w=\z/).each_with_object({}) do |name, hash|
+        @defined_options ||= Net::HTTP::Persistent.instance_methods.grep(/\w=\z/).each_with_object({}) do |name, hash|
           hash[name.to_s.chomp('=').to_sym] = name
         end
       end
