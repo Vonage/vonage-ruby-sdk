@@ -85,7 +85,7 @@ module Vonage
     # @example
     #   client.verify2.template_fragments.update(
     #                         template_id: '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9',
-    #                         template_fragment_id: 'c70f446e-997a-4313-a081-60a02a31dc19,
+    #                         template_fragment_id: 'c70f446e-997a-4313-a081-60a02a31dc19',
     #                         text: 'Your one-time code is: ${code}'
     #                       )
     #
