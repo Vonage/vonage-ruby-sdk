@@ -1,3 +1,7 @@
+# 7.28.0
+
+* Adds templates and template fragments to the Verify v2 implementation. [#318](https://github.com/Vonage/vonage-ruby-sdk/pull/318)
+
 # 7.27.1
 
 * Fixes a bug with setting options on the HTTP client. [#319](https://github.com/Vonage/vonage-ruby-sdk/pull/319)
