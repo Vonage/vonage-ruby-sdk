@@ -96,5 +96,17 @@ module Vonage
     def workflow_builder
       WorkflowBuilder.itself
     end
+
+    # @return [Templates]
+    # Returns existing or instantiates a new Vonage::Verify2::Templates object
+    def templates
+      @templates ||= Templates.new(@config)
+    end
+
+    # @return [TemplateFragments]
+    # Returns existing or instantiates a new Vonage::Verify2::Templates object
+    def template_fragments
+      @template_fragments ||= TemplateFragments.new(@config)
+    end
   end
 end

@@ -488,6 +488,66 @@ if code_check.http_response.code == '200'
 end
 ```
 
+### Working with Verify Custom Templates and Template Fragments
+
+Verify custom templates allow you to customize the message sent to deliver an OTP to your users, rather than using the default Vonage templates. See the [Template Management Guide document](https://developer.vonage.com/en/verify/guides/custom-templates) for more information.
+
+#### Templates
+
+```ruby
+# Get a list of all templates
+template_list = verify.templates.list
+
+# Get details of a specific template
+template = verify.templates.info(template_id: '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9')
+
+# Create a new template
+verify.templates.create(name: 'my-template')
+
+# Update an existing template
+verify.templates.update(
+  template_id: '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9',
+  name: 'my-updated-template'
+)
+
+# Delete a template
+verify.templates.delete(template_id: '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9')
+```
+
+#### Template Fragments
+
+```ruby
+# Get a list of template fragments for a specific template
+template_fragment_list = verify.template_fragments.list(template_id: '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9')
+
+# Get details of a specific template fragment
+template_fragment = verify.template_fragments.info(
+  template_id: '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9',
+  template_fragment_id: 'c70f446e-997a-4313-a081-60a02a31dc19'
+)
+
+# Create a new template fragement
+verify.template_fragments.create(
+  template_id: '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9',
+  channel: 'sms',
+  locale: 'en-gb',
+  text: 'Your code is: ${code}'
+)
+
+# Update an existing template fragment
+verify.template_fragments.update(
+  template_id: '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9',
+  template_fragment_id: 'c70f446e-997a-4313-a081-60a02a31dc1',
+  text: 'Your one-time code is: ${code}'
+)
+
+# Delete a template fragment
+verify.template_fragments.delete(
+  template_id: '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9',
+  template_fragment_id: 'c70f446e-997a-4313-a081-60a02a31dc19'
+)
+```
+
 ## Voice API
 
 The [Vonage Voice API](The [Vonage Verify API v2](https://developer.vonage.com/en/verify/verify-v2/overview) allows you to automate voice interactions by creating calls, streaming audio, playing text to speech, playing DTMF tones, and other actions. See the Vonage Developer Documentation for a [complete API reference](https://developer.vonage.com/en/api/voice) listing all the Voice API capabilities.
