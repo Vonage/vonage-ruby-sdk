@@ -1,3 +1,7 @@
+# 7.29.0
+
+* Adds `max_bitrate` as an option to the `Video::Archives#start` method. [#321](https://github.com/Vonage/vonage-ruby-sdk/pull/321)
+
 # 7.28.0
 
 * Adds templates and template fragments to the Verify v2 implementation. [#318](https://github.com/Vonage/vonage-ruby-sdk/pull/318)
