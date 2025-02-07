@@ -28,8 +28,10 @@ module Vonage
         'remove_stream',
         'screenshare_type',
         'session_id',
+        'output_mode',
         'stream_mode',
         'archive_mode',
+        'multi_archive_tag',
         'language_code',
         'max_duration',
         'partial_captions',
@@ -37,7 +39,8 @@ module Vonage
         'audio_rate',
         'phone_number',
         'hashed_phone_number',
-        'max_age'
+        'max_age',
+        'max_bitrate'
       ]
       hash.transform_keys do |k|
         if exceptions.include?(k.to_s)
