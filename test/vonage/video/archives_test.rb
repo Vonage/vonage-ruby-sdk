@@ -43,7 +43,8 @@ class Vonage::Video::ArchivesTest < Vonage::Test
     request_params = {
       sessionId: video_session_id,
       resolution: '640x480',
-      streamMode: 'auto'
+      streamMode: 'auto',
+      maxBitrate: 200000
     }
 
     stub_request(:post, uri).with(body: request_params).to_return(response)
@@ -51,7 +52,8 @@ class Vonage::Video::ArchivesTest < Vonage::Test
     assert_kind_of Vonage::Response, archives.start(
       session_id: video_session_id,
       resolution: '640x480',
-      stream_mode: 'auto'
+      stream_mode: 'auto',
+      max_bitrate: 200000
     )
   end
 

@@ -45,19 +45,21 @@ module Vonage
     #
     # @param [required, String] :session_id
     #
-    # @param [optional, String] :hasAudio
+    # @param [optional, String] :has_audio
     #
-    # @param [optional, String] :hasVideo
+    # @param [optional, String] :has_video
     #
     # @param [optional, String] :name
     #
-    # @param [optional, String] :outputMode
+    # @param [optional, String] :output_mode
     #
     # @param [optional, String] :resolution
     #
-    # @param [optional, String] :streamMode
+    # @param [optional, String] :stream_mode
     #
-    # @param [optional, String] :multiArchiveTag
+    # @param [optional, String] :multi_archive_tag
+    #
+    # @param [optional, String] :max_bitrate
     #
     # @param [optional, Hash] :layout
     #
