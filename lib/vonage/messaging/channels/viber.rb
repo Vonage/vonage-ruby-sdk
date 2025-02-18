@@ -18,7 +18,7 @@ module Vonage
     private
 
     def build
-      data[:channel] = ' viber_service'
+      data[:channel] = 'viber_service'
       super
     end
 
