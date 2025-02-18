@@ -1,3 +1,7 @@
+# 7.29.1
+
+* Fixes a bug with the Viber Service Messages API channel. [#323](https://github.com/Vonage/vonage-ruby-sdk/pull/323)
+
 # 7.29.0
 
 * Adds `max_bitrate` as an option to the `Video::Archives#start` method. [#321](https://github.com/Vonage/vonage-ruby-sdk/pull/321)
