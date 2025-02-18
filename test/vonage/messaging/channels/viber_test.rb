@@ -6,7 +6,7 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
     viber = Vonage::Messaging::Channels::Viber.new(type: 'text', message: 'Hello world!')
 
     assert_kind_of Vonage::Messaging::Channels::Viber, viber
-    assert_equal viber.data, { channel: ' viber_service', message_type: 'text', text: 'Hello world!' }
+    assert_equal viber.data, { channel: 'viber_service', message_type: 'text', text: 'Hello world!' }
   end
 
   def test_with_valid_type_text_specified
