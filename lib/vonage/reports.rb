@@ -14,4 +14,4 @@ module Vonage
       request('/v2/reports/records', params: params)
     end
   end
-end 
+end
