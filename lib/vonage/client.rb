@@ -209,5 +209,12 @@ module Vonage
     def voice
       @voice ||= T.let(Voice.new(config), T.nilable(Vonage::Voice))
     end
+
+    # @return [Reports]
+    #
+    sig { returns(T.nilable(Vonage::Reports)) }
+    def reports
+      @reports ||= T.let(Reports.new(config), T.nilable(Vonage::Reports))
+    end
   end
 end
