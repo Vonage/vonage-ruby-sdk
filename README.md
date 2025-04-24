@@ -1,3 +1,8 @@
+# Autoraptor note
+This fork exists to add unsported apis. We've added
+
+* The reports synce endpoint
+
 # Vonage Server SDK for Ruby
 
 [![Gem Version](https://badge.fury.io/rb/vonage.svg)](https://badge.fury.io/rb/vonage) ![Coverage Status](https://github.com/Vonage/vonage-ruby-sdk/workflows/CI/badge.svg) [![codecov](https://codecov.io/gh/Vonage/vonage-ruby-sdk/branch/7.x/graph/badge.svg?token=FKW6KL532P)](https://codecov.io/gh/Vonage/vonage-ruby-sdk)
@@ -8,25 +13,39 @@
 This is the Ruby Server SDK for Vonage APIs. To use it you'll
 need a Vonage account. Sign up [for free at vonage.com][signup].
 
-* [Requirements](#requirements)
-* [Installation](#installation)
-* [Usage](#usage)
-    * [Logging](#logging)
-    * [Exceptions](#exceptions)
-    * [Overriding the default hosts](#overriding-the-default-hosts)
-    * [HTTP Client Configuration](#http-client-configuration)
-    * [JWT authentication](#jwt-authentication)
-    * [Webhook signatures](#webhook-signatures)
-    * [Pagination](#pagination)
-    * [Messages API](#messages-api)
-    * [Verify API v2](#verify-api-v2)
-    * [Voice API](#voice-api)
-      * [NCCO Builder](#ncco-builder)
-* [Documentation](#documentation)
-* [Supported APIs](#supported-apis)
-* [Other SDKs and Tools](#other-sdks-and-tools)
-* [License](#license)
-* [Contribute](#contribute)
+- [Autoraptor note](#autoraptor-note)
+- [Vonage Server SDK for Ruby](#vonage-server-sdk-for-ruby)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [JWT authentication](#jwt-authentication)
+    - [Logging](#logging)
+    - [Exceptions](#exceptions)
+    - [Overriding the default hosts](#overriding-the-default-hosts)
+    - [HTTP Client Configuration](#http-client-configuration)
+    - [Webhook signatures](#webhook-signatures)
+      - [Signature in Request Body](#signature-in-request-body)
+      - [Signed JWT in Header](#signed-jwt-in-header)
+    - [Pagination](#pagination)
+  - [Messages API](#messages-api)
+  - [Verify API v2](#verify-api-v2)
+    - [Creating a Verify2 Object](#creating-a-verify2-object)
+    - [Making a verification request](#making-a-verification-request)
+      - [Create options using StartVerificationOptions object](#create-options-using-startverificationoptions-object)
+      - [Create workflow using Workflow and Channel objects](#create-workflow-using-workflow-and-channel-objects)
+      - [Create a workflow using the WorkflowBuilder](#create-a-workflow-using-the-workflowbuilder)
+    - [Cancelling a request](#cancelling-a-request)
+    - [Checking a code](#checking-a-code)
+    - [Working with Verify Custom Templates and Template Fragments](#working-with-verify-custom-templates-and-template-fragments)
+      - [Templates](#templates)
+      - [Template Fragments](#template-fragments)
+  - [Voice API](#voice-api)
+    - [NCCO Builder](#ncco-builder)
+  - [Documentation](#documentation)
+  - [Supported APIs](#supported-apis)
+  - [Other SDKs and Tools](#other-sdks-and-tools)
+  - [License](#license)
+  - [Contribute!](#contribute)
 
 
 ## Requirements
