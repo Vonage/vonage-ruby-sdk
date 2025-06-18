@@ -59,6 +59,85 @@ class Vonage::MessagingTest < Vonage::Test
     assert_raises(ArgumentError) { messaging.send(to: "447700900000", from: "447700900001", channel: 'sms', text: "Hello world!") }
   end
 
+  def test_send_method_with_failover
+    params = {
+      to: "447700900000",
+      from: "Vonage",
+      channel: "rcs",
+      message_type: "text",
+      text: "Hello world!",
+      failover: [
+        {
+          to: "447700900000",
+          from: "447700900001",
+          channel: "sms",
+          message_type: "text",
+          text: "Hello world!"
+        }
+      ]
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
+
+    message = messaging.rcs(to: "447700900000", from: "Vonage", type: 'text', message: "Hello world!")
+    failover_message = messaging.sms(to: "447700900000", from: "447700900001", message: "Hello world!")
+
+    assert_kind_of Vonage::Response, messaging.send(**message, failover: [failover_message])
+  end
+
+  def test_send_method_with_multiple_failover
+    params = {
+      to: "447700900000",
+      from: "Vonage",
+      channel: "rcs",
+      message_type: "text",
+      text: "Hello world!",
+      failover: [
+        {
+          to: "447700900000",
+          from: "447700900001",
+          channel: "whatsapp",
+          message_type: "text",
+          text: "Hello world!"
+        },
+        {
+          to: "447700900000",
+          from: "447700900001",
+          channel: "sms",
+          message_type: "text",
+          text: "Hello world!"
+        }
+      ]
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
+
+    message = messaging.rcs(to: "447700900000", from: "Vonage", type: 'text', message: "Hello world!")
+    failover_message_1 = messaging.whatsapp(to: "447700900000", from: "447700900001", message: "Hello world!")
+    failover_message_2 = messaging.sms(to: "447700900000", from: "447700900001", message: "Hello world!")
+
+    assert_kind_of Vonage::Response, messaging.send(**message, failover: [failover_message_1, failover_message_2])
+  end
+
+  def test_send_method_with_failover_not_an_array
+    message = messaging.rcs(to: "447700900000", from: "Vonage", type: 'text', message: "Hello world!")
+    failover_message = messaging.sms(to: "447700900000", from: "447700900001", message: "Hello world!")
+
+    assert_raises(ArgumentError) { messaging.send(**message, failover: failover_message) }
+  end
+
+  def test_send_method_with_failover_an_empty_array
+    message = messaging.rcs(to: "447700900000", from: "Vonage", type: 'text', message: "Hello world!")
+
+    assert_raises(ArgumentError) { messaging.send(**message, failover: []) }
+  end
+
+  def test_send_method_with_failover_containing_non_hash_elements
+    message = messaging.rcs(to: "447700900000", from: "Vonage", type: 'text', message: "Hello world!")
+
+    assert_raises(ArgumentError) { messaging.send(**message, failover: ["Hello world!"]) }
+  end
+
   def test_verify_webhook_token_method_with_valid_secret_passed_in
     verification = messaging.verify_webhook_token(token: sample_webhook_token, signature_secret: sample_valid_signature_secret)
 
