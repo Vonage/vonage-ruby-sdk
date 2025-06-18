@@ -25,7 +25,7 @@ module Vonage
 
     private
 
-    attr_accessor :type, :message, :opts
+    attr_accessor :to, :from, :type, :message, :opts
     attr_writer :data
 
     def after_initialize!
@@ -35,6 +35,8 @@ module Vonage
     end
 
     def build
+      data[:to] = to if to
+      data[:from] = from if from
       data[:message_type] = type
       data[type.to_sym] = message
       data.merge!(opts)

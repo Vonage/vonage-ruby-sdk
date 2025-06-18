@@ -5,6 +5,8 @@ module Vonage
     attr_reader :data
 
     def initialize(attributes = {})
+      @to = attributes.fetch(:to, nil)
+      @from = attributes.fetch(:from, nil)
       @type = attributes.fetch(:type, 'text')
       @message = attributes.fetch(:message, nil)
       @opts = attributes.fetch(:opts, {})
