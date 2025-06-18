@@ -27,8 +27,8 @@ module Vonage
     #
     # @see https://developer.vonage.com/api/messages#SendMessage
     #
-    def send(to:, from:, **message)
-      request('/v1/messages', params: {to: to, from: from, **message}, type: Post)
+    def send(to:, from:, channel:, message_type:, **message)
+      request('/v1/messages', params: {to: to, from: from, channel: channel, message_type: message_type, **message}, type: Post)
     end
 
     # Update a Message Object.

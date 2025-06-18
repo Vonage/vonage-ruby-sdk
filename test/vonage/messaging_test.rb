@@ -38,7 +38,7 @@ class Vonage::MessagingTest < Vonage::Test
 
     stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
 
-    message = Vonage::Messaging::Message.sms(message: "Hello world!")
+    message = messaging.sms(message: "Hello world!")
 
     assert_kind_of Vonage::Response, messaging.send(to: "447700900000", from: "447700900001", **message)
   end
