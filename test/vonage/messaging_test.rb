@@ -166,4 +166,132 @@ class Vonage::MessagingTest < Vonage::Test
 
     assert_kind_of Vonage::Response, geo_specific_messaging.update(message_uuid: message_uuid, status: 'read')
   end
+
+  # The below tests are to ensure backwards compatibility with the previous send method implementation
+
+  def test_send_method_with_builder_setting_to_and_from
+    params = {
+      to: "447700900000",
+      from: "447700900001",
+      channel: "sms",
+      message_type: "text",
+      text: "Hello world!"
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
+
+    message = messaging.sms(to: "447700900000", from: "447700900001", message: "Hello world!")
+
+    assert_kind_of Vonage::Response, messaging.send(**message)
+  end
+
+  def test_send_method_with_method_setting_to_and_from_with_failover
+    params = {
+      to: "447700900000",
+      from: "Vonage",
+      channel: "rcs",
+      message_type: "text",
+      text: "Hello world!",
+      failover: [
+        {
+          to: "447700900000",
+          from: "447700900001",
+          channel: "sms",
+          message_type: "text",
+          text: "Hello world!"
+        }
+      ]
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
+
+    message = messaging.rcs(type: 'text', message: "Hello world!")
+    failover_message = messaging.sms(to: "447700900000", from: "447700900001", message: "Hello world!")
+
+    assert_kind_of Vonage::Response, messaging.send(to: "447700900000", from: "Vonage", **message, failover: [failover_message])
+  end
+
+  def test_send_method_with_builder_setting_to_and_method_setting_from
+    params = {
+      to: "447700900000",
+      from: "447700900001",
+      channel: "sms",
+      message_type: "text",
+      text: "Hello world!"
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
+
+    message = messaging.sms(to: "447700900000", message: "Hello world!")
+
+    assert_kind_of Vonage::Response, messaging.send(from: "447700900001", **message)
+  end
+
+  def test_send_method_with_method_setting_to_and_builder_setting_from
+    params = {
+      to: "447700900000",
+      from: "447700900001",
+      channel: "sms",
+      message_type: "text",
+      text: "Hello world!"
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
+
+    message = messaging.sms(from: "447700900001", message: "Hello world!")
+
+    assert_kind_of Vonage::Response, messaging.send(to: "447700900000", **message)
+  end
+
+  def test_send_method_with_builder_setting_to_and_method_setting_from_with_failover
+    params = {
+      to: "447700900000",
+      from: "Vonage",
+      channel: "rcs",
+      message_type: "text",
+      text: "Hello world!",
+      failover: [
+        {
+          to: "447700900000",
+          from: "447700900001",
+          channel: "sms",
+          message_type: "text",
+          text: "Hello world!"
+        }
+      ]
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
+
+    message = messaging.rcs(to: "447700900000", type: 'text', message: "Hello world!")
+    failover_message = messaging.sms(to: "447700900000", from: "447700900001", message: "Hello world!")
+
+    assert_kind_of Vonage::Response, messaging.send(from: "Vonage", **message, failover: [failover_message])
+  end
+
+  def test_send_method_with_method_setting_to_and_builder_setting_from_with_failover
+    params = {
+      to: "447700900000",
+      from: "Vonage",
+      channel: "rcs",
+      message_type: "text",
+      text: "Hello world!",
+      failover: [
+        {
+          to: "447700900000",
+          from: "447700900001",
+          channel: "sms",
+          message_type: "text",
+          text: "Hello world!"
+        }
+      ]
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
+
+    message = messaging.rcs(from: "Vonage", type: 'text', message: "Hello world!")
+    failover_message = messaging.sms(to: "447700900000", from: "447700900001", message: "Hello world!")
+
+    assert_kind_of Vonage::Response, messaging.send(to: "447700900000", **message, failover: [failover_message])
+  end
 end
