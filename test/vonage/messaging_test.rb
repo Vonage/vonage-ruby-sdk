@@ -44,11 +44,19 @@ class Vonage::MessagingTest < Vonage::Test
   end
 
   def test_send_method_without_to
-    assert_raises(ArgumentError) { messaging.send(from: "447700900001", message: "Hello world!") }
+    assert_raises(ArgumentError) { messaging.send(from: "447700900001", channel: 'sms', message_type: 'text', text: "Hello world!") }
   end
 
   def test_send_method_without_from
-    assert_raises(ArgumentError) { messaging.send(to: "447700900000", message: "Hello world!") }
+    assert_raises(ArgumentError) { messaging.send(to: "447700900000", channel: 'sms', message_type: 'text', text: "Hello world!") }
+  end
+
+  def test_send_method_without_channel
+    assert_raises(ArgumentError) { messaging.send(to: "447700900000", from: "447700900001", message_type: 'text', text: "Hello world!") }
+  end
+
+  def test_send_method_without_message_type
+    assert_raises(ArgumentError) { messaging.send(to: "447700900000", from: "447700900001", channel: 'sms', text: "Hello world!") }
   end
 
   def test_verify_webhook_token_method_with_valid_secret_passed_in
