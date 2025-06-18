@@ -223,4 +223,31 @@ class Vonage::Messaging::Channels::RCSTest < Vonage::Test
     assert_instance_of Vonage::ClientError, exception
     assert_match "Invalid parameter content. `:message` must not be empty", exception.message
   end
+
+  def test_with_to_specified
+    to_number = '447900000000'
+    rcs = Vonage::Messaging::Channels::RCS.new(type: 'text', message: 'Hello world!', to: to_number)
+
+    assert_equal to_number, rcs.data[:to]
+    assert_includes rcs.data, :to
+  end
+
+  def test_with_from_specified
+    from_number = '447900000001'
+    rcs = Vonage::Messaging::Channels::RCS.new(type: 'text', message: 'Hello world!', from: from_number)
+
+    assert_equal from_number, rcs.data[:from]
+    assert_includes rcs.data, :from
+  end
+
+  def test_with_to_and_from_specified
+    to_number = '447900000000'
+    from_number = '447900000001'
+    rcs = Vonage::Messaging::Channels::RCS.new(type: 'text', message: 'Hello world!', to: to_number, from: from_number)
+
+    assert_equal to_number, rcs.data[:to]
+    assert_equal from_number, rcs.data[:from]
+    assert_includes rcs.data, :to
+    assert_includes rcs.data, :from
+  end
 end
