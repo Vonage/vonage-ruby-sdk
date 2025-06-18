@@ -27,8 +27,17 @@ module Vonage
     #
     # @see https://developer.vonage.com/api/messages#SendMessage
     #
-    def send(to:, from:, channel:, message_type:, **message)
-      request('/v1/messages', params: {to: to, from: from, channel: channel, message_type: message_type, **message}, type: Post)
+    def send(to:, from:, channel:, message_type:, failover: nil, **message)
+      params = { to: to, from: from, channel: channel, message_type: message_type }.merge(message)
+
+      if failover
+        raise ArgumentError.new("`failover` must be an array") unless failover.is_a?(Array)
+        raise ArgumentError.new("`failover` must not be empty") if failover.empty?
+        raise ArgumentError.new("`failover` must contain only Hashes") unless failover.all?(Hash)
+        params[:failover] = failover
+      end
+
+      request('/v1/messages', params: params, type: Post)
     end
 
     # Update a Message Object.

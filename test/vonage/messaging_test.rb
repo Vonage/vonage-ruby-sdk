@@ -113,7 +113,7 @@ class Vonage::MessagingTest < Vonage::Test
     stub_request(:post, messaging_uri).with(request(body: params)).to_return(response)
 
     message = messaging.rcs(to: "447700900000", from: "Vonage", type: 'text', message: "Hello world!")
-    failover_message_1 = messaging.whatsapp(to: "447700900000", from: "447700900001", message: "Hello world!")
+    failover_message_1 = messaging.whatsapp(to: "447700900000", from: "447700900001", type: 'text', message: "Hello world!")
     failover_message_2 = messaging.sms(to: "447700900000", from: "447700900001", message: "Hello world!")
 
     assert_kind_of Vonage::Response, messaging.send(**message, failover: [failover_message_1, failover_message_2])
