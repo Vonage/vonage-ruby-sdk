@@ -89,4 +89,31 @@ class Vonage::Messaging::Channels::MessengerTest < Vonage::Test
     assert_equal 'response', messenger.data[:messenger][:category]
     assert_equal 'CONFIRMED_EVENT_UPDATE', messenger.data[:messenger][:tag]
   end
+
+  def test_with_to_specified
+    to_number = '447900000000'
+    messenger = Vonage::Messaging::Channels::Messenger.new(type: 'text', message: 'Hello world!', to: to_number)
+
+    assert_equal to_number, messenger.data[:to]
+    assert_includes messenger.data, :to
+  end
+
+  def test_with_from_specified
+    from_number = '447900000001'
+    messenger = Vonage::Messaging::Channels::Messenger.new(type: 'text', message: 'Hello world!', from: from_number)
+
+    assert_equal from_number, messenger.data[:from]
+    assert_includes messenger.data, :from
+  end
+
+  def test_with_to_and_from_specified
+    to_number = '447900000000'
+    from_number = '447900000001'
+    messenger = Vonage::Messaging::Channels::Messenger.new(type: 'text', message: 'Hello world!', to: to_number, from: from_number)
+
+    assert_equal to_number, messenger.data[:to]
+    assert_equal from_number, messenger.data[:from]
+    assert_includes messenger.data, :to
+    assert_includes messenger.data, :from
+  end
 end

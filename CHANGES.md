@@ -1,3 +1,7 @@
+# 7.30.0
+
+* Implements the Failover feature in Messages API. [#327](https://github.com/Vonage/vonage-ruby-sdk/pull/327)
+
 # 7.29.1
 
 * Fixes a bug with the Viber Service Messages API channel. [#323](https://github.com/Vonage/vonage-ruby-sdk/pull/323)

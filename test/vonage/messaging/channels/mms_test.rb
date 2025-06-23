@@ -77,6 +77,33 @@ class Vonage::Messaging::Channels::MMSTest < Vonage::Test
     assert_match ":url is required in :message", exception.message
   end
 
+  def test_with_to_specified
+    to_number = '447900000000'
+    mms = Vonage::Messaging::Channels::MMS.new(type: 'image', message: { url: 'https://example.com/image.jpg' }, to: to_number)
+
+    assert_equal to_number, mms.data[:to]
+    assert_includes mms.data, :to
+  end
+
+  def test_with_from_specified
+    from_number = '447900000001'
+    mms = Vonage::Messaging::Channels::MMS.new(type: 'image', message: { url: 'https://example.com/image.jpg' }, from: from_number)
+
+    assert_equal from_number, mms.data[:from]
+    assert_includes mms.data, :from
+  end
+
+  def test_with_to_and_from_specified
+    to_number = '447900000000'
+    from_number = '447900000001'
+    mms = Vonage::Messaging::Channels::MMS.new(type: 'image', message: { url: 'https://example.com/image.jpg' }, to: to_number, from: from_number)
+
+    assert_equal to_number, mms.data[:to]
+    assert_equal from_number, mms.data[:from]
+    assert_includes mms.data, :to
+    assert_includes mms.data, :from
+  end
+
   def test_with_opts
     mms = Vonage::Messaging::Channels::MMS.new(type: 'image', message: { url: 'https://example.com/image.jpg' }, opts: { client_ref: 'abc123' })
 

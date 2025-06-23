@@ -341,26 +341,151 @@ client.applications.list(auto_advance: false)
 
 The [Vonage Messages API](https://developer.vonage.com/messages/overview) allows you to send messages over a number of different channels, and various message types within each channel. See the Vonage Developer Documentation for a [complete API reference](https://developer.vonage.com/en/api/messages) listing all the channel and message type combinations.
 
-The Ruby SDK allows you to construct message data for specific messaging channels. Other than SMS (which has only one type -- text), you need to pass the message `:type` as well as the `:message` itself as arguments to the appropriate messages method, along with any optional properties if needed.
+### Sending a Message
+
+The Ruby SDK implements a `Messaging` object which can be accessed via a `messaging` method on the `Client` object. The `Messaging` object has a `send` method which lets you send any message type via any channel.
 
 ```ruby
-# creating an SMS message
-message = Vonage::Messaging::Message.sms(message: 'Hello world!')
-
-# creating a WhatsApp Text message
-message = Vonage::Messaging::Message.whatsapp(type: 'text', message: 'Hello world!')
-
-# creating a WhatsApp Image message
-message = Vonage::Messaging::Message.whatsapp(type: 'image', message: { url: 'https://example.com/image.jpg' })
-
-# creating an MMS audio message with optional properties
-message = Vonage::Messaging::Message.mms(type: 'audio', message: { url: 'https://example.com/audio.mp3' }, opts: {client_ref: "abc123"})
+response = client.messaging.send(
+  # message data
+)
 ```
 
-Once the message data is created, you can then send the message.
+There are a number of ways in which you can pass the necessary message data to the method.
+
+**Using Keyword Arguments**
+
+You can pass the message properties and their values as keyword arguments to the method. For example:
 
 ```ruby
-response = client.messaging.send(to: "447700900000", from: "447700900001", **message)
+response = client.messaging.send(
+  to: '447700900000',
+  from: '447700900001',
+  channel: 'sms',
+  message_type: 'text',
+  text: 'Hello world!'
+)
+```
+
+**Spread a Hash**
+
+For more complex message structures, you can define the message as a Hash literal and then spread that Hash as keyword arguments by passing it to the `send` method using the double-splat opertator (`**`). For example:
+
+```ruby
+message = {
+  to: '447700900000',
+  from: '447700900001',
+  channel: 'mms',
+  message_type: 'image',
+  image: {
+    url: 'https://example.com/image.jpg',
+    caption: 'This is an image'
+  }
+}
+
+response = client.messaging.send(**message)
+```
+
+**Using a Combination of Keyword Arguments and Spread**
+
+You can use a combination of the above two approaches. This might be useful in situations where you want to iteratively send the same message to multiple recipients, for example:
+
+```ruby
+message = {
+  from: '447700900000',
+  channel: 'sms',
+  message_type: 'text',
+  text: 'Hello world!'
+}
+
+['447700900001', '447700900002', '447700900003'].each do |to_number|
+  client.messaging.send(to: to_number, **message)
+end
+```
+
+**Using Channel Convenience Methods**
+
+The Ruby SDK provides convenience methods for each channel which return a Hash object which you can then pass to the `send` method in the same way that you would with a Hash literal. As well as a simpler interface, the convenience methods also provide some basic validation.
+
+Other than SMS (which has only one type -- `text`), these methods require a `:type` argument, which defines the `message_type` of the message within that channel. They also require a `:message` argument, which defvines the message itself; this is a String in the case of `text` messages, and a Hash containing the appopriate properties for other message types (e.g. `image`). You can also optionally pass an `opts` arguments, the value of which should be a Hash which defines any other property that you want to include in the message.
+
+```ruby
+# Using the SMS method like this:
+message = client.messaging.sms(to: "447700900000", from: "447700900001", message: "Hello world!")
+
+# is the equivalent of using a Hash literal like this:
+message = {
+  channel: "sms",
+  to: "447700900000",
+  from: "447700900001",
+  message_type: "text",
+  text: "Hello world!"
+}
+```
+
+Once the message Hash is created, you can then pass it into the `send` method using the double-splat opertator (`**`).
+
+```ruby
+response = client.messaging.send(**message)
+```
+
+A few additional examples of using these convenience methods are shown below:
+
+
+```ruby
+# creating an RCS Text message
+message = client.messaging.rcs(to: "447700900000", from: "RCS-Agent", type: 'text', message: 'Hello world!')
+
+# creating a WhatsApp Text message
+message = client.messaging.whatsapp(to: "447700900000", from: "447700900001", type: 'text', message: 'Hello world!')
+
+# creating a WhatsApp Image message
+message = client.messaging.whatsapp(to: "447700900000", from: "447700900001", type: 'image', message: { url: 'https://example.com/image.jpg' })
+
+# creating an MMS audio message with optional properties
+message = client.messaging.mms(
+  to: "447700900000",
+  from: "447700900001",
+  type: 'audio',
+  message: { 
+    url: 'https://example.com/audio.mp3'
+  },
+  opts: {
+    client_ref: "abc123"
+  }
+)
+```
+
+You can choose to omit the `to` and/or `from` arguments from the convenience method calls and instead pass them in as keyword arguments during the `send` method invocation.
+
+```ruby
+message = client.messaging.sms(from: "447700900001", message: "Hello world!")
+
+['447700900001', '447700900002', '447700900003'].each do |to_number|
+  client.messaging.send(to: to_number, **message)
+end
+```
+
+### Sending a Message with Failover
+
+The Messages API lets you define one or more failover messages which will be sent if the initial message is rejected. In the Ruby SDK, this feature is implemented by passing a `failover` keyword argument during the invocation of the `send` method. The value of this argument must be an Array containing one or more Hash objects representing the failover message(s). For example:
+
+```ruby
+# Sending an RCS message with failover to SMS
+rcs_message = messaging.rcs(
+    to: '447900000000',
+    from: 'RCS-Agent',
+    type: 'text',
+    message: 'This is an RCS message. If you see this, RCS is working!'
+  )
+
+  sms_message = messaging.sms(
+    to: '447900000000',
+    from: 'Vonage',
+    message: 'This is a failover SMS message in case RCS fails.'
+  )
+
+  response = messaging.send(**rcs_message, failover: [sms_message])
 ```
 
 ## Verify API v2
