@@ -70,7 +70,7 @@ module Vonage
     end
 
     def next_workflow(request_id:)
-      request('/v2/verify/' + request_id + '/next-workflow', type: Post)
+      request('/v2/verify/' + request_id + '/next_workflow', type: Post)
     end
 
     # Instantiate a new Vonage::Verify2::StartVerificationOptions object
