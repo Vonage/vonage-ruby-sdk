@@ -160,7 +160,7 @@ class Vonage::Verify2Test < Vonage::Test
   end
 
   def test_next_workflow_method
-    stub_request(:post, uri + request_id + '/next-workflow').to_return(response)
+    stub_request(:post, uri + request_id + '/next_workflow').to_return(response)
 
     assert_kind_of Vonage::Response, verify2.next_workflow(request_id: request_id)
   end
