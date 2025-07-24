@@ -1,3 +1,7 @@
+# 7.30.1
+
+* Fixes an incorrect path in the `Verify2#next_workflow` method. See [#329](https://github.com/Vonage/vonage-ruby-sdk/pull/329).
+
 # 7.30.0
 
 * Implements the Failover feature in Messages API. [#327](https://github.com/Vonage/vonage-ruby-sdk/pull/327)
