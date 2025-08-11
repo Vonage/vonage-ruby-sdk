@@ -31,6 +31,7 @@ module Vonage
         end
 
       message = response.content_type.to_s.include?("json") ? set_message(response) : ""
+      message = response.body.to_s if message.empty?
 
       exception_class.new(message, http_response: response)
     end

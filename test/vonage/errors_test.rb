@@ -4,8 +4,11 @@ require_relative './test'
 class Vonage::ErrorsTest < Minitest::Test
   Errors = Vonage.const_get(:Errors)
 
-  def response(code)
-    Net::HTTPResponse::CODE_TO_OBJ[code.to_s].new(nil, code.to_s, nil)
+  def response(code, body = nil)
+    result = Net::HTTPResponse::CODE_TO_OBJ[code.to_s].new(nil, code.to_s, nil)
+    result.instance_variable_set(:@read, true)
+    result.body = body
+    result
   end
 
   def json_response(code, body)
@@ -34,6 +37,18 @@ class Vonage::ErrorsTest < Minitest::Test
     assert_kind_of Vonage::APIError, error
     assert_kind_of Net::HTTPClientError, error.http_response
     assert_equal "400", error.http_response_code
+    assert_kind_of Hash, error.http_response_headers
+    assert_kind_of Hash, error.http_response_body
+  end
+
+  def test_parse_with_422_non_json_response
+    error = Errors.parse(response(422, "random error message"))
+
+    assert_kind_of Vonage::ClientError, error
+    assert_kind_of Vonage::APIError, error
+    assert_kind_of Net::HTTPClientError, error.http_response
+    assert_equal "422", error.http_response_code
+    assert_equal "random error message", error.message
     assert_kind_of Hash, error.http_response_headers
     assert_kind_of Hash, error.http_response_body
   end
