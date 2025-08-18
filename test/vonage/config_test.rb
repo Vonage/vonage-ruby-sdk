@@ -69,4 +69,40 @@ class Vonage::ConfigTest < Vonage::Test
 
     assert_equal token, config.token
   end
+
+  def test_default_silent_logger
+    assert_silent { config.logger.debug('hey!') }
+  end
+
+  def test_rails_nil_logger
+    fake_rails = Class.new { def self.logger; end }
+
+    stub_const(Object, 'Rails', fake_rails) do
+      assert_silent { config.logger.debug('hey!') }
+    end
+  end
+
+  def test_rails_default_logger
+    fake_rails = Class.new do
+      def self.logger
+        ::Logger.new($stdout)
+      end
+    end
+
+    stub_const(Object, 'Rails', fake_rails) do
+      assert_output(/hey!/) { config.logger.debug('hey!') }
+    end
+  end
+
+  def test_rails_incompatible_logger
+    fake_rails = Class.new do
+      def self.logger
+        Object.new
+      end
+    end
+
+    stub_const(Object, 'Rails', fake_rails) do
+      assert_silent { config.logger.debug('hey') }
+    end
+  end
 end

@@ -111,7 +111,13 @@ The documentation outlines all the possible parameters you can use to customize 
 
 ### Logging
 
-Use the logger option to specify a logger. For example:
+The Vonage SDK supports logging with the default Ruby `Logger` implementation, or with custom implementations that inherit from `Vonage::Logger`.
+
+#### Logging in non-Rails applications
+
+By default logging in non-Rails application is disabled.
+
+To enable, use the `:logger` option to specify a logger. For example:
 
 ```ruby
 require 'logger'
@@ -121,9 +127,32 @@ logger = Logger.new(STDOUT)
 client = Vonage::Client.new(logger: logger)
 ```
 
-By default the library sets the logger to `Rails.logger` if it is defined.
+#### Logging in Rails
 
-To disable logging set the logger to `nil`.
+If your Rails application uses Ruby's `Logger` (which is the Rails default), the Vonage SDK will by default output to `Rails.logger`.
+
+To disable logging set the logger to `nil`. For example:
+
+```ruby
+client = Vonage::Client.new(logger: nil)
+```
+
+If your Rails app uses a non-default logger and you would like to have Vonage use it as well, wrap it in a new class that inherits from `Vonage::Logger` and pass the newly defined logger to the Vonage client. For example:
+
+```ruby
+# lib/vonage_semantic_logger_adapter.rb
+
+class VonageSemanticLoggerAdapter < Vonage::Logger
+  sig { params(logger: SemanticLogger::Logger).void }
+  def initialize(logger)
+    @logger = logger
+  end
+end
+```
+
+```ruby
+client = Vonage::Client.new(logger: VonageSemanticLoggerAdapter.new(SemanticLogger[Vonage]))
+```
 
 ### Exceptions
 

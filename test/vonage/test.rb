@@ -434,6 +434,19 @@ module Vonage
       'abcdefg'
     end
 
+    def stub_const(mod, constant, new_value)
+      if mod.const_defined?(constant)
+        raise NameError, "already defined constant #{constant} in #{mod.name}"
+      end
+
+      begin
+        mod.const_set(constant, new_value)
+        yield
+      ensure
+        mod.send(:remove_const, constant)
+      end
+    end
+
     alias_method :call_uuid, :call_id
   end
 end
