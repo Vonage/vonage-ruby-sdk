@@ -1,3 +1,7 @@
+# 7.30.2
+
+* Removes type signatures for `Logger` setter and initialization methods. See [#333](https://github.com/Vonage/vonage-ruby-sdk/pull/333)
+
 # 7.30.1
 
 * Fixes an incorrect path in the `Verify2#next_workflow` method. See [#329](https://github.com/Vonage/vonage-ruby-sdk/pull/329).
