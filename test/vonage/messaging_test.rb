@@ -43,7 +43,7 @@ class Vonage::MessagingTest < Vonage::Test
     assert_kind_of Vonage::Response, messaging.send(to: "447700900000", from: "447700900001", **message)
   end
 
-  def test_send_method_for_sms_with_optional_params
+  def test_send_method_with_optional_params
     request_params = {
       to: "447700900000",
       from: "447700900001",

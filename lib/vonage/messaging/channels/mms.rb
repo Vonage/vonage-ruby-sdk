@@ -2,7 +2,7 @@
 
 module Vonage
   class Messaging::Channels::MMS < Messaging::Message
-    MESSAGE_TYPES = ['image', 'vcard', 'audio', 'video']
+    MESSAGE_TYPES = ['text', 'image', 'vcard', 'audio', 'video', 'file', 'content'].freeze
 
     attr_reader :data
 
@@ -29,8 +29,16 @@ module Vonage
     end
 
     def verify_message
-      raise Vonage::ClientError.new(":message must be a Hash") unless message.is_a? Hash
-      raise Vonage::ClientError.new(":url is required in :message") unless message[:url]
+      case type
+      when 'text'
+        raise Vonage::ClientError.new("Invalid parameter type. `:message` must be a String") unless message.is_a? String
+      when 'content'
+        raise Vonage::ClientError.new("Invalid parameter type. `:message` must be an Array") unless message.is_a? Array
+        raise Vonage::ClientError.new("Invalid parameter content. `:message` must not be empty") if message.empty?
+      else
+        raise Vonage::ClientError.new("Invalid parameter type. `:message` must be a Hash") unless message.is_a? Hash
+        raise Vonage::ClientError.new("Missing parameter. `:message` must contain a `:url` key") unless message[:url]
+      end
     end
   end
 end

@@ -9,6 +9,13 @@ class Vonage::Messaging::Channels::MMSTest < Vonage::Test
     assert_equal mms.data, { channel: 'mms', message_type: 'image', image: { url: 'https://example.com/image.jpg' } }
   end
 
+  def test_with_valid_type_text_specified
+    mms = Vonage::Messaging::Channels::MMS.new(type: 'text', message: 'Hello world!')
+
+    assert_equal 'text', mms.data[:message_type]
+    assert_includes mms.data, :text
+  end
+
   def test_with_valid_type_image_specified
     mms = Vonage::Messaging::Channels::MMS.new(type: 'image', message: { url: 'https://example.com/image.jpg' })
 
@@ -37,9 +44,23 @@ class Vonage::Messaging::Channels::MMSTest < Vonage::Test
     assert_includes mms.data, :video
   end
 
+  def test_with_valid_type_file_specified
+    mms = Vonage::Messaging::Channels::MMS.new(type: 'file', message: { url: 'https://example.com/file.pdf' })
+
+    assert_equal 'file', mms.data[:message_type]
+    assert_includes mms.data, :file
+  end
+
+  def test_with_valid_type_content_specified
+    mms = Vonage::Messaging::Channels::MMS.new(type: 'content', message: [{ type: "image", url: 'https://example.com/image.jpg' }])
+
+    assert_equal 'content', mms.data[:message_type]
+    assert_includes mms.data, :content
+  end
+
   def test_with_invalid_type_specified
     exception = assert_raises {
-      Vonage::Messaging::Channels::MMS.new(type: 'text', message: { url: 'https://example.com/video.mp4' })
+      Vonage::Messaging::Channels::MMS.new(type: 'foo', message: { url: 'https://example.com/video.mp4' })
     }
 
     assert_instance_of Vonage::ClientError, exception
@@ -58,7 +79,7 @@ class Vonage::Messaging::Channels::MMSTest < Vonage::Test
     }
 
     assert_instance_of Vonage::ClientError, exception
-    assert_match ":message must be a Hash", exception.message
+    assert_match "Invalid parameter type. `:message` must be a Hash", exception.message
   end
 
   def test_with_caption
@@ -74,7 +95,7 @@ class Vonage::Messaging::Channels::MMSTest < Vonage::Test
     }
 
     assert_instance_of Vonage::ClientError, exception
-    assert_match ":url is required in :message", exception.message
+    assert_match "Missing parameter. `:message` must contain a `:url` key", exception.message
   end
 
   def test_with_to_specified
