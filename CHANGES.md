@@ -1,3 +1,10 @@
+# 7.31.0
+
+* Updates Messages API implementation to add new RCS and MMS types. See [#335](https://github.com/Vonage/vonage-ruby-sdk/pull/335)
+* Updates Video API implementation to add support for quantizationParameter. See [#336](https://github.com/Vonage/vonage-ruby-sdk/pull/336)
+* Updates Voice API implementation to update talk, stream, and connect (SIP) NCCOs. See [#337](https://github.com/Vonage/vonage-ruby-sdk/pull/337)
+* Updates Number Insight API implementation to change auth method to Basic and to deprecate v2. See [#338](https://github.com/Vonage/vonage-ruby-sdk/pull/338)
+
 # 7.30.2
 
 * Removes type signatures for `Logger` setter and initialization methods. See [#333](https://github.com/Vonage/vonage-ruby-sdk/pull/333)
