@@ -30,7 +30,10 @@ class Vonage::Messaging::Channels::RCSTest < Vonage::Test
       text: 'Hello world!',
       ttl: 600,
       client_ref: "abc123",
-      webhook_url: "https://example.com/status"
+      webhook_url: "https://example.com/status",
+      rcs: {
+        category: 'transaction'
+      }
     }
 
     message = Vonage::Messaging::Channels::RCS.new(
@@ -39,7 +42,10 @@ class Vonage::Messaging::Channels::RCSTest < Vonage::Test
       opts: {
         ttl: 600,
         client_ref: "abc123",
-        webhook_url: "https://example.com/status"
+        webhook_url: "https://example.com/status",
+        rcs: {
+          category: 'transaction'
+        }
       }
     )
 
