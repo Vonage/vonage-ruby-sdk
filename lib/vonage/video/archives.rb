@@ -59,7 +59,9 @@ module Vonage
     #
     # @param [optional, String] :multi_archive_tag
     #
-    # @param [optional, String] :max_bitrate
+    # @param [optional, Number] :max_bitrate
+    #
+    # @param [optional, Number] :quantization_parameter
     #
     # @param [optional, Hash] :layout
     #
