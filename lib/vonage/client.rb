@@ -71,7 +71,7 @@ module Vonage
     end
 
     # @return [Meetings]
-    #
+    # @deprecated
     sig { returns(T.nilable(Vonage::Meetings)) }
     def meetings
       @meetings ||= T.let(Meetings.new(config), T.nilable(Vonage::Meetings))
@@ -113,7 +113,7 @@ module Vonage
     end
 
     # @return [NumberInsight2]
-    #
+    # @deprecated
     sig { returns(T.nilable(Vonage::NumberInsight2)) }
     def number_insight_2
       @number_insight_2 ||= T.let(NumberInsight2.new(config), T.nilable(Vonage::NumberInsight2))
@@ -134,7 +134,7 @@ module Vonage
     end
 
     # @return [ProactiveConnect]
-    #
+    # @deprecated
     sig { returns(T.nilable(Vonage::ProactiveConnect)) }
     def proactive_connect
       @proactive_connect ||= T.let(ProactiveConnect.new(config), T.nilable(Vonage::ProactiveConnect))
