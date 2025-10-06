@@ -52,6 +52,15 @@ class Vonage::SMSTest < Vonage::Test
     assert_kind_of Vonage::Response, error.response
   end
 
+  def test_send_method_with_trusted_number_param
+    method_params = {from: 'Ruby', to: msisdn, text: 'Hello from Ruby!', trusted_number: true}
+    request_params = {from: 'Ruby', to: msisdn, text: 'Hello from Ruby!', 'trusted-number' => true}
+
+    stub_request(:post, uri).with(headers: headers, body: request_params.merge(api_key_and_secret)).to_return(response, error_response)
+
+    assert_kind_of Vonage::Response, sms.send(method_params)
+  end
+
   def test_mapping_underscored_keys_to_hyphenated_string_keys
     params = {'status-report-req' => '1', 'text' => 'Hey'}
 

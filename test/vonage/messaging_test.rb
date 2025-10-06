@@ -43,6 +43,43 @@ class Vonage::MessagingTest < Vonage::Test
     assert_kind_of Vonage::Response, messaging.send(to: "447700900000", from: "447700900001", **message)
   end
 
+  def test_send_method_with_optional_params
+    request_params = {
+      to: "447700900000",
+      from: "447700900001",
+      channel: "sms",
+      message_type: "text",
+      text: "Hello world!",
+      client_ref: "1234",
+      ttl: 900000,
+      trusted_sender: true,
+      sms: {
+        encoding_type: "text",
+        content_id: "1107457532145798767",
+        entity_id: "1101456324675322134",
+        pool_id: "abc123"
+      }
+    }
+
+    opts = {
+      client_ref: "1234",
+      ttl: 900000,
+      trusted_sender: true,
+      sms: {
+        encoding_type: "text",
+        content_id: "1107457532145798767",
+        entity_id: "1101456324675322134",
+        pool_id: "abc123"
+      }
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: request_params)).to_return(response)
+
+    message = messaging.sms(message: "Hello world!", opts: opts)
+
+    assert_kind_of Vonage::Response, messaging.send(to: "447700900000", from: "447700900001", **message)
+  end
+
   def test_send_method_without_to
     assert_raises(ArgumentError) { messaging.send(from: "447700900001", channel: 'sms', message_type: 'text', text: "Hello world!") }
   end

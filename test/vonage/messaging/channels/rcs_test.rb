@@ -30,7 +30,10 @@ class Vonage::Messaging::Channels::RCSTest < Vonage::Test
       text: 'Hello world!',
       ttl: 600,
       client_ref: "abc123",
-      webhook_url: "https://example.com/status"
+      webhook_url: "https://example.com/status",
+      rcs: {
+        category: 'transaction'
+      }
     }
 
     message = Vonage::Messaging::Channels::RCS.new(
@@ -39,7 +42,41 @@ class Vonage::Messaging::Channels::RCSTest < Vonage::Test
       opts: {
         ttl: 600,
         client_ref: "abc123",
-        webhook_url: "https://example.com/status"
+        webhook_url: "https://example.com/status",
+        rcs: {
+          category: 'transaction'
+        }
+      }
+    )
+
+    assert_equal expected, message.data
+  end
+
+  def test_rcs_text_message_wth_suggestions
+    expected = {
+      channel: 'rcs',
+      message_type: 'text',
+      text: 'Hello world!',
+      suggestions: [
+        {
+          type: 'reply',
+          text: 'Yes',
+          postback: 'question_1_yes'
+        }
+      ]
+    }
+
+    message = Vonage::Messaging::Channels::RCS.new(
+      type: 'text',
+      message: 'Hello world!',
+      opts: {
+        suggestions: [
+          {
+            type: 'reply',
+            text: 'Yes',
+            postback: 'question_1_yes'
+          }
+        ]
       }
     )
 
@@ -97,6 +134,221 @@ class Vonage::Messaging::Channels::RCSTest < Vonage::Test
       type: 'file',
       message: {
         url: 'https://example.com/file.pdf'
+      }
+    )
+
+    assert_equal expected, message.data
+  end
+
+  def test_rcs_card_message
+    expected = {
+      channel: 'rcs',
+      message_type: 'card',
+      card: {
+        title: 'Card Title',
+        text: 'Card Description',
+        media_url:  'https://example.com/image.jpg',
+        suggestions: [
+          {
+            type: 'reply',
+            text: 'Yes',
+            postback_data: 'question_1_yes'
+          }
+        ]
+      },
+      rcs: {
+        card_orientation: 'VERTICAL',
+        image_alignment: 'LEFT'
+      }
+    }
+
+    message = Vonage::Messaging::Channels::RCS.new(
+      type: 'card',
+      message: {
+        title: 'Card Title',
+        text: 'Card Description',
+        media_url:  'https://example.com/image.jpg',
+        suggestions: [
+          {
+            type: 'reply',
+            text: 'Yes',
+            postback_data: 'question_1_yes'
+          }
+        ]
+      },
+      opts: {
+        rcs: {
+          card_orientation: 'VERTICAL',
+          image_alignment: 'LEFT'
+        }
+      }
+    )
+
+    assert_equal expected, message.data
+  end
+
+  def test_rcs_carousel_message
+    expected = {
+      channel: 'rcs',
+      message_type: 'carousel',
+      carousel: {
+        cards: [
+          {
+            title: 'Card Title 1',
+            text: 'Card Description 1',
+            media_url:  'https://example.com/image1.jpg',
+            suggestions: [
+              {
+                type: 'reply',
+                text: 'Yes',
+                postback_data: 'question_1_yes'
+              }
+            ]
+          },
+          {
+            title: 'Card Title 2',
+            text: 'Card Description 2',
+            media_url:  'https://example.com/image2.jpg',
+            suggestions: [
+              {
+                type: 'reply',
+                text: 'No',
+                postback_data: 'question_1_no'
+              }
+            ]
+          }
+        ]
+      },
+      rcs: {
+        card_width: 'SMALL'
+      }
+    }
+
+    message = Vonage::Messaging::Channels::RCS.new(
+      type: 'carousel',
+      message: {
+        cards: [
+          {
+            title: 'Card Title 1',
+            text: 'Card Description 1',
+            media_url:  'https://example.com/image1.jpg',
+            suggestions: [
+              {
+                type: 'reply',
+                text: 'Yes',
+                postback_data: 'question_1_yes'
+              }
+            ]
+          },
+          {
+            title: 'Card Title 2',
+            text: 'Card Description 2',
+            media_url:  'https://example.com/image2.jpg',
+            suggestions: [
+              {
+                type: 'reply',
+                text: 'No',
+                postback_data: 'question_1_no'
+              }
+            ]
+          }
+        ]
+      },
+      opts: {
+        rcs: {
+          card_width: 'SMALL'
+        }
+      }
+    )
+
+    assert_equal expected, message.data
+  end
+
+  def test_rcs_carousel_message_with_suggestions
+    expected = {
+      channel: 'rcs',
+      message_type: 'carousel',
+      carousel: {
+        cards: [
+          {
+            title: 'Card Title 1',
+            text: 'Card Description 1',
+            media_url:  'https://example.com/image1.jpg',
+            suggestions: [
+              {
+                type: 'reply',
+                text: 'Yes',
+                postback_data: 'question_1_yes'
+              }
+            ]
+          },
+          {
+            title: 'Card Title 2',
+            text: 'Card Description 2',
+            media_url:  'https://example.com/image2.jpg',
+            suggestions: [
+              {
+                type: 'reply',
+                text: 'No',
+                postback_data: 'question_1_no'
+              }
+            ]
+          }
+        ]
+      },
+      rcs: {
+        card_width: 'SMALL'
+      },
+      suggestions: [
+        {
+          type: 'reply',
+          text: 'Maybe',
+          postback_data: 'question_1_maybe'
+        }
+      ]
+    }
+
+    message = Vonage::Messaging::Channels::RCS.new(
+      type: 'carousel',
+      message: {
+        cards: [
+          {
+            title: 'Card Title 1',
+            text: 'Card Description 1',
+            media_url:  'https://example.com/image1.jpg',
+            suggestions: [
+              {
+                type: 'reply',
+                text: 'Yes',
+                postback_data: 'question_1_yes'
+              }
+            ]
+          },
+          {
+            title: 'Card Title 2',
+            text: 'Card Description 2',
+            media_url:  'https://example.com/image2.jpg',
+            suggestions: [
+              {
+                type: 'reply',
+                text: 'No',
+                postback_data: 'question_1_no'
+              }
+            ]
+          }
+        ]
+      },
+      opts: {
+        rcs: {
+          card_width: 'SMALL'
+        },
+        suggestions: [
+          {
+            type: 'reply',
+            text: 'Maybe',
+            postback_data: 'question_1_maybe'
+          }
+        ]
       }
     )
 
