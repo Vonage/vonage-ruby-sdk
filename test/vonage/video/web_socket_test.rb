@@ -40,7 +40,8 @@ class Vonage::Video::WebSocketTest < Vonage::Test
         uri: 'wss://example.com/ws-endpoint',
         streams: ['stream1', 'stream2'],
         headers: { property1: 'foo', property2: 'bar' },
-        audioRate: 16000
+        audioRate: 16000,
+        bidirectional: true
       }
     }
 
@@ -53,7 +54,8 @@ class Vonage::Video::WebSocketTest < Vonage::Test
         uri: 'wss://example.com/ws-endpoint',
         streams: ['stream1', 'stream2'],
         headers: { property1: 'foo', property2: 'bar' },
-        audio_rate: 16000
+        audio_rate: 16000,
+        bidirectional: true
       }
     )
 
