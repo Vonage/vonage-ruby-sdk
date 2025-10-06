@@ -30,6 +30,44 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     assert_equal expected, connect.create_endpoint(connect)
   end
 
+  def test_create_endpoint_with_sip_uri
+    expected = { type: 'sip', uri: 'sip:joe@domain.com' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'sip', uri: 'sip:joe@domain.com' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_sip_user_and_domain
+    expected = { type: 'sip', user: 'joe', domain: 'domain.com' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'sip', user: 'joe', domain: 'domain.com' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_verify_endpoint_with_mutually_exclusive_sip_params
+    endpoint = { type: 'sip', uri: 'sip:joe@domain.com', user: 'joe', domain: 'domain.com' }
+
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: endpoint) }
+
+    assert_match "`uri` must not be combined with `user` and `domain`", exception.message
+  end
+
+  def test_verify_endpoint_with_user_but_no_domain_sip_params
+    endpoint = { type: 'sip', user: 'joe' }
+
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: endpoint) }
+
+    assert_match "You must provide both `user` and `domain`", exception.message
+  end
+
+  def test_verify_endpoint_with_domain_but_no_user_sip_params
+    endpoint = { type: 'sip', domain: 'domain.com' }
+
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: endpoint) }
+
+    assert_match "You must provide both `user` and `domain`", exception.message
+  end
+
   def test_verify_endpoint_with_invalid_phone_number
     endpoint = { type: 'phone', number: 'abcd' }
 

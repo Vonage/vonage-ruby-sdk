@@ -67,7 +67,9 @@ module Vonage
         raise ClientError.new("Expected 'uri' value to be a valid URI") unless URI.parse(endpoint[:uri]).kind_of?(URI::Generic)
         raise ClientError.new("Expected 'content-type' parameter to be either 'audio/116;rate=16000' or 'audio/116;rate=8000") unless endpoint[:'content-type'] == 'audio/116;rate=16000' || endpoint[:'content-type'] == 'audio/116;rate=8000'
       when 'sip'
-        raise ClientError.new("Expected 'uri' value to be a valid URI") unless URI.parse(endpoint[:uri]).kind_of?(URI::Generic)
+        raise ClientError.new("Expected 'uri' value to be a valid URI") unless URI.parse(endpoint[:uri]).kind_of?(URI::Generic) if endpoint[:uri]
+        raise ClientError.new("`uri` must not be combined with `user` and `domain`") if endpoint[:uri] && (endpoint[:user] || endpoint[:domain])
+        raise ClientError.new("You must provide both `user` and `domain`") if (endpoint[:user] && !endpoint[:domain]) || (endpoint[:domain] && !endpoint[:user])
       end
     end
 
@@ -208,10 +210,12 @@ module Vonage
 
     def sip_endpoint(endpoint_attrs)
       hash = {
-        type: 'sip',
-        uri: endpoint_attrs[:uri]
+        type: 'sip'
       }
 
+      hash.merge!(uri: endpoint_attrs[:uri]) if endpoint_attrs[:uri]
+      hash.merge!(user: endpoint_attrs[:user]) if endpoint_attrs[:user]
+      hash.merge!(domain: endpoint_attrs[:domain]) if endpoint_attrs[:domain]
       hash.merge!(headers: endpoint_attrs[:headers]) if endpoint_attrs[:headers]
       hash.merge!(standardHeaders: endpoint_attrs[:standardHeaders]) if endpoint_attrs[:standardHeaders]
 
