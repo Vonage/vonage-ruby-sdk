@@ -107,12 +107,6 @@ module Vonage
       @streams ||= Streams.new(@config)
     end
 
-    # @return [Streams]
-    #
-    def streams
-      @streams ||= Streams.new(@config)
-    end
-
     # @return [Connections]
     #
     def connections
