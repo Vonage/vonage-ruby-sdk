@@ -398,6 +398,10 @@ module Vonage
       "CON-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
     end
 
+    def conversation_leg_uuid
+      "aaaaaaaa-bbbb-4ccc-8ddd-0123456789ab"
+    end
+
     def call_id
       "CALL-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
     end

@@ -4,7 +4,7 @@
 
 module Vonage
   class Voice::Actions::Wait
-    attr_accessor :timeout, :eventUrl, :eventMethod
+    attr_accessor :timeout
 
     def initialize(attributes = {})
       @timeout = attributes.fetch(:timeout, nil)
