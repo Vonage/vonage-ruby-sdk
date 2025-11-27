@@ -30,6 +30,39 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     assert_equal expected, connect.create_endpoint(connect)
   end
 
+  def test_create_endpoint_with_websocket
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_websocket_with_audio_rate_8000
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_websocket_with_audio_rate_16000
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=16000' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=16000' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_websocket_with_audio_rate_24000
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=24000' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=24000' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def create_endpoint_with_websocket_with_invalid_audio_rate
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=32000' }) }
+    assert_match "Expected 'content-type' parameter to be either 'audio/l16;rate=16000', 'audio/l16;rate=8000', or 'audio/l16;rate=24000'", exception.message
+  end
+
   def test_create_endpoint_with_sip_uri
     expected = { type: 'sip', uri: 'sip:joe@domain.com' }
     connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'sip', uri: 'sip:joe@domain.com' })
