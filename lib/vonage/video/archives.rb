@@ -71,6 +71,14 @@ module Vonage
     #
     # @option layout [optional, String] :screenshareType
     #
+    # @param [optional, Boolean] :has_transcription
+    #
+    # @param [optional, Hash] :transcription_properties
+    #
+    # @option transcription_properties [optional, String] :primaryLanguageCode
+    #
+    # @option transcription_properties [optional, Boolean] :hasSummary
+    #
     # @return [Response]
     #
     # @see TODO: add docs link
