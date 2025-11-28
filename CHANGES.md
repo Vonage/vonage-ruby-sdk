@@ -1,3 +1,8 @@
+# 7.32.0
+
+* Updates Video API implementation to add support for support for the `hasTranscription` and `transcriptionProperties` parameters and implement list connections functionality. See [#340](https://github.com/Vonage/vonage-ruby-sdk/pull/340)
+* Updates Voice API implementation to add new `wait` aqnd `transfer` NCCOs and add suport for 24K audio in the `connect` NCCO. See [#341](https://github.com/Vonage/vonage-ruby-sdk/pull/341)
+
 # 7.31.0
 
 * Updates Messages API implementation to add new RCS and MMS types. See [#335](https://github.com/Vonage/vonage-ruby-sdk/pull/335)
