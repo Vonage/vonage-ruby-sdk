@@ -18,6 +18,10 @@ class Vonage::SubaccountsTest < Vonage::Test
     'vonage-subaccount-api-key'
   end
 
+  def authorization
+    basic_authorization
+  end
+
   def test_list_method
     stub_request(:get, subaccounts_uri).to_return(subaccounts_list_response)
 
@@ -42,13 +46,13 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_create_method
-    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo" }, auth: basic_authorization)).to_return(response)
+    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo" })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.create(name: "Foo")
   end
 
   def test_create_method_with_optional_params
-    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo", secret: "Password123", use_primary_account_balance: false }, auth: basic_authorization)).to_return(response)
+    stub_request(:post, subaccounts_uri).with(request(body: { name: "Foo", secret: "Password123", use_primary_account_balance: false })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.create(name: "Foo", secret: "Password123", use_primary_account_balance: false)
   end
@@ -60,7 +64,7 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_update_method
-    stub_request(:patch, "#{subaccounts_uri}/#{subaccount_api_key}").with(request(body: { name: "Bar" }, auth: basic_authorization)).to_return(response)
+    stub_request(:patch, "#{subaccounts_uri}/#{subaccount_api_key}").with(request(body: { name: "Bar" })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.update(subaccount_key: subaccount_api_key, name: "Bar")
   end
@@ -73,7 +77,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_credit_transfers_method
     query = "?start_date=2023-06-15T15:53:50Z"
-    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request(auth: basic_authorization)).to_return(credit_transfers_list_response)
+    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request).to_return(credit_transfers_list_response)
 
     credit_transfers_list = subaccounts.list_credit_transfers(start_date: "2023-06-15T15:53:50Z")
 
@@ -83,7 +87,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_credit_transfers_method_with_optional_params
     query = "?start_date=2023-06-15T15:53:50Z&subaccount=abc123"
-    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request(auth: basic_authorization)).to_return(credit_transfers_list_response_filtered)
+    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request).to_return(credit_transfers_list_response_filtered)
 
     credit_transfers_list = subaccounts.list_credit_transfers(start_date: "2023-06-15T15:53:50Z", subaccount: 'abc123')
 
@@ -93,7 +97,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_credit_transfers_method_without_start_date_uses_default
     query = "?start_date=1970-01-01T00:00:00Z"
-    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request(auth: basic_authorization)).to_return(credit_transfers_list_response)
+    stub_request(:get, "#{accounts_uri}/credit-transfers#{query}").with(request).to_return(credit_transfers_list_response)
 
     credit_transfers_list = subaccounts.list_credit_transfers
 
@@ -102,13 +106,13 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_transfer_credit_method
-    stub_request(:post, "#{accounts_uri}/credit-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45" }, auth: basic_authorization)).to_return(response)
+    stub_request(:post, "#{accounts_uri}/credit-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45" })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_credit(from: "abc123", to: "def456", amount: "123.45")
   end
 
   def test_transfer_credit_method_with_optional_params
-    stub_request(:post, "#{accounts_uri}/credit-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45", reference: "Foo" }, auth: basic_authorization)).to_return(response)
+    stub_request(:post, "#{accounts_uri}/credit-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45", reference: "Foo" })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_credit(from: "abc123", to: "def456", amount: "123.45", reference: "Foo" )
   end
@@ -133,7 +137,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_balance_transfers_method
     query = "?start_date=2023-06-15T15:53:50Z"
-    stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request(auth: basic_authorization)).to_return(balance_transfers_list_response)
+    stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request).to_return(balance_transfers_list_response)
 
     balance_transfers_list = subaccounts.list_balance_transfers(start_date: "2023-06-15T15:53:50Z")
 
@@ -143,7 +147,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_balance_transfers_method_with_optional_params
     query = "?start_date=2023-06-15T15:53:50Z&subaccount=abc123"
-    stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request(auth: basic_authorization)).to_return(balance_transfers_list_response_filtered)
+    stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request).to_return(balance_transfers_list_response_filtered)
 
     balance_transfers_list = subaccounts.list_balance_transfers(start_date: "2023-06-15T15:53:50Z", subaccount: 'abc123')
 
@@ -153,7 +157,7 @@ class Vonage::SubaccountsTest < Vonage::Test
 
   def test_list_balance_transfers_method_without_start_date_uses_default
     query = "?start_date=1970-01-01T00:00:00Z"
-    stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request(auth: basic_authorization)).to_return(balance_transfers_list_response)
+    stub_request(:get, "#{accounts_uri}/balance-transfers#{query}").with(request).to_return(balance_transfers_list_response)
 
     balance_transfers_list = subaccounts.list_balance_transfers
 
@@ -162,13 +166,13 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_transfer_balance_method
-    stub_request(:post, "#{accounts_uri}/balance-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45" }, auth: basic_authorization)).to_return(response)
+    stub_request(:post, "#{accounts_uri}/balance-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45" })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_balance(from: "abc123", to: "def456", amount: "123.45")
   end
 
   def test_transfer_balance_method_with_optional_params
-    stub_request(:post, "#{accounts_uri}/balance-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45", reference: "Foo" }, auth: basic_authorization)).to_return(response)
+    stub_request(:post, "#{accounts_uri}/balance-transfers").with(request(body: { from: "abc123", to: "def456", amount: "123.45", reference: "Foo" })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_balance(from: "abc123", to: "def456", amount: "123.45", reference: "Foo" )
   end
@@ -192,7 +196,7 @@ class Vonage::SubaccountsTest < Vonage::Test
   end
 
   def test_transfer_number_method
-    stub_request(:post, "#{accounts_uri}/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696, country: 'GB' }, auth: basic_authorization)).to_return(response)
+    stub_request(:post, "#{accounts_uri}/transfer-number").with(request(body: { from: "abc123", to: "def456", number: 23507703696, country: 'GB' })).to_return(response)
 
     assert_kind_of Vonage::Response, subaccounts.transfer_number(from: "abc123", to: "def456", number: 23507703696, country: 'GB')
   end
