@@ -6,6 +6,10 @@ class Vonage::AccountTest < Vonage::Test
     Vonage::Account.new(config)
   end
 
+  def authorization
+    basic_authorization
+  end
+
   def test_balance_method
     uri = 'https://rest.nexmo.com/account/get-balance'
 
