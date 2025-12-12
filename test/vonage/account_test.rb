@@ -9,7 +9,7 @@ class Vonage::AccountTest < Vonage::Test
   def test_balance_method
     uri = 'https://rest.nexmo.com/account/get-balance'
 
-    stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
+    stub_request(:get, uri).with(request).to_return(response)
 
     assert_kind_of Vonage::Response, account.balance
   end
@@ -21,7 +21,7 @@ class Vonage::AccountTest < Vonage::Test
 
     params = {'moCallBackUrl' => callback_url}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(response)
 
     assert_kind_of Vonage::Response, account.update(mo_call_back_url: callback_url)
   end
@@ -31,7 +31,7 @@ class Vonage::AccountTest < Vonage::Test
 
     params = {trx: '00X123456Y7890123Z'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(response)
 
     assert_kind_of Vonage::Response, account.topup(params)
   end
