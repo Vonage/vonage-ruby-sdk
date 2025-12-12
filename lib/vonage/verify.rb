@@ -8,6 +8,8 @@ module Vonage
 
     private :http_request
 
+    self.authentication = Basic
+
     # Generate and send a PIN to your user.
     #
     # @note You can make a maximum of one Verify request per second.
