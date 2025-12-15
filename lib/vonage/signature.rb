@@ -17,6 +17,7 @@ module Vonage
     #   client.config.signature_secret = 'secret'
     #   client.config.signature_method = 'sha512'
     #   params = {
+    #     'api_key' => 'abc123',
     #     'to' => '447900000000',
     #     'from' => '447900000001',
     #     'text' => 'Hello World',

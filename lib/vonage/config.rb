@@ -109,6 +109,9 @@ module Vonage
     sig { returns(T.nilable(String)) }
     attr_accessor :app_version
 
+    sig { returns(T.nilable(Symbol)) }
+    attr_accessor :authentication_preference
+
     # Returns the value of attribute http.
     #
     # @return [Vonage::HTTP::Options]
