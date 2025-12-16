@@ -61,7 +61,7 @@ module Vonage
     private
 
     def digest(params, signature_secret, signature_method)
-      digest_string = params.sort.map { |k, v| "&#{k}=#{v.tr('&=', '_')}" }.join
+      digest_string = params.sort.map { |k, v| "&#{k}=#{v.to_s.tr('&=', '_')}" }.join
 
       case signature_method
       when 'md5', 'sha1', 'sha256', 'sha512'
