@@ -1,3 +1,7 @@
+# 7.33.0
+
+* Updates SMS API, Verify v1 API, Number Insight v1 API, Account API, and Conversion API to support Basic Authentication. See [#343](https://github.com/Vonage/vonage-ruby-sdk/pull/343)
+
 # 7.32.0
 
 * Updates Video API implementation to add support for support for the `hasTranscription` and `transcriptionProperties` parameters and implement list connections functionality. See [#340](https://github.com/Vonage/vonage-ruby-sdk/pull/340)
