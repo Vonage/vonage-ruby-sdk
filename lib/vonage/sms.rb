@@ -6,6 +6,8 @@ module Vonage
     extend T::Sig
     include Keys
 
+    self.authentication = BasicAndSignature
+
     self.host = :rest_host
 
     # Send an outbound SMS from your Vonage account.

@@ -112,8 +112,8 @@ module Vonage
       "api-eu.vonage.com"
     end
 
-    def request(body: nil, query: nil, headers: {}, auth: nil)
-      headers['Authorization'] = auth || authorization
+    def request(body: nil, query: nil, headers: {})
+      headers['Authorization'] = authorization
       if body
         headers['Content-Type'] = 'application/json' unless headers.has_key?('Content-Type')
       end

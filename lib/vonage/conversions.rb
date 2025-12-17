@@ -6,6 +6,8 @@ module Vonage
     extend T::Sig
     include Keys
 
+    self.authentication = BasicAndSignature
+
     sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def track_sms(params)
       request('/conversions/sms', params: hyphenate(params), type: Post)

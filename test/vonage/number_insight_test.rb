@@ -6,6 +6,10 @@ class Vonage::NumberInsightTest < Vonage::Test
     Vonage::NumberInsight.new(config)
   end
 
+  def authorization
+    basic_authorization
+  end
+
   def params
     {number: msisdn}
   end
@@ -27,8 +31,8 @@ class Vonage::NumberInsightTest < Vonage::Test
   def test_basic_method
     uri = 'https://api.nexmo.com/ni/basic/json'
 
-    stub_request(:get, uri).with(query: params).to_return(response, error_response)
-
+    stub_request(:get, uri).with(request(query: params)).to_return(response, error_response)
+    
     assert_kind_of Vonage::Response, number_insight.basic(params)
 
     error = assert_raises Vonage::ServiceError do
@@ -42,7 +46,7 @@ class Vonage::NumberInsightTest < Vonage::Test
   def test_standard_method
     uri = 'https://api.nexmo.com/ni/standard/json'
 
-    stub_request(:get, uri).with(query: params).to_return(response, error_response)
+    stub_request(:get, uri).with(request(query: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, number_insight.standard(params)
 
@@ -57,7 +61,7 @@ class Vonage::NumberInsightTest < Vonage::Test
   def test_advanced_method
     uri = 'https://api.nexmo.com/ni/advanced/json'
 
-    stub_request(:get, uri).with(query: params).to_return(response, error_response)
+    stub_request(:get, uri).with(request(query: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, number_insight.advanced(params)
 
@@ -72,7 +76,7 @@ class Vonage::NumberInsightTest < Vonage::Test
   def test_advanced_async_method
     uri = 'https://api.nexmo.com/ni/advanced/async/json'
 
-    stub_request(:get, uri).with(query: params).to_return(response, error_response)
+    stub_request(:get, uri).with(request(query: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, number_insight.advanced_async(params)
 
