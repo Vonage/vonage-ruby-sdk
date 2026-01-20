@@ -23,6 +23,13 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     assert_equal expected, connect.create_endpoint(connect)
   end
 
+  def test_create_endpoint_with_phone_and_shaken_param
+    expected = { type: 'phone', number: '12129999999', shaken: "eyJhbGciOiJFUzI1NiIsInBwdCI6InNoYWtlbiIsInR5cCI6InBhc3Nwb3J0IiwieDV1IjoiaHR0cHM6Ly9jZXJ0LmV4YW1wbGUuY29tL3Bhc3Nwb3J0LnBlbSJ9.eyJhdHRlc3QiOiJBIiwiZGVzdCI6eyJ0biI6WyIxMjEyNTU1MTIxMiJdfSwiaWF0IjoxNjk0ODcwNDAwLCJvcmlnIjp7InRuIjoiMTQxNTU1NTEyMzQifSwib3JpZ2lkIjoiMTIzZTQ1NjctZTg5Yi0xMmQzLWE0NTYtNDI2NjE0MTc0MDAwIn0.MEUCIQCrfKeMtvn9I6zXjE2VfGEcdjC2sm5M6cPqBvFyV9XkpQIgLxlvLNmC8DJEKexXZqTZ;info=<https://stir-provider.example.net/cert.cer>;alg=ES256;ppt=shaken" }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12129999999', shaken: "eyJhbGciOiJFUzI1NiIsInBwdCI6InNoYWtlbiIsInR5cCI6InBhc3Nwb3J0IiwieDV1IjoiaHR0cHM6Ly9jZXJ0LmV4YW1wbGUuY29tL3Bhc3Nwb3J0LnBlbSJ9.eyJhdHRlc3QiOiJBIiwiZGVzdCI6eyJ0biI6WyIxMjEyNTU1MTIxMiJdfSwiaWF0IjoxNjk0ODcwNDAwLCJvcmlnIjp7InRuIjoiMTQxNTU1NTEyMzQifSwib3JpZ2lkIjoiMTIzZTQ1NjctZTg5Yi0xMmQzLWE0NTYtNDI2NjE0MTc0MDAwIn0.MEUCIQCrfKeMtvn9I6zXjE2VfGEcdjC2sm5M6cPqBvFyV9XkpQIgLxlvLNmC8DJEKexXZqTZ;info=<https://stir-provider.example.net/cert.cer>;alg=ES256;ppt=shaken" })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
   def test_create_endpoint_with_app
     expected = { type: 'app', user: 'joe' }
     connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'app', user: 'joe' })

@@ -185,6 +185,7 @@ module Vonage
 
       hash.merge!(dtmfAnswer: endpoint_attrs[:dtmfAnswer]) if endpoint_attrs[:dtmfAnswer]
       hash.merge!(onAnswer: endpoint_attrs[:onAnswer]) if endpoint_attrs[:onAnswer]
+      hash.merge!(shaken: endpoint_attrs[:shaken]) if endpoint_attrs[:shaken]
 
       hash
     end
