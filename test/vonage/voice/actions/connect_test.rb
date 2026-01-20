@@ -9,6 +9,17 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     assert_equal connect.endpoint, { type: 'app', user: 'joe' }
   end
 
+  def test_connect_initialize_with_advanced_machine_detection
+    connect = Vonage::Voice::Actions::Connect.new(
+      endpoint: { type: 'phone', number: '12129999999' },
+      advanced_machine_detection: { behavior: 'continue', mode: 'detect_beep', beep_timeout: 60 }
+    )
+
+    assert_kind_of Vonage::Voice::Actions::Connect, connect
+    assert_equal connect.endpoint, { type: 'phone', number: '12129999999' }
+    assert_equal connect.advanced_machine_detection, { behavior: 'continue', mode: 'detect_beep', beep_timeout: 60 }
+  end
+
   def test_create_endpoint_with_phone
     expected = { type: 'phone', number: '12129999999' }
     connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12129999999' })
@@ -186,6 +197,28 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, ringbackTone: 'invalid') }
 
     assert_match "Invalid 'ringbackTone' value, must be a valid URL", exception.message
+  end
+
+  def test_action_method_with_advanced_machine_detection
+    connect = Vonage::Voice::Actions::Connect.new(
+      endpoint: { type: 'phone', number: '12129999999' },
+      advanced_machine_detection: { behavior: 'continue', mode: 'detect_beep', beep_timeout: 60 }
+    )
+
+    expected = [{
+      action: 'connect',
+      endpoint: [{
+        type: 'phone',
+        number: '12129999999'
+      }],
+      advanced_machine_detection: {
+        behavior: 'continue',
+        mode: 'detect_beep',
+        beep_timeout: 60
+      }
+    }]
+
+    assert_equal expected, connect.action
   end
 
 end
