@@ -26,6 +26,24 @@ class Vonage::VoiceTest < Vonage::Test
     assert_kind_of Vonage::Response, calls.create(params)
   end
 
+  def test_create_method_with_connect_to_phone_with_shaken_property
+    params = {
+      to: [
+        {
+          type: 'phone',
+          number: '14843331234',
+          shaken: "eyJhbGciOiJFUzI1NiIsInBwdCI6InNoYWtlbiIsInR5cCI6InBhc3Nwb3J0IiwieDV1IjoiaHR0cHM6Ly9jZXJ0LmV4YW1wbGUuY29tL3Bhc3Nwb3J0LnBlbSJ9.eyJhdHRlc3QiOiJBIiwiZGVzdCI6eyJ0biI6WyIxMjEyNTU1MTIxMiJdfSwiaWF0IjoxNjk0ODcwNDAwLCJvcmlnIjp7InRuIjoiMTQxNTU1NTEyMzQifSwib3JpZ2lkIjoiMTIzZTQ1NjctZTg5Yi0xMmQzLWE0NTYtNDI2NjE0MTc0MDAwIn0.MEUCIQCrfKeMtvn9I6zXjE2VfGEcdjC2sm5M6cPqBvFyV9XkpQIgLxlvLNmC8DJEKexXZqTZ;info=<https://stir-provider.example.net/cert.cer>;alg=ES256;ppt=shaken"
+      }
+      ],
+      from: {type: 'phone', number: '14843335555'},
+      answer_url: ['https://example.com/answer']
+    }
+
+    stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
+
+    assert_kind_of Vonage::Response, calls.create(params)
+  end
+
   def test_create_method_with_connect_to_sip_standard_headers
     params = {
       to: [

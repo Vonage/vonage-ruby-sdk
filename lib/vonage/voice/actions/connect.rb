@@ -153,6 +153,7 @@ module Vonage
       ncco[0].merge!(timeout: builder.timeout) if builder.timeout
       ncco[0].merge!(limit: builder.limit) if builder.limit
       ncco[0].merge!(machineDetection: builder.machineDetection) if builder.machineDetection
+      ncco[0].merge!(advanced_machine_detection: builder.advanced_machine_detection) if builder.advanced_machine_detection
       ncco[0].merge!(eventUrl: builder.eventUrl) if builder.eventUrl
       ncco[0].merge!(eventMethod: builder.eventMethod) if builder.eventMethod
       ncco[0].merge!(ringbackTone: builder.ringbackTone) if builder.ringbackTone
@@ -185,6 +186,7 @@ module Vonage
 
       hash.merge!(dtmfAnswer: endpoint_attrs[:dtmfAnswer]) if endpoint_attrs[:dtmfAnswer]
       hash.merge!(onAnswer: endpoint_attrs[:onAnswer]) if endpoint_attrs[:onAnswer]
+      hash.merge!(shaken: endpoint_attrs[:shaken]) if endpoint_attrs[:shaken]
 
       hash
     end

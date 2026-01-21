@@ -25,6 +25,7 @@ module Vonage
       @redirect_url = redirect_url
     end
 
+    # @deprecated: This method is deprecated and will be removed in a future release.
     def sandbox=(sandbox)
       raise ArgumentError, "Invalid 'sandbox' value #{sandbox}. Expected to be boolean value" unless [true, false].include? sandbox
       @sandbox = sandbox
