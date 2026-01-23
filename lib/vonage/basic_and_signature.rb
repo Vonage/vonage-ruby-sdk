@@ -18,5 +18,5 @@ module Vonage
     end
   end
 
-  private_constant :Basic
+  private_constant :BasicAndSignature
 end
