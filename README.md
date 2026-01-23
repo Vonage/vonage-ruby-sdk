@@ -56,7 +56,7 @@ require 'vonage'
 Then construct a client object with your key and secret:
 
 ```ruby
-client = Vonage::Client.new(api_key: 'YOUR-API-KEY', api_secret: 'YOUR-API-SECRET')
+client = Vonage::Client.new
 ```
 
 You can now use the client object to call Vonage APIs. For example, to send an SMS:
@@ -65,16 +65,45 @@ You can now use the client object to call Vonage APIs. For example, to send an S
 client.sms.send(from: 'Ruby', to: '447700900000', text: 'Hello world')
 ```
 
-For production you can specify the `VONAGE_API_KEY` and `VONAGE_API_SECRET`
-environment variables instead of specifying the key and secret explicitly,
-keeping your credentials out of source control.
+When instantiating the `Client` object you can pass in various arguments to configure it such as credentials for [authentication](#authentication), values for [overriding the default hosts](overriding-the-default-hosts), or [configuration options for the HTTP client](#http-client-configuration).
 
-For APIs which use a JWT for authentication you'll need to pass `application_id` and `private_key` arguments to the
-`Client` constructor as well as or instead of `api_key` and `api_secret`. See [JWT Authentication](#jwt-authentication).
+### Authentication
 
-It is also possible to over-ride the default hosts at `Client` instantiation. See [Overriding the default hosts](overriding-the-default-hosts).
+All requests to the Vonage APIs are authenticated, so the `Client` object will need access to your Vonage credentials. Different Vonage API products support different authenitcations methods, so the credentials required will depend on the authenticatons method used.
 
-### JWT authentication
+Currently, all Vonage API products support one or more of the following authentication methods:
+
+- [Basic Authentication](#basic-authentication)
+- [JWT Authentication](#jwt-authentication)
+- [Signature Authentication](#signature-authentication)
+
+For a complete list of which products support which authentication methods, please refer to the [Vonage documentation on this topic](https://developer.vonage.com/en/getting-started/concepts/authentication).
+
+Providing the necessary credentials to the client can be done in a number of ways. You could pass the credentials as keyword arguments when calling `Client.new`, for example in order to provide you API Key and API Secret you could use the `api_key` and `api_secret` keyword arguments respectively. You could pass the value for these arguments directly in the method call like so:
+
+```ruby
+client = Vonage::Client.new(api_key: 'abc123', api_secret: 'abc123456789')
+```
+
+Generally though, and especially for production code or any code that you plan to push up to source control, you will want to avoid exposing your credentials directly in this way and instead use environment variables to define your credentials.
+
+> Note: when setting environment variables locally, such as in an `.env` file, you should include the name of that file in a `.gitignore` file if you are intending to push your code up to source control.
+
+You can choose to define your own custom environment variables and then use Ruby's `ENV` hash to pass them in as the values for your keyword arguments, for example:
+
+```ruby
+client = Vonage::Client.new(api_key: ENV['MY_API_KEY'], api_secret: ENV['MY_API_SECRET'])
+```
+
+A less verbose approach is to instantiate the client without passing in keyword arguments for the authentication credentials. In this case the `Config` object used by the `Client` will search your environment for some pre-defined environment variables and use the values of those variables if defined. The names of these pre-defined environment variables are outlined in the sections below on the specific authentication methods.
+
+Note that some Vonage API products support multiple authentication methods. In these cases the Ruby SDK sets a default authentication method for that product, which can be over-ridden with a configuration setting. You can learn more about this in the section on [Products with Multiple Authentication Methods](#products-with-multiple-authentication-methods).
+
+#### Basic Authentication
+
+
+
+#### JWT authentication
 
 To call newer endpoints that support JWT authentication such as the Voice API and Messages API you'll
 also need to specify the `application_id` and `private_key` options. For example:
@@ -108,6 +137,8 @@ client = Vonage::Client.new(token: token)
 Documentation for the Vonage Ruby JWT generator gem can be found at: https://www.rubydoc.info/gems/vonage-jwt
 
 The documentation outlines all the possible parameters you can use to customize and build a token with.
+
+### Products with Multiple Authentication Methods
 
 ### Logging
 
