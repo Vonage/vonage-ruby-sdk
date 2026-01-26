@@ -239,7 +239,67 @@ Documentation for the Vonage Ruby JWT generator gem can be found at: https://www
 
 The documentation outlines all the possible parameters you can use to customize and build a token with.
 
-### Products with Multiple Authentication Methods
+#### Signature Authentication
+
+Signature authentication signs the request using a signature created via a signing algorithm and using your Vonage Signature Secret. You can read more about this authentication method in the [Vonage documentation](https://developer.vonage.com/en/getting-started/concepts/signing-messages).
+
+To create the signature the SDK requires access to your API Key and Signature Secret. You can either:
+
+1. Pass them in to the `Client` constructor as `api_key` and `signature_secret` keyword arguments, either passing in the values directly or as environement variables with custom keys:
+    ```ruby
+    client = Vonage::Client.new(api_key: 'abc123', signature_secret: 'hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71')
+    ```
+    or
+    ```
+    # .env
+    MY_API_KEY=abc123
+    MY_SIGNATURE_SECRET=hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71
+    ```
+    ```ruby
+    client = Vonage::Client.new(api_key: ENV['MY_API_KEY'], api_secret: ENV['MY_SIGNATURE_SECRET'])
+    ```
+
+2. Set them as environment variables with the `VONAGE_API_KEY` and `VONAGE_SIGNATURE_SECRET` keys and then call the constructor without the keyword arguments:
+    ```
+    # .env
+    VONAGE_API_KEY=abc123
+    VONAGE_SIGNATURE_SECRET=hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71
+    ```
+    ```ruby
+    client = Vonage::Client.new
+    ```
+
+By default, the Ruby SDK uses the MD5 HASH algorithm to generate the signature. If you've set a different algorithm in your [Vonage API Settings](https://dashboard.vonage.com/settings), you'll need to over-ride the default when instantiating the `Client` object, for example:
+
+```ruby
+  client = Vonage::Client.new(
+    api_key: 'abc123',
+    signature_secret: 'hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71',
+    signature_method: 'sha512'
+  )
+```
+
+You can also set the Signature Method as the `VONAGE_SIGNATURE_METHOD` environment variable, for example:
+
+```
+# .env
+VONAGE_API_KEY=abc123
+VONAGE_SIGNATURE_SECRET=hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71
+VONAGE_SIGNATURE_METHOD=sha512
+```
+```ruby
+client = Vonage::Client.new
+```
+
+Supported algorithms are:
+
+- `md5hash`
+- `md5` (HMAC)
+- `sha1`
+- `sha256`
+- `sha512`
+
+#### Products with Multiple Authentication Methods
 
 ### Logging
 
