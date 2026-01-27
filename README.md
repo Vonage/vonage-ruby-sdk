@@ -11,6 +11,10 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
+    * [Authentication](#authentication)
+      * [Basic Authentication](#basic-authentication)
+      * [JWT Authentication](#jwt-authentication)
+      * [Signature Authentication](#signature-authentication)
     * [Logging](#logging)
     * [Exceptions](#exceptions)
     * [Overriding the default hosts](#overriding-the-default-hosts)
@@ -69,7 +73,7 @@ When instantiating the `Client` object you can pass in various arguments to conf
 
 ### Authentication
 
-All requests to the Vonage APIs are authenticated, so the `Client` object will need access to your Vonage credentials. Different Vonage API products support different authenitcations methods, so the credentials required will depend on the authenticatons method used. A few API products also support [multiple authentication methods](#products-with-multiple-authentication-methods).
+All requests to the Vonage APIs are authenticated, so the `Client` object will need access to your Vonage credentials. Different Vonage API products support different authenitcations methods, so the credentials required will depend on the authenticaton method used. A few API products also support [multiple authentication methods](#products-with-multiple-authentication-methods).
 
 Currently, all Vonage API products support one or more of the following authentication methods:
 
@@ -79,7 +83,7 @@ Currently, all Vonage API products support one or more of the following authenti
 
 For a complete list of which products support which authentication methods, please refer to the [Vonage documentation on this topic](https://developer.vonage.com/en/getting-started/concepts/authentication).
 
-Providing the necessary credentials to the client can be done in a number of ways. You could pass the credentials as keyword arguments when calling `Client.new`, for example in order to provide you API Key and API Secret you could use the `api_key` and `api_secret` keyword arguments respectively. You could pass the value for these arguments directly in the method call like so:
+Providing the necessary credentials to the client can be done in a number of ways. You can pass the credentials as keyword arguments when calling `Client.new`, for example in order to provide you API Key and API Secret you could use the `api_key` and `api_secret` keyword arguments respectively. You can pass the value for these arguments directly in the method call like so:
 
 ```ruby
 client = Vonage::Client.new(api_key: 'abc123', api_secret: 'abc123456789')
@@ -205,7 +209,7 @@ For example, if you had your private key stored in a file called `private.key` i
     client = Vonage::Client.new
     ```
 
-    If `VONAGE_PRIVATE_KEY_PATH` is set, then the Ruby SDK will attempt to read in the contents of the file at the path provided and use thsoe contents as the Private Key.
+    If `VONAGE_PRIVATE_KEY_PATH` is set, then the Ruby SDK will attempt to read in the contents of the file at the path provided and use those contents as the Private Key.
 
 > [!TIP]
 > You can download your Private Key file when creating or updating a Vonage Application in the [Vonage Developer Dashboard](https://dashboard.vonage.com/applications), or creating a Vonage Application with the [Vonage CLI](https://github.com/vonage/vonage-cli). You can also create your own file using the value of the `keys.private_key` param provided in the HTTP response when creating a Vonage Application using the [Application API](https://developer.vonage.com/en/application/overview).
