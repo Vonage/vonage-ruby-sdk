@@ -301,6 +301,26 @@ Supported algorithms are:
 
 #### Products with Multiple Authentication Methods
 
+Some Vonage API products support more than one authentication method. For these products the Ruby SDK sets a default authentication method, but this default can be over-ridden in the `Client` configuration using the `authentication_preference` setting. For example, the Messages API supports both Basic Authentication and Bearer Token (JWT) Authentication. For its Messages API implementation the Ruby SDK defaults to Bearer Token (JWT) Authentication and so you would normally need to provide a Vonage Application ID and Private Key as credentials in order to authenticate when using the Messages API via the Ruby SDK. However, you can instead provide your Vonage API Key and API Secret and set the `Client` object to use Basic Authentication instead:
+
+```
+# .env
+VONAGE_API_KEY=abc123
+VONAGE_API_SECRET=abc123456789
+```
+
+```ruby
+client = Vonage::Client.new(authentication_preference: :basic)
+```
+
+Below is a list of Vonage API products currently implemented in the Ruby SDK that support more than one authentication method.
+
+| Product | Authentication Methods | Default | Over-ride Key |
+|---|---|---|---|
+| Messages API | JWT, Basic | JWT | `:basic` |
+| Verify API v2 | JWT, Basic | JWT | `:basic` |
+| SMS API | Basic, Signature | Basic | `:signature` |
+
 ### Logging
 
 Use the logger option to specify a logger. For example:
