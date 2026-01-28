@@ -19,7 +19,7 @@ module Vonage
       raise ArgumentError.new("`insights` cannot be empty") if insights.to_h.empty?
 
       invalid_insights = insights.keys - VALID_INSIGHT_TYPES
-      raise ArgumentError.new("`insights` contains the following invalid or unsupported types: #{invalid_insights.join(', ')}") unless invalid_insights.empty?
+      raise ArgumentError.new("`insights` contains the following invalid or unsupported insight types: #{invalid_insights.join(', ')}") unless invalid_insights.empty?
 
       params = {
         phone_number: phone_number,
@@ -27,6 +27,10 @@ module Vonage
       }.merge(options)
 
       request('/identity-insights/v1/requests', params: params, type: Post)
+    end
+
+    def insights_builder
+      InsightsBuilder.new
     end
   end
 end

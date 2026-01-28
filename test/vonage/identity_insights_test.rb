@@ -107,4 +107,8 @@ class Vonage::IdentityInsightsTest < Vonage::Test
   def test_requests_method_with_invalid_insights_type
     assert_raises(ArgumentError) { identity_insights.requests(phone_number: phone_number, insights: { foo: {} }) }
   end
+
+  def test_insights_builder_method
+    assert_kind_of Vonage::IdentityInsights::InsightsBuilder, identity_insights.insights_builder
+  end
 end
