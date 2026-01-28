@@ -5,6 +5,17 @@ class Vonage::Verify2::TemplatesTest < Vonage::Test
     Vonage::Verify2::Templates.new(config)
   end
 
+  def templates_with_basic_auth
+    config = Vonage::Config.new.merge(
+      {
+        api_key: api_key,
+        api_secret: api_secret,
+        authentication_preference: :basic
+      }
+    )
+    Vonage::Verify2::Templates.new(config)
+  end
+
   def template_id
     '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9'
   end
@@ -39,10 +50,25 @@ class Vonage::Verify2::TemplatesTest < Vonage::Test
     templates_list.each { |template| assert_kind_of Vonage::Entity, template }
   end
 
+  def test_list_method_with_basic_authentication
+    stub_request(:get, templates_uri).with(request(auth_method: basic_authorization)).to_return(templates_list_response)
+
+    templates_list = templates_with_basic_auth.list
+
+    assert_kind_of Vonage::Verify2::Templates::ListResponse, templates_list
+    templates_list.each { |template| assert_kind_of Vonage::Entity, template }
+  end
+
   def test_info_method
     stub_request(:get, template_uri).to_return(response)
 
     assert_kind_of Vonage::Response, templates.info(template_id: template_id)
+  end
+
+  def test_info_method_with_basic_authentication
+    stub_request(:get, template_uri).with(request(auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, templates_with_basic_auth.info(template_id: template_id)
   end
 
   def test_info_method_without_template_id
@@ -55,6 +81,12 @@ class Vonage::Verify2::TemplatesTest < Vonage::Test
     assert_kind_of Vonage::Response, templates.create(name: 'My Template')
   end
 
+  def test_create_method_with_basic_authentication
+    stub_request(:post, templates_uri).with(request(body: { name: 'My Template' }, auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, templates_with_basic_auth.create(name: 'My Template')
+  end
+
   def test_create_method_without_name
     assert_raises(ArgumentError) { templates.create }
   end
@@ -65,6 +97,12 @@ class Vonage::Verify2::TemplatesTest < Vonage::Test
     assert_kind_of Vonage::Response, templates.update(template_id: template_id, name: 'My Updated Template', is_default: false)
   end
 
+  def test_update_method_with_basic_authentication
+    stub_request(:patch, template_uri).with(request(body: { name: 'My Updated Template', is_default: false }, auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, templates_with_basic_auth.update(template_id: template_id, name: 'My Updated Template', is_default: false)
+  end
+
   def test_update_method_without_template_id
     assert_raises(ArgumentError) { templates.update(name: 'My Updated Template', is_default: false) }
   end
@@ -73,6 +111,18 @@ class Vonage::Verify2::TemplatesTest < Vonage::Test
     stub_request(:delete, template_uri).to_return(response)
 
     assert_kind_of Vonage::Response, templates.delete(template_id: template_id)
+  end
+
+  def test_delete_method
+    stub_request(:delete, template_uri).to_return(response)
+
+    assert_kind_of Vonage::Response, templates.delete(template_id: template_id)
+  end
+
+  def test_delete_method_with_basic_authentication
+    stub_request(:delete, template_uri).with(request(auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, templates_with_basic_auth.delete(template_id: template_id)
   end
 
   def test_delete_method_without_template_id

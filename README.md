@@ -11,6 +11,10 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
 * [Requirements](#requirements)
 * [Installation](#installation)
 * [Usage](#usage)
+    * [Authentication](#authentication)
+      * [Basic Authentication](#basic-authentication)
+      * [JWT Authentication](#jwt-authentication)
+      * [Signature Authentication](#signature-authentication)
     * [Logging](#logging)
     * [Exceptions](#exceptions)
     * [Overriding the default hosts](#overriding-the-default-hosts)
@@ -56,7 +60,7 @@ require 'vonage'
 Then construct a client object with your key and secret:
 
 ```ruby
-client = Vonage::Client.new(api_key: 'YOUR-API-KEY', api_secret: 'YOUR-API-SECRET')
+client = Vonage::Client.new
 ```
 
 You can now use the client object to call Vonage APIs. For example, to send an SMS:
@@ -65,39 +69,161 @@ You can now use the client object to call Vonage APIs. For example, to send an S
 client.sms.send(from: 'Ruby', to: '447700900000', text: 'Hello world')
 ```
 
-For production you can specify the `VONAGE_API_KEY` and `VONAGE_API_SECRET`
-environment variables instead of specifying the key and secret explicitly,
-keeping your credentials out of source control.
+When instantiating the `Client` object you can pass in various arguments to configure it such as credentials for [authentication](#authentication), values for [overriding the default hosts](overriding-the-default-hosts), or [configuration options for the HTTP client](#http-client-configuration).
 
-For APIs which use a JWT for authentication you'll need to pass `application_id` and `private_key` arguments to the
-`Client` constructor as well as or instead of `api_key` and `api_secret`. See [JWT Authentication](#jwt-authentication).
+### Authentication
 
-It is also possible to over-ride the default hosts at `Client` instantiation. See [Overriding the default hosts](overriding-the-default-hosts).
+All requests to the Vonage APIs are authenticated, so the `Client` object will need access to your Vonage credentials. Different Vonage API products support different authenitcations methods, so the credentials required will depend on the authenticaton method used. A few API products also support [multiple authentication methods](#products-with-multiple-authentication-methods).
 
-### JWT authentication
+Currently, all Vonage API products support one or more of the following authentication methods:
 
-To call newer endpoints that support JWT authentication such as the Voice API and Messages API you'll
-also need to specify the `application_id` and `private_key` options. For example:
+- [Basic Authentication](#basic-authentication)
+- [JWT Authentication](#jwt-authentication)
+- [Signature Authentication](#signature-authentication)
+
+For a complete list of which products support which authentication methods, please refer to the [Vonage documentation on this topic](https://developer.vonage.com/en/getting-started/concepts/authentication).
+
+Providing the necessary credentials to the client can be done in a number of ways. You can pass the credentials as keyword arguments when calling `Client.new`, for example in order to provide you API Key and API Secret you could use the `api_key` and `api_secret` keyword arguments respectively. You can pass the value for these arguments directly in the method call like so:
 
 ```ruby
-client = Vonage::Client.new(application_id: application_id, private_key: private_key)
+client = Vonage::Client.new(api_key: 'abc123', api_secret: 'abc123456789')
 ```
 
-Both arguments should have string values corresponding to the `id` and `private_key`
-values returned in a ["create an application"](https://developer.vonage.com/api/application.v2#createApplication)
-response. These credentials can be stored in a datastore, in environment variables,
-on disk outside of source control, or in some kind of key management infrastructure.
+Generally though, and especially for production code or any code that you plan to push up to source control, you will want to avoid exposing your credentials directly in this way and instead use environment variables to define your credentials.
 
-By default the library generates a short lived JWT per request. To generate a long lived
-JWT for multiple requests or to specify JWT claims directly use `Vonage::JWT.generate` and
-the token option. For example:
+> [!CAUTION]
+> When setting environment variables locally, if using a file to do this (such as in an `.env` file), you should include the name of that file in a `.gitignore` file if you are intending to push your code up to source control.
+
+You can choose to define your own custom environment variables and then use Ruby's `ENV` hash to pass them in as the values for your keyword arguments, for example:
+
+```ruby
+client = Vonage::Client.new(api_key: ENV['MY_API_KEY'], api_secret: ENV['MY_API_SECRET'])
+```
+
+A less verbose approach is to instantiate the client *without* passing in keyword arguments for the authentication credentials. 
+
+```ruby
+client = Vonage::Client.new
+```
+
+In this case the `Config` object used by the `Client` will search your environment for some pre-defined environment variables and use the values of those variables if defined. The names of these pre-defined environment variables are outlined in the sections below on the specific authentication methods.
+
+Note that some Vonage API products support multiple authentication methods. In these cases the Ruby SDK sets a default authentication method for that product, which can be over-ridden with a configuration setting. You can learn more about this in the section on [Products with Multiple Authentication Methods](#products-with-multiple-authentication-methods).
+
+#### Basic Authentication
+
+For products that use Basic Authentication, the Ruby SDK sets an `Authorization` header on the HTTP request with a value containing a Base64 encoded version of your API key and secret. You can read more about this authentication method in the [Vonage documentation](https://developer.vonage.com/en/getting-started/concepts/authentication?source=getting-started#basic-authentication).
+
+To set the header the SDK requires access to your API Key and API Secret. You can either:
+
+1. Pass them in to the `Client` constructor as `api_key` and `api_secret` keyword arguments, either passing in the values directly or as environement variables with custom keys:
+    ```ruby
+    client = Vonage::Client.new(api_key: 'abc123', api_secret: 'abc123456789')
+    ```
+    or
+    ```
+    # .env
+    MY_API_KEY=abc123
+    MY_API_SECRET=abc123456789
+    ```
+    ```ruby
+    client = Vonage::Client.new(api_key: ENV['MY_API_KEY'], api_secret: ENV['MY_API_SECRET'])
+    ```
+
+2. Set them as environment variables with the `VONAGE_API_KEY` and `VONAGE_API_SECRET` keys and then call the constructor without the keyword arguments:
+    ```
+    # .env
+    VONAGE_API_KEY=abc123
+    VONAGE_API_SECRET=abc123456789
+    ```
+    ```ruby
+    client = Vonage::Client.new
+    ```
+
+#### JWT Authentication
+
+For products that use Bearer (JWT) Authentication, the Ruby SDK sets an `Authorization` header on the HTTP request with a value containing a JSON Web Token (JWT) derived from an Application ID and Private Key. You can read more about this authentication method in the [Vonage documentation](https://developer.vonage.com/en/getting-started/concepts/authentication#json-web-tokens), but in brief you will need to create a Vonage Application (for example via the [Vonage Developer Dashboard](https://dashboard.vonage.com/applications), [Application API](https://developer.vonage.com/en/application/overview), or [Vonage CLI](https://github.com/vonage/vonage-cli)). This Application will be assigned a unique ID upon creation. You can then generate a public and private key pair specific to this Application.
+
+The Ruby SDK automatically generates the JWT and sets the `Authorization` header for you. To do this it requires access to an Application ID and assocaited Private Key. You can either:
+
+1. Pass them in to the `Client` constructor as `application_id` and `private_key` keyword arguments, either passing in the values directly or as environement variables with custom keys:
+    ```ruby
+    client = Vonage::Client.new(
+      application_id: '78d335fa-323d-0114-9c3d-d6f0d48968cf',
+      private_key: '-----BEGIN PRIVATE KEY----- MIIEvQIBADANBgkqhkiG9w0BAQEFA........'
+    )
+    ```
+    or
+    ```
+    # .env
+    MY_APPLICATION_ID=78d335fa-323d-0114-9c3d-d6f0d48968cf
+    MY_PRIVATE_KEY=-----BEGIN PRIVATE KEY----- MIIEvQIBADANBgkqhkiG9w0BAQEFA........
+    ```
+    ```ruby
+    client = Vonage::Client.new(application_id: ENV['MY_APPLICATION_ID'], private_key: ENV['MY_PRIVATE_KEY'])
+    ```
+  
+2. Set them as environment variables with the `VONAGE_APPLICATION_ID` and `VONAGE_PRIVATE_KEY` keys and then call the constructor without the keyword arguments:
+    ```
+    # .env
+    VONAGE_APPLICATION_ID=78d335fa-323d-0114-9c3d-d6f0d48968cf
+    VONAGE_PRIVATE_KEY=-----BEGIN PRIVATE KEY----- MIIEvQIBADANBgkqhkiG9w0BAQEFA........
+    ```
+    ```ruby
+    client = Vonage::Client.new
+    ```
+
+##### Using a Private Key File
+
+Using the private key directly, whether to pass it in as a keyword argument or set it as an environment variable, can be a litle bit unweildy. Another option is to store it in a `.key` file and then read the contents of that file in as necessary.
+
+> [!CAUTION]
+> You should include the name of your Private Key file in a `.gitignore` file if you are intending to push your code up to source control.
+
+For example, if you had your private key stored in a file called `private.key` in the root directory of your Ruby application, you could:
+
+1. Read the contents of the file in using Ruby's `File.read` method when passing the `private_key` keyword argument to the `Client` constructor, either by passing the filepath directly or as an environement variables with a custom key:
+    ```ruby
+    client = Vonage::Client.new(
+      application_id: '78d335fa-323d-0114-9c3d-d6f0d48968cf',
+      private_key: File.read('/private.key)
+    )
+    ```
+    or
+    ```
+    # .env
+    MY_APPLICATION_ID=78d335fa-323d-0114-9c3d-d6f0d48968cf
+    MY_PRIVATE_KEY_PATH=/private.key
+    ```
+    ```ruby
+    client = Vonage::Client.new(application_id: ENV['MY_APPLICATION_ID'], private_key: File.read(ENV['MY_PRIVATE_KEY_PATH']))
+    ```
+
+2. Set the path as an environment variable with the `VONAGE_PRIVATE_KEY_PATH` key (note: this is used in place of the `VONAGE_PRIVATE_KEY` key) and then call the constructor without the keyword arguments:
+    ```
+    # .env
+    VONAGE_APPLICATION_ID=78d335fa-323d-0114-9c3d-d6f0d48968cf
+    VONAGE_PRIVATE_KEY_PATH=/private.key
+    ```
+    ```ruby
+    client = Vonage::Client.new
+    ```
+
+    If `VONAGE_PRIVATE_KEY_PATH` is set, then the Ruby SDK will attempt to read in the contents of the file at the path provided and use those contents as the Private Key.
+
+> [!TIP]
+> You can download your Private Key file when creating or updating a Vonage Application in the [Vonage Developer Dashboard](https://dashboard.vonage.com/applications), or creating a Vonage Application with the [Vonage CLI](https://github.com/vonage/vonage-cli). You can also create your own file using the value of the `keys.private_key` param provided in the HTTP response when creating a Vonage Application using the [Application API](https://developer.vonage.com/en/application/overview).
+
+##### Custom JWTs
+
+By default the library generates a short lived JWT per request (the default `ttl` is `900` seconds). If you need to generate a long lived JWT for multiple requests or specify JWT claims directly use `Vonage::JWT.generate` to generate a custom JWT and then pass that in to the `Client` constructor using the `token` option. For example:
 
 ```ruby
 claims = {
-  application_id: application_id,
-  private_key: 'path/to/private.key',
+  application_id: ENV['VONAGE_APPLICATION_ID'],
+  private_key: File.read(ENV['VONAGE_PRIVATE_KEY_PATH']),
   nbf: 1483315200,
-  ttl: 800
+  ttl: 3600
 }
 
 token = Vonage::JWT.generate(claims)
@@ -105,9 +231,99 @@ token = Vonage::JWT.generate(claims)
 client = Vonage::Client.new(token: token)
 ```
 
+The `Client` object will then use the JWT that you passed in for any API requests rather than generating one on-the-fly for each request.
+
+> [!NOTE]  
+> 1. Unlike with the `Client` constructor, you **must** set `application_id` and `private_key` as key-value pairs in the `claims` Hash when generating a custom JWT.
+> 2. You can choose to set *either* `ttl` *or* `exp` in the `claims`:
+>     - If you set *both* `ttl` is ignored and `exp` is used
+>     - If you choose to set `exp` this must be set as the number of seconds since the UNIX epoch (if using `ttl` the generator calculates this for you)
+
 Documentation for the Vonage Ruby JWT generator gem can be found at: https://www.rubydoc.info/gems/vonage-jwt
 
 The documentation outlines all the possible parameters you can use to customize and build a token with.
+
+#### Signature Authentication
+
+Signature authentication signs the request using a signature created via a signing algorithm and using your Vonage Signature Secret. You can read more about this authentication method in the [Vonage documentation](https://developer.vonage.com/en/getting-started/concepts/signing-messages).
+
+To create the signature the SDK requires access to your API Key and Signature Secret. You can either:
+
+1. Pass them in to the `Client` constructor as `api_key` and `signature_secret` keyword arguments, either passing in the values directly or as environement variables with custom keys:
+    ```ruby
+    client = Vonage::Client.new(api_key: 'abc123', signature_secret: 'hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71')
+    ```
+    or
+    ```
+    # .env
+    MY_API_KEY=abc123
+    MY_SIGNATURE_SECRET=hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71
+    ```
+    ```ruby
+    client = Vonage::Client.new(api_key: ENV['MY_API_KEY'], api_secret: ENV['MY_SIGNATURE_SECRET'])
+    ```
+
+2. Set them as environment variables with the `VONAGE_API_KEY` and `VONAGE_SIGNATURE_SECRET` keys and then call the constructor without the keyword arguments:
+    ```
+    # .env
+    VONAGE_API_KEY=abc123
+    VONAGE_SIGNATURE_SECRET=hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71
+    ```
+    ```ruby
+    client = Vonage::Client.new
+    ```
+
+By default, the Ruby SDK uses the MD5 HASH algorithm to generate the signature. If you've set a different algorithm in your [Vonage API Settings](https://dashboard.vonage.com/settings), you'll need to over-ride the default when instantiating the `Client` object, for example:
+
+```ruby
+  client = Vonage::Client.new(
+    api_key: 'abc123',
+    signature_secret: 'hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71',
+    signature_method: 'sha512'
+  )
+```
+
+You can also set the Signature Method as the `VONAGE_SIGNATURE_METHOD` environment variable, for example:
+
+```
+# .env
+VONAGE_API_KEY=abc123
+VONAGE_SIGNATURE_SECRET=hdEooIhQYgo5XAcmbfLfpy5ROcEwGbjcwj6EvywwvYNOxKWj71
+VONAGE_SIGNATURE_METHOD=sha512
+```
+```ruby
+client = Vonage::Client.new
+```
+
+Supported algorithms are:
+
+- `md5hash`
+- `md5` (HMAC)
+- `sha1`
+- `sha256`
+- `sha512`
+
+#### Products with Multiple Authentication Methods
+
+Some Vonage API products support more than one authentication method. For these products the Ruby SDK sets a default authentication method, but this default can be over-ridden in the `Client` configuration using the `authentication_preference` setting. For example, the Messages API supports both Basic Authentication and Bearer Token (JWT) Authentication. For its Messages API implementation the Ruby SDK defaults to Bearer Token (JWT) Authentication and so you would normally need to provide a Vonage Application ID and Private Key as credentials in order to authenticate when using the Messages API via the Ruby SDK. However, you can instead provide your Vonage API Key and API Secret and set the `Client` object to use Basic Authentication instead:
+
+```
+# .env
+VONAGE_API_KEY=abc123
+VONAGE_API_SECRET=abc123456789
+```
+
+```ruby
+client = Vonage::Client.new(authentication_preference: :basic)
+```
+
+Below is a list of Vonage API products currently implemented in the Ruby SDK that support more than one authentication method.
+
+| Product | Authentication Methods | Default | Over-ride Key |
+|---|---|---|---|
+| Messages API | JWT, Basic | JWT | `:basic` |
+| Verify API v2 | JWT, Basic | JWT | `:basic` |
+| SMS API | Basic, Signature | Basic | `:signature` |
 
 ### Logging
 

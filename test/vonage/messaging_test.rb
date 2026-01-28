@@ -6,6 +6,17 @@ class Vonage::MessagingTest < Vonage::Test
     Vonage::Messaging.new(config)
   end
 
+  def messaging_with_basic_auth
+    config = Vonage::Config.new.merge(
+      {
+        api_key: api_key,
+        api_secret: api_secret,
+        authentication_preference: :basic
+      }
+    )
+    Vonage::Messaging.new(config)
+  end
+
   def geo_specific_messaging_host
     'api-eu.vonage.com'
   end
@@ -78,6 +89,22 @@ class Vonage::MessagingTest < Vonage::Test
     message = messaging.sms(message: "Hello world!", opts: opts)
 
     assert_kind_of Vonage::Response, messaging.send(to: "447700900000", from: "447700900001", **message)
+  end
+
+  def test_send_method_with_basic_authentication
+    params = {
+      to: "447700900000",
+      from: "447700900001",
+      channel: "sms",
+      message_type: "text",
+      text: "Hello world!"
+    }
+
+    stub_request(:post, messaging_uri).with(request(body: params, auth_method: basic_authorization)).to_return(response)
+
+    message = messaging_with_basic_auth.sms(message: "Hello world!")
+
+    assert_kind_of Vonage::Response, messaging_with_basic_auth.send(to: "447700900000", from: "447700900001", **message)
   end
 
   def test_send_method_without_to

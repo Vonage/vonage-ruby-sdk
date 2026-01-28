@@ -6,7 +6,7 @@ module Vonage
   class Messaging < Namespace
     extend Forwardable
 
-    self.authentication = BearerToken
+    self.authentication = BasicAndBearerToken
 
     self.request_body = JSON
 

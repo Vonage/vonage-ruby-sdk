@@ -3,7 +3,7 @@
 
 module Vonage
   class Verify2 < Namespace
-    self.authentication = BearerToken
+    self.authentication = BasicAndBearerToken
 
     self.request_body = JSON
 
