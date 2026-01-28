@@ -70,6 +70,13 @@ module Vonage
       @files ||= T.let(Files.new(config), T.nilable(Vonage::Files))
     end
 
+    # @return [IdentityInsights]
+    #
+    sig { returns(T.nilable(Vonage::IdentityInsights)) }
+    def identity_insights
+      @identity_insights ||= T.let(IdentityInsights.new(config), T.nilable(Vonage::IdentityInsights))
+    end
+
     # @return [Meetings]
     # @deprecated
     sig { returns(T.nilable(Vonage::Meetings)) }
