@@ -111,4 +111,37 @@ class Vonage::IdentityInsightsTest < Vonage::Test
   def test_insights_builder_method
     assert_kind_of Vonage::IdentityInsights::InsightsBuilder, identity_insights.insights_builder
   end
+
+  def test_requests_method_with_insights_builder
+    params = {
+      phone_number: phone_number,
+      insights: {
+        format: {}
+      }
+    }
+    
+    builder = identity_insights.insights_builder
+    builder.add_format
+
+    stub_request(:post, identity_insights_uri).with(request(body: params)).to_return(response)
+
+    assert_kind_of Vonage::Response, identity_insights.requests(phone_number: phone_number, insights: builder)
+  end
+
+  def test_requests_method_with_a_block
+    params = {
+      phone_number: phone_number,
+      insights: {
+        format: {}
+      }
+    }
+
+    stub_request(:post, identity_insights_uri).with(request(body: params)).to_return(response)
+
+    response = identity_insights.requests(phone_number: phone_number) do |builder|
+      builder.add_format
+    end
+
+    assert_kind_of Vonage::Response, response
+  end
 end
