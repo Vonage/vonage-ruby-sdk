@@ -14,12 +14,9 @@ module Vonage
     # Submit an Identity Insights request.
     def requests(phone_number:, insights: {}, **options)
       insights = yield insights_builder if block_given?
-      raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid?
-      raise ArgumentError.new("`insights` must be a Hash or instance of InsightsBuilder") unless insights.is_a?(Hash) || insights.is_a?(InsightsBuilder)
-      raise ArgumentError.new("`insights` cannot be empty") if insights.to_h.empty?
 
-      invalid_insights = insights.to_h.keys - VALID_INSIGHT_TYPES
-      raise ArgumentError.new("`insights` contains the following invalid or unsupported insight types: #{invalid_insights.join(', ')}") unless invalid_insights.empty?
+      validate_phone_number(phone_number)
+      validate_insights(insights)
 
       params = {
         phone_number: phone_number,
@@ -31,6 +28,20 @@ module Vonage
 
     def insights_builder
       InsightsBuilder.new
+    end
+
+    private
+
+    def validate_phone_number(phone_number)
+      raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid?
+    end
+
+    def validate_insights(insights)
+      raise ArgumentError.new("`insights` must be a Hash or instance of InsightsBuilder") unless insights.is_a?(Hash) || insights.is_a?(InsightsBuilder)
+      raise ArgumentError.new("`insights` cannot be empty") if insights.to_h.empty?
+
+      invalid_insights = insights.to_h.keys - VALID_INSIGHT_TYPES
+      raise ArgumentError.new("`insights` contains the following invalid or unsupported insight types: #{invalid_insights.join(', ')}") unless invalid_insights.empty?
     end
   end
 end

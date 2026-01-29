@@ -15,8 +15,7 @@ module Vonage
     def add_sim_swap(period: nil)
       params = {}
       if period
-        raise ArgumentError, 'Period must be an Integer' unless period.is_a?(Integer)
-        raise ArgumentError, 'Period must be between 1 and 2400' unless period.between?(1, 2400)
+        validate_sim_swap_period(period)
         params[:period] = period 
       end
       @insights[:sim_swap] = params
@@ -35,6 +34,13 @@ module Vonage
 
     def to_h
       @insights
+    end
+
+    private
+
+    def validate_sim_swap_period(period)
+      raise ArgumentError, 'Period must be an Integer' unless period.is_a?(Integer)
+      raise ArgumentError, 'Period must be between 1 and 2400' unless period.between?(1, 2400)
     end
   end
 end
