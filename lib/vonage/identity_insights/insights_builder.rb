@@ -7,11 +7,25 @@ module Vonage
       @insights = {}
     end
 
+    # Add a Format insight.
+    # @example
+    #   builder = Vonage::IdentityInsights::InsightsBuilder.new
+    #   builder.add_format
+    # @return [InsightsBuilder] The InsightsBuilder instance.
+    #
     def add_format
       @insights[:format] = {}
       self
     end
 
+    # Add a Sim Swap insight.
+    # @example
+    #   builder = Vonage::IdentityInsights::InsightsBuilder.new
+    #   builder.add_sim_swap(period: 180)
+    # @param period [Integer] The period for the sim swap insight.
+    #   - Optional. If provided, must be between 1 and 2400.
+    # @return [InsightsBuilder] The InsightsBuilder instance.
+    #
     def add_sim_swap(period: nil)
       params = {}
       if period
@@ -22,16 +36,31 @@ module Vonage
       self
     end
 
+    # Add a Current Carrier insight.
+    # @example
+    #   builder = Vonage::IdentityInsights::InsightsBuilder.new
+    #   builder.add_current_carrier
+    # @return [InsightsBuilder] The InsightsBuilder instance.
+    #
     def add_current_carrier
       @insights[:current_carrier] = {}
       self
     end
 
+    # Add a Previous Carrier insight.
+    # @example
+    #   builder = Vonage::IdentityInsights::InsightsBuilder.new
+    #   builder.add_previous_carrier
+    # @return [InsightsBuilder] The InsightsBuilder instance.
+    #
     def add_previous_carrier
       @insights[:previous_carrier] = {}
       self
     end
 
+    # Convert the InsightsBuilder to a Hash.
+    # @return [Hash] The insights as a Hash.
+    #
     def to_h
       @insights
     end
