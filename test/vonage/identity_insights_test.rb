@@ -92,10 +92,6 @@ class Vonage::IdentityInsightsTest < Vonage::Test
     assert_raises(ArgumentError) { identity_insights.requests(insights: { format: {} }) }
   end
 
-  def test_requests_method_with_invalid_phone_number
-    assert_raises(ArgumentError) { identity_insights.requests(phone_number: '0000000000000', insights: { format: {} }) }
-  end
-
   def test_requests_method_with_empty_insights
     assert_raises(ArgumentError) { identity_insights.requests(phone_number: phone_number) }
   end

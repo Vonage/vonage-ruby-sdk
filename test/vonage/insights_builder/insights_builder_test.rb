@@ -52,10 +52,10 @@ class Vonage::IdentityInsights::InsightsBuilderTest < Vonage::Test
     assert_equal expected, builder.to_h
   end
 
-  def test_add_previous_carrier_method
-    expected = {previous_carrier: {}}
+  def test_add_original_carrier_method
+    expected = {original_carrier: {}}
     builder = identity_insights.insights_builder
-    builder.add_previous_carrier
+    builder.add_original_carrier
 
     assert_equal expected, builder.to_h
   end
@@ -65,13 +65,13 @@ class Vonage::IdentityInsights::InsightsBuilderTest < Vonage::Test
       format: {},
       sim_swap: {},
       current_carrier: {},
-      previous_carrier: {}
+      original_carrier: {}
     }
     builder = identity_insights.insights_builder
     builder.add_format
     builder.add_sim_swap
     builder.add_current_carrier
-    builder.add_previous_carrier
+    builder.add_original_carrier
 
     assert_equal expected, builder.to_h
   end
@@ -81,13 +81,13 @@ class Vonage::IdentityInsights::InsightsBuilderTest < Vonage::Test
       format: {},
       sim_swap: {},
       current_carrier: {},
-      previous_carrier: {}
+      original_carrier: {}
     }
     builder = identity_insights.insights_builder
     builder.add_format
       .add_sim_swap
       .add_current_carrier
-      .add_previous_carrier
+      .add_original_carrier
     
     assert_equal expected, builder.to_h
   end

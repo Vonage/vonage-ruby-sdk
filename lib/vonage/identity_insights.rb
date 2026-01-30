@@ -12,7 +12,7 @@ module Vonage
     self.request_body = JSON
 
     # Submit an Identity Insights request.
-    #  The SDK currently supports the following insight types: `format`, `sim_swap`, `current_carrier`, and `previous_carrier`.
+    #  The SDK currently supports the following insight types: `format`, `sim_swap`, `current_carrier`, and `original_carrier`.
     #
     # @example with `insights` as a Hash
     #   response = client.identity_insights.requests(phone_number: '447900000000', insights: { format: {} })
@@ -27,7 +27,7 @@ module Vonage
     #     builder.add_sim_swap(period: 180)
     #   end
     #
-    # @option params [required, String] :phone_number The phone number to request insights for, E.164 formatted.
+    # @option params [required, String] :phone_number The phone number to request insights for.
     #
     # @option params [String] :purpose The purpose for requesting the insights.
     #
@@ -45,8 +45,6 @@ module Vonage
     #
     def requests(phone_number:, insights: {}, **options)
       insights = yield insights_builder if block_given?
-
-      validate_phone_number(phone_number)
       validate_insights(insights)
 
       params = {
@@ -65,10 +63,6 @@ module Vonage
     end
 
     private
-
-    def validate_phone_number(phone_number)
-      raise ArgumentError.new("`phone_number` must be in E.164 format") unless Phonelib.parse(phone_number).valid?
-    end
 
     def validate_insights(insights)
       raise ArgumentError.new("`insights` must be a Hash or instance of InsightsBuilder") unless insights.is_a?(Hash) || insights.is_a?(InsightsBuilder)

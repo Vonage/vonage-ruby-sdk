@@ -47,14 +47,14 @@ module Vonage
       self
     end
 
-    # Add a Previous Carrier insight.
+    # Add an Original Carrier insight.
     # @example
     #   builder = Vonage::IdentityInsights::InsightsBuilder.new
-    #   builder.add_previous_carrier
+    #   builder.add_original_carrier
     # @return [InsightsBuilder] The InsightsBuilder instance.
     #
-    def add_previous_carrier
-      @insights[:previous_carrier] = {}
+    def add_original_carrier
+      @insights[:original_carrier] = {}
       self
     end
 
