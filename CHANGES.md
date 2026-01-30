@@ -1,3 +1,9 @@
+# 7.34.0
+
+* Implements the Identity Insights. See [#346](https://github.com/Vonage/vonage-ruby-sdk/pull/346)
+* Adds multi-authentication support to the Messages API and Verify API v2. [#345](https://github.com/Vonage/vonage-ruby-sdk/pull/345)
+* Makes some small updates to the Verify API and Voice API. See [#344](https://github.com/Vonage/vonage-ruby-sdk/pull/344)
+
 # 7.33.0
 
 * Updates SMS API, Verify v1 API, Number Insight v1 API, Account API, and Conversion API to support Basic Authentication. See [#343](https://github.com/Vonage/vonage-ruby-sdk/pull/343)
