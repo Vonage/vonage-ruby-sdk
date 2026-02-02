@@ -60,8 +60,8 @@ class Vonage::NetworkSIMSwapTest < Vonage::Test
 
   def test_check_method_with_invalid_phone_number
     assert_raises(TypeError) { network_sim_swap.check(phone_number: 447904603505) }
-    assert_raises(ArgumentError) { network_sim_swap.check(phone_number: '07904603505') }
-    assert_raises(ArgumentError) { network_sim_swap.check(phone_number: '447904603505') }
+    assert_raises(ArgumentError) { network_sim_swap.check(phone_number: '07000000000') }
+    assert_raises(ArgumentError) { network_sim_swap.check(phone_number: '447000000000') }
   end
 
   def test_check_method_with_invalid_max_age
@@ -95,7 +95,7 @@ class Vonage::NetworkSIMSwapTest < Vonage::Test
 
   def test_retrieve_date_method_with_invalid_phone_number
     assert_raises(TypeError) { network_sim_swap.retrieve_date(phone_number: 447904603505) }
-    assert_raises(ArgumentError) { network_sim_swap.retrieve_date(phone_number: '07904603505') }
-    assert_raises(ArgumentError) { network_sim_swap.retrieve_date(phone_number: '447904603505') }
+    assert_raises(ArgumentError) { network_sim_swap.retrieve_date(phone_number: '07000000000') }
+    assert_raises(ArgumentError) { network_sim_swap.retrieve_date(phone_number: '447000000000') }
   end
 end

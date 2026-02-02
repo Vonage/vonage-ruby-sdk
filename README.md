@@ -26,6 +26,7 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
     * [Verify API v2](#verify-api-v2)
     * [Voice API](#voice-api)
       * [NCCO Builder](#ncco-builder)
+    * [Identity Insights API](#identity-insights-api)
 * [Documentation](#documentation)
 * [Supported APIs](#supported-apis)
 * [Other SDKs and Tools](#other-sdks-and-tools)
@@ -937,6 +938,68 @@ response = client.voice.create({
 })
 ```
 
+## Identity Insights API
+
+The [Vonage Identity Insights API](https://developer.vonage.com/en/identity-insights/overview) provides real-time access to a broad range of attributes related to the carrier, subscriber, or device associated with a phone number. See the Vonage Developer Documentation for a [complete API reference](https://developer.vonage.com/en/api/identity-insights) listing all available insight types.
+
+> [!NOTE] 
+> The Vonage Ruby SDK currently supports the following insight types:
+>   - Format
+>   - Current Carrier
+>   - Original Carrier
+>   - SIM Swap
+
+Calling `identity_insights` on an instance of `Client` returns an `IdentityInsights` object which provides methods for interacting with the Identity Insights API.
+
+```ruby
+client.identity_insights # => #<Vonage::IdentityInsights>
+```
+
+### Making an Insights Request
+
+You can make an Identity Insights request by calling the `IdentityInsights#requests` method, for example:
+
+```ruby
+response = client.identity_insights.requests(phone_number: '447900000000', insights: { format: {} })
+```
+
+### Using the Insights Builder
+
+The `IdentityInsights` object implements a `insights_builder` method. This method returns an `InsightsBuilder` object:
+
+```ruby
+insights_builder = client.identity_insights.insights_builder # => #<Vonage::IdentityInsights::InsightsBuilder @insights={}>
+```
+
+You can then call various methods on the builder in order to add the insights that you require. Each of these methods returns the calling object, so the method invocations can be chained:
+
+```ruby
+insights_builder.add_format.add_current_carrier
+# => #<Vonage::IdentityInsights::InsightsBuilder @insights={:format=>{}, :current_carrier=>{}}>
+```
+
+The builder object can be passed into the `IdentityInsights#requests` method invocation as the value of the `insights` keyword argument:
+
+```ruby
+response = client.identity_insights.requests(phone_number: '447900000000', insights: insights_builder)
+```
+
+### Calling the Method with a Block
+
+The `IdentityInsights#requests` method can also be called with a block. The method yields an `InsightsBuilder` object to the block and expects an `InsightsBuilder` object to be returned by the block.
+
+```ruby
+response = client.identity_insights.requests(phone_number: '447900000000', purpose: "FraudPreventionAndDetection") do |builder|
+  builder.add_format
+    .add_original_carrier
+    .add_current_carrier
+    .add_sim_swap(period: 2400)
+end
+```
+
+> [!NOTE]
+> When requesting the SIM Swap insight, you should pass the `purpose` keyword argument to the `IdentityInsights#requests` method invocation with a value of `'FraudPreventionAndDetection'`.
+
 ## Documentation
 
 Vonage Ruby SDK documentation: https://www.rubydoc.info/gems/vonage
@@ -952,10 +1015,11 @@ The following is a list of Vonage APIs for which the Ruby SDK currently provides
 * [Account API](https://developer.vonage.com/en/account/overview)
 * [Application API](https://developer.vonage.com/en/application/overview)
 * [Conversation API](https://developer.vonage.com/en/conversation/overview)
-* [Meetings API](https://developer.vonage.com/en/meetings/overview)
+* [Identity Insights API](https://developer.vonage.com/en/identity-insights/overview)
+* [Meetings API](https://developer.vonage.com/en/meetings/overview) (deprecated)
 * [Messages API](https://developer.vonage.com/en/messages/overview)
-* [Network Number Verification API](https://developer.vonage.com/en/number-verification/overview)
-* [Network SIM Swap API](https://developer.vonage.com/en/sim-swap/overview)
+* [Network Number Verification API](https://developer.vonage.com/en/number-verification/overview) (deprecated)
+* [Network SIM Swap API](https://developer.vonage.com/en/sim-swap/overview) (deprecated)
 * [Number Insight API](https://developer.vonage.com/en/number-insight/overview)
 * [Numbers API](https://developer.vonage.com/en/numbers/overview)
 * [Proactive Connect API](https://developer.vonage.com/en/proactive-connect/overview) *

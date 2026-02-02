@@ -113,12 +113,6 @@ class Vonage::Verify2::TemplatesTest < Vonage::Test
     assert_kind_of Vonage::Response, templates.delete(template_id: template_id)
   end
 
-  def test_delete_method
-    stub_request(:delete, template_uri).to_return(response)
-
-    assert_kind_of Vonage::Response, templates.delete(template_id: template_id)
-  end
-
   def test_delete_method_with_basic_authentication
     stub_request(:delete, template_uri).with(request(auth_method: basic_authorization)).to_return(response)
 
