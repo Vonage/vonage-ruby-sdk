@@ -7,11 +7,6 @@ module Vonage
   class Logger
     extend T::Sig
 
-    sig { params(logger: T.nilable(
-      defined?(ActiveSupport::BroadcastLogger) ?
-        T.any(::Logger, Vonage::Logger, ActiveSupport::BroadcastLogger)
-      : T.any(::Logger, Vonage::Logger)
-    )).void }
     def initialize(logger)
       @logger = logger || ::Logger.new(nil)
     end

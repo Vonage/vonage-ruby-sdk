@@ -44,7 +44,10 @@ class Vonage::Video::ArchivesTest < Vonage::Test
       sessionId: video_session_id,
       resolution: '640x480',
       streamMode: 'auto',
-      maxBitrate: 200000
+      maxBitrate: 200000,
+      quantizationParameter: 40,
+      hasTranscription: true,
+      transcriptionProperties: {primaryLanguageCode: 'en-US', hasSummary: true}
     }
 
     stub_request(:post, uri).with(body: request_params).to_return(response)
@@ -53,7 +56,10 @@ class Vonage::Video::ArchivesTest < Vonage::Test
       session_id: video_session_id,
       resolution: '640x480',
       stream_mode: 'auto',
-      max_bitrate: 200000
+      max_bitrate: 200000,
+      quantization_parameter: 40,
+      has_transcription: true,
+      transcription_properties: {primaryLanguageCode: 'en-US', hasSummary: true}
     )
   end
 

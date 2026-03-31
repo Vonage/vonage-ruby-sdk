@@ -65,9 +65,11 @@ module Vonage
         raise ClientError.new("'user' must be defined") unless endpoint[:user]
       when 'websocket'
         raise ClientError.new("Expected 'uri' value to be a valid URI") unless URI.parse(endpoint[:uri]).kind_of?(URI::Generic)
-        raise ClientError.new("Expected 'content-type' parameter to be either 'audio/116;rate=16000' or 'audio/116;rate=8000") unless endpoint[:'content-type'] == 'audio/116;rate=16000' || endpoint[:'content-type'] == 'audio/116;rate=8000'
+        raise ClientError.new("Expected 'content-type' parameter to be either 'audio/l16;rate=16000', 'audio/l16;rate=8000', or 'audio/l16;rate=24000'") unless ['audio/l16;rate=16000', 'audio/l16;rate=8000', 'audio/l16;rate=24000'].include?(endpoint[:'content-type'])
       when 'sip'
-        raise ClientError.new("Expected 'uri' value to be a valid URI") unless URI.parse(endpoint[:uri]).kind_of?(URI::Generic)
+        raise ClientError.new("Expected 'uri' value to be a valid URI") unless URI.parse(endpoint[:uri]).kind_of?(URI::Generic) if endpoint[:uri]
+        raise ClientError.new("`uri` must not be combined with `user` and `domain`") if endpoint[:uri] && (endpoint[:user] || endpoint[:domain])
+        raise ClientError.new("You must provide both `user` and `domain`") if (endpoint[:user] && !endpoint[:domain]) || (endpoint[:domain] && !endpoint[:user])
       end
     end
 
@@ -151,6 +153,7 @@ module Vonage
       ncco[0].merge!(timeout: builder.timeout) if builder.timeout
       ncco[0].merge!(limit: builder.limit) if builder.limit
       ncco[0].merge!(machineDetection: builder.machineDetection) if builder.machineDetection
+      ncco[0].merge!(advanced_machine_detection: builder.advanced_machine_detection) if builder.advanced_machine_detection
       ncco[0].merge!(eventUrl: builder.eventUrl) if builder.eventUrl
       ncco[0].merge!(eventMethod: builder.eventMethod) if builder.eventMethod
       ncco[0].merge!(ringbackTone: builder.ringbackTone) if builder.ringbackTone
@@ -183,6 +186,7 @@ module Vonage
 
       hash.merge!(dtmfAnswer: endpoint_attrs[:dtmfAnswer]) if endpoint_attrs[:dtmfAnswer]
       hash.merge!(onAnswer: endpoint_attrs[:onAnswer]) if endpoint_attrs[:onAnswer]
+      hash.merge!(shaken: endpoint_attrs[:shaken]) if endpoint_attrs[:shaken]
 
       hash
     end
@@ -208,10 +212,12 @@ module Vonage
 
     def sip_endpoint(endpoint_attrs)
       hash = {
-        type: 'sip',
-        uri: endpoint_attrs[:uri]
+        type: 'sip'
       }
 
+      hash.merge!(uri: endpoint_attrs[:uri]) if endpoint_attrs[:uri]
+      hash.merge!(user: endpoint_attrs[:user]) if endpoint_attrs[:user]
+      hash.merge!(domain: endpoint_attrs[:domain]) if endpoint_attrs[:domain]
       hash.merge!(headers: endpoint_attrs[:headers]) if endpoint_attrs[:headers]
       hash.merge!(standardHeaders: endpoint_attrs[:standardHeaders]) if endpoint_attrs[:standardHeaders]
 

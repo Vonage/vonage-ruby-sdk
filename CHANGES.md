@@ -1,3 +1,37 @@
+# 7.34.0
+
+* Implements the Identity Insights. See [#346](https://github.com/Vonage/vonage-ruby-sdk/pull/346)
+* Adds multi-authentication support to the Messages API and Verify API v2. [#345](https://github.com/Vonage/vonage-ruby-sdk/pull/345)
+* Makes some small updates to the Verify API and Voice API. See [#344](https://github.com/Vonage/vonage-ruby-sdk/pull/344)
+
+# 7.33.0
+
+* Updates SMS API, Verify v1 API, Number Insight v1 API, Account API, and Conversion API to support Basic Authentication. See [#343](https://github.com/Vonage/vonage-ruby-sdk/pull/343)
+
+# 7.32.0
+
+* Updates Video API implementation to add support for support for the `hasTranscription` and `transcriptionProperties` parameters and implement list connections functionality. See [#340](https://github.com/Vonage/vonage-ruby-sdk/pull/340)
+* Updates Voice API implementation to add new `wait` aqnd `transfer` NCCOs and add suport for 24K audio in the `connect` NCCO. See [#341](https://github.com/Vonage/vonage-ruby-sdk/pull/341)
+
+# 7.31.0
+
+* Updates Messages API implementation to add new RCS and MMS types. See [#335](https://github.com/Vonage/vonage-ruby-sdk/pull/335)
+* Updates Video API implementation to add support for quantizationParameter and bidirectional parameter. See [#336](https://github.com/Vonage/vonage-ruby-sdk/pull/336)
+* Updates Voice API implementation to update talk, stream, and connect (SIP) NCCOs. See [#337](https://github.com/Vonage/vonage-ruby-sdk/pull/337)
+* Updates Number Insight API implementation to change auth method to Basic and to deprecate v2. See [#338](https://github.com/Vonage/vonage-ruby-sdk/pull/338)
+
+# 7.30.2
+
+* Removes type signatures for `Logger` setter and initialization methods. See [#333](https://github.com/Vonage/vonage-ruby-sdk/pull/333)
+
+# 7.30.1
+
+* Fixes an incorrect path in the `Verify2#next_workflow` method. See [#329](https://github.com/Vonage/vonage-ruby-sdk/pull/329).
+
+# 7.30.0
+
+* Implements the Failover feature in Messages API. [#327](https://github.com/Vonage/vonage-ruby-sdk/pull/327)
+
 # 7.29.1
 
 * Fixes a bug with the Viber Service Messages API channel. [#323](https://github.com/Vonage/vonage-ruby-sdk/pull/323)

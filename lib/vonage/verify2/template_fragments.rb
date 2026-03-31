@@ -5,7 +5,7 @@ module Vonage
   class Verify2::TemplateFragments < Namespace
     CHANNELS = ['sms', 'voice'].freeze
 
-    self.authentication = BearerToken
+    self.authentication = BasicAndBearerToken
 
     self.request_body = JSON
 

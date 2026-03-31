@@ -6,6 +6,8 @@ module Vonage
     extend T::Sig
     include Keys
 
+    self.authentication = Basic
+
     self.host = :rest_host
 
     # Retrieve your account balance.

@@ -10,6 +10,29 @@ module Vonage
       @config = config
     end
 
+    # Generate a request signature.
+    #
+    # @example
+    #   client = Vonage::Client.new
+    #   client.config.signature_secret = 'secret'
+    #   client.config.signature_method = 'sha512'
+    #   params = {
+    #     'api_key' => 'abc123',
+    #     'to' => '447900000000',
+    #     'from' => '447900000001',
+    #     'text' => 'Hello World',
+    #     'timestamp' => '1385047698'
+    #   }
+    #
+    #   sig = client.signature.generate(params)
+    #
+    # @param [Hash] params
+    #
+    # @see https://developer.nexmo.com/concepts/guides/signing-messages
+    def generate(params, signature_secret: @config.signature_secret, signature_method: @config.signature_method)
+      digest(params, signature_secret, signature_method)
+    end
+    
     # Check webhook request signature.
     #
     # @example
@@ -38,7 +61,7 @@ module Vonage
     private
 
     def digest(params, signature_secret, signature_method)
-      digest_string = params.sort.map { |k, v| "&#{k}=#{v.tr('&=', '_')}" }.join
+      digest_string = params.sort.map { |k, v| "&#{k}=#{v.to_s.tr('&=', '_')}" }.join
 
       case signature_method
       when 'md5', 'sha1', 'sha256', 'sha512'

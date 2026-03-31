@@ -26,12 +26,7 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
         level: 0.5,
         language: 'en-GB',
         style: 1,
-        premium: true,
-        eventOnCompletion: true,
-        eventUrl: [
-          'https://example.com/event'
-        ],
-        eventMethod: 'GET'
+        premium: true
       }
     ]
 
@@ -42,12 +37,7 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
       level: 0.5,
       language: 'en-GB',
       style: 1,
-      premium: true,
-      eventOnCompletion: true,
-      eventUrl: [
-        'https://example.com/event'
-      ],
-      eventMethod: 'GET'
+      premium: true
     )
 
     assert_equal expected, talk.create_talk!(talk)
@@ -81,29 +71,5 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
     exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', premium: 'foo' }) }
 
     assert_match "Expected 'premium' value to be a Boolean", exception.message
-  end
-
-  def test_talk_with_invalid_event_on_completion_value
-    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', eventOnCompletion: 'true' }) }
-
-    assert_match "Expected 'eventOnCompletion' value to be a Boolean", exception.message
-  end
-
-  def test_talk_with_invalid_event_url_type
-    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', eventUrl: 'https://example.com/event' }) }
-
-    assert_match "Expected 'eventUrl' parameter to be an Array containing a single string item", exception.message
-  end
-
-  def test_talk_with_invalid_event_url
-    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', eventUrl: ['foo.bar'] }) }
-
-    assert_match "Invalid 'eventUrl' value, array must contain a valid URL", exception.message
-  end
-
-  def test_talk_with_invalid_event_method
-    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', eventMethod: 'PATCH' }) }
-
-    assert_match "Invalid 'eventMethod' value. must be either: 'GET' or 'POST'", exception.message
   end
 end

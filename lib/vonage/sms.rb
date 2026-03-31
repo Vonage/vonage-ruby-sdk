@@ -6,6 +6,8 @@ module Vonage
     extend T::Sig
     include Keys
 
+    self.authentication = BasicAndSignature
+
     self.host = :rest_host
 
     # Send an outbound SMS from your Vonage account.
@@ -65,6 +67,9 @@ module Vonage
     # @option params [String] :account_ref
     #   An optional string used to identify separate accounts using the SMS endpoint for billing purposes.
     #   To use this feature, please email [support@nexmo.com](mailto:support@nexmo.com).
+    #
+    # @option params [String] :trusted_number
+    #   Setting this parameter to true overrides, on a per-message basis, any protections set up via Fraud Defender (Traffic Rules, SMS Burst Protection, AIT Protection).
     #
     # @param [Hash] params
     #

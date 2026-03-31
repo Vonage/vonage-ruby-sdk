@@ -38,6 +38,7 @@ module Vonage
     # @option websocket [optional, Hash] :headers An object of key-value pairs of headers to be sent to your WebSocket server with each message, with a maximum length of 512 bytes.
     # @option websocket [optional, Integer] :audio_rate A number representing the audio sampling rate in Hz
     #   - Must be one of: 8000, 16000
+    # @option websocket [optional, Boolean] :bidirectional Whether to send audio data from the WebSocket connection to a stream published in the session.
     #
     # @return [Response]
     #

@@ -112,8 +112,8 @@ module Vonage
       "api-eu.vonage.com"
     end
 
-    def request(body: nil, query: nil, headers: {}, auth: nil)
-      headers['Authorization'] = auth || authorization
+    def request(body: nil, query: nil, headers: {}, auth_method: nil)
+      headers['Authorization'] = auth_method || authorization
       if body
         headers['Content-Type'] = 'application/json' unless headers.has_key?('Content-Type')
       end
@@ -396,6 +396,10 @@ module Vonage
 
     def conversation_id
       "CON-xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
+    end
+
+    def conversation_leg_uuid
+      "aaaaaaaa-bbbb-4ccc-8ddd-0123456789ab"
     end
 
     def call_id

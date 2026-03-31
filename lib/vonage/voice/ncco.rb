@@ -10,7 +10,9 @@ module Vonage
       notify: Vonage::Voice::Actions::Notify,
       record: Vonage::Voice::Actions::Record,
       stream: Vonage::Voice::Actions::Stream,
-      talk: Vonage::Voice::Actions::Talk
+      talk: Vonage::Voice::Actions::Talk,
+      wait: Vonage::Voice::Actions::Wait,
+      transfer: Vonage::Voice::Actions::Transfer    
     }
 
     class << self

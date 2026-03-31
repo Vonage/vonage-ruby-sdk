@@ -152,4 +152,31 @@ class Vonage::Messaging::Channels::WhatsAppTest < Vonage::Test
 
     assert_equal 'abc123', whatsapp.data[:client_ref]
   end
+
+  def test_with_to_specified
+    to_number = '447900000000'
+    whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'text', message: 'Hello world!', to: to_number)
+
+    assert_equal to_number, whatsapp.data[:to]
+    assert_includes whatsapp.data, :to
+  end
+
+  def test_with_from_specified
+    from_number = '447900000001'
+    whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'text', message: 'Hello world!', from: from_number)
+
+    assert_equal from_number, whatsapp.data[:from]
+    assert_includes whatsapp.data, :from
+  end
+
+  def test_with_to_and_from_specified
+    to_number = '447900000000'
+    from_number = '447900000001'
+    whatsapp = Vonage::Messaging::Channels::WhatsApp.new(type: 'text', message: 'Hello world!', to: to_number, from: from_number)
+
+    assert_equal to_number, whatsapp.data[:to]
+    assert_equal from_number, whatsapp.data[:from]
+    assert_includes whatsapp.data, :to
+    assert_includes whatsapp.data, :from
+  end
 end

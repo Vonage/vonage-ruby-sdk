@@ -40,6 +40,33 @@ class Vonage::Messaging::Channels::SMSTest < Vonage::Test
     assert_match ":message must be a String", exception.message
   end
 
+  def test_with_to_specified
+    to_number = '447900000000'
+    sms = Vonage::Messaging::Channels::SMS.new(message: 'Hello world!', to: to_number)
+
+    assert_equal to_number, sms.data[:to]
+    assert_includes sms.data, :to
+  end
+
+  def test_with_from_specified
+    from_number = '447900000001'
+    sms = Vonage::Messaging::Channels::SMS.new(message: 'Hello world!', from: from_number)
+
+    assert_equal from_number, sms.data[:from]
+    assert_includes sms.data, :from
+  end
+
+  def test_with_to_and_from_specified
+    to_number = '447900000000'
+    from_number = '447900000001'
+    sms = Vonage::Messaging::Channels::SMS.new(message: 'Hello world!', to: to_number, from: from_number)
+
+    assert_equal to_number, sms.data[:to]
+    assert_equal from_number, sms.data[:from]
+    assert_includes sms.data, :to
+    assert_includes sms.data, :from
+  end
+
   def test_with_opts
     sms = Vonage::Messaging::Channels::SMS.new(type: 'text', message: 'Hello world!', opts: { client_ref: 'abc123' })
 

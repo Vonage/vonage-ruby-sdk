@@ -109,6 +109,9 @@ module Vonage
     sig { returns(T.nilable(String)) }
     attr_accessor :app_version
 
+    sig { returns(T.nilable(Symbol)) }
+    attr_accessor :authentication_preference
+
     # Returns the value of attribute http.
     #
     # @return [Vonage::HTTP::Options]
@@ -131,11 +134,6 @@ module Vonage
 
     # @return [Vonage::Logger]
     #
-    sig { params(logger: T.nilable(
-      defined?(ActiveSupport::BroadcastLogger) ?
-        T.any(::Logger, Vonage::Logger, ActiveSupport::BroadcastLogger)
-      : T.any(::Logger, Vonage::Logger)
-    )).returns(T.nilable(Vonage::Logger)) }
     def logger=(logger)
       @logger = T.let(Logger.new(logger), T.nilable(Vonage::Logger))
     end

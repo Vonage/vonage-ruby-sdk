@@ -59,7 +59,9 @@ module Vonage
     #
     # @param [optional, String] :multi_archive_tag
     #
-    # @param [optional, String] :max_bitrate
+    # @param [optional, Number] :max_bitrate
+    #
+    # @param [optional, Number] :quantization_parameter
     #
     # @param [optional, Hash] :layout
     #
@@ -68,6 +70,14 @@ module Vonage
     # @option layout [optional, String] :stylesheet
     #
     # @option layout [optional, String] :screenshareType
+    #
+    # @param [optional, Boolean] :has_transcription
+    #
+    # @param [optional, Hash] :transcription_properties
+    #
+    # @option transcription_properties [optional, String] :primaryLanguageCode
+    #
+    # @option transcription_properties [optional, Boolean] :hasSummary
     #
     # @return [Response]
     #

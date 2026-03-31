@@ -3,6 +3,7 @@
 
 module Vonage
   class NumberInsight < Namespace
+    self.authentication = Basic
     # Provides basic number insight information about a number.
     #
     # @example

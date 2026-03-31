@@ -109,4 +109,31 @@ class Vonage::Messaging::Channels::ViberTest < Vonage::Test
     assert_equal 'transaction', viber.data[:viber_service][:category]
     assert_equal 600, viber.data[:viber_service][:ttl]
   end
+
+  def test_with_to_specified
+    to_number = '447900000000'
+    viber = Vonage::Messaging::Channels::Viber.new(type: 'text', message: 'Hello world!', to: to_number)
+
+    assert_equal to_number, viber.data[:to]
+    assert_includes viber.data, :to
+  end
+
+  def test_with_from_specified
+    from_number = '447900000001'
+    viber = Vonage::Messaging::Channels::Viber.new(type: 'text', message: 'Hello world!', from: from_number)
+
+    assert_equal from_number, viber.data[:from]
+    assert_includes viber.data, :from
+  end
+
+  def test_with_to_and_from_specified
+    to_number = '447900000000'
+    from_number = '447900000001'
+    viber = Vonage::Messaging::Channels::Viber.new(type: 'text', message: 'Hello world!', to: to_number, from: from_number)
+
+    assert_equal to_number, viber.data[:to]
+    assert_equal from_number, viber.data[:from]
+    assert_includes viber.data, :to
+    assert_includes viber.data, :from
+  end
 end

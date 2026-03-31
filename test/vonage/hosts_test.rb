@@ -31,7 +31,7 @@ class Vonage::HostsTest < Vonage::Test
 
     uri = %r{\Ahttps://#{rest_host}/}
 
-    stub_request(:get, uri).with(query: api_key_and_secret).to_return(response)
+    stub_request(:get, uri).with(request).to_return(response)
 
     assert_kind_of Vonage::Response, account.balance
   end

@@ -6,6 +6,10 @@ class Vonage::VerifyTest < Vonage::Test
     Vonage::Verify.new(config)
   end
 
+  def authorization
+    basic_authorization
+  end
+
   def request_id
     '8g88g88eg8g8gg9g90'
   end
@@ -50,7 +54,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {number: msisdn, brand: 'ExampleApp'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, verify.request(params)
 
@@ -67,7 +71,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {number: msisdn, brand: 'ExampleApp'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_network)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(error_response_blocklist_with_network)
 
     error = assert_raises Vonage::ServiceError do
       verify.request(params)
@@ -82,7 +86,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {number: msisdn, brand: 'ExampleApp'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_request_id)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(error_response_blocklist_with_request_id)
 
     error = assert_raises Vonage::ServiceError do
       verify.request(params)
@@ -97,7 +101,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {number: msisdn, brand: 'ExampleApp'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_network_and_request_id)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(error_response_blocklist_with_network_and_request_id)
 
     error = assert_raises Vonage::ServiceError do
       verify.request(params)
@@ -112,7 +116,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {request_id: request_id, code: '123445'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, verify.check(params)
 
@@ -129,7 +133,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {request_id: request_id}
 
-    stub_request(:get, uri).with(query: params.merge(api_key_and_secret)).to_return(response, error_response)
+    stub_request(:get, uri).with(request(query: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, verify.search(params)
 
@@ -146,7 +150,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {request_id: request_id, cmd: 'cancel'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, verify.control(params)
 
@@ -163,7 +167,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {request_id: request_id, cmd: 'cancel'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, verify.cancel(request_id)
 
@@ -180,7 +184,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {request_id: request_id, cmd: 'trigger_next_event'}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, verify.trigger_next_event(request_id)
 
@@ -197,7 +201,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {number: msisdn, payee: 'ExampleApp', amount: 48.00}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(response, error_response)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(response, error_response)
 
     assert_kind_of Vonage::Response, verify.psd2(params)
 
@@ -214,7 +218,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {number: msisdn, payee: 'ExampleApp', amount: 48.00}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_network)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(error_response_blocklist_with_network)
 
     error = assert_raises Vonage::ServiceError do
       verify.psd2(params)
@@ -229,7 +233,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {number: msisdn, payee: 'ExampleApp', amount: 48.00}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_request_id)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(error_response_blocklist_with_request_id)
 
     error = assert_raises Vonage::ServiceError do
       verify.psd2(params)
@@ -244,7 +248,7 @@ class Vonage::VerifyTest < Vonage::Test
 
     params = {number: msisdn, payee: 'ExampleApp', amount: 48.00}
 
-    stub_request(:post, uri).with(headers: headers, body: params.merge(api_key_and_secret)).to_return(error_response_blocklist_with_network_and_request_id)
+    stub_request(:post, uri).with(request(headers: headers, body: params)).to_return(error_response_blocklist_with_network_and_request_id)
 
     error = assert_raises Vonage::ServiceError do
       verify.psd2(params)

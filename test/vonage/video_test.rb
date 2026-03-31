@@ -158,6 +158,10 @@ class Vonage::VideoTest < Vonage::Test
     assert_kind_of Vonage::Video::Streams, video.streams
   end
 
+  def test_connections_method
+    assert_kind_of Vonage::Video::Connections, video.connections
+  end
+
   def test_archives_method
     assert_kind_of Vonage::Video::Archives, video.archives
   end

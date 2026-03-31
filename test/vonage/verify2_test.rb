@@ -6,6 +6,17 @@ class Vonage::Verify2Test < Vonage::Test
     Vonage::Verify2.new(config)
   end
 
+  def verify2_with_basic_auth
+    config = Vonage::Config.new.merge(
+      {
+        api_key: api_key,
+        api_secret: api_secret,
+        authentication_preference: :basic
+      }
+    )
+    Vonage::Verify2.new(config)
+  end
+
   def request_id
     'c11236f4-00bf-4b89-84ba-88b25df97315'
   end
@@ -67,6 +78,14 @@ class Vonage::Verify2Test < Vonage::Test
     stub_request(:post, uri).with(body: params).to_return(response)
 
     assert_kind_of Vonage::Response, verify2.start_verification(brand: brand, workflow: workflow, **opts)
+  end
+
+  def test_start_verification_method_with_basic_authentication
+    workflow = [{channel: 'sms', to: to_number}]
+
+    stub_request(:post, uri).with(request(body: {brand: brand, workflow: workflow}, auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, verify2_with_basic_auth.start_verification(brand: brand, workflow: workflow)
   end
 
   def test_start_verification_method_without_brand
@@ -147,6 +166,14 @@ class Vonage::Verify2Test < Vonage::Test
     assert_kind_of Vonage::Response, verify2.check_code(request_id: request_id, code: code)
   end
 
+  def test_check_code_method_with_basic_authentication
+    code = '1234'
+
+    stub_request(:post, check_request_uri).with(request(body: {code: code}, auth_method: basic_authorization)).to_return(status: 200, headers: {})
+
+    assert_kind_of Vonage::Response, verify2_with_basic_auth.check_code(request_id: request_id, code: code)
+  end
+
   def test_check_code_method_without_request_id
     assert_raises ArgumentError do
       verify2.check_code(code: '1234')
@@ -160,9 +187,15 @@ class Vonage::Verify2Test < Vonage::Test
   end
 
   def test_next_workflow_method
-    stub_request(:post, uri + request_id + '/next-workflow').to_return(response)
+    stub_request(:post, uri + request_id + '/next_workflow').to_return(response)
 
     assert_kind_of Vonage::Response, verify2.next_workflow(request_id: request_id)
+  end
+
+  def test_next_workflow_method_with_basic_authentication
+    stub_request(:post, uri + request_id + '/next_workflow').with(request(auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, verify2_with_basic_auth.next_workflow(request_id: request_id)
   end
 
   def test_next_workflow_method_without_request_id
@@ -200,6 +233,12 @@ class Vonage::Verify2Test < Vonage::Test
     stub_request(:delete, cancel_request_uri).to_return(status: 204, headers: {})
 
     assert_kind_of Vonage::Response, verify2.cancel_verification_request(request_id: request_id)
+  end
+
+  def test_cancel_verification_request_method_with_basic_authentication
+    stub_request(:delete, cancel_request_uri).with(request(auth_method: basic_authorization)).to_return(status: 204, headers: {})
+
+    assert_kind_of Vonage::Response, verify2_with_basic_auth.cancel_verification_request(request_id: request_id)
   end
 
   def test_cancel_verification_request_method_without_request_id

@@ -40,7 +40,10 @@ module Vonage
         'phone_number',
         'hashed_phone_number',
         'max_age',
-        'max_bitrate'
+        'max_bitrate',
+        'quantization_parameter',
+        'has_transcription',
+        'transcription_properties'
       ]
       hash.transform_keys do |k|
         if exceptions.include?(k.to_s)

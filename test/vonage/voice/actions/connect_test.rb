@@ -9,6 +9,17 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     assert_equal connect.endpoint, { type: 'app', user: 'joe' }
   end
 
+  def test_connect_initialize_with_advanced_machine_detection
+    connect = Vonage::Voice::Actions::Connect.new(
+      endpoint: { type: 'phone', number: '12129999999' },
+      advanced_machine_detection: { behavior: 'continue', mode: 'detect_beep', beep_timeout: 60 }
+    )
+
+    assert_kind_of Vonage::Voice::Actions::Connect, connect
+    assert_equal connect.endpoint, { type: 'phone', number: '12129999999' }
+    assert_equal connect.advanced_machine_detection, { behavior: 'continue', mode: 'detect_beep', beep_timeout: 60 }
+  end
+
   def test_create_endpoint_with_phone
     expected = { type: 'phone', number: '12129999999' }
     connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12129999999' })
@@ -23,11 +34,89 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     assert_equal expected, connect.create_endpoint(connect)
   end
 
+  def test_create_endpoint_with_phone_and_shaken_param
+    expected = { type: 'phone', number: '12129999999', shaken: "eyJhbGciOiJFUzI1NiIsInBwdCI6InNoYWtlbiIsInR5cCI6InBhc3Nwb3J0IiwieDV1IjoiaHR0cHM6Ly9jZXJ0LmV4YW1wbGUuY29tL3Bhc3Nwb3J0LnBlbSJ9.eyJhdHRlc3QiOiJBIiwiZGVzdCI6eyJ0biI6WyIxMjEyNTU1MTIxMiJdfSwiaWF0IjoxNjk0ODcwNDAwLCJvcmlnIjp7InRuIjoiMTQxNTU1NTEyMzQifSwib3JpZ2lkIjoiMTIzZTQ1NjctZTg5Yi0xMmQzLWE0NTYtNDI2NjE0MTc0MDAwIn0.MEUCIQCrfKeMtvn9I6zXjE2VfGEcdjC2sm5M6cPqBvFyV9XkpQIgLxlvLNmC8DJEKexXZqTZ;info=<https://stir-provider.example.net/cert.cer>;alg=ES256;ppt=shaken" }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12129999999', shaken: "eyJhbGciOiJFUzI1NiIsInBwdCI6InNoYWtlbiIsInR5cCI6InBhc3Nwb3J0IiwieDV1IjoiaHR0cHM6Ly9jZXJ0LmV4YW1wbGUuY29tL3Bhc3Nwb3J0LnBlbSJ9.eyJhdHRlc3QiOiJBIiwiZGVzdCI6eyJ0biI6WyIxMjEyNTU1MTIxMiJdfSwiaWF0IjoxNjk0ODcwNDAwLCJvcmlnIjp7InRuIjoiMTQxNTU1NTEyMzQifSwib3JpZ2lkIjoiMTIzZTQ1NjctZTg5Yi0xMmQzLWE0NTYtNDI2NjE0MTc0MDAwIn0.MEUCIQCrfKeMtvn9I6zXjE2VfGEcdjC2sm5M6cPqBvFyV9XkpQIgLxlvLNmC8DJEKexXZqTZ;info=<https://stir-provider.example.net/cert.cer>;alg=ES256;ppt=shaken" })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
   def test_create_endpoint_with_app
     expected = { type: 'app', user: 'joe' }
     connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'app', user: 'joe' })
 
     assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_websocket
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_websocket_with_audio_rate_8000
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_websocket_with_audio_rate_16000
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=16000' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=16000' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_websocket_with_audio_rate_24000
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=24000' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=24000' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def create_endpoint_with_websocket_with_invalid_audio_rate
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=32000' }) }
+    assert_match "Expected 'content-type' parameter to be either 'audio/l16;rate=16000', 'audio/l16;rate=8000', or 'audio/l16;rate=24000'", exception.message
+  end
+
+  def test_create_endpoint_with_sip_uri
+    expected = { type: 'sip', uri: 'sip:joe@domain.com' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'sip', uri: 'sip:joe@domain.com' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_sip_user_and_domain
+    expected = { type: 'sip', user: 'joe', domain: 'domain.com' }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'sip', user: 'joe', domain: 'domain.com' })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_verify_endpoint_with_mutually_exclusive_sip_params
+    endpoint = { type: 'sip', uri: 'sip:joe@domain.com', user: 'joe', domain: 'domain.com' }
+
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: endpoint) }
+
+    assert_match "`uri` must not be combined with `user` and `domain`", exception.message
+  end
+
+  def test_verify_endpoint_with_user_but_no_domain_sip_params
+    endpoint = { type: 'sip', user: 'joe' }
+
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: endpoint) }
+
+    assert_match "You must provide both `user` and `domain`", exception.message
+  end
+
+  def test_verify_endpoint_with_domain_but_no_user_sip_params
+    endpoint = { type: 'sip', domain: 'domain.com' }
+
+    exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: endpoint) }
+
+    assert_match "You must provide both `user` and `domain`", exception.message
   end
 
   def test_verify_endpoint_with_invalid_phone_number
@@ -108,6 +197,28 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     exception = assert_raises { Vonage::Voice::Actions::Connect.new(endpoint: { type: 'phone', number: '12122222222' }, ringbackTone: 'invalid') }
 
     assert_match "Invalid 'ringbackTone' value, must be a valid URL", exception.message
+  end
+
+  def test_action_method_with_advanced_machine_detection
+    connect = Vonage::Voice::Actions::Connect.new(
+      endpoint: { type: 'phone', number: '12129999999' },
+      advanced_machine_detection: { behavior: 'continue', mode: 'detect_beep', beep_timeout: 60 }
+    )
+
+    expected = [{
+      action: 'connect',
+      endpoint: [{
+        type: 'phone',
+        number: '12129999999'
+      }],
+      advanced_machine_detection: {
+        behavior: 'continue',
+        mode: 'detect_beep',
+        beep_timeout: 60
+      }
+    }]
+
+    assert_equal expected, connect.action
   end
 
 end

@@ -5,6 +5,17 @@ class Vonage::Verify2::TemplateFragmentsTest < Vonage::Test
     Vonage::Verify2::TemplateFragments.new(config)
   end
 
+  def template_fragments_with_basic_auth
+    config = Vonage::Config.new.merge(
+      {
+        api_key: api_key,
+        api_secret: api_secret,
+        authentication_preference: :basic
+      }
+    )
+    Vonage::Verify2::TemplateFragments.new(config)
+  end
+
   def template_id
     '8f35a1a7-eb2f-4552-8fdf-fffdaee41bc9'
   end
@@ -43,6 +54,15 @@ class Vonage::Verify2::TemplateFragmentsTest < Vonage::Test
     template_fragments_list.each { |template_fragment| assert_kind_of Vonage::Entity, template_fragment }
   end
 
+  def test_list_method_with_basic_authentication
+    stub_request(:get, template_fragments_uri).with(request(auth_method: basic_authorization)).to_return(template_fragments_list_response)
+
+    template_fragments_list = template_fragments_with_basic_auth.list(template_id: template_id)
+
+    assert_kind_of Vonage::Verify2::TemplateFragments::ListResponse, template_fragments_list
+    template_fragments_list.each { |template_fragment| assert_kind_of Vonage::Entity, template_fragment }
+  end
+
   def test_list_method_without_template_id
     assert_raises(ArgumentError) { template_fragments.list }
   end
@@ -51,6 +71,12 @@ class Vonage::Verify2::TemplateFragmentsTest < Vonage::Test
     stub_request(:get, template_fragment_uri).to_return(response)
 
     assert_kind_of Vonage::Response, template_fragments.info(template_id: template_id, template_fragment_id: template_fragment_id)
+  end
+
+  def test_info_method_with_basic_authentication
+    stub_request(:get, template_fragment_uri).with(request(auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, template_fragments_with_basic_auth.info(template_id: template_id, template_fragment_id: template_fragment_id)
   end
 
   def test_info_method_without_template_id
@@ -65,6 +91,12 @@ class Vonage::Verify2::TemplateFragmentsTest < Vonage::Test
     stub_request(:post, template_fragments_uri).with(body: { channel: 'sms', locale: 'en-gb', text: 'Code: ${code}' }).to_return(response)
 
     assert_kind_of Vonage::Response, template_fragments.create(template_id: template_id, channel: 'sms', locale: 'en-gb', text: 'Code: ${code}')
+  end
+
+  def test_create_method_with_basic_authentication
+    stub_request(:post, template_fragments_uri).with(request(body: { channel: 'sms', locale: 'en-gb', text: 'Code: ${code}' }, auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, template_fragments_with_basic_auth.create(template_id: template_id, channel: 'sms', locale: 'en-gb', text: 'Code: ${code}')
   end
 
   def test_create_method_without_template_id
@@ -93,6 +125,12 @@ class Vonage::Verify2::TemplateFragmentsTest < Vonage::Test
     assert_kind_of Vonage::Response, template_fragments.update(template_id: template_id, template_fragment_id: template_fragment_id, text: 'Your code is: ${code}')
   end
 
+  def test_update_method_with_basic_authentication
+    stub_request(:patch, template_fragment_uri).with(request(body: { text: 'Your code is: ${code}' }, auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, template_fragments_with_basic_auth.update(template_id: template_id, template_fragment_id: template_fragment_id, text: 'Your code is: ${code}')
+  end
+
   def test_update_method_without_template_id
     assert_raises(ArgumentError) { template_fragments.update(template_fragment_id: template_fragment_id, text: 'Your code is: ${code}') }
   end
@@ -109,6 +147,12 @@ class Vonage::Verify2::TemplateFragmentsTest < Vonage::Test
     stub_request(:delete, template_fragment_uri).to_return(response)
 
     assert_kind_of Vonage::Response, template_fragments.delete(template_id: template_id, template_fragment_id: template_fragment_id)
+  end
+
+  def test_delete_method_with_basic_authentication
+    stub_request(:delete, template_fragment_uri).with(request(auth_method: basic_authorization)).to_return(response)
+
+    assert_kind_of Vonage::Response, template_fragments_with_basic_auth.delete(template_id: template_id, template_fragment_id: template_fragment_id)
   end
 
   def test_delete_method_without_template_id
