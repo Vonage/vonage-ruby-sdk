@@ -130,4 +130,10 @@ class Vonage::Messaging::Channels::MMSTest < Vonage::Test
 
     assert_equal 'abc123', mms.data[:client_ref]
   end
+
+  def test_with_trusted_recipient_parameter
+    mms = Vonage::Messaging::Channels::MMS.new(type: 'image', message: { url: 'https://example.com/image.jpg' }, opts: { trusted_recipient: true })
+
+    assert_equal true, mms.data[:trusted_recipient]
+  end
 end
