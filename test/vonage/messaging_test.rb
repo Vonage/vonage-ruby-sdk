@@ -231,6 +231,12 @@ class Vonage::MessagingTest < Vonage::Test
     assert_kind_of Vonage::Response, geo_specific_messaging.update(message_uuid: message_uuid, status: 'read')
   end
 
+  def test_update_method_with_replying_indicator
+    stub_request(:patch, 'https://' + geo_specific_messaging_host + '/v1/messages/' + message_uuid).with(request(body: {status: 'read', replying_indicator: {show: true, type: 'text'}})).to_return(response)
+
+    assert_kind_of Vonage::Response, geo_specific_messaging.update(message_uuid: message_uuid, status: 'read', replying_indicator: {show: true, type: 'text'})
+  end
+
   # The below tests are to ensure backwards compatibility with the previous send method implementation
 
   def test_send_method_with_builder_setting_to_and_from
