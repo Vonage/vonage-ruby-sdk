@@ -85,6 +85,13 @@ module Vonage
       if self.speech[:maxDuration]
         raise ClientError.new("Expected 'maxDuration' to not be more than 60 seconds") unless self.speech[:maxDuration] <= 60 && self.speech[:maxDuration] >= 0
       end
+
+      if self.speech[:provider]
+        valid_providers = ['google']
+
+        raise ClientError.new("Invalid 'provider' value, must be one of: #{valid_providers.join(', ')}") unless valid_providers.include?(self.speech[:provider])
+        raise ClientError.new("The `providerOptions` parameter is required when specifying a `provider`") unless self.speech[:providerOptions]
+      end
     end
 
     def validate_event_url

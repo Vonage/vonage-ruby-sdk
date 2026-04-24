@@ -38,7 +38,9 @@ class Vonage::Voice::Actions::InputTest < Vonage::Test
           startTimeout: 5,
           maxDuration: 50,
           saveAudio: true,
-          sensitivity: 50
+          sensitivity: 50,
+          provider: "google",
+          providerOptions: {}
         },
         eventUrl: [
           'https://example.com/webhooks/events',
@@ -67,7 +69,9 @@ class Vonage::Voice::Actions::InputTest < Vonage::Test
         startTimeout: 5,
         maxDuration: 50,
         saveAudio: true,
-        sensitivity: 50
+        sensitivity: 50,
+        provider: "google",
+        providerOptions: {}
       },
       eventUrl: [
         'https://example.com/webhooks/events',
@@ -149,6 +153,18 @@ class Vonage::Voice::Actions::InputTest < Vonage::Test
     exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], speech: { maxDuration: 62 }) }
 
     assert_match "Expected 'maxDuration' to not be more than 60 seconds", exception.message
+  end
+
+  def test_input_with_invalid_speech_provider_value
+    exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], speech: { provider: 'foo', providerOptions: {} }) }
+
+    assert_match "Invalid 'provider' value, must be one of: google", exception.message
+  end
+
+  def test_input_with_provider_but_no_provider_options
+    exception = assert_raises { Vonage::Voice::Actions::Input.new(type: ['speech'], speech: { provider: 'google' }) }
+
+    assert_match "The `providerOptions` parameter is required when specifying a `provider`", exception.message
   end
 
   def test_input_with_invalid_event_url_type
