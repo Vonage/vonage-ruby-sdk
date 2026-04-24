@@ -81,6 +81,20 @@ class Vonage::Voice::Actions::ConnectTest < Vonage::Test
     assert_match "Expected 'content-type' parameter to be either 'audio/l16;rate=16000', 'audio/l16;rate=8000', or 'audio/l16;rate=24000'", exception.message
   end
 
+  def test_create_endpoint_with_websocket_with_vonage_authorization_header
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000', authorization: { type: 'vonage' } }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000', authorization: { type: 'vonage' } })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
+  def test_create_endpoint_with_websocket_with_custom_authorization_header
+    expected = { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000', authorization: { type: 'custom', value: 'Bearer abc123def456ghi789' } }
+    connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'websocket', uri: 'wss://example.com/socket', :'content-type' => 'audio/l16;rate=8000', authorization: { type: 'custom', value: 'Bearer abc123def456ghi789' } })
+
+    assert_equal expected, connect.create_endpoint(connect)
+  end
+
   def test_create_endpoint_with_sip_uri
     expected = { type: 'sip', uri: 'sip:joe@domain.com' }
     connect = Vonage::Voice::Actions::Connect.new(endpoint: { type: 'sip', uri: 'sip:joe@domain.com' })
