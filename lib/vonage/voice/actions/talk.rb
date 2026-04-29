@@ -2,7 +2,7 @@
 # frozen_string_literal: true
 module Vonage
   class Voice::Actions::Talk
-    attr_accessor :text, :bargeIn, :loop, :level, :language, :style, :premium
+    attr_accessor :text, :bargeIn, :loop, :level, :language, :style, :premium, :provider, :providerOptions
 
     def initialize(attributes= {})
       @text = attributes.fetch(:text)
@@ -12,6 +12,8 @@ module Vonage
       @language = attributes.fetch(:language, nil)
       @style = attributes.fetch(:style, nil)
       @premium = attributes.fetch(:premium, nil)
+      @provider = attributes.fetch(:provider, nil)
+      @providerOptions = attributes.fetch(:providerOptions, nil)
 
       after_initialize!
     end
@@ -36,6 +38,10 @@ module Vonage
       if self.premium || self.premium == false
         verify_premium
       end
+
+      if self.provider
+        verify_provider
+      end
     end
 
     def verify_barge_in
@@ -58,6 +64,13 @@ module Vonage
       raise ClientError.new("Expected 'premium' value to be a Boolean") unless self.premium == true || self.premium == false
     end
 
+    def verify_provider
+      valid_providers = ['google']
+
+      raise ClientError.new("Invalid 'provider' value, must be one of: #{valid_providers.join(', ')}") unless valid_providers.include?(self.provider)
+      raise ClientError.new("The `providerOptions` parameter is required when specifying a `provider`") unless self.providerOptions
+    end
+
     def action
       create_talk!(self)
     end
@@ -75,7 +88,9 @@ module Vonage
       ncco[0].merge!(level: builder.level) if builder.level
       ncco[0].merge!(language: builder.language) if builder.language
       ncco[0].merge!(style: builder.style) if builder.style
-      ncco[0].merge!(premium: builder.premium) if (builder.bargeIn || builder.bargeIn == false)
+      ncco[0].merge!(premium: builder.premium) if (builder.premium || builder.premium == false)
+      ncco[0].merge!(provider: builder.provider) if builder.provider
+      ncco[0].merge!(providerOptions: builder.providerOptions) if builder.providerOptions
 
       ncco
     end
