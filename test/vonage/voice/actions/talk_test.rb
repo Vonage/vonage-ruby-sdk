@@ -26,7 +26,9 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
         level: 0.5,
         language: 'en-GB',
         style: 1,
-        premium: true
+        premium: true,
+        provider: "google",
+        providerOptions: {}
       }
     ]
 
@@ -37,7 +39,9 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
       level: 0.5,
       language: 'en-GB',
       style: 1,
-      premium: true
+      premium: true,
+      provider: "google",
+      providerOptions: {}
     )
 
     assert_equal expected, talk.create_talk!(talk)
@@ -71,5 +75,17 @@ class Vonage::Voice::Actions::TalkTest < Vonage::Test
     exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', premium: 'foo' }) }
 
     assert_match "Expected 'premium' value to be a Boolean", exception.message
+  end
+
+  def test_talk_with_invalid_provider_value
+    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', provider: 'foo', providerOptions: {} }) }
+
+    assert_match "Invalid 'provider' value, must be one of: google", exception.message
+  end
+
+  def test_talk_with_provider_but_no_provider_options
+    exception = assert_raises { Vonage::Voice::Actions::Talk.new({ text: 'Sample Text', provider: 'google' }) }
+
+    assert_match "The `providerOptions` parameter is required when specifying a `provider`", exception.message
   end
 end

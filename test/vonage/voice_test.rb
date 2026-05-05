@@ -68,6 +68,67 @@ class Vonage::VoiceTest < Vonage::Test
     assert_kind_of Vonage::Response, calls.create(params)
   end
 
+  def test_create_method_with_connect_to_websocket
+    params = {
+      to: [
+        {
+          type: 'websocket',
+          uri: 'wss://example.com/socket',
+          :'Content-Type' => 'audio/l16;rate=16000'
+        }
+      ],
+      from: {type: 'phone', number: '14843335555'},
+      answer_url: ['https://example.com/answer']
+    }
+
+    stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
+
+    assert_kind_of Vonage::Response, calls.create(params)
+  end
+
+  def test_create_method_with_connect_to_websocket_with_vonage_authorization_header
+    params = {
+      to: [
+        {
+          type: 'websocket',
+          uri: 'wss://example.com/socket',
+          :'Content-Type' => 'audio/l16;rate=16000',
+          authorization: {
+            type: 'vonage'
+          }
+        }
+      ],
+      from: {type: 'phone', number: '14843335555'},
+      answer_url: ['https://example.com/answer']
+    }
+
+    stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
+
+    assert_kind_of Vonage::Response, calls.create(params)
+  end
+
+  def test_create_method_with_connect_to_websocket_with_custom_authorization_header
+    params = {
+      to: [
+        {
+          type: 'websocket',
+          uri: 'wss://example.com/socket',
+          :'Content-Type' => 'audio/l16;rate=16000',
+          authorization: {
+            type: 'custom',
+            value: 'Bearer abc123def456ghi789'
+          }
+        }
+      ],
+      from: {type: 'phone', number: '14843335555'},
+      answer_url: ['https://example.com/answer']
+    }
+
+    stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
+
+    assert_kind_of Vonage::Response, calls.create(params)
+  end
+
   def test_create_method_raises_error_if_from_set_and_random_from_number_true
     params = {
       to: [{type: 'phone', number: '14843331234'}],

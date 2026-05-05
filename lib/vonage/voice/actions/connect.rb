@@ -206,6 +206,7 @@ module Vonage
       }
 
       hash.merge!(headers: endpoint_attrs[:headers]) if endpoint_attrs[:headers]
+      hash.merge!(authorization: endpoint_attrs[:authorization]) if endpoint_attrs[:authorization]
 
       hash
     end
