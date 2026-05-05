@@ -65,6 +65,19 @@ class Vonage::Verify2::Channels::WhatsAppTest < Vonage::Test
     end
   end
 
+  def test_mode_setter_method
+    channel = whatsapp_channel
+    channel.mode = 'zero_tap'
+
+    assert_equal 'zero_tap', channel.instance_variable_get(:@mode)
+  end
+
+  def test_mode_setter_method_with_invalid_mode
+    assert_raises ArgumentError do
+      whatsapp_channel.mode = 'invalid_mode'
+    end
+  end
+
   def test_to_h_method
     channel_hash = Vonage::Verify2::Channels::WhatsApp.new(
       to: e164_compliant_number,

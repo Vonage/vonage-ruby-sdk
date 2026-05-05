@@ -24,6 +24,12 @@ module Vonage
       @from = from
     end
 
+    def mode=(mode)
+      valid_modes = ['otp_code', 'zero_tap']
+      raise ArgumentError, "Invalid 'mode' value #{mode}. Expected to be one of #{valid_modes.join(', ')}" unless valid_modes.include?(mode)
+      @mode = mode
+    end
+
     def to_h
       hash = Hash.new
       self.instance_variables.each do |ivar|
