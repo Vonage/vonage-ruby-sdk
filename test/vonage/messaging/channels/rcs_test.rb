@@ -502,4 +502,10 @@ class Vonage::Messaging::Channels::RCSTest < Vonage::Test
     assert_includes rcs.data, :to
     assert_includes rcs.data, :from
   end
+
+  def test_with_trusted_recipient_parameter
+    rcs = Vonage::Messaging::Channels::RCS.new(type: 'text', message: 'Hello world!', opts: { trusted_recipient: true })
+
+    assert_equal true, rcs.data[:trusted_recipient]
+  end
 end

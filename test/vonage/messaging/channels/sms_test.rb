@@ -72,4 +72,10 @@ class Vonage::Messaging::Channels::SMSTest < Vonage::Test
 
     assert_equal 'abc123', sms.data[:client_ref]
   end
+
+  def test_with_trusted_recipient_parameter
+    sms = Vonage::Messaging::Channels::SMS.new(type: 'text', message: 'Hello world!', opts: { trusted_recipient: true })
+
+    assert_equal true, sms.data[:trusted_recipient]
+  end
 end
