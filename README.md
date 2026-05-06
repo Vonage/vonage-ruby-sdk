@@ -36,8 +36,9 @@ need a Vonage account. Sign up [for free at vonage.com][signup].
 
 ## Requirements
 
-Vonage Ruby supports MRI/CRuby (2.5 or newer), JRuby (9.2.x), and Truffleruby.
+Vonage Ruby supports MRI/CRuby (tests in CI are run against 3.3 and newer, but the library will likely still work with any 2.x or newer version).
 
+JRuby and Truffleruby are supported in theory, but aren't tested against as part of the CI pipeline.
 
 ## Installation
 
