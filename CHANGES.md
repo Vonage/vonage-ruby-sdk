@@ -1,3 +1,9 @@
+# 7.35.0
+
+* Adds support for the `mode` param to the WhatsApp channel of Verify v2. See [#353](https://github.com/Vonage/vonage-ruby-sdk/pull/353)
+* Adds support for setting `vonage` and `custom` authorization header and Adds support for the `provider` and `providerOptions` params in the Voice API. [#352](https://github.com/Vonage/vonage-ruby-sdk/pull/352)
+* Adds support for the `trusted_recipient` parameter for SMS, MMS, and RCS messages and the `replying_indicator` param for the `update` method in the Messages API. See [#351](https://github.com/Vonage/vonage-ruby-sdk/pull/351)
+
 # 7.34.0
 
 * Implements the Identity Insights. See [#346](https://github.com/Vonage/vonage-ruby-sdk/pull/346)
