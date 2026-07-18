@@ -1,5 +1,3 @@
-# typed: strong
-
 module Vonage
   class ServerError < Error
     def initialize(message)

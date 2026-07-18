@@ -1,5 +1,3 @@
-# typed: true
-
 module Vonage
   class Basic < AbstractAuthentication
     def update(object)

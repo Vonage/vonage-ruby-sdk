@@ -1,5 +1,3 @@
-# typed: strong
-
 module Vonage
   class ClientError < Error
     def initialize(message)

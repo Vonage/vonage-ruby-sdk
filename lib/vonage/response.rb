@@ -1,5 +1,3 @@
-# typed: true
-
 module Vonage
   class Response
     def initialize(entity=nil, http_response=nil)

@@ -1,13 +1,10 @@
-# typed: strict
 # frozen_string_literal: true
 require 'logger'
 require 'forwardable'
 
 module Vonage
   class Logger
-    extend T::Sig
 
-    sig { params(logger: T.untyped).void }
     def initialize(logger)
       @logger = logger || ::Logger.new(nil)
     end
@@ -18,11 +15,8 @@ module Vonage
       def_delegator :@logger, name, name
     end
 
-    sig { params(request: T.any(Net::HTTP::Post, Net::HTTP::Get, Net::HTTP::Delete, Net::HTTP::Put)).void }
     def log_request_info(request)
-      @logger = T.let(@logger, T.nilable(T.untyped))
-
-      T.must(@logger).info do
+      @logger.info do
         format('Vonage API request', {
           method: request.method,
           path: request.uri.path
@@ -30,12 +24,8 @@ module Vonage
       end
     end
 
-    sig { params(
-      response: T.any(Net::HTTPOK, Net::HTTPNoContent, Net::HTTPBadRequest, Net::HTTPInternalServerError, Net::HTTPResponse),
-      host: String
-    ).void }
     def log_response_info(response, host)
-      T.must(@logger).info do
+      @logger.info do
         format('Vonage API response', {
           host: host,
           status: response.code,
@@ -48,7 +38,6 @@ module Vonage
 
     private
 
-    sig { params(message: String, hash: T::Hash[Symbol, T.untyped]).returns(String) }
     def format(message, hash)
       return message if hash.nil?
 

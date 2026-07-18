@@ -1,9 +1,7 @@
-# typed: strict
 # frozen_string_literal: true
 
 module Vonage
   class Verify < Namespace
-    extend T::Sig
     alias_method :http_request, :request
 
     private :http_request
@@ -60,7 +58,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/verify#verifyRequest
     #
-    sig { params(params: T.untyped, uri: T.untyped).returns(T.untyped) }
     def request(params, uri = '/verify/json')
       response = http_request(uri, params: params, type: Post)
 
@@ -93,7 +90,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/verify#verifyCheck
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def check(params)
       response = http_request('/verify/check/json', params: params, type: Post)
 
@@ -120,7 +116,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/verify#verifySearch
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(T.any(T::Hash[Symbol, T.untyped], Vonage::Response)) }
     def search(params)
       response = http_request('/verify/search/json', params: params)
 
@@ -147,7 +142,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/verify#verifyControl
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(T.untyped) }
     def control(params)
       response = http_request('/verify/control/json', params: params, type: Post)
 
@@ -167,7 +161,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/verify#verifyControl
     #
-    sig { params(id: String).returns(Vonage::Response) }
     def cancel(id)
       control(request_id: id, cmd: 'cancel')
     end
@@ -183,7 +176,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/verify#verifyControl
     #
-    sig { params(id: String).returns(Vonage::Response) }
     def trigger_next_event(id)
       control(request_id: id, cmd: 'trigger_next_event')
     end
@@ -234,7 +226,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/verify#verifyRequestWithPSD2
     #
-    sig { params(params: T.untyped, uri: T.untyped).returns(T.any(Vonage::Error, Vonage::Response)) }
     def psd2(params, uri = '/verify/psd2/json')
       response = http_request(uri, params: params, type: Post)
 
@@ -245,7 +236,6 @@ module Vonage
 
     private
 
-    sig { params(response: T.untyped).returns(T::Boolean) }
     def error?(response)
       response.respond_to?(:error_text)
     end

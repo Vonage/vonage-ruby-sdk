@@ -1,5 +1,3 @@
-# typed: true
-
 module Vonage
   module FormData
     def self.update(http_request, params)

@@ -1,5 +1,3 @@
-# typed: strong
-
 module Vonage
   class Error < StandardError
     attr_reader :status

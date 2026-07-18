@@ -1,134 +1,112 @@
-# typed: strict
-
 module Vonage
   class Client
-    extend T::Sig
 
-    sig { returns(Vonage::Config) }
     attr_reader :config
 
-    sig { params(options: T.nilable(T::Hash[Symbol, T.untyped])).void }
     def initialize(options = nil)
-      @config = T.let(Vonage.config.merge(options), Vonage::Config)
+      @config = Vonage.config.merge(options)
     end
 
     # @return [Signature]
     #
-    sig { returns(T.nilable(Vonage::Signature)) }
     def signature
-      @signature ||= T.let(Signature.new(config), T.nilable(Vonage::Signature))
+      @signature ||= Signature.new(config)
     end
 
     # @return [Account]
     #
-    sig { returns(T.nilable(Vonage::Account)) }
     def account
-      @account ||= T.let(Account.new(config), T.nilable(Vonage::Account))
+      @account ||= Account.new(config)
     end
 
     # @return [Alerts]
     #
-    sig { returns(T.nilable(Vonage::Alerts)) }
     def alerts
-      @alerts ||= T.let(Alerts.new(config), T.nilable(Vonage::Alerts))
+      @alerts ||= Alerts.new(config)
     end
 
     # @return [Applications]
     #
-    sig { returns(T.nilable(Vonage::Applications)) }
     def applications
-      @applications ||= T.let(Applications.new(config), T.nilable(Vonage::Applications))
+      @applications ||= Applications.new(config)
     end
 
     # @return [Conversations]
     #
-    sig { returns(T.nilable(Vonage::Conversations)) }
     def conversations
-      @conversations ||= T.let(Conversations.new(config), T.nilable(Vonage::Conversations))
+      @conversations ||= Conversations.new(config)
     end
 
     # @return [Conversions]
     #
-    sig { returns(T.nilable(Vonage::Conversions)) }
     def conversions
-      @conversions ||= T.let(Conversions.new(config), T.nilable(Vonage::Conversions))
+      @conversions ||= Conversions.new(config)
     end
 
     # @return [Files]
     #
-    sig { returns(T.nilable(Vonage::Files)) }
     def files
-      @files ||= T.let(Files.new(config), T.nilable(Vonage::Files))
+      @files ||= Files.new(config)
     end
 
     # @return [Messages]
     #
-    sig { returns(T.nilable(Vonage::Messages)) }
     def messages
-      @messages ||= T.let(Messages.new(config), T.nilable(Vonage::Messages))
+      @messages ||= Messages.new(config)
     end
 
     # @return [NumberInsight]
     #
-    sig { returns(T.nilable(Vonage::NumberInsight)) }
     def number_insight
-      @number_insight ||= T.let(NumberInsight.new(config), T.nilable(Vonage::NumberInsight))
+      @number_insight ||= NumberInsight.new(config)
     end
 
     # @return [Numbers]
     #
-    sig { returns(T.nilable(Vonage::Numbers)) }
     def numbers
-      @numbers ||= T.let(Numbers.new(config), T.nilable(Vonage::Numbers))
+      @numbers ||= Numbers.new(config)
     end
 
     # @return [PricingTypes]
     #
-    sig { returns(T.nilable(Vonage::PricingTypes)) }
     def pricing
-      @pricing ||= T.let(PricingTypes.new(config), T.nilable(Vonage::PricingTypes))
+      @pricing ||= PricingTypes.new(config)
     end
 
     # @return [Redact]
     #
-    sig { returns(T.nilable(Vonage::Redact)) }
     def redact
-      @redact ||= T.let(Redact.new(config), T.nilable(Vonage::Redact))
+      @redact ||= Redact.new(config)
     end
 
     # @return [Secrets]
     #
-    sig { returns(T.nilable(Vonage::Secrets)) }
     def secrets
-      @secrets ||= T.let(Secrets.new(config), T.nilable(Vonage::Secrets))
+      @secrets ||= Secrets.new(config)
     end
 
     # @return [SMS]
     #
-    sig { returns(T.nilable(Vonage::SMS)) }
     def sms
-      @sms ||= T.let(SMS.new(config), T.nilable(Vonage::SMS))
+      @sms ||= SMS.new(config)
     end
 
     # @return [TFA]
     #
-    sig { returns(T.nilable(Vonage::TFA)) }
     def tfa
-      @tfa ||= T.let(TFA.new(config), T.nilable(Vonage::TFA))
+      @tfa ||= TFA.new(config)
     end
 
     # @return [Verify]
     #
-    sig { returns(T.nilable(Vonage::Verify)) }
     def verify
-      @verify ||= T.let(Verify.new(config), T.nilable(Vonage::Verify))
+      @verify ||= Verify.new(config)
     end
 
     # @return [Voice]
     #
-    sig { returns(T.nilable(Vonage::Voice)) }
     def voice
-      @voice ||= T.let(Voice.new(config), T.nilable(Vonage::Voice))
+      @voice ||= Voice.new(config)
     end
   end
 end

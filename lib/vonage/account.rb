@@ -1,9 +1,7 @@
-# typed: strict
 # frozen_string_literal: true
 
 module Vonage
   class Account < Namespace
-    extend T::Sig
     include Keys
 
     self.host = :rest_host
@@ -14,7 +12,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/developer/account#get-balance
     #
-    sig { returns(Vonage::Response) }
     def balance
       request('/account/get-balance')
     end
@@ -37,7 +34,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/developer/account#settings
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def update(params)
       request('/account/settings', params: camelcase(params), type: Post)
     end
@@ -53,7 +49,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/developer/account#top-up
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def topup(params)
       request('/account/top-up', params: params, type: Post)
     end

@@ -14,7 +14,6 @@ Gem::Specification.new do |s|
   s.required_ruby_version = '>= 2.5.0'
   s.add_dependency('nexmo-jwt', '~> 0.1.2')
   s.add_dependency('zeitwerk', '~> 2', '>= 2.2')
-  s.add_dependency('sorbet-runtime', '~> 0.5')
   s.add_runtime_dependency('rexml')
   s.add_runtime_dependency('phonelib')
   s.require_path = 'lib'

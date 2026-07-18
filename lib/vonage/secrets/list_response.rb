@@ -1,5 +1,3 @@
-# typed: true
-
 class Vonage::Secrets::ListResponse < Vonage::Response
   include Enumerable
 

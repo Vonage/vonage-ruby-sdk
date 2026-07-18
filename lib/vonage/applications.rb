@@ -1,9 +1,7 @@
-# typed: strict
 # frozen_string_literal: true
 
 module Vonage
   class Applications < Namespace
-    extend T::Sig
     self.authentication = Basic
 
     self.request_body = JSON
@@ -50,7 +48,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/application.v2#createApplication
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def create(params)
       request('/v2/applications', params: params, type: Post)
     end
@@ -78,8 +75,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/application.v2#listApplication
     #
-    sig { params(
-      params: T.nilable(T::Hash[Symbol, Integer]), auto_advance: T::Boolean).returns(Vonage::Applications::ListResponse) }
     def list(params = nil, auto_advance = true)
       if params && !params.key?(:auto_advance)
         params.merge!(auto_advance: true)
@@ -99,7 +94,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/application.v2#getApplication
     #
-    sig { params(id: String).returns(Vonage::Response) }
     def get(id)
       request('/v2/applications/' + id)
     end
@@ -127,10 +121,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/application.v2#updateApplication
     #
-    sig { params(
-      id: String,
-      params: T::Hash[Symbol, T.untyped]
-    ).returns(Vonage::Response) }
     def update(id, params)
       request('/v2/applications/' + id, params: params, type: Put)
     end
@@ -148,7 +138,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/application.v2#deleteApplication
     #
-    sig { params(id: String).returns(Vonage::Response) }
     def delete(id)
       request('/v2/applications/' + id, type: Delete)
     end

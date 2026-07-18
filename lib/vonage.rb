@@ -1,7 +1,5 @@
-# typed: true
 # frozen_string_literal: true
 require 'zeitwerk'
-require 'sorbet-runtime'
 
 module Vonage
   loader = Zeitwerk::Loader.new

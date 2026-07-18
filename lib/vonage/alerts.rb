@@ -1,9 +1,7 @@
-# typed: strict
 # frozen_string_literal: true
 
 module Vonage
   class Alerts < Namespace
-    extend T::Sig
     self.host = :rest_host
 
     # Request the list of phone numbers opted out from your campaign.
@@ -12,7 +10,6 @@ module Vonage
     #
     # @return [Response]
     #
-    sig { returns(Vonage::Response) }
     def list
       request('/sc/us/alert/opt-in/query/json')
     end
@@ -28,7 +25,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/sms/us-short-codes/alerts/subscription
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def remove(params)
       request('/sc/us/alert/opt-in/manage/json', params: params, type: Post)
     end
@@ -64,7 +60,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/sms/us-short-codes/alerts/sending
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def send(params)
       request('/sc/us/alert/json', params: params, type: Post)
     end

@@ -1,9 +1,7 @@
-# typed: strict
 # frozen_string_literal: true
 
 module Vonage
   class Redact < Namespace
-    extend T::Sig
 
     self.authentication = Basic
 
@@ -29,7 +27,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/redact#redact-message
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def transaction(params)
       request('/v1/redact/transaction', params: params, type: Post)
     end

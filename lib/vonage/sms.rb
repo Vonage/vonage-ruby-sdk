@@ -1,9 +1,7 @@
-# typed: strict
 # frozen_string_literal: true
 
 module Vonage
   class SMS < Namespace
-    extend T::Sig
     include Keys
 
     self.host = :rest_host
@@ -92,7 +90,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/sms#send-an-sms
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def send(params)
       if unicode?(params.fetch(:text)) && params[:type] != 'unicode'
         message = 'Sending unicode text SMS without setting the type parameter to "unicode". ' \
@@ -113,7 +110,6 @@ module Vonage
 
     private
 
-    sig { params(text: String).returns(T::Boolean) }
     def unicode?(text)
       !Vonage::GSM7.encoded?(text)
     end

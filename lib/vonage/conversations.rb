@@ -1,9 +1,7 @@
-# typed: strict
 # frozen_string_literal: true
 
 module Vonage
   class Conversations < Namespace
-    extend T::Sig
 
     self.authentication = BearerToken
 
@@ -35,7 +33,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/conversation#createConversation
     #
-    sig { params(params: T::Hash[Symbol, T.untyped]).returns(Vonage::Response) }
     def create(params)
       request('/beta/conversations', params: params, type: Post)
     end
@@ -69,7 +66,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/conversation#replaceConversation
     #
-    sig { params(params: T.nilable(T::Hash[Symbol, T.untyped]), auto_advance: T::Boolean).returns(Vonage::Response) }
     def list(params = nil, auto_advance = true)
       if params && !params.key?(:auto_advance)
         params.merge!(auto_advance: true)
@@ -89,7 +85,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/conversation#retrieveConversation
     #
-    sig { params(id: String).returns(Vonage::Response) }
     def get(id)
       request('/beta/conversations/' + id)
     end
@@ -122,10 +117,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/conversation#replaceConversation
     #
-    sig { params(
-      id: String,
-      params: T::Hash[Symbol, T.untyped]
-    ).returns(Vonage::Response) }
     def update(id, params)
       request('/beta/conversations/' + id, params: params, type: Put)
     end
@@ -141,7 +132,6 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/conversation#deleteConversation
     #
-    sig { params(id: String).returns(Vonage::Response) }
     def delete(id)
       request('/beta/conversations/' + id, type: Delete)
     end
@@ -173,44 +163,31 @@ module Vonage
     #
     # @see https://developer.nexmo.com/api/conversation#recordConversation
     #
-    sig { params(
-      id: String,
-      params: T::Hash[Symbol, T.untyped]
-    ).returns(Vonage::Response) }
     def record(id, params)
       request('/v1/conversations/' + id + '/record', params: params, type: Put)
     end
 
     # @return [Events]
     #
-    sig { returns(T.nilable(Vonage::Conversations::Events)) }
     def events
-      @events = T.let(@events, T.nilable(Vonage::Conversations::Events))
-      @config = T.let(@config, T.nilable(Vonage::Config))
       @events ||= Events.new(@config)
     end
 
     # @return [Legs]
     #
-    sig { returns(T.nilable(Vonage::Conversations::Legs)) }
     def legs
-      @legs = T.let(@legs, T.nilable(Vonage::Conversations::Legs))
       @legs ||= Legs.new(@config)
     end
 
     # @return [Members]
     #
-    sig { returns(T.nilable(Vonage::Conversations::Members)) }
     def members
-      @members = T.let(@members, T.nilable(Vonage::Conversations::Members))
       @members ||= Members.new(@config)
     end
 
     # @return [Users]
     #
-    sig { returns(T.nilable(Vonage::Conversations::Users)) }
     def users
-      @users = T.let(@users, T.nilable(Vonage::Conversations::Users))
       @users ||= Users.new(@config)
     end
   end
