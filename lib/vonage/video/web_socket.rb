@@ -39,6 +39,12 @@ module Vonage
     # @option websocket [optional, Integer] :audio_rate A number representing the audio sampling rate in Hz
     #   - Must be one of: 8000, 16000, 24000
     # @option websocket [optional, Boolean] :bidirectional Whether to send audio data from the WebSocket connection to a stream published in the session.
+    # @option websocket [optional, Hash] :audio_transport The configuration for the audio transport over the WebSocket connection.
+    # @option websocket[:audio_transport] [String] :transport (optional) The transport type for the audio data. Must be one of: "json", "binary".
+    # @option websocket[:audio_transport] [String] :encoding (optional) The encoding type for the audio data. Required when transport is "json". Must be one of: "base64".
+    # @option websocket[:audio_transport] [String] :audio_field (optional) The JSON key for the outbound audio data. The default value is "audio".
+    # @option websocket[:audio_transport] [String] :receive_audio_field (optional) The JSON key for inbound audio data (when bidirectional is enabled). Defaults to the same value as `audio_field`.
+    # @option websocket[:audio_transport] [Hash] :static_fields (optional) An optional hash of extra key-value pairs included in every outbound JSON audio message.
     #
     # @return [Response]
     #
