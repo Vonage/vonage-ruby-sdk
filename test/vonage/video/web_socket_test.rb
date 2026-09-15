@@ -41,7 +41,16 @@ class Vonage::Video::WebSocketTest < Vonage::Test
         streams: ['stream1', 'stream2'],
         headers: { property1: 'foo', property2: 'bar' },
         audioRate: 16000,
-        bidirectional: true
+        bidirectional: true,
+        audioTransport: {
+          transport: 'json',
+          encoding: 'base64',
+          audio_field: 'audio',
+          receive_audio_field: 'audio',
+          static_fields: {
+            foo: 'bar'
+          }
+        }
       }
     }
 
@@ -55,7 +64,16 @@ class Vonage::Video::WebSocketTest < Vonage::Test
         streams: ['stream1', 'stream2'],
         headers: { property1: 'foo', property2: 'bar' },
         audio_rate: 16000,
-        bidirectional: true
+        bidirectional: true,
+        audio_transport: {
+          transport: 'json',
+          encoding: 'base64',
+          audio_field: 'audio',
+          receive_audio_field: 'audio',
+          static_fields: {
+            foo: 'bar'
+          }
+        }
       }
     )
 

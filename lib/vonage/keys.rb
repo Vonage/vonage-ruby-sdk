@@ -43,7 +43,8 @@ module Vonage
         'max_bitrate',
         'quantization_parameter',
         'has_transcription',
-        'transcription_properties'
+        'transcription_properties',
+        'audio_transport'
       ]
       hash.transform_keys do |k|
         if exceptions.include?(k.to_s)
