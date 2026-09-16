@@ -5,7 +5,7 @@ gemspec
 gem 'rake', '~> 13'
 gem 'minitest', '~> 5'
 gem 'webmock', '~> 3'
-gem 'yard', '~> 0.9'
+gem 'yard', '~> 0.9', '>= 0.9.44'
 gem 'simplecov', '~> 0.16'
 gem 'json', '~> 2'
 gem 'timecop'
