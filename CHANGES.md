@@ -1,3 +1,7 @@
+# 7.36.0
+
+* Adds support for the `audio_transport` params within an Audio Connector Websocket configuration in the Video API implementation. See [#360](https://github.com/Vonage/vonage-ruby-sdk/pull/360)
+
 # 7.35.0
 
 * Adds support for the `mode` param to the WhatsApp channel of Verify v2. See [#353](https://github.com/Vonage/vonage-ruby-sdk/pull/353)
