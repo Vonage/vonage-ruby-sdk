@@ -56,6 +56,15 @@ class Vonage::Messaging::Channels::EmailTest < Vonage::Test
     assert_match "Invalid parameter type. `:message` must be a Hash", exception.message
   end
 
+  def test_html_without_body
+    exception = assert_raises {
+      Vonage::Messaging::Channels::Email.new(type: 'html', message: {}, opts: { email: { subject: 'Hello' } })
+    }
+
+    assert_instance_of Vonage::ClientError, exception
+    assert_match "Missing parameter. `:message` must contain a `:body` key", exception.message
+  end
+
   def test_content_with_invalid_message_class
     exception = assert_raises {
       Vonage::Messaging::Channels::Email.new(type: 'content', message: {text: "Hello world!"}, opts: { email: { subject: 'Hello' } })
@@ -99,6 +108,15 @@ class Vonage::Messaging::Channels::EmailTest < Vonage::Test
     assert_equal from_email, mms.data[:from]
     assert_includes mms.data, :to
     assert_includes mms.data, :from
+  end
+
+  def test_without_opts
+    exception = assert_raises {
+      Vonage::Messaging::Channels::Email.new(type: 'text', message: 'Hello world!')
+    }
+
+    assert_instance_of Vonage::ClientError, exception
+    assert_match "Missing required parameter. `:opts` is required", exception.message
   end
 
   def test_without_email_opts
