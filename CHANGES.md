@@ -1,3 +1,8 @@
+# 7.37.0
+
+* Adds support for the `email` channel in the Messages API implementation. See [#364](https://github.com/Vonage/vonage-ruby-sdk/pull/364)
+* Ensures support for the CPS tracking feature in the Voice API implementation. See [#363](https://github.com/Vonage/vonage-ruby-sdk/pull/363)
+
 # 7.36.0
 
 * Adds support for the `audio_transport` params within an Audio Connector Websocket configuration in the Video API implementation. See [#360](https://github.com/Vonage/vonage-ruby-sdk/pull/360)
