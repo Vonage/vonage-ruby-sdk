@@ -26,6 +26,24 @@ class Vonage::VoiceTest < Vonage::Test
     assert_kind_of Vonage::Response, calls.create(params)
   end
 
+  def test_create_method_with_optional_parameters
+    params = {
+      to: [{type: 'phone', number: '14843331234'}],
+      from: {type: 'phone', number: '14843335555'},
+      answer_url: ['https://example.com/answer'],
+      event_url: ["https://example.com/event"],
+      event_method: "POST",
+      machine_detection: "hangup",
+      length_timer: 60,
+      ringing_timer: 30,
+      return_cps_on_started: true
+    }
+
+    stub_request(:post, calls_uri).with(request(body: params)).to_return(response)
+
+    assert_kind_of Vonage::Response, calls.create(params)
+  end
+
   def test_create_method_with_connect_to_phone_with_shaken_property
     params = {
       to: [
