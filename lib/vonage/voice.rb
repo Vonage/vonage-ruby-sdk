@@ -66,6 +66,9 @@ module Vonage
     #
     # @option params [Integer] :ringing_timer
     #   Set the number of seconds that elapse before Vonage hangs up after the call state changes to `ringing`.
+    # 
+    # @option params [Boolean] :return_cps_on_started
+    #   Set this to `true` to return CPS information when the call is started.
     #
     # @param [Hash] params
     #
